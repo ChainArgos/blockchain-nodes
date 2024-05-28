@@ -21,7 +21,7 @@ services:
       - "30303:30303/tcp"
       - "30303:30303/udp"
     volumes:
-      - /mnt/sda1/ethereum/geth:/root
+      - /root/ethereum/geth:/root
     command:
       - --syncmode=full
       - --ws
@@ -42,8 +42,8 @@ services:
       - "9000:9000/udp"
       - "5052:5052"
     volumes:
-      - /mnt/sda1/ethereum/lighthouse:/root/.lighthouse
-      - /mnt/sda1/ethereum/geth:/geth/:ro
+      - /root/ethereum/lighthouse:/root/.lighthouse
+      - /root/ethereum/geth:/geth/:ro
     command:
       - lighthouse
       - --network=mainnet
@@ -63,8 +63,8 @@ services:
       - "18888:18888"
       - "50051:50051"
     volumes:
-      - /mnt/sdb1/tron/output-directory:/java-tron/output-directory
-      - /mnt/sdb1/tron/logs:/java-tron/logs
+      - /root/tron/output-directory:/java-tron/output-directory
+      - /root/tron/logs:/java-tron/logs
     environment:
       - JAVA_OPTS=-Xms9g -Xmx24g  -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=512m -XX:MaxDirectMemorySize=1G -XX:NewRatio=2 -XX:+ParallelRefProcEnabled -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70
     command:
@@ -75,6 +75,9 @@ services:
     container_name: bsc-geth
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "18545:18545"
+      - "18546:18546"
+      - "30311:30311/tcp"
+      - "30311:30311/udp"
     volumes:
-      - /mnt/sdc1/bsc:/data
+      - /root/bsc:/data
