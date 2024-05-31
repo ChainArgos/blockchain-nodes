@@ -55,20 +55,20 @@ services:
       - --checkpoint-sync-url=https://beaconstate.info/
 
   java-tron:
-    image: tronprotocol/java-tron
+    image: donbeave/docker-tron-full-node
     container_name: java-tron
     restart: unless-stopped
     ports:
+      - "5555:5555"
       - "8090:8090"
+      - "8091:8091"
+      - "8545:8545"
+      - "8555:8555"
+      - "10001:10001"
       - "18888:18888"
       - "50051:50051"
     volumes:
-      - /root/tron/output-directory:/java-tron/output-directory
-      - /root/tron/logs:/java-tron/logs
-    environment:
-      - JAVA_OPTS=-Xms9g -Xmx24g  -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=512m -XX:MaxDirectMemorySize=1G -XX:NewRatio=2 -XX:+ParallelRefProcEnabled -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70
-    command:
-      - -c /java-tron/config/main_net_config.conf
+      - /root/tron:/data
 
   bsc-geth:
     image: donbeave/bsc-full-node
