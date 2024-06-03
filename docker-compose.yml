@@ -1,7 +1,7 @@
 services:
   bitcoin-core:
     image: donbeave/bitcoin-full-node
-    container_name: bitcoin
+    container_name: bitcoin-core
     restart: unless-stopped
     environment:
       RPCPASSWORD: "chainargos"
