@@ -1,13 +1,14 @@
 services:
   bitcoin-core:
-    image: donbeave/bitcoincore
-    container_name: bitcoin-core
+    image: donbeave/bitcoin-full-node
+    container_name: bitcoin
     restart: unless-stopped
     ports:
       - "8332:8332"
-      - "18332:18332"
+      - "8333:8333"
+      - "8334:8334"
     volumes:
-      - /mnt/nvme1n1p1/bitcoin:/data
+      - /root/bitcoin:/data
 
   geth:
     image: ethereum/client-go:stable
