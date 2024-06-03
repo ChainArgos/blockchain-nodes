@@ -3,6 +3,8 @@ services:
     image: donbeave/bitcoin-full-node
     container_name: bitcoin
     restart: unless-stopped
+    environment:
+      RPCPASSWORD: "chainargos"
     ports:
       - "8332:8332"
       - "8333:8333"
