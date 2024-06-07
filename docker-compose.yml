@@ -74,9 +74,9 @@ services:
       - --execution-jwt=/geth/.ethereum/geth/jwtsecret
       - --checkpoint-sync-url=https://beaconstate.info/
 
-  java-tron:
+  tron-java:
     image: donbeave/docker-tron-full-node
-    container_name: java-tron
+    container_name: tron-java
     restart: unless-stopped
     ports:
       - "25555:25555"
