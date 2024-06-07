@@ -75,7 +75,7 @@ services:
       - --checkpoint-sync-url=https://beaconstate.info/
 
   tron-java:
-    image: donbeave/docker-tron-full-node
+    image: donbeave/tron-full-node
     container_name: tron-java
     restart: unless-stopped
     ports:
