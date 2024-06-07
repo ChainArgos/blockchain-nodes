@@ -13,7 +13,7 @@ services:
       - /root/bitcoin:/data
 
   ethereum-besu:
-    image: ethereum-full-node
+    image: donbeave/ethereum-full-node
     container_name: ethereum-besu
     restart: unless-stopped
     ports:
