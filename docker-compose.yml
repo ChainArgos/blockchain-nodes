@@ -10,7 +10,7 @@ services:
       - "8333:8333"
       - "8334:8334"
     volumes:
-      - /root/bitcoin:/data
+      - ~/bitcoin:/data
 
   ethereum-besu:
     image: donbeave/ethereum-full-node
@@ -27,7 +27,18 @@ services:
       - "30303:30303/tcp"
       - "30303:30303/udp"
     volumes:
-      - /root/ethereum:/data
+      - ~/ethereum:/data
+    command:
+      - /start_besu.sh
+
+  ethereum-teku:
+    image: donbeave/ethereum-full-node
+    container_name: ethereum-teku
+    restart: unless-stopped
+    volumes:
+      - ~/ethereum:/data
+    command:
+      - /start_teku.sh
 
   geth:
     image: ethereum/client-go:stable
@@ -41,7 +52,7 @@ services:
       - "30303:30303/tcp"
       - "30303:30303/udp"
     volumes:
-      - /root/ethereum/geth:/root
+      - ~/ethereum/geth:/root
     command:
       - --syncmode=full
       - --ws
@@ -62,8 +73,8 @@ services:
       - "9000:9000/udp"
       - "5052:5052"
     volumes:
-      - /root/ethereum/lighthouse:/root/.lighthouse
-      - /root/ethereum/geth:/geth/:ro
+      - ~/ethereum/lighthouse:/root/.lighthouse
+      - ~/ethereum/geth:/geth/:ro
     command:
       - lighthouse
       - --network=mainnet
@@ -88,7 +99,7 @@ services:
       - "18888:18888"
       - "50051:50051"
     volumes:
-      - /root/tron:/data
+      - ~/tron:/data
 
   bsc-geth:
     image: donbeave/bsc-full-node
@@ -100,4 +111,4 @@ services:
       - "30311:30311/tcp"
       - "30311:30311/udp"
     volumes:
-      - /root/bsc:/data
+      - ~/bsc:/data
