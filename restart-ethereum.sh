@@ -4,4 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose down ethereum-besu && docker compose up -d ethereum-besu
+docker compose down ethereum-besu && docker compose up -d ethereum-besu && docker logs -f ethereum-besu

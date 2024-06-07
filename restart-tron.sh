@@ -4,4 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose down tron-java && docker compose up -d tron-java
+docker compose down tron-java && docker compose up -d tron-java && tail -f tail -f /root/tron/logs/tron.log
