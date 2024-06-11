@@ -65,7 +65,7 @@ services:
       - --authrpc.vhosts=*
 
   lighthouse:
-    image: sigp/lighthouse:latest-modern
+    image: sigp/lighthouse
     container_name: lighthouse
     restart: unless-stopped
     ports:
