@@ -1,0 +1,41 @@
+FROM donbeave/debian-blockchain-base
+
+MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+
+ENV TRON_VERSION=4.7.5
+
+RUN apt-get update \
+        && apt-get upgrade -y \
+        && apt-get install -y --no-install-recommends \
+                   libxi6 \
+                   libxrender1 \
+                   libxtst6 \
+                   libasound2 \
+                   libfreetype6 \
+                   libfontconfig1 \
+        && apt-get autoremove -y \
+        && rm -rf /var/lib/apt/* \
+                  /var/cache/apt/* \
+                  /tmp/*
+
+RUN curl https://download.bell-sw.com/java/8u412+9/bellsoft-jdk8u412+9-linux-amd64.deb -o liberica.deb \
+    && dpkg -i liberica.deb \
+    && rm liberica.deb
+
+RUN curl -L https://github.com/tronprotocol/java-tron/releases/download/GreatVoyage-v${TRON_VERSION}/FullNode.jar -o /FullNode.jar
+
+ADD main_net_config.conf /main_net_config.conf
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data/java-tron
+VOLUME /data
+WORKDIR /data/java-tron
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
