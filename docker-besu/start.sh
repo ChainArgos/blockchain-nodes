@@ -1,10 +1,7 @@
-#!/usr/bin/env bash
-ABSOLUTE_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-cd "${ABSOLUTE_PATH}" || exit
+#!/bin/bash
+set -eou pipefail
 
-set -e
-
-besu \
+exec besu \
   --sync-mode=FULL \
   --max-peers=200 \
   --p2p-peer-upper-bound=200 \
