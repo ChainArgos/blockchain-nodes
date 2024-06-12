@@ -1,0 +1,26 @@
+FROM donbeave/debian-blockchain-base
+
+MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+
+ENV BSC_VERSION=1.4.8
+
+RUN curl -L https://github.com/bnb-chain/bsc/releases/download/v${BSC_VERSION}/geth_linux -o geth \
+    && mv geth /usr/local/bin/geth \
+    && chmod -v u+x /usr/local/bin/geth
+
+ADD config.toml /config.toml
+ADD genesis.json /genesis.json
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
