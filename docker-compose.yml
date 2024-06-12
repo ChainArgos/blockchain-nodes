@@ -1,117 +1,64 @@
 services:
   bitcoin-core:
-    image: donbeave/bitcoin-full-node
+    image: donbeave/bitcoin-core
     container_name: bitcoin-core
     restart: unless-stopped
     environment:
       RPCPASSWORD: "chainargos"
     ports:
       - "8332:8332"
-      - "8333:8333"
-      - "8334:8334"
     volumes:
       - ~/bitcoin:/data
 
   ethereum-besu:
-    image: donbeave/ethereum-full-node
+    image: donbeave/besu
     container_name: ethereum-besu
     restart: unless-stopped
     ports:
-      - "8008:8008"
       - "8545:8545"
-      - "8546:8546"
-      - "8547:8547"
-      - "8551:8551"
-      - "9001:9001"
-      - "9545:9545"
-      - "30303:30303/tcp"
-      - "30303:30303/udp"
     volumes:
       - ~/ethereum:/data
-    command:
-      - /start_besu.sh
 
   ethereum-teku:
-    image: donbeave/ethereum-full-node
+    image: donbeave/teku
     container_name: ethereum-teku
     restart: unless-stopped
     volumes:
       - ~/ethereum:/data
-    command:
-      - /start_teku.sh
 
-  geth:
-    image: ethereum/client-go:stable
-    container_name: geth
-    depends_on:
-      - lighthouse
+  ethereum-geth:
+    image: donbeave/geth
+    container_name: ethereum-geth
     restart: unless-stopped
     ports:
       - "8545:8545"
-      - "8546:8546"
-      - "30303:30303/tcp"
-      - "30303:30303/udp"
     volumes:
-      - ~/ethereum/geth:/root
-    command:
-      - --syncmode=full
-      - --ws
-      - --ws.addr=0.0.0.0
-      - --http
-      - --http.addr=0.0.0.0
-      - --http.corsdomain=*
-      - --authrpc.addr=0.0.0.0
-      - --authrpc.port=8551
-      - --authrpc.vhosts=*
+      - ~/ethereum:/data
 
-  lighthouse:
-    image: sigp/lighthouse
-    container_name: lighthouse
+  ethereum-lighthouse:
+    image: donbeave/lighthouse
+    container_name: ethereum-lighthouse
     restart: unless-stopped
-    ports:
-      - "9000:9000/tcp"
-      - "9000:9000/udp"
-      - "5052:5052"
     volumes:
-      - ~/ethereum/lighthouse:/root/.lighthouse
-      - ~/ethereum/geth:/geth/:ro
-    command:
-      - lighthouse
-      - --network=mainnet
-      - beacon
-      - --http
-      - --http-address=0.0.0.0
-      - --execution-endpoint=http://geth:8551
-      - --execution-jwt=/geth/.ethereum/geth/jwtsecret
-      - --checkpoint-sync-url=https://beaconstate.info/
-
-  tron-java:
-    image: donbeave/tron-full-node
-    container_name: tron-java
-    restart: unless-stopped
-    ports:
-      - "25555:25555"
-      - "28090:28090"
-      - "28091:28091"
-      - "28545:28545"
-      - "28555:28555"
-      - "10001:10001"
-      - "18888:18888"
-      - "50051:50051"
-    volumes:
-      - ~/tron:/data
+      - ~/ethereum:/data
 
   bsc-geth:
-    image: donbeave/bsc-full-node
+    image: donbeave/bsc-geth
     container_name: bsc-geth
     restart: unless-stopped
     ports:
       - "18545:18545"
-      - "18546:18546"
-      - "30311:30311/tcp"
-      - "30311:30311/udp"
     volumes:
       - ~/bsc:/data
+
+  tron-java:
+    image: donbeave/java-tron
+    container_name: tron-java
+    restart: unless-stopped
+    ports:
+      - "28090:28090"
+    volumes:
+      - ~/tron:/data
 
   ethereum-erigon:
     image: donbeave/erigon

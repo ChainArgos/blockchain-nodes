@@ -1,0 +1,24 @@
+FROM --platform=arm64 donbeave/debian-blockchain-base
+
+MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+
+ENV ERIGON_VERSION=2.60.1
+
+RUN curl -L https://github.com/ledgerwatch/erigon/releases/download/v${ERIGON_VERSION}/erigon_${ERIGON_VERSION}_linux_arm64.tar.gz -o erigon.tar.gz \
+    && tar -xzvf erigon.tar.gz \
+    && mv erigon /usr/local/bin \
+    && rm erigon.tar.gz
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
