@@ -1,0 +1,28 @@
+FROM --platform=arm64 donbeave/debian-blockchain-base
+
+MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+
+ENV GETH_VERSION=1.14.5-0dd173a7
+
+RUN curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-arm64-${GETH_VERSION}.tar.gz -o geth.tar.gz \
+    && tar -xzvf geth.tar.gz \
+    && rm -r geth.tar.gz \
+    && rm geth-*/COPYING \
+    && mv geth-*/* /usr/local/bin/ \
+    && rm -r geth-*
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
+
+EXPOSE 8545
