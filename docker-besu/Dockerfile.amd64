@@ -1,0 +1,45 @@
+FROM donbeave/debian-blockchain-base
+
+MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+
+ENV BSC_VERSION=1.4.8
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+               libjemalloc-dev \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/* \
+              /var/cache/apt/* \
+              /tmp/*
+
+RUN curl https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz -o jdk.tar.gz \
+    && tar -xzvf jdk.tar.gz \
+    && mv jdk-* /opt/jdk \
+    && rm jdk.tar.gz
+
+ENV PATH="/opt/jdk/bin:${PATH}"
+ENV JAVA_HOME="/opt/jdk"
+
+RUN curl -L https://github.com/hyperledger/besu/releases/download/24.5.2/besu-24.5.2.tar.gz -o besu.tar.gz \
+    && tar -xzvf besu.tar.gz \
+    && mv besu-* /opt/besu \
+    && rm besu.tar.gz
+
+ENV PATH="/opt/besu/bin:${PATH}"
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
+
+EXPOSE 8545
