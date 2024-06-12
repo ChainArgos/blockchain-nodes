@@ -1,0 +1,30 @@
+FROM --platform=arm64 donbeave/debian-blockchain-base
+
+MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+
+ENV BITCOIN_VERSION=27.0
+
+RUN curl "https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}-aarch64-linux-gnu.tar.gz" -o bitcoin.tar.gz \
+    && tar -xzvf bitcoin.tar.gz \
+    && rm -r bitcoin.tar.gz \
+    && mv bitcoin-*/bin/* /usr/local/bin/ \
+    && mv bitcoin-*/include/* /usr/local/include/ \
+    && mv bitcoin-*/lib/* /usr/local/lib/ \
+    && mv bitcoin-*/share/* /usr/local/share/ \
+    && rm -r bitcoin-*
+
+COPY bitcoin.conf /
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
