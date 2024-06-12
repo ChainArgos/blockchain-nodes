@@ -1,0 +1,24 @@
+FROM --platform=arm64 donbeave/debian-blockchain-base
+
+MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+
+ENV LIGHTHOUSE_VERSION=5.2.0
+
+RUN curl -L https://github.com/sigp/lighthouse/releases/download/v${LIGHTHOUSE_VERSION}/lighthouse-v${LIGHTHOUSE_VERSION}-aarch64-unknown-linux-gnu-portable.tar.gz -o lighthouse.tar.gz \
+    && tar -xzvf lighthouse.tar.gz \
+    && rm -r lighthouse.tar.gz \
+    && mv lighthouse /usr/local/bin/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
