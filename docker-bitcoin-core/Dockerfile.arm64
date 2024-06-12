@@ -18,7 +18,7 @@ COPY bitcoin.conf /
 COPY start.sh /
 RUN chmod a+x /start.sh
 
-RUN mkdir /data
+RUN mkdir -pv /data
 VOLUME /data
 WORKDIR /data
 
