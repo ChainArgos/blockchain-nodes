@@ -1,5 +1,15 @@
 # blockchain-nodes
 
+## TODO
+- GitHub Actions
+- ability to configure where to store persistent data through env (by default use $HOME directory)
+- Base (https://github.com/base-org/node)
+- Arbitrum (https://docs.arbitrum.io/run-arbitrum-node/run-full-node)
+- Ronin
+- Optimism
+- TON
+- Solana?
+
 ## How to run nodes?
 
 This repo contains docker images for nodes that we run on our machines. We built our images for a few reasons:
