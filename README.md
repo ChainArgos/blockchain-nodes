@@ -1,8 +1,64 @@
 # blockchain-nodes
 
+## How to run nodes?
+
+This repo contains docker images for nodes that we run on our machines. We built our images for a few reasons:
+- We used the same approach for the project's structure, we store all persistent data in `/data` volume.
+- We added some utilities to work with RPC API inside the docker container, to make it easy to debug the state of the node.
+- All images are designed to be full nodes (archive nodes) first, and tuned for maximum performance for such purpose.
+- Most of our images are available for Linux AMD64 and ARM64 platforms, these images can be run on macOS with `Docker Desktop` (https://www.docker.com/products/docker-desktop/) or `OrbStack` (https://orbstack.dev). We suggest using OrbStack as it is much faster and using native virtualization.
+
+We also provide a Docker Compose file to simplify the process of running a node.
+
+For some blockchains (like Ethereum) we use different clients to compare the performance and storage usage. Below is an instruction on how to run nodes separated by different blockchains.
+
+We also provide some helper scripts, which by default pull the latest image from the Docker Hub, and start it (if it was not started before) or stop the previous running node to restart it with the latest pulled image. After running the node in a daemon mode, it will stream the logs from the container to the stdout console to see the results.
+
+### Bitcoin
+
+For Bitcoin, only one client is available, which is `bitcoin-core`:
+
+```bash
+./restart-bitcoin-core.sh
+```
+
+### Ethereum
+
+For Ethereum, there are two available configurations for how to run a full node.
+
+To run Ethereum with `geth` execution client (written in Go) and `Lighthouse` consensus client (written in Rust) need to execute the following commands:
+
+```bash
+./restart-ethereum-geth.sh
+./restart-ethereum-lighthouse.sh
+```
+
+To run Ethereum with `Besu` execution client and `Teku` consensus client (both written in Java) need to execute the following:
+
+```bash
+./restart-ethereum-besu.sh
+./restart-ethereum-teku.sh
+```
+
+### BSC
+
+BSC is using a forked version of Ethereum's `geth` client to run it execute this command:
+
+```bash
+./restart-bsc-geth.sh
+```
+
+### Tron
+
+There is only one client available for Tron and it's written in Java. It uses the old Java 8 and it doesn't work on ARM64 architecture (even though we provide that image), probably one day there be a solution for that, please follow this PR for ongoing discussion: https://github.com/tronprotocol/java-tron/pull/5845.
+
+```bash
+./restart-tron-java.sh
+```
+
 ## How to build docker images?
 
-First of all you need run BuildKit docker container, it's necessary to build multi-arch images. Latest version of Docker
+First of all, you need to run the BuildKit docker container, it's necessary to build multi-arch images. Latest version of Docker
 already integrated it as command `buildx`. Run the following command to create a new builder and set it as default:
 
 ```bash
