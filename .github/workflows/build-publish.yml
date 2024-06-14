@@ -1,0 +1,7 @@
+on: [push]
+jobs:
+  build-docker-debian-blockchain-base:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./docker-debian-blockchain-base/build.sh
