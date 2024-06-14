@@ -8,7 +8,7 @@
 - TON (https://docs.ton.org/participate/run-nodes/archive-node)
 - Solana:
   - https://docs.solanalabs.com/operations/setup-an-rpc-node
-  - https://medium.com/coinmonks/how-to-run-a-solana-rpc-node-214c418429e5)
+  - https://medium.com/coinmonks/how-to-run-a-solana-rpc-node-214c418429e5
 
 ## Configuration
 
