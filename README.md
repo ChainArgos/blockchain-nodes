@@ -1,7 +1,6 @@
 # blockchain-nodes
 
 ## TODO
-- GitHub Actions
 - Base (https://github.com/base-org/node)
 - Arbitrum (https://docs.arbitrum.io/run-arbitrum-node/run-full-node)
 - Ronin
