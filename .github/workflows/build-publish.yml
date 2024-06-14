@@ -4,4 +4,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+      - run: docker buildx create --name "buildx" --driver docker-container --use
+      - run: docker buildx use buildx
       - run: ./docker-debian-blockchain-base/build.sh
