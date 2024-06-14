@@ -2,13 +2,20 @@
 
 ## TODO
 - GitHub Actions
-- ability to configure where to store persistent data through env (by default use $HOME directory)
 - Base (https://github.com/base-org/node)
 - Arbitrum (https://docs.arbitrum.io/run-arbitrum-node/run-full-node)
 - Ronin
 - Optimism
 - TON
 - Solana?
+
+## Configuration
+
+By default all nodes are designed to store data in the `/data` volume, which is mounted to the host machine (default
+path is `$HOME/<name_of_blockchain>`, for example for Bitcoin blockchain it will be `$HOME/bitcoin/`). This is done to 
+make it easy to backup and restore the data. This can be changed by creating a copy of `.env.sample` and renaming it
+to `.env`, with changing the root path for the particular blockchain (for example `BITCOIN_ROOT_DIR` env will manage 
+the path to root directory where Bitcoin data will be stored).
 
 ## How to run nodes?
 

@@ -8,7 +8,7 @@ services:
     ports:
       - "8332:8332"
     volumes:
-      - ~/bitcoin:/data
+      - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
   ethereum-besu:
     image: donbeave/besu
@@ -17,14 +17,14 @@ services:
     ports:
       - "8545:8545"
     volumes:
-      - ~/ethereum:/data
+      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   ethereum-teku:
     image: donbeave/teku
     container_name: ethereum-teku
     restart: unless-stopped
     volumes:
-      - ~/ethereum:/data
+      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   ethereum-geth:
     image: donbeave/geth
@@ -33,14 +33,14 @@ services:
     ports:
       - "8545:8545"
     volumes:
-      - ~/ethereum:/data
+      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   ethereum-lighthouse:
     image: donbeave/lighthouse
     container_name: ethereum-lighthouse
     restart: unless-stopped
     volumes:
-      - ~/ethereum:/data
+      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   bsc-geth:
     image: donbeave/bsc-geth
@@ -49,7 +49,7 @@ services:
     ports:
       - "18545:18545"
     volumes:
-      - ~/bsc:/data
+      - ${BSC_ROOT_DIR:-~}/bsc:/data
 
   tron-java:
     image: donbeave/java-tron
@@ -58,7 +58,7 @@ services:
     ports:
       - "28090:28090"
     volumes:
-      - ~/tron:/data
+      - ${TRON_ROOT_DIR:-~}/tron:/data
 
   ethereum-erigon:
     image: donbeave/erigon
@@ -71,4 +71,4 @@ services:
       - "42069:42069/tcp"
       - "42069:42069/udp"
     volumes:
-      - ~/ethereum-erigon:/data
+      - ${ETHEREUM_ROOT_DIR:-~}/ethereum-erigon:/data
