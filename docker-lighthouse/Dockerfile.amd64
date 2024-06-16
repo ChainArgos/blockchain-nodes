@@ -22,3 +22,5 @@ RUN chmod a+x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/start.sh"]
+
+EXPOSE 5052
