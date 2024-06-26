@@ -78,3 +78,13 @@ services:
       - "42069:42069/udp"
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum-erigon:/data
+
+  polygon-heimdall:
+    image: donbeave/heimdall
+    container_name: polygon-heimdall
+    restart: unless-stopped
+    ports:
+      - "26656:26656"
+      - "26657:26657"
+    volumes:
+      - ${POLYGON_ROOT_DIR:-~}/polygon-heimdall:/data
