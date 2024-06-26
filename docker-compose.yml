@@ -77,7 +77,7 @@ services:
       - "42069:42069/tcp"
       - "42069:42069/udp"
     volumes:
-      - ${ETHEREUM_ROOT_DIR:-~}/ethereum-erigon:/data
+      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   polygon-heimdall:
     image: donbeave/heimdall
@@ -87,4 +87,4 @@ services:
       - "26656:26656"
       - "26657:26657"
     volumes:
-      - ${POLYGON_ROOT_DIR:-~}/polygon-heimdall:/data
+      - ${POLYGON_ROOT_DIR:-~}/polygon:/data
