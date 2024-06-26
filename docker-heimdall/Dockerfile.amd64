@@ -1,4 +1,4 @@
-FROM --platform=arm64 golang:latest as build
+FROM golang:latest as build
 
 ENV HEIMDALL_VERSION=1.0.7
 
@@ -26,7 +26,7 @@ RUN make install
 RUN make build
 # end build
 
-FROM --platform=arm64 donbeave/debian-blockchain-base
+FROM donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
