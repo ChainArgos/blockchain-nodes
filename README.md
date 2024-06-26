@@ -1,6 +1,7 @@
 # blockchain-nodes
 
 ## TODO
+- Polygon (https://docs.polygon.technology/pos/how-to/full-node/full-node-binaries/)
 - Cardano (https://developers.cardano.org/docs/get-started/running-cardano/)
 - Tezos
 - Base (https://github.com/base-org/node)
