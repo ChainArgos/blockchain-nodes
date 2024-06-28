@@ -20,7 +20,7 @@ WORKDIR /heimdall
 
 RUN git checkout tags/v${HEIMDALL_VERSION} -b v${HEIMDALL_VERSION}
 
-ENV HEIMDALL_DIR=/heimdall
+RUN sed 's/go build/go build -tags boltdb/' Makefile
 
 RUN make install
 RUN make build
@@ -32,6 +32,8 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 COPY --from=build /heimdall/build/heimdalld /usr/bin/
 COPY --from=build /heimdall/build/heimdallcli /usr/bin/
+
+COPY config.toml.sample /
 
 COPY start.sh /
 RUN chmod a+x /start.sh
