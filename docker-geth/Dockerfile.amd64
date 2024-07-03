@@ -2,7 +2,7 @@ FROM donbeave/debian-blockchain-base
 
 MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
 
-ENV GETH_VERSION=1.14.5-0dd173a7
+ENV GETH_VERSION=1.14.6-aadddf3a
 
 RUN curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-amd64-${GETH_VERSION}.tar.gz -o geth.tar.gz \
     && tar -xzvf geth.tar.gz \
