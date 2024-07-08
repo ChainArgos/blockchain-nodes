@@ -41,8 +41,8 @@ mkdir -p /data/op-node
 cd /data/op-node
 
 exec op-node \
-  --l1=http://162.55.65.74:8545 \
-  --l1.beacon=http://162.55.65.74:5052 \
+  --l1=http://ethereum-geth:8545 \
+  --l1.beacon=http://ethereum-lighthouse:5052 \
   --l2=ws://base-op-geth:38551 \
   --l2.jwt-secret=/data/jwtsecret.hex \
   --p2p.advertise.ip="$PUBLIC_IP" \
