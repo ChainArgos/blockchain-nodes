@@ -88,3 +88,10 @@ services:
       - "26657:26657"
     volumes:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
+
+  base-geth:
+    image: donbeave/op-geth
+    container_name: base-geth
+    restart: unless-stopped
+    volumes:
+      - ${BSC_ROOT_DIR:-~}/base:/data

@@ -1,0 +1,42 @@
+FROM --platform=arm64 golang:latest as build
+
+ENV OP_GETH_VERSION=1.101315.2
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+               build-essential \
+               git \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/* \
+              /var/cache/apt/* \
+              /tmp/*
+
+RUN git clone --branch v${OP_GETH_VERSION} --single-branch https://github.com/ethereum-optimism/op-geth.git
+
+RUN mv op-geth /op-geth
+
+WORKDIR /op-geth
+
+RUN go run build/ci.go install -static ./cmd/geth
+# end build
+
+FROM --platform=arm64 donbeave/debian-blockchain-base
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY --from=build /op-geth/build/bin/geth /usr/bin/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
