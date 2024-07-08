@@ -1,6 +1,6 @@
 FROM --platform=arm64 donbeave/debian-blockchain-base
 
-MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV ERIGON_VERSION=2.60.1
 

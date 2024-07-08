@@ -1,6 +1,6 @@
 FROM donbeave/debian-blockchain-base
 
-MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV BSC_VERSION=1.4.8
 

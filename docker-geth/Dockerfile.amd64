@@ -1,6 +1,6 @@
 FROM donbeave/debian-blockchain-base
 
-MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV GETH_VERSION=1.14.6-aadddf3a
 

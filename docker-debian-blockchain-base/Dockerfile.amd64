@@ -1,6 +1,6 @@
 FROM debian:bookworm
 
-MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV XH_VERSION=0.22.0

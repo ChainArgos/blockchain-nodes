@@ -1,6 +1,6 @@
 FROM donbeave/debian-blockchain-base
 
-MAINTAINER Alexey Zhokhov <alexey@zhokhov.com>
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV LIGHTHOUSE_VERSION=5.2.1
 
