@@ -89,13 +89,21 @@ services:
     volumes:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
-  base-geth:
+  base-op-geth:
     image: donbeave/op-geth
-    container_name: base-geth
+    container_name: base-op-geth
     restart: unless-stopped
     ports:
-      - "8545:8545"
+      - "38545:38545"
+      - "38551:38551"
       - "30304:30304/tcp"
       - "30304:30304/udp"
     volumes:
-      - ${BSC_ROOT_DIR:-~}/base:/data
+      - ${BASE_ROOT_DIR:-~}/base:/data
+
+  base-op-node:
+    image: donbeave/op-node
+    container_name: base-op-node
+    restart: unless-stopped
+    volumes:
+      - ${BASE_ROOT_DIR:-~}/base:/data

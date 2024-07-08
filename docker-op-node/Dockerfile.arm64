@@ -1,6 +1,6 @@
 FROM --platform=arm64 golang:latest AS build
 
-ENV OP_GETH_VERSION=1.101315.2
+ENV OP_NODE_VERSION=1.7.7
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -12,20 +12,20 @@ RUN apt-get update \
               /var/cache/apt/* \
               /tmp/*
 
-RUN git clone --branch v${OP_GETH_VERSION} --single-branch https://github.com/ethereum-optimism/op-geth.git
+RUN git clone --branch v${OP_NODE_VERSION} --single-branch https://github.com/ethereum-optimism/optimism.git
 
-RUN mv op-geth /op-geth
+RUN mv optimism /optimism
 
-WORKDIR /op-geth
+WORKDIR /optimism
 
-RUN go run build/ci.go install -static ./cmd/geth
+RUN make op-node
 # end build
 
 FROM --platform=arm64 donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-COPY --from=build /op-geth/build/bin/geth /usr/bin/
+COPY --from=build /optimism/op-node/bin/op-node /usr/bin/
 
 COPY start.sh /
 RUN chmod a+x /start.sh
@@ -40,7 +40,3 @@ RUN chmod a+x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/start.sh"]
-
-EXPOSE 38545
-EXPOSE 30304
-EXPOSE 30304/udp

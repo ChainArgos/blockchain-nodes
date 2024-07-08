@@ -41,7 +41,7 @@ exec geth \
   --http.port=38545 \
   --http.api=web3,debug,eth,net,engine \
   --authrpc.addr=0.0.0.0 \
-  --authrpc.port=8551 \
+  --authrpc.port=38551 \
   --authrpc.vhosts=* \
   --authrpc.jwtsecret=/data/jwtsecret.hex \
   --syncmode=full \
