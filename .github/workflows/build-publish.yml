@@ -119,6 +119,18 @@ jobs:
       - uses: actions/checkout@v4
       - run: ./init-docker-buildx.sh
       - run: ./docker-op-geth/build.sh
+  docker-op-node:
+    needs: docker-debian-blockchain-base
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      - run: ./init-docker-buildx.sh
+      - run: ./docker-op-node/build.sh
   docker-teku:
     needs: docker-debian-blockchain-base
     runs-on: ubuntu-22.04
