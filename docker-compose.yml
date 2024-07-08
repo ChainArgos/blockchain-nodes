@@ -93,5 +93,9 @@ services:
     image: donbeave/op-geth
     container_name: base-geth
     restart: unless-stopped
+    ports:
+      - "8545:8545"
+      - "30304:30304/tcp"
+      - "30304:30304/udp"
     volumes:
       - ${BSC_ROOT_DIR:-~}/base:/data

@@ -50,6 +50,6 @@ exec geth \
   --rollup.sequencerhttp=https://mainnet-sequencer.base.org \
   --rollup.halt=major \
   --op-network=base-mainnet \
-  --port=30303 \
+  --port=30304 \
   --rollup.disabletxpoolgossip=true \
   --nat=extip:"$PUBLIC_IP"
