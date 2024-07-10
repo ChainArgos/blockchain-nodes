@@ -9,7 +9,9 @@
 - Tezos
 - Base (https://github.com/base-org/node)
 - Arbitrum (https://docs.arbitrum.io/run-arbitrum-node/run-full-node)
-- Ronin (https://docs.roninchain.com/basics/nodes)
+- Ronin:
+  - https://docs.roninchain.com/basics/nodes
+  - https://docs.roninchain.com/validators/setup/mainnet/run-archive
 - Optimism (https://docs.optimism.io/builders/node-operators/tutorials/mainnet)
 - TON (https://docs.ton.org/participate/run-nodes/archive-node)
 - Solana:
