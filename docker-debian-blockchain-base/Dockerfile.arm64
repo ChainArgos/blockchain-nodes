@@ -3,16 +3,18 @@ FROM --platform=arm64 debian:bookworm
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV XH_VERSION=0.22.0
+ENV XH_VERSION=0.22.2
 
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
                ca-certificates \
                curl \
+               wget \
                git \
                unzip \
                procps \
+               jq \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/* \
               /var/cache/apt/* \
