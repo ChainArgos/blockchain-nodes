@@ -1,4 +1,4 @@
-FROM donbeave/debian-blockchain-base AS build
+FROM donbeave/debian-blockchain-base
 
 ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=true
 ENV GHC_VERSION=8.10.7
@@ -56,13 +56,13 @@ RUN cd libsodium \
 RUN git clone https://github.com/bitcoin-core/secp256k1
 
 RUN cd secp256k1 \
-        && git checkout ac83be33 \
-        && ./autogen.sh \
-        && ./configure --enable-module-schnorrsig --enable-experimental \
-        && make \
-        && make check \
-        && make install \
-        && ldconfig
+    && git checkout ac83be33 \
+    && ./autogen.sh \
+    && ./configure --enable-module-schnorrsig --enable-experimental \
+    && make \
+    && make check \
+    && make install \
+    && ldconfig
 
 RUN git clone --branch $CARDANO_NODE_VERSION --single-branch https://github.com/IntersectMBO/cardano-node.git \
     && cd cardano-node \
@@ -71,8 +71,8 @@ RUN git clone --branch $CARDANO_NODE_VERSION --single-branch https://github.com/
 WORKDIR /cardano-src/cardano-node
 
 RUN bash -c "source /root/.ghcup/env \
-    && cabal configure --with-compiler=ghc-${GHC_VERSION} \
     && cabal update \
+    && cabal configure --with-compiler=ghc-${GHC_VERSION} \
     && cabal build all"
 
 RUN cp -p "$(./scripts/bin-path.sh cardano-node)" $HOME/.local/bin/
