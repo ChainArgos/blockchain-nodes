@@ -1,4 +1,4 @@
-FROM --platform=arm64 golang:latest AS build
+FROM --platform=arm64 golang AS build
 
 ENV HEIMDALL_VERSION=1.0.7
 

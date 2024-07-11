@@ -1,4 +1,4 @@
-FROM --platform=arm64 golang:latest AS build
+FROM --platform=arm64 golang AS build
 
 ENV OP_NODE_VERSION=1.7.7
 
