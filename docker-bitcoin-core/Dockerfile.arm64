@@ -5,8 +5,8 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 ENV BITCOIN_VERSION=27.1
 
 RUN curl "https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}-aarch64-linux-gnu.tar.gz" -o bitcoin.tar.gz \
-    && tar -xzvf bitcoin.tar.gz \
-    && rm -r bitcoin.tar.gz \
+    && tar -xvf bitcoin.tar.gz \
+    && rm bitcoin.tar.gz \
     && mv bitcoin-*/bin/* /usr/local/bin/ \
     && mv bitcoin-*/include/* /usr/local/include/ \
     && mv bitcoin-*/lib/* /usr/local/lib/ \

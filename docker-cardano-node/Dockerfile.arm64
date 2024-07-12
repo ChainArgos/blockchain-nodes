@@ -32,15 +32,19 @@ RUN apt-get update \
               /var/cache/apt/* \
               /tmp/*
 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+RUN curl https://downloads.haskell.org/~cabal/cabal-install-${CABAL_VERSION}/cabal-install-${CABAL_VERSION}-aarch64-linux-deb10.tar.xz -o cabal-install.tar.xz \
+    && tar -xvf cabal-install.tar.xz \
+    && rm cabal-install.tar.xz \
+    && mv cabal /usr/local/bin/
 
-RUN bash -c "source /root/.ghcup/env \
-    && ghcup install ghc $GHC_VERSION \
-    && ghcup set ghc $GHC_VERSION"
+RUN cabal update
 
-RUN bash -c "source /root/.ghcup/env \
-    && ghcup install cabal $CABAL_VERSION \
-    && ghcup set cabal $CABAL_VERSION"
+RUN curl https://downloads.haskell.org/ghc/${GHC_VERSION}/ghc-${GHC_VERSION}-aarch64-deb10-linux.tar.xz -o ghc.tar.xz \
+    && tar -xvf ghc.tar.xz \
+    && rm ghc.tar.xz \
+    && cd ghc-${GHC_VERSION} \
+    && ./configure \
+    && make install
 
 WORKDIR /cardano-src
 
@@ -64,16 +68,20 @@ RUN cd secp256k1 \
     && make install \
     && ldconfig
 
+ENV LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+ENV PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
+
 RUN git clone --branch $CARDANO_NODE_VERSION --single-branch https://github.com/IntersectMBO/cardano-node.git \
     && cd cardano-node \
     && git fetch --all --recurse-submodules
 
 WORKDIR /cardano-src/cardano-node
 
-RUN bash -c "source /root/.ghcup/env \
-    && cabal update \
-    && cabal configure --with-compiler=ghc-${GHC_VERSION} \
-    && cabal build all"
+RUN cabal update
+
+RUN cabal configure --with-compiler=ghc-${GHC_VERSION}
+
+RUN cabal build all
 
 RUN cp -p "$(./scripts/bin-path.sh cardano-node)" /usr/local/bin/
 RUN cp -p "$(./scripts/bin-path.sh cardano-cli)" /usr/local/bin/

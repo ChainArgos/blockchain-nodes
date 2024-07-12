@@ -14,7 +14,7 @@ RUN apt-get update \
               /tmp/*
 
 RUN curl https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz -o jdk.tar.gz \
-    && tar -xzvf jdk.tar.gz \
+    && tar -xvf jdk.tar.gz \
     && mv jdk-* /opt/jdk \
     && rm jdk.tar.gz
 
@@ -22,9 +22,9 @@ ENV PATH="/opt/jdk/bin:${PATH}"
 ENV JAVA_HOME="/opt/jdk"
 
 RUN curl -L https://github.com/hyperledger/besu/releases/download/24.5.2/besu-24.5.2.tar.gz -o besu.tar.gz \
-    && tar -xzvf besu.tar.gz \
-    && mv besu-* /opt/besu \
-    && rm besu.tar.gz
+    && tar -xvf besu.tar.gz \
+    && rm besu.tar.gz \
+    && mv besu-* /opt/besu
 
 ENV PATH="/opt/besu/bin:${PATH}"
 

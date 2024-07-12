@@ -5,8 +5,8 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 ENV GETH_VERSION=1.14.6-aadddf3a
 
 RUN curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-amd64-${GETH_VERSION}.tar.gz -o geth.tar.gz \
-    && tar -xzvf geth.tar.gz \
-    && rm -r geth.tar.gz \
+    && tar -xvf geth.tar.gz \
+    && rm geth.tar.gz \
     && rm geth-*/COPYING \
     && mv geth-*/* /usr/local/bin/ \
     && rm -r geth-*

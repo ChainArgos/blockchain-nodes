@@ -14,15 +14,15 @@ RUN apt-get update \
               /tmp/*
 
 RUN curl https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz -o jdk.tar.gz \
-    && tar -xzvf jdk.tar.gz \
-    && mv jdk-* /opt/jdk \
-    && rm jdk.tar.gz
+    && tar -xvf jdk.tar.gz \
+    && rm jdk.tar.gz \
+    && mv jdk-* /opt/jdk
 
 ENV PATH="/opt/jdk/bin:${PATH}"
 ENV JAVA_HOME="/opt/jdk"
 
 RUN curl -L https://artifacts.consensys.net/public/teku/raw/names/teku.tar.gz/versions/24.4.0/teku-24.4.0.tar.gz -o teku.tar.gz \
-    && tar -xzvf teku.tar.gz \
+    && tar -xvf teku.tar.gz \
     && mv teku-* /opt/teku \
     && rm teku.tar.gz
 
