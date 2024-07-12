@@ -13,6 +13,7 @@ RUN apt-get update \
                wget \
                git \
                unzip \
+               xz-utils \
                procps \
                jq \
     && apt-get autoremove -y \
