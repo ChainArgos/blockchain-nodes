@@ -75,5 +75,5 @@ RUN bash -c "source /root/.ghcup/env \
     && cabal configure --with-compiler=ghc-${GHC_VERSION} \
     && cabal build all"
 
-RUN cp -p "$(./scripts/bin-path.sh cardano-node)" $HOME/.local/bin/
-RUN cp -p "$(./scripts/bin-path.sh cardano-cli)" $HOME/.local/bin/
+RUN cp -p "$(./scripts/bin-path.sh cardano-node)" /usr/local/bin/
+RUN cp -p "$(./scripts/bin-path.sh cardano-cli)" /usr/local/bin/
