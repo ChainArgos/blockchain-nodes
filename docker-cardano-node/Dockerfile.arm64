@@ -1,8 +1,8 @@
-FROM --platform=arm64 donbeave/debian-blockchain-base
+FROM --platform=arm64 donbeave/debian-blockchain-base AS build
 
 ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=true
 ENV GHC_VERSION=8.10.7
-ENV CABAL_VERSION=3.6.2.0
+ENV CABAL_VERSION=3.12.1.0
 ENV CARDANO_NODE_VERSION=8.0.0
 
 RUN apt-get update \
@@ -32,7 +32,7 @@ RUN apt-get update \
               /var/cache/apt/* \
               /tmp/*
 
-RUN curl https://downloads.haskell.org/~cabal/cabal-install-${CABAL_VERSION}/cabal-install-${CABAL_VERSION}-aarch64-linux-deb10.tar.xz -o cabal-install.tar.xz \
+RUN curl https://downloads.haskell.org/~cabal/cabal-install-${CABAL_VERSION}/cabal-install-${CABAL_VERSION}-aarch64-linux-deb12.tar.xz -o cabal-install.tar.xz \
     && tar -xvf cabal-install.tar.xz \
     && rm cabal-install.tar.xz \
     && mv cabal /usr/local/bin/
@@ -83,5 +83,27 @@ RUN cabal configure --with-compiler=ghc-${GHC_VERSION}
 
 RUN cabal build all
 
-RUN cp -p "$(./scripts/bin-path.sh cardano-node)" /usr/local/bin/
-RUN cp -p "$(./scripts/bin-path.sh cardano-cli)" /usr/local/bin/
+RUN cp -p "$(./scripts/bin-path.sh cardano-node)" /usr/bin/
+RUN cp -p "$(./scripts/bin-path.sh cardano-cli)" /usr/bin/
+# end build
+
+FROM --platform=arm64 donbeave/debian-blockchain-base
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY --from=build /usr/bin/cardano-node /usr/bin/
+COPY --from=build /usr/bin/cardano-cli /usr/bin/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
