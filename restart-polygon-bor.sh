@@ -4,7 +4,7 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull polygon-heimdall
-docker compose down polygon-heimdall
-docker compose up -d polygon-heimdall
-docker logs -f polygon-heimdall
+docker compose pull polygon-bor
+docker compose down polygon-bor
+docker compose up -d polygon-bor
+docker logs -f polygon-bor

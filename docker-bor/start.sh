@@ -3,4 +3,4 @@ set -eou pipefail
 
 exec bor server \
   -config "/config.toml" \
-  -bor.heimdall=http://localhost:1317
+  -bor.heimdall=http://polygon-heimdall:1317
