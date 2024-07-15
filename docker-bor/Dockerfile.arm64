@@ -1,6 +1,6 @@
 FROM --platform=arm64 golang AS build
 
-ENV HEIMDALL_VERSION=1.0.7
+ENV BOR_VERSION=1.3.3
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -12,24 +12,22 @@ RUN apt-get update \
               /var/cache/apt/* \
               /tmp/*
 
-RUN git clone --branch v${HEIMDALL_VERSION} --single-branch https://github.com/maticnetwork/heimdall.git
+RUN git clone --branch v${BOR_VERSION} --single-branch https://github.com/maticnetwork/bor.git
 
-RUN mv heimdall /heimdall
+RUN mv bor /bor
 
-WORKDIR /heimdall
+WORKDIR /bor
 
-RUN make install
-RUN make build-arm
+RUN make bor
 # end build
 
 FROM --platform=arm64 donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-COPY --from=build /heimdall/build/heimdalld /usr/bin/
-COPY --from=build /heimdall/build/heimdallcli /usr/bin/
+COPY --from=build /bor/build/bin/bor /usr/bin/
 
-COPY config.toml.sample /
+COPY config.toml /
 
 COPY start.sh /
 RUN chmod a+x /start.sh
@@ -44,5 +42,3 @@ RUN chmod a+x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/start.sh"]
-
-EXPOSE 1317

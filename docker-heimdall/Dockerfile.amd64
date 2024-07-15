@@ -45,5 +45,4 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/start.sh"]
 
-EXPOSE 26656
-EXPOSE 26657
+EXPOSE 1317

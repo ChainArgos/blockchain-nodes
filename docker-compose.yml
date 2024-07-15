@@ -84,8 +84,17 @@ services:
     container_name: polygon-heimdall
     restart: unless-stopped
     ports:
-      - "26656:26656"
-      - "26657:26657"
+      - "1317:1317"
+    volumes:
+      - ${POLYGON_ROOT_DIR:-~}/polygon:/data
+
+  polygon-bor:
+    image: donbeave/bor
+    container_name: polygon-bor
+    restart: unless-stopped
+    ports:
+      - "30305:30305/tcp"
+      - "30305:30305/udp"
     volumes:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
