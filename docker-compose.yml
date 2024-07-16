@@ -84,8 +84,18 @@ services:
     container_name: polygon-heimdall
     restart: unless-stopped
     ports:
-      - "1317:1317"
       - "26657:26657"
+    volumes:
+      - ${POLYGON_ROOT_DIR:-~}/polygon:/data
+
+  polygon-heimdall-rest-server:
+    image: donbeave/heimdall
+    container_name: polygon-heimdall-rest-server
+    restart: unless-stopped
+    ports:
+      - "1317:1317"
+    environment:
+      COMPONENT: rest-server
     volumes:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
