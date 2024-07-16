@@ -1,5 +1,7 @@
 #!/bin/bash
-set -eou pipefail
+set -e
+
+COMPONENT="${COMPONENT:-}"
 
 case $COMPONENT in
 
