@@ -18,7 +18,7 @@ RUN apt-get update \
                   /var/cache/apt/* \
                   /tmp/*
 
-RUN curl https://download.bell-sw.com/java/8u412+9/bellsoft-jdk8u412+9-linux-aarch64.deb -o liberica.deb \
+RUN curl -L https://download.bell-sw.com/java/8u412+9/bellsoft-jdk8u412+9-linux-aarch64.deb -o liberica.deb \
     && dpkg -i liberica.deb \
     && rm liberica.deb
 

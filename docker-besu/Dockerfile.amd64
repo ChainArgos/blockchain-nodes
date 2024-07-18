@@ -13,7 +13,7 @@ RUN apt-get update \
               /var/cache/apt/* \
               /tmp/*
 
-RUN curl https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz -o jdk.tar.gz \
+RUN curl -L https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz -o jdk.tar.gz \
     && tar -xvf jdk.tar.gz \
     && mv jdk-* /opt/jdk \
     && rm jdk.tar.gz
