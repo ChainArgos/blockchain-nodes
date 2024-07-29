@@ -47,6 +47,7 @@ exec geth \
   --syncmode=full \
   --gcmode=full \
   --maxpeers=200 \
+  --cache=8000 \
   --rollup.sequencerhttp=https://mainnet-sequencer.base.org \
   --rollup.halt=major \
   --op-network=base-mainnet \
