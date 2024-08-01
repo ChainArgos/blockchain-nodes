@@ -3,6 +3,7 @@ services:
     image: donbeave/bitcoin-core
     container_name: bitcoin-core
     restart: unless-stopped
+    stop_grace_period: 15m
     environment:
       RPCPASSWORD: "chainargos"
     ports:
@@ -14,6 +15,7 @@ services:
     image: donbeave/besu
     container_name: ethereum-besu
     restart: unless-stopped
+    stop_grace_period: 15m
     ports:
       - "8545:8545"
       - "30303:30303/tcp"
@@ -25,6 +27,7 @@ services:
     image: donbeave/teku
     container_name: ethereum-teku
     restart: unless-stopped
+    stop_grace_period: 15m
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
@@ -32,6 +35,7 @@ services:
     image: donbeave/geth
     container_name: ethereum-geth
     restart: unless-stopped
+    stop_grace_period: 15m
     ports:
       - "8545:8545"
       - "30303:30303/tcp"
@@ -43,6 +47,7 @@ services:
     image: donbeave/lighthouse
     container_name: ethereum-lighthouse
     restart: unless-stopped
+    stop_grace_period: 15m
     ports:
       - "5052:5052"
     volumes:
@@ -52,6 +57,7 @@ services:
     image: donbeave/bsc-geth
     container_name: bsc-geth
     restart: unless-stopped
+    stop_grace_period: 15m
     ports:
       - "18545:18545"
     volumes:
@@ -61,6 +67,7 @@ services:
     image: donbeave/java-tron
     container_name: tron-java
     restart: unless-stopped
+    stop_grace_period: 15m
     ports:
       - "28090:28090"
     volumes:
@@ -70,6 +77,7 @@ services:
     image: donbeave/erigon
     container_name: ethereum-erigon
     restart: unless-stopped
+    stop_grace_period: 15m
     ports:
       - "8545:8545"
       - "30303:30303/tcp"
@@ -83,6 +91,7 @@ services:
     image: donbeave/heimdall
     container_name: polygon-heimdall
     restart: unless-stopped
+    stop_grace_period: 15m
     ports:
       - "26657:26657"
     volumes:
@@ -92,6 +101,7 @@ services:
     image: donbeave/heimdall
     container_name: polygon-heimdall-rest-server
     restart: unless-stopped
+    stop_grace_period: 15m
     ports:
       - "1317:1317"
     environment:
@@ -103,6 +113,7 @@ services:
     image: donbeave/bor
     container_name: polygon-bor
     restart: unless-stopped
+    stop_grace_period: 15m
     ports:
       - "30305:30305/tcp"
       - "30305:30305/udp"
@@ -113,6 +124,7 @@ services:
     image: donbeave/op-geth
     container_name: base-op-geth
     restart: unless-stopped
+    stop_grace_period: 15m
     ports:
       - "38545:38545"
       - "38551:38551"
@@ -125,5 +137,6 @@ services:
     image: donbeave/op-node
     container_name: base-op-node
     restart: unless-stopped
+    stop_grace_period: 15m
     volumes:
       - ${BASE_ROOT_DIR:-~}/base:/data
