@@ -9,4 +9,5 @@ exec lighthouse \
   --execution-jwt=/data/jwtsecret.hex \
   --checkpoint-sync-url=https://beaconstate.info \
   --http \
-  --http-address=0.0.0.0
+  --http-address=0.0.0.0 \
+  --prune-blobs=false
