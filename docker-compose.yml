@@ -6,6 +6,7 @@ services:
     stop_grace_period: 15m
     environment:
       RPCPASSWORD: "chainargos"
+    env_file: "containers.env"
     ports:
       - "8332:8332"
     volumes:
@@ -16,6 +17,7 @@ services:
     container_name: ethereum-besu
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     ports:
       - "8545:8545"
       - "30303:30303/tcp"
@@ -28,6 +30,7 @@ services:
     container_name: ethereum-teku
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
@@ -36,6 +39,7 @@ services:
     container_name: ethereum-geth
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     ports:
       - "8545:8545"
       - "30303:30303/tcp"
@@ -48,6 +52,7 @@ services:
     container_name: ethereum-lighthouse
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     ports:
       - "5052:5052"
     volumes:
@@ -58,6 +63,7 @@ services:
     container_name: bsc-geth
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     ports:
       - "18545:18545"
     volumes:
@@ -68,6 +74,7 @@ services:
     container_name: tron-java
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     ports:
       - "28090:28090"
     volumes:
@@ -78,6 +85,7 @@ services:
     container_name: ethereum-erigon
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     ports:
       - "8545:8545"
       - "30303:30303/tcp"
@@ -92,6 +100,7 @@ services:
     container_name: polygon-heimdall
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     ports:
       - "26657:26657"
     volumes:
@@ -102,6 +111,7 @@ services:
     container_name: polygon-heimdall-rest-server
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     ports:
       - "1317:1317"
     environment:
@@ -114,6 +124,7 @@ services:
     container_name: polygon-bor
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     ports:
       - "30305:30305/tcp"
       - "30305:30305/udp"
@@ -125,6 +136,7 @@ services:
     container_name: base-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     ports:
       - "38545:38545"
       - "38551:38551"
@@ -138,5 +150,6 @@ services:
     container_name: base-op-node
     restart: unless-stopped
     stop_grace_period: 15m
+    env_file: "containers.env"
     volumes:
       - ${BASE_ROOT_DIR:-~}/base:/data

@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if [[ -z "${ETHEREUM_EXECUTION_HOSTNAME}" ]]; then
+  echo "ERROR: ETHEREUM_EXECUTION_HOSTNAME is not set"
+  exit 1
+fi
+
 COMPONENT="${COMPONENT:-}"
 
 case $COMPONENT in
@@ -16,7 +21,7 @@ case $COMPONENT in
       --chain=mainnet \
       --home=/data/heimdalld \
       --home-client=/data/heimdallcli \
-      --eth_rpc_url=http://162.55.65.74:8545
+      --eth_rpc_url=http://"${ETHEREUM_EXECUTION_HOSTNAME}":8545
     ;;
 
 esac

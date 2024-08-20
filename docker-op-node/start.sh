@@ -1,6 +1,16 @@
 #!/bin/bash
 set -eou pipefail
 
+if [[ -z "${ETHEREUM_EXECUTION_HOSTNAME}" ]]; then
+  echo "ERROR: ETHEREUM_EXECUTION_HOSTNAME is not set"
+  exit 1
+fi
+
+if [[ -z "${ETHEREUM_CONSENSUS_HOSTNAME}" ]]; then
+  echo "ERROR: ETHEREUM_CONSENSUS_HOSTNAME is not set"
+  exit 1
+fi
+
 get_public_ip() {
   # Define a list of HTTP-based providers
   local PROVIDERS=(
@@ -41,8 +51,8 @@ mkdir -p /data/op-node
 cd /data/op-node
 
 exec op-node \
-  --l1=http://162.55.65.74:8545 \
-  --l1.beacon=http://162.55.65.74:5052 \
+  --l1=http://"${ETHEREUM_EXECUTION_HOSTNAME}":8545 \
+  --l1.beacon=http://"${ETHEREUM_CONSENSUS_HOSTNAME}":5052 \
   --l2=ws://base-op-geth:38551 \
   --l2.jwt-secret=/data/jwtsecret.hex \
   --p2p.advertise.ip="$PUBLIC_IP" \
