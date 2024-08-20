@@ -2,7 +2,7 @@ FROM --platform=arm64 donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV BSC_VERSION=1.4.8
+ENV BESU_VERSION=24.8.0
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -21,7 +21,7 @@ RUN curl -L https://download.oracle.com/java/17/latest/jdk-17_linux-aarch64_bin.
 ENV PATH="/opt/jdk/bin:${PATH}"
 ENV JAVA_HOME="/opt/jdk"
 
-RUN curl -L https://github.com/hyperledger/besu/releases/download/24.5.2/besu-24.5.2.tar.gz -o besu.tar.gz \
+RUN curl -L https://github.com/hyperledger/besu/releases/download/${BESU_VERSION}/besu-${BESU_VERSION}.tar.gz -o besu.tar.gz \
     && tar -xvf besu.tar.gz \
     && rm besu.tar.gz \
     && mv besu-* /opt/besu
