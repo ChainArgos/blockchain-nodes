@@ -1,6 +1,6 @@
 FROM --platform=arm64 golang AS build
 
-ENV OP_GETH_VERSION=1.101315.2
+ENV OP_GETH_VERSION=1.101315.3
 
 RUN apt-get update \
     && apt-get upgrade -y \
