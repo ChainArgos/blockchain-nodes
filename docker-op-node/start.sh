@@ -53,6 +53,7 @@ cd /data/op-node
 exec op-node \
   --l1=http://"${ETHEREUM_EXECUTION_HOSTNAME}":8545 \
   --l1.beacon=http://"${ETHEREUM_CONSENSUS_HOSTNAME}":5052 \
+  --l1.beacon-archiver=http://"${ETHEREUM_CONSENSUS_HOSTNAME}":5052 \
   --l2=ws://base-op-geth:38551 \
   --l2.jwt-secret=/data/jwtsecret.hex \
   --p2p.advertise.ip="$PUBLIC_IP" \
