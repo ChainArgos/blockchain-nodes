@@ -13,10 +13,14 @@ RUN apt-get update \
                    libasound2 \
                    libfreetype6 \
                    libfontconfig1 \
+                   libgoogle-perftools4 \
         && apt-get autoremove -y \
         && rm -rf /var/lib/apt/* \
                   /var/cache/apt/* \
                   /tmp/*
+
+ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libtcmalloc.so.4"
+ENV TCMALLOC_RELEASE_RATE=10
 
 RUN curl -L https://download.bell-sw.com/java/8u412+9/bellsoft-jdk8u412+9-linux-amd64.deb -o liberica.deb \
     && dpkg -i liberica.deb \
