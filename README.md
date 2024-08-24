@@ -1,6 +1,7 @@
 # blockchain-nodes
 
 ## TODO
+- Avalanche (https://docs.avax.network/nodes/run-a-node/manually)
 - Cardano (https://developers.cardano.org/docs/get-started/running-cardano/)
 - Tezos
 - Base (https://github.com/base-org/node)
