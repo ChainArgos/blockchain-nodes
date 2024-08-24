@@ -161,4 +161,4 @@ services:
     stop_grace_period: 15m
     env_file: "containers.env"
     volumes:
-      - ${BSC_ROOT_DIR:-~}/heco/data
+      - ${HECO_ROOT_DIR:-~}/heco/data
