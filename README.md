@@ -4,7 +4,6 @@
 - Polygon:
   - https://docs.polygon.technology/pos/how-to/full-node/full-node-binaries/
   - https://docs.polygon.technology/pos/how-to/full-node/full-node-docker/
-- Heco
 - KCC:
   - https://docs.kcc.io/developers/run-a-node/run-a-full-node
   - https://github.com/kcc-community/kcc

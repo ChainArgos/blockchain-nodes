@@ -153,3 +153,12 @@ services:
     env_file: "containers.env"
     volumes:
       - ${BASE_ROOT_DIR:-~}/base:/data
+
+  heco-geth:
+    image: donbeave/heco-geth
+    container_name: heco-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${BSC_ROOT_DIR:-~}/heco/data
