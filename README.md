@@ -1,9 +1,6 @@
 # blockchain-nodes
 
 ## TODO
-- Polygon:
-  - https://docs.polygon.technology/pos/how-to/full-node/full-node-binaries/
-  - https://docs.polygon.technology/pos/how-to/full-node/full-node-docker/
 - Cardano (https://developers.cardano.org/docs/get-started/running-cardano/)
 - Tezos
 - Base (https://github.com/base-org/node)
@@ -100,7 +97,7 @@ Inside the specific project folder, just run the `build.sh` command to build the
 ## How to run full nodes (official wiki)
 
 Ethereum:
-- https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/
+- https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node
 - Besu/Teku clients: https://besu.hyperledger.org/public-networks/tutorials/besu-teku-mainnet
 
 BSC:
@@ -108,3 +105,7 @@ BSC:
 
 Tron:
 - https://developers.tron.network/docs/deploy-the-fullnode-or-supernode
+
+Polygon:
+- https://docs.polygon.technology/pos/how-to/full-node/full-node-binaries
+- https://docs.polygon.technology/pos/how-to/full-node/full-node-docker
