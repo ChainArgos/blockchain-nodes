@@ -162,3 +162,12 @@ services:
     env_file: "containers.env"
     volumes:
       - ${HECO_ROOT_DIR:-~}/heco:/data
+
+  kcc-geth:
+    image: donbeave/kcc-geth
+    container_name: kcc-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${KCC_ROOT_DIR:-~}/kcc:/data
