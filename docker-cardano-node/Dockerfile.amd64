@@ -1,106 +1,20 @@
-FROM donbeave/debian-blockchain-base AS build
-
-ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=true
-ENV GHC_VERSION=8.10.4
-ENV CABAL_VERSION=3.4.0.0
-ENV CARDANO_NODE_VERSION=9.1.0
-ENV LIBSODIUM_COMMIT=66f017f1
-
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends \
-               build-essential \
-               git \
-               g++ \
-               make \
-               automake \
-               tmux \
-               libtool \
-               autoconf \
-               pkg-config \
-               llvm \
-               clang \
-               bc \
-               net-tools \
-               chrony \
-               libtinfo5 \
-               libffi-dev \
-               libgmp-dev \
-               libssl-dev \
-               libtinfo-dev \
-               libsystemd-dev \
-               zlib1g-dev \
-               libncurses-dev \
-               libnuma-dev \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/* \
-              /var/cache/apt/* \
-              /tmp/*
-
-RUN curl -L https://downloads.haskell.org/~cabal/cabal-install-${CABAL_VERSION}/cabal-install-${CABAL_VERSION}-x86_64-ubuntu-16.04.tar.xz  -o cabal-install.tar.xz \
-    && tar -xvf cabal-install.tar.xz \
-    && rm cabal-install.tar.xz \
-    && mv cabal /usr/local/bin/
-
-RUN cabal update
-RUN cabal user-config update
-
-RUN curl -L https://downloads.haskell.org/ghc/${GHC_VERSION}/ghc-${GHC_VERSION}-x86_64-deb10-linux.tar.xz -o ghc.tar.xz \
-    && tar -xvf ghc.tar.xz \
-    && rm ghc.tar.xz \
-    && cd ghc-${GHC_VERSION} \
-    && ./configure \
-    && make install
-
-WORKDIR /cardano-src
-
-RUN git clone https://github.com/IntersectMBO/libsodium
-
-RUN cd libsodium \
-    && git checkout ${LIBSODIUM_COMMIT} \
-    && ./autogen.sh \
-    && ./configure \
-    && make \
-    && make install
-
-RUN git clone https://github.com/bitcoin-core/secp256k1
-
-RUN cd secp256k1 \
-    && git checkout 642c885 \
-    && ./autogen.sh \
-    && ./configure --enable-module-schnorrsig --enable-experimental \
-    && make \
-    && make check \
-    && make install \
-    && ldconfig
-
-ENV LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
-ENV PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
-
-RUN git clone --branch $CARDANO_NODE_VERSION --single-branch https://github.com/IntersectMBO/cardano-node.git \
-    && cd cardano-node \
-    && git fetch --all --recurse-submodules
-
-WORKDIR /cardano-src/cardano-node
-
-RUN echo -e "package cardano-crypto-praos\n flags: -external-libsodium-vrf" >> cabal.project.local
-
-RUN cabal update
-
-RUN cabal configure --with-compiler=ghc-${GHC_VERSION} --minimize-conflict-set
-
-RUN cabal build all
-
-RUN cp -p "$(./scripts/bin-path.sh cardano-node)" /usr/bin/
-RUN cp -p "$(./scripts/bin-path.sh cardano-cli)" /usr/bin/
-# end build
-
 FROM donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-COPY --from=build /usr/bin/cardano-node /usr/bin/
-COPY --from=build /usr/bin/cardano-cli /usr/bin/
+ENV CARDANO_NODE_VERSION=9.1.0
+
+RUN cd /tmp \
+    && curl -L https://github.com/IntersectMBO/cardano-node/releases/download/${CARDANO_NODE_VERSION}/cardano-node-${CARDANO_NODE_VERSION}-linux.tar.gz -o cardano-node.tar.gz \
+    && tar -xvf cardano-node.tar.gz \
+    && rm cardano-node.tar.gz \
+    && mv share/mainnet /etc/cardano-node \
+    && chmod -v u+x bin/* \
+    && mv bin/* /usr/local/bin/ \
+    && rm -rf bin \
+    && rm -rf share
+
+RUN sed -i 's/"TraceBlockFetchDecisions": false/"TraceBlockFetchDecisions": true/g' /etc/cardano-node/config.json
 
 COPY start.sh /
 RUN chmod a+x /start.sh

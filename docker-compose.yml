@@ -180,3 +180,12 @@ services:
     env_file: "containers.env"
     volumes:
       - ${AVAX_ROOT_DIR:-~}/avax:/data
+
+  cardano-node:
+    image: donbeave/cardano-node
+    container_name: cardano-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${CARDANO_ROOT_DIR:-~}/cardano:/data
