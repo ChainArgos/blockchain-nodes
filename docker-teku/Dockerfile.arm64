@@ -23,8 +23,8 @@ ENV JAVA_HOME="/opt/jdk"
 
 RUN curl -L https://artifacts.consensys.net/public/teku/raw/names/teku.tar.gz/versions/24.4.0/teku-24.4.0.tar.gz -o teku.tar.gz \
     && tar -xvf teku.tar.gz \
-    && mv teku-* /opt/teku \
-    && rm teku.tar.gz
+    && rm teku.tar.gz \
+    && mv teku-* /opt/teku
 
 ENV PATH="/opt/teku/bin:${PATH}"
 

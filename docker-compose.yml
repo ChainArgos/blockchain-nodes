@@ -171,3 +171,12 @@ services:
     env_file: "containers.env"
     volumes:
       - ${KCC_ROOT_DIR:-~}/kcc:/data
+
+  avax-avalanchego:
+    image: donbeave/avalanchego
+    container_name: avax-avalanchego
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${AVAX_ROOT_DIR:-~}/avax:/data

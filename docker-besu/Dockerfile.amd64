@@ -15,8 +15,8 @@ RUN apt-get update \
 
 RUN curl -L https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz -o jdk.tar.gz \
     && tar -xvf jdk.tar.gz \
-    && mv jdk-* /opt/jdk \
-    && rm jdk.tar.gz
+    && rm jdk.tar.gz \
+    && mv jdk-* /opt/jdk
 
 ENV PATH="/opt/jdk/bin:${PATH}"
 ENV JAVA_HOME="/opt/jdk"
