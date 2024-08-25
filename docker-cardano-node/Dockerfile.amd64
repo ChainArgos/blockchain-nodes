@@ -1,9 +1,10 @@
 FROM donbeave/debian-blockchain-base AS build
 
 ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=true
-ENV GHC_VERSION=8.10.7
-ENV CABAL_VERSION=3.12.1.0
-ENV CARDANO_NODE_VERSION=8.0.0
+ENV GHC_VERSION=8.10.4
+ENV CABAL_VERSION=3.4.0.0
+ENV CARDANO_NODE_VERSION=9.1.0
+ENV LIBSODIUM_COMMIT=66f017f1
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -19,6 +20,10 @@ RUN apt-get update \
                pkg-config \
                llvm \
                clang \
+               bc \
+               net-tools \
+               chrony \
+               libtinfo5 \
                libffi-dev \
                libgmp-dev \
                libssl-dev \
@@ -32,12 +37,13 @@ RUN apt-get update \
               /var/cache/apt/* \
               /tmp/*
 
-RUN curl -L https://downloads.haskell.org/~cabal/cabal-install-${CABAL_VERSION}/cabal-install-${CABAL_VERSION}-x86_64-linux-deb12.tar.xz -o cabal-install.tar.xz \
+RUN curl -L https://downloads.haskell.org/~cabal/cabal-install-${CABAL_VERSION}/cabal-install-${CABAL_VERSION}-x86_64-ubuntu-16.04.tar.xz  -o cabal-install.tar.xz \
     && tar -xvf cabal-install.tar.xz \
     && rm cabal-install.tar.xz \
     && mv cabal /usr/local/bin/
 
 RUN cabal update
+RUN cabal user-config update
 
 RUN curl -L https://downloads.haskell.org/ghc/${GHC_VERSION}/ghc-${GHC_VERSION}-x86_64-deb10-linux.tar.xz -o ghc.tar.xz \
     && tar -xvf ghc.tar.xz \
@@ -51,7 +57,7 @@ WORKDIR /cardano-src
 RUN git clone https://github.com/IntersectMBO/libsodium
 
 RUN cd libsodium \
-    && git checkout dbb48cc \
+    && git checkout ${LIBSODIUM_COMMIT} \
     && ./autogen.sh \
     && ./configure \
     && make \
@@ -60,7 +66,7 @@ RUN cd libsodium \
 RUN git clone https://github.com/bitcoin-core/secp256k1
 
 RUN cd secp256k1 \
-    && git checkout ac83be33 \
+    && git checkout 642c885 \
     && ./autogen.sh \
     && ./configure --enable-module-schnorrsig --enable-experimental \
     && make \
@@ -77,9 +83,11 @@ RUN git clone --branch $CARDANO_NODE_VERSION --single-branch https://github.com/
 
 WORKDIR /cardano-src/cardano-node
 
+RUN echo -e "package cardano-crypto-praos\n flags: -external-libsodium-vrf" >> cabal.project.local
+
 RUN cabal update
 
-RUN cabal configure --with-compiler=ghc-${GHC_VERSION}
+RUN cabal configure --with-compiler=ghc-${GHC_VERSION} --minimize-conflict-set
 
 RUN cabal build all
 
