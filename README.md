@@ -1,7 +1,6 @@
 # blockchain-nodes
 
 ## TODO
-- Avalanche (https://docs.avax.network/nodes/run-a-node/manually)
 - Cardano (https://developers.cardano.org/docs/get-started/running-cardano/)
 - Tezos
 - Base (https://github.com/base-org/node)
@@ -110,3 +109,6 @@ Tron:
 Polygon:
 - https://docs.polygon.technology/pos/how-to/full-node/full-node-binaries
 - https://docs.polygon.technology/pos/how-to/full-node/full-node-docker
+
+Avalanche:
+- https://docs.avax.network/nodes/run-a-node/manually
