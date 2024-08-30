@@ -15,5 +15,4 @@ exec lighthouse \
   --checkpoint-sync-url=https://beaconstate.info \
   --http \
   --http-address=0.0.0.0 \
-  --prune-blobs=false \
-  --reconstruct-historic-states
+  --prune-blobs=false
