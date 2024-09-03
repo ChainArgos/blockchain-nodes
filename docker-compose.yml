@@ -198,8 +198,8 @@ services:
     environment:
       RPCPASSWORD: "chainargos"
     env_file: "containers.env"
-    ports:
-      - "8352:8352"
+#    ports:
+#      - "8352:8352"
     volumes:
       - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
 
@@ -211,7 +211,7 @@ services:
     environment:
       RPCPASSWORD: "chainargos"
     env_file: "containers.env"
-    ports:
-      - "8342:8342"
+#    ports:
+#      - "8342:8342"
     volumes:
       - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
