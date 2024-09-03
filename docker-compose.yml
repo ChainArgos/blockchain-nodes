@@ -189,3 +189,16 @@ services:
     env_file: "containers.env"
     volumes:
       - ${CARDANO_ROOT_DIR:-~}/cardano:/data
+
+  dogecoin:
+    image: donbeave/dogecoin
+    container_name: dogecoin
+    restart: unless-stopped
+    stop_grace_period: 15m
+    environment:
+      RPCPASSWORD: "chainargos"
+    env_file: "containers.env"
+    ports:
+      - "8352:8352"
+    volumes:
+      - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
