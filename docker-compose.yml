@@ -70,7 +70,7 @@ services:
       - ${BSC_ROOT_DIR:-~}/bsc:/data
 
   tron-java:
-    image: donbeave/java-tron
+    image: donbeave/tron-java
     container_name: tron-java
     restart: unless-stopped
     stop_grace_period: 15m
