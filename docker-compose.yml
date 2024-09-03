@@ -190,9 +190,9 @@ services:
     volumes:
       - ${CARDANO_ROOT_DIR:-~}/cardano:/data
 
-  dogecoin:
-    image: donbeave/dogecoin
-    container_name: dogecoin
+  dogecoin-core:
+    image: donbeave/dogecoin-core
+    container_name: dogecoin-core
     restart: unless-stopped
     stop_grace_period: 15m
     environment:
