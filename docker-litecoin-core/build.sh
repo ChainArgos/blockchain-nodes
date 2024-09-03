@@ -4,7 +4,7 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-export PACKAGE="bitcoin-core"
+export PACKAGE="litecoin-core"
 export DOCKER_IMAGE_VERSION="latest"
 export DOCKER_REPOSITORY="donbeave/${PACKAGE}"
 
