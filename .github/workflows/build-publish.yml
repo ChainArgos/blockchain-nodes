@@ -82,7 +82,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@v4
       - run: ./init-docker-buildx.sh
-      - run: ./ddocker-dogecoin-core/build.sh
+      - run: ./docker-dogecoin-core/build.sh
   docker-erigon:
     needs: docker-debian-blockchain-base
     runs-on: ubuntu-22.04
