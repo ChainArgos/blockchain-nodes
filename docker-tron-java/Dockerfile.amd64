@@ -33,9 +33,9 @@ ADD main_net_config.conf /main_net_config.conf
 COPY start.sh /
 RUN chmod a+x /start.sh
 
-RUN mkdir -pv /data/java-tron
+RUN mkdir -pv /data/tron-java
 VOLUME /data
-WORKDIR /data/java-tron
+WORKDIR /data/tron-java
 
 COPY docker-entrypoint.sh /
 RUN chmod a+x /docker-entrypoint.sh
