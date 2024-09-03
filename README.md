@@ -1,8 +1,6 @@
 # blockchain-nodes
 
 ## TODO
-- Litecoin
-- Dogecoin
 - Tezos (https://tezos.gitlab.io/user/history_modes.html)
 - Base (https://github.com/base-org/node)
 - Arbitrum (https://docs.arbitrum.io/run-arbitrum-node/run-full-node)
@@ -116,3 +114,6 @@ Avalanche:
 
 Cardano:
 - https://learn.lovelace.academy/getting-started/running-a-full-node/
+
+Dogecoin:
+- https://dogecoin.com/dogepedia/how-tos/operating-a-node/
