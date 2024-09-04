@@ -4,8 +4,6 @@ services:
     container_name: bitcoin-core
     restart: unless-stopped
     stop_grace_period: 15m
-    environment:
-      RPCPASSWORD: "chainargos"
     env_file: "containers.env"
     ports:
       - "8332:8332"
@@ -195,8 +193,6 @@ services:
     container_name: dogecoin-core
     restart: unless-stopped
     stop_grace_period: 15m
-    environment:
-      RPCPASSWORD: "chainargos"
     env_file: "containers.env"
 #    ports:
 #      - "8352:8352"
@@ -208,8 +204,6 @@ services:
     container_name: litecoin-core
     restart: unless-stopped
     stop_grace_period: 15m
-    environment:
-      RPCPASSWORD: "chainargos"
     env_file: "containers.env"
 #    ports:
 #      - "8342:8342"
