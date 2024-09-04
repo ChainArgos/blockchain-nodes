@@ -63,7 +63,7 @@ services:
     stop_grace_period: 15m
     env_file: "containers.env"
     ports:
-      - "18545:18545"
+      - "8645:8645"
     volumes:
       - ${BSC_ROOT_DIR:-~}/bsc:/data
 
