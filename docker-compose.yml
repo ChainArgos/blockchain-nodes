@@ -205,7 +205,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
-#    ports:
-#      - "8342:8342"
+    ports:
+      - "8342:8342"
     volumes:
       - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
