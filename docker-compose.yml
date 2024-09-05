@@ -209,3 +209,12 @@ services:
       - "8342:8342"
     volumes:
       - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
+
+  tezos-octez:
+    image: donbeave/octez
+    container_name: tezos-octez
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${TEZOS_ROOT_DIR:-~}/tezos:/data
