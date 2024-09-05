@@ -218,3 +218,12 @@ services:
     env_file: "containers.env"
     volumes:
       - ${TEZOS_ROOT_DIR:-~}/tezos:/data
+
+  ronin-geth:
+    image: donbeave/ronin-geth
+    container_name: ronin-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${RONIN_ROOT_DIR:-~}/ronin:/data

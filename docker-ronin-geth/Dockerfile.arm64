@@ -1,0 +1,44 @@
+FROM --platform=arm64 golang:1.22.6-bookworm AS build
+
+ENV RONIN_VERSION=2.8.3
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+               build-essential \
+               git \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/* \
+              /var/cache/apt/* \
+              /tmp/*
+
+RUN git clone --branch v${RONIN_VERSION} --single-branch https://github.com/axieinfinity/ronin.git
+
+RUN mv ronin /ronin
+
+WORKDIR /ronin
+
+RUN make ronin
+# end build
+
+FROM donbeave/debian-blockchain-base
+
+COPY --from=build /ronin/build/bin/ronin /usr/local/bin/
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+RUN curl -L https://raw.githubusercontent.com/axieinfinity/ronin/v2.8.3/genesis/mainnet.json -o /mainnet.json
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
