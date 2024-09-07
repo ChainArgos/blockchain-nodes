@@ -180,6 +180,8 @@ services:
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
+    ports:
+      - "9650:9650"
     volumes:
       - ${AVAX_ROOT_DIR:-~}/avax:/data
 
