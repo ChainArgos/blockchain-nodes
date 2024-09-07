@@ -15,6 +15,7 @@ exec ronin \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
   --http.vhosts=* \
+  --http.port=8745 \
   --maxpeers=200 \
   --cache=8000 \
   --allow-insecure-unlock
