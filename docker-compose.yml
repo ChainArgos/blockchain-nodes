@@ -124,6 +124,7 @@ services:
     stop_grace_period: 15m
     env_file: "containers.env"
     ports:
+      - "8945:8945"
       - "30305:30305/tcp"
       - "30305:30305/udp"
     volumes:
