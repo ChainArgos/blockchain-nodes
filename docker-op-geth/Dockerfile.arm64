@@ -41,6 +41,7 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/start.sh"]
 
-EXPOSE 38545
+EXPOSE 8648
 EXPOSE 30304
 EXPOSE 30304/udp
+EXPOSE 38551

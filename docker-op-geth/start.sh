@@ -38,7 +38,7 @@ exec geth \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
   --http.vhosts=* \
-  --http.port=38545 \
+  --http.port=8648 \
   --http.api=web3,debug,eth,net,engine \
   --authrpc.addr=0.0.0.0 \
   --authrpc.port=38551 \
