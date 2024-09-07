@@ -223,6 +223,8 @@ services:
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
+    ports:
+      - "8732:8732"
     volumes:
       - ${TEZOS_ROOT_DIR:-~}/tezos:/data
 
