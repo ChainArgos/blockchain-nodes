@@ -6,3 +6,4 @@
 
 # custom
 .env
+containers.env
