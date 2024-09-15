@@ -12,7 +12,7 @@ bootnodes = ["enode://b8f1cc9c5d4403703fbf377116469667d2b1823c0daf16b7250aa576ba
 
 [txpool]
 nolocals = true
-pricelimit = 30000000000
+pricelimit = 25000000000
 accountslots = 16
 globalslots = 32768
 accountqueue = 16
@@ -21,7 +21,7 @@ lifetime = "1h30m0s"
 
 [miner]
 gaslimit = 30000000
-gasprice = "30000000000"
+gasprice = "25000000000"
 
 [jsonrpc]
 ipcpath = "/data/bor/bor.ipc"
@@ -35,7 +35,7 @@ vhosts = ["*"]
 corsdomain = ["*"]
 
 [gpo]
-ignoreprice = "30000000000"
+ignoreprice = "25000000000"
 
 [cache]
 cache = 4096
