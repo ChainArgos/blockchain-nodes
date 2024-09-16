@@ -159,8 +159,8 @@ services:
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
-    ports:
-      - "8646:8646"
+#    ports:
+#      - "8646:8646"
     volumes:
       - ${HECO_ROOT_DIR:-~}/heco:/data
 
