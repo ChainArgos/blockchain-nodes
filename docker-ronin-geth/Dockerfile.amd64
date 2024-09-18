@@ -1,6 +1,6 @@
-FROM golang:1.22.6-bookworm AS build
+ARG RONIN_VERSION=2.8.3
 
-ENV RONIN_VERSION=2.8.3
+FROM --platform=$BUILDPLATFORM golang:1.22.6-bookworm AS build
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -12,6 +12,8 @@ RUN apt-get update \
               /var/cache/apt/* \
               /tmp/*
 
+ARG RONIN_VERSION
+
 RUN git clone --branch v${RONIN_VERSION} --single-branch https://github.com/axieinfinity/ronin.git
 
 RUN mv ronin /ronin
@@ -21,11 +23,13 @@ WORKDIR /ronin
 RUN make ronin
 # end build
 
-FROM donbeave/debian-blockchain-base
+FROM --platform=$BUILDPLATFORM donbeave/debian-blockchain-base
 
 COPY --from=build /ronin/build/bin/ronin /usr/local/bin/
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+ARG RONIN_VERSION
 
 RUN curl -L https://raw.githubusercontent.com/axieinfinity/ronin/v${RONIN_VERSION}/genesis/mainnet.json -o /mainnet.json
 
