@@ -1,6 +1,6 @@
 ARG RONIN_VERSION=2.8.3
 
-FROM --platform=$BUILDPLATFORM golang:1.22.6-bookworm AS build
+FROM golang:1.22.6-bookworm AS build
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -23,7 +23,7 @@ WORKDIR /ronin
 RUN make ronin
 # end build
 
-FROM --platform=$BUILDPLATFORM donbeave/debian-blockchain-base
+FROM donbeave/debian-blockchain-base
 
 COPY --from=build /ronin/build/bin/ronin /usr/local/bin/
 
