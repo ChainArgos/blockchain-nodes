@@ -27,7 +27,7 @@ COPY --from=build /ronin/build/bin/ronin /usr/local/bin/
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-RUN curl -L https://raw.githubusercontent.com/axieinfinity/ronin/v2.8.3/genesis/mainnet.json -o /mainnet.json
+RUN curl -L https://raw.githubusercontent.com/axieinfinity/ronin/v${RONIN_VERSION}/genesis/mainnet.json -o /mainnet.json
 
 COPY start.sh /
 RUN chmod a+x /start.sh
