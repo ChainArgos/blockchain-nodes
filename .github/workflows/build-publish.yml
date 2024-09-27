@@ -1,7 +1,7 @@
 on: [push]
 jobs:
   docker-debian-blockchain-base:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -13,7 +13,7 @@ jobs:
       - run: ./docker-debian-blockchain-base/build.sh
   docker-avalanchego:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -25,7 +25,7 @@ jobs:
       - run: ./docker-avalanchego/build.sh
   docker-besu:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -37,7 +37,7 @@ jobs:
       - run: ./docker-besu/build.sh
   docker-bitcoin-core:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -49,7 +49,7 @@ jobs:
       - run: ./docker-bitcoin-core/build.sh
   docker-bor:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -61,7 +61,7 @@ jobs:
       - run: ./docker-bor/build.sh
   docker-bsc-geth:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -73,7 +73,7 @@ jobs:
       - run: ./docker-bsc-geth/build.sh
   docker-cardano-node:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -85,7 +85,7 @@ jobs:
       - run: ./docker-cardano-node/build.sh
   docker-dogecoin-core:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -97,7 +97,7 @@ jobs:
       - run: ./docker-dogecoin-core/build.sh
   docker-erigon:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -109,7 +109,7 @@ jobs:
       - run: ./docker-erigon/build.sh
   docker-geth:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -121,7 +121,7 @@ jobs:
       - run: ./docker-geth/build.sh
   docker-heco-geth:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -133,7 +133,7 @@ jobs:
       - run: ./docker-heco-geth/build.sh
   docker-heimdall:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -145,7 +145,7 @@ jobs:
       - run: ./docker-heimdall/build.sh
   docker-kcc-geth:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -157,7 +157,7 @@ jobs:
       - run: ./docker-kcc-geth/build.sh
   docker-lighthouse:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -169,7 +169,7 @@ jobs:
       - run: ./docker-lighthouse/build.sh
   docker-litecoin-core:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -181,7 +181,7 @@ jobs:
       - run: ./docker-litecoin-core/build.sh
   docker-octez:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -193,7 +193,7 @@ jobs:
       - run: ./docker-octez/build.sh
   docker-op-geth:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -205,7 +205,7 @@ jobs:
       - run: ./docker-op-geth/build.sh
   docker-op-node:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -217,7 +217,7 @@ jobs:
       - run: ./docker-op-node/build.sh
   docker-ronin-geth:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -229,7 +229,7 @@ jobs:
       - run: ./docker-ronin-geth/build.sh
   docker-teku:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -241,7 +241,7 @@ jobs:
       - run: ./docker-teku/build.sh
   docker-tron-java:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
