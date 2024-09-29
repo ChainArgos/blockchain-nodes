@@ -1,6 +1,7 @@
 # blockchain-nodes
 
 ## TODO
+- Celo (https://docs.celo.org/network/mainnet/run-full-node)
 - Tezos (https://tezos.gitlab.io/user/history_modes.html)
 - Base (https://github.com/base-org/node)
 - Arbitrum (https://docs.arbitrum.io/run-arbitrum-node/run-full-node)
