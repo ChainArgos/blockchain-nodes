@@ -10,28 +10,6 @@ services:
     volumes:
       - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
-  ethereum-besu:
-    image: donbeave/besu
-    container_name: ethereum-besu
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "8545:8545"
-      - "30303:30303/tcp"
-      - "30303:30303/udp"
-    volumes:
-      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
-
-  ethereum-teku:
-    image: donbeave/teku
-    container_name: ethereum-teku
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    volumes:
-      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
-
   ethereum-geth:
     image: donbeave/geth
     container_name: ethereum-geth

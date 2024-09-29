@@ -1,1 +1,0 @@
-Beacon node only.
