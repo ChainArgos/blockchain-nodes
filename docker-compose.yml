@@ -224,4 +224,4 @@ services:
     stop_grace_period: 15m
     env_file: "containers.env"
     volumes:
-      - ${RONIN_ROOT_DIR:-~}/celo:/data
+      - ${CELO_ROOT_DIR:-~}/celo:/data
