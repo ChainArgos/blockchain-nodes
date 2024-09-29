@@ -238,3 +238,12 @@ services:
       - "8745:8745"
     volumes:
       - ${RONIN_ROOT_DIR:-~}/ronin:/data
+
+  celo-geth:
+    image: donbeave/celo-geth
+    container_name: celo-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${RONIN_ROOT_DIR:-~}/celo:/data

@@ -1,0 +1,45 @@
+ARG CELO_BLOCKCHAIN_VERSION=1.8.4
+
+FROM golang:1.22.6-bookworm AS build
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+               build-essential \
+               linux-headers-amd64 \
+               git \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/* \
+              /var/cache/apt/* \
+              /tmp/*
+
+ARG CELO_BLOCKCHAIN_VERSION
+
+RUN git clone --branch v${CELO_BLOCKCHAIN_VERSION} --single-branch https://github.com/celo-org/celo-blockchain.git
+
+RUN mv celo-blockchain /celo-blockchain
+
+WORKDIR /celo-blockchain
+
+RUN make geth
+# end build
+
+FROM donbeave/debian-blockchain-base
+
+COPY --from=build /celo-blockchain/build/bin/geth /usr/local/bin/
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
