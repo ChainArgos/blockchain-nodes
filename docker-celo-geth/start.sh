@@ -9,4 +9,4 @@ exec geth \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
   --http.vhosts=* \
-  --http.port=8545
+  --http.port=8649
