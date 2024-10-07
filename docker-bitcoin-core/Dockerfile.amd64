@@ -9,8 +9,6 @@ RUN cd /tmp \
     && tar -xvf bitcoin.tar.gz \
     && rm bitcoin.tar.gz \
     && mv bitcoin-*/bin/* /usr/local/bin/ \
-    && mv bitcoin-*/include/* /usr/local/include/ \
-    && mv bitcoin-*/lib/* /usr/local/lib/ \
     && mv bitcoin-*/share/* /usr/local/share/ \
     && rm -r bitcoin-* \
     && rm -rf /tmp/*
