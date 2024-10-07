@@ -4,12 +4,14 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV GETH_VERSION=1.14.10-1015a42d
 
-RUN curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-arm64-${GETH_VERSION}.tar.gz -o geth.tar.gz \
+RUN cd /tmp \
+    && curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-arm64-${GETH_VERSION}.tar.gz -o geth.tar.gz \
     && tar -xvf geth.tar.gz \
     && rm geth.tar.gz \
     && rm geth-*/COPYING \
     && mv geth-*/* /usr/local/bin/ \
-    && rm -r geth-*
+    && rm -r geth-* \
+    && rm -rf /tmp/*
 
 COPY start.sh /
 RUN chmod a+x /start.sh

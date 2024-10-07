@@ -21,8 +21,10 @@ RUN apt-get update \
               /var/cache/apt/* \
               /tmp/*
 
-RUN curl -L https://github.com/ducaale/xh/releases/download/v${XH_VERSION}/xh-v${XH_VERSION}-aarch64-unknown-linux-musl.tar.gz -o xh.tar.gz \
+RUN cd /tmp \
+    && curl -L https://github.com/ducaale/xh/releases/download/v${XH_VERSION}/xh-v${XH_VERSION}-aarch64-unknown-linux-musl.tar.gz -o xh.tar.gz \
     && tar -xvf xh.tar.gz \
     && rm xh.tar.gz \
     && mv xh-*/xh /usr/local/bin/xh \
-    && rm -r xh-*
+    && rm -r xh-* \
+    && rm -rf /tmp/*

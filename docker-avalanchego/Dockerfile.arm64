@@ -4,12 +4,14 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV AVALANCHEGO_VERSION=1.11.11
 
-RUN curl -L https://github.com/ava-labs/avalanchego/releases/download/v${AVALANCHEGO_VERSION}/avalanchego-linux-arm64-v${AVALANCHEGO_VERSION}.tar.gz -o avalanchego.tar.gz \
+RUN cd /tmp \
+    && curl -L https://github.com/ava-labs/avalanchego/releases/download/v${AVALANCHEGO_VERSION}/avalanchego-linux-arm64-v${AVALANCHEGO_VERSION}.tar.gz -o avalanchego.tar.gz \
     && tar -xvf avalanchego.tar.gz \
     && rm avalanchego.tar.gz \
     && mv avalanchego-v${AVALANCHEGO_VERSION}/avalanchego /usr/local/bin/avalanchego \
     && rm -rf avalanchego-v${AVALANCHEGO_VERSION} \
-    && chmod -v u+x /usr/local/bin/avalanchego
+    && chmod -v u+x /usr/local/bin/avalanchego \
+    && rm -rf /tmp/*
 
 COPY start.sh /
 RUN chmod a+x /start.sh

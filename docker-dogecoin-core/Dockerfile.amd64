@@ -4,14 +4,16 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV DOGECOIN_VERSION=1.14.8
 
-RUN curl -L https://github.com/dogecoin/dogecoin/releases/download/v${DOGECOIN_VERSION}/dogecoin-${DOGECOIN_VERSION}-x86_64-linux-gnu.tar.gz -o dogecoin.tar.gz \
+RUN cd /tmp \
+    && curl -L https://github.com/dogecoin/dogecoin/releases/download/v${DOGECOIN_VERSION}/dogecoin-${DOGECOIN_VERSION}-x86_64-linux-gnu.tar.gz -o dogecoin.tar.gz \
     && tar -xvf dogecoin.tar.gz \
     && rm dogecoin.tar.gz \
     && mv dogecoin-*/bin/* /usr/local/bin/ \
     && mv dogecoin-*/include/* /usr/local/include/ \
     && mv dogecoin-*/lib/* /usr/local/lib/ \
     && mv dogecoin-*/share/* /usr/local/share/ \
-    && rm -r dogecoin-*
+    && rm -r dogecoin-* \
+    && rm -rf /tmp/*
 
 COPY dogecoin.conf /
 

@@ -22,9 +22,11 @@ RUN apt-get update \
 ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libtcmalloc.so.4"
 ENV TCMALLOC_RELEASE_RATE=10
 
-RUN curl -L https://download.bell-sw.com/java/8u412+9/bellsoft-jdk8u412+9-linux-amd64.deb -o liberica.deb \
+RUN cd /tmp \
+    && curl -L https://download.bell-sw.com/java/8u412+9/bellsoft-jdk8u412+9-linux-amd64.deb -o liberica.deb \
     && dpkg -i liberica.deb \
-    && rm liberica.deb
+    && rm liberica.deb \
+    && rm -rf /tmp/*
 
 RUN curl -L https://github.com/tronprotocol/java-tron/releases/download/GreatVoyage-v${TRON_VERSION}/FullNode.jar -o /FullNode.jar
 

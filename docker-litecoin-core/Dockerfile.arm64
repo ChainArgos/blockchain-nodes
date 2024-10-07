@@ -4,12 +4,14 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV LITECOIN_VERSION=0.21.3
 
-RUN curl -L https://github.com/litecoin-project/litecoin/releases/download/v${LITECOIN_VERSION}/litecoin-${LITECOIN_VERSION}-aarch64-linux-gnu.tar.gz -o litecoin.tar.gz \
+RUN cd /tmp \
+    && curl -L https://github.com/litecoin-project/litecoin/releases/download/v${LITECOIN_VERSION}/litecoin-${LITECOIN_VERSION}-aarch64-linux-gnu.tar.gz -o litecoin.tar.gz \
     && tar -xvf litecoin.tar.gz \
     && rm litecoin.tar.gz \
     && mv litecoin-*/bin/* /usr/local/bin/ \
     && mv litecoin-*/share/* /usr/local/share/ \
-    && rm -r litecoin-*
+    && rm -r litecoin-* \
+    && rm -rf /tmp/*
 
 COPY litecoin.conf /
 

@@ -12,7 +12,8 @@ RUN cd /tmp \
     && chmod -v u+x bin/* \
     && mv bin/* /usr/local/bin/ \
     && rm -rf bin \
-    && rm -rf share
+    && rm -rf share \
+    && rm -rf /tmp/*
 
 RUN sed -i 's/"TraceBlockFetchDecisions": false/"TraceBlockFetchDecisions": true/g' /etc/cardano-node/config.json
 
