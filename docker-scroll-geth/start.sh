@@ -8,7 +8,6 @@ fi
 
 exec geth \
   --datadir=/data/geth \
-  --db.engine=pebble \
   --scroll \
   --verbosity=3 \
   --http \
