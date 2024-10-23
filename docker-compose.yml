@@ -227,3 +227,14 @@ services:
       - "8649:8649"
     volumes:
       - ${CELO_ROOT_DIR:-~}/celo:/data
+
+  scroll-geth:
+    image: donbeave/scroll-geth
+    container_name: scroll-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8650:8650"
+    volumes:
+      - ${SCROLL_ROOT_DIR:-~}/scroll:/data

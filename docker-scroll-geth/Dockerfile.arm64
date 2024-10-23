@@ -1,0 +1,44 @@
+FROM --platform=arm64 golang:1.22.6-bookworm AS build
+
+ENV SCROLL_GETH_VERSION=5.7.0
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+               build-essential \
+               git \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/* \
+              /var/cache/apt/* \
+              /tmp/*
+
+RUN git clone --branch scroll-v${SCROLL_GETH_VERSION} --single-branch https://github.com/scroll-tech/go-ethereum.git
+
+RUN mv go-ethereum /go-ethereum
+
+WORKDIR /go-ethereum
+
+RUN make nccc_geth
+# end build
+
+FROM --platform=arm64 donbeave/debian-blockchain-base
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY --from=build /go-ethereum/build/bin/geth /usr/local/bin/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
+
+EXPOSE 8650
