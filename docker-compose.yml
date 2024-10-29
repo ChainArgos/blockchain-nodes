@@ -5,8 +5,8 @@ services:
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
-    ports:
-      - "8332:8332"
+#    ports:
+#      - "8332:8332"
     volumes:
       - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
@@ -179,8 +179,8 @@ services:
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
-    ports:
-      - "8352:8352"
+#    ports:
+#      - "8352:8352"
     volumes:
       - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
 
@@ -190,8 +190,8 @@ services:
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
-    ports:
-      - "8342:8342"
+#    ports:
+#      - "8342:8342"
     volumes:
       - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
 
