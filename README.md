@@ -118,3 +118,6 @@ Cardano:
 
 Dogecoin:
 - https://dogecoin.com/dogepedia/how-tos/operating-a-node/
+
+Scroll:
+- https://docs.scroll.io/en/developers/guides/running-a-scroll-node/
