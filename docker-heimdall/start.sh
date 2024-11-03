@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if [[ -z "${POLYGON_HEIMDALL_HOSTNAME}" ]]; then
+  echo "ERROR: POLYGON_HEIMDALL_HOSTNAME is not set"
+  exit 1
+fi
+
 if [[ -z "${ETHEREUM_EXECUTION_HOSTNAME}" ]]; then
   echo "ERROR: ETHEREUM_EXECUTION_HOSTNAME is not set"
   exit 1
@@ -13,7 +18,7 @@ case $COMPONENT in
   rest-server)
     exec heimdalld rest-server \
       --home=/data/heimdalld \
-      --node "tcp://polygon-heimdall:26657"
+      --node "tcp://${POLYGON_HEIMDALL_HOSTNAME}:26657"
     ;;
 
   *)
