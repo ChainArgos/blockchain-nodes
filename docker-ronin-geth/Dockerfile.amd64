@@ -1,4 +1,4 @@
-ARG RONIN_VERSION=2.8.3
+ARG RONIN_VERSION=2.8.3-hotfix
 
 FROM golang:1.22.6-bookworm AS build
 
