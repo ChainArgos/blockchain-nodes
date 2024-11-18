@@ -11,6 +11,16 @@ if [[ -z "${ETHEREUM_CONSENSUS_HOSTNAME}" ]]; then
   exit 1
 fi
 
+if [[ -z "${OP_NODE_L1_BEACON_URL}" ]]; then
+  echo "ERROR: OP_NODE_L1_BEACON_URL is not set"
+  exit 1
+fi
+
+if [[ -z "${OP_NODE_L1_BEACON_ARCHIVER_URL}" ]]; then
+  echo "ERROR: OP_NODE_L1_BEACON_ARCHIVER_URL is not set"
+  exit 1
+fi
+
 get_public_ip() {
   # Define a list of HTTP-based providers
   local PROVIDERS=(
@@ -52,8 +62,8 @@ cd /data/op-node
 
 exec op-node \
   --l1=http://"${ETHEREUM_EXECUTION_HOSTNAME}":8545 \
-  --l1.beacon=http://"${ETHEREUM_CONSENSUS_HOSTNAME}":5052 \
-  --l1.beacon-archiver=http://"${ETHEREUM_CONSENSUS_HOSTNAME}":5052 \
+  --l1.beacon="$OP_NODE_L1_BEACON_URL" \
+  --l1.beacon-archiver="$OP_NODE_L1_BEACON_ARCHIVER_URL" \
   --l2=ws://base-op-geth:38551 \
   --l2.jwt-secret=/data/jwtsecret.hex \
   --p2p.advertise.ip="$PUBLIC_IP" \
