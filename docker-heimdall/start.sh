@@ -26,6 +26,7 @@ case $COMPONENT in
       --chain=mainnet \
       --home=/data/heimdalld \
       --home-client=/data/heimdallcli \
+      --bor_rpc_url=http://polygon-bor:8945 \
       --eth_rpc_url=http://"${ETHEREUM_EXECUTION_HOSTNAME}":8545
     ;;
 
