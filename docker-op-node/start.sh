@@ -6,18 +6,13 @@ if [[ -z "${CA_ETHEREUM_RPC_URL}" ]]; then
   exit 1
 fi
 
-if [[ -z "${ETHEREUM_CONSENSUS_HOSTNAME}" ]]; then
-  echo "ERROR: ETHEREUM_CONSENSUS_HOSTNAME is not set"
+if [[ -z "${CA_ETHEREUM_BEACON_URL}" ]]; then
+  echo "ERROR: CA_ETHEREUM_BEACON_URL is not set"
   exit 1
 fi
 
-if [[ -z "${OP_NODE_L1_BEACON_URL}" ]]; then
-  echo "ERROR: OP_NODE_L1_BEACON_URL is not set"
-  exit 1
-fi
-
-if [[ -z "${OP_NODE_L1_BEACON_ARCHIVER_URL}" ]]; then
-  echo "ERROR: OP_NODE_L1_BEACON_ARCHIVER_URL is not set"
+if [[ -z "${CA_ETHEREUM_BEACON_ARCHIVER_URL}" ]]; then
+  echo "ERROR: CA_ETHEREUM_BEACON_ARCHIVER_URL is not set"
   exit 1
 fi
 
@@ -85,7 +80,8 @@ case $CA_NETWORK in
   optimism)
     exec op-node \
       --l1="${CA_ETHEREUM_RPC_URL}" \
-      --l1.beacon="$OP_NODE_L1_BEACON_URL" \
+      --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
+      --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
       --l2=ws://"${ca_op_geth_hostname}":8551 \
       --l2.jwt-secret=/data/jwtsecret.hex \
       --l2.enginekind=geth \
@@ -96,8 +92,8 @@ case $CA_NETWORK in
   base)
     exec op-node \
       --l1="${CA_ETHEREUM_RPC_URL}" \
-      --l1.beacon="$OP_NODE_L1_BEACON_URL" \
-      --l1.beacon-archiver="$OP_NODE_L1_BEACON_ARCHIVER_URL" \
+      --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
+      --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
       --l2=ws://"${ca_op_geth_hostname}":8551 \
       --l2.jwt-secret=/data/jwtsecret.hex \
       --p2p.advertise.ip="$PUBLIC_IP" \
