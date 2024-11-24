@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eou pipefail
 
-if [[ -z "${ETHEREUM_EXECUTION_HOSTNAME}" ]]; then
-  echo "ERROR: ETHEREUM_EXECUTION_HOSTNAME is not set"
+if [[ -z "${CA_ETHEREUM_RPC_URL}" ]]; then
+  echo "ERROR: CA_ETHEREUM_RPC_URL is not set"
   exit 1
 fi
 
@@ -61,21 +61,21 @@ fi
 
 case $CA_NETWORK in
   optimism)
-    export CA_OP_GETH_HOSTNAME="optimism-op-geth"
+    export ca_op_geth_hostname="optimism-op-geth"
     ;;
 
   base)
-    export CA_OP_GETH_HOSTNAME="base-op-geth"
+    export ca_op_geth_hostname="base-op-geth"
+    ;;
+
+  *)
+    echo "ERROR: CA_NETWORK is not correct"
+    exit 1
     ;;
 esac
 
-if [[ -z "${CA_OP_GETH_HOSTNAME}" ]]; then
-  echo "ERROR: CA_OP_GETH_HOSTNAME is not set"
-  exit 1
-fi
-
 # wait until local execution client comes up (authed so will return 401 without token)
-until [ "$(curl -s -w '%{http_code}' -o /dev/null "http://${CA_OP_GETH_HOSTNAME}:8551")" -eq 401 ]; do
+until [ "$(curl -s -w '%{http_code}' -o /dev/null "http://${ca_op_geth_hostname}:8551")" -eq 401 ]; do
   echo "waiting for execution (geth) client to be ready"
   sleep 5
 done
@@ -84,9 +84,9 @@ case $CA_NETWORK in
 
   optimism)
     exec op-node \
-      --l1=http://"$ETHEREUM_EXECUTION_HOSTNAME":8545 \
+      --l1="${CA_ETHEREUM_RPC_URL}" \
       --l1.beacon="$OP_NODE_L1_BEACON_URL" \
-      --l2=ws://"$CA_OP_GETH_HOSTNAME":8551 \
+      --l2=ws://"${ca_op_geth_hostname}":8551 \
       --l2.jwt-secret=/data/jwtsecret.hex \
       --l2.enginekind=geth \
       --network=op-mainnet \
@@ -95,10 +95,10 @@ case $CA_NETWORK in
 
   base)
     exec op-node \
-      --l1=http://"$ETHEREUM_EXECUTION_HOSTNAME":8545 \
+      --l1="${CA_ETHEREUM_RPC_URL}" \
       --l1.beacon="$OP_NODE_L1_BEACON_URL" \
       --l1.beacon-archiver="$OP_NODE_L1_BEACON_ARCHIVER_URL" \
-      --l2=ws://"$CA_OP_GETH_HOSTNAME":8551 \
+      --l2=ws://"${ca_op_geth_hostname}":8551 \
       --l2.jwt-secret=/data/jwtsecret.hex \
       --p2p.advertise.ip="$PUBLIC_IP" \
       --p2p.listen.ip=0.0.0.0 \
@@ -107,11 +107,6 @@ case $CA_NETWORK in
       --rollup.load-protocol-versions=true \
       --network=base-mainnet \
       --rpc.addr=0.0.0.0
-    ;;
-
-  *)
-    echo "ERROR: CA_NETWORK is not correct"
-    exit 1
     ;;
 
 esac

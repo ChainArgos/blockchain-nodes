@@ -6,8 +6,8 @@ if [[ -z "${POLYGON_HEIMDALL_HOSTNAME}" ]]; then
   exit 1
 fi
 
-if [[ -z "${ETHEREUM_EXECUTION_HOSTNAME}" ]]; then
-  echo "ERROR: ETHEREUM_EXECUTION_HOSTNAME is not set"
+if [[ -z "${CA_ETHEREUM_RPC_URL}" ]]; then
+  echo "ERROR: CA_ETHEREUM_RPC_URL is not set"
   exit 1
 fi
 
@@ -27,7 +27,7 @@ case $COMPONENT in
       --home=/data/heimdalld \
       --home-client=/data/heimdallcli \
       --bor_rpc_url=http://polygon-bor:8945 \
-      --eth_rpc_url=http://"${ETHEREUM_EXECUTION_HOSTNAME}":8545
+      --eth_rpc_url="${CA_ETHEREUM_RPC_URL}"
     ;;
 
 esac
