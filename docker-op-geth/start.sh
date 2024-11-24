@@ -41,16 +41,22 @@ case $CA_NETWORK in
     exec geth \
       --datadir=/data/geth \
       --db.engine=pebble \
+      --verbosity=3 \
       --http \
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
       --http.vhosts=* \
+      --http.api=web3,debug,eth,net,engine \
       --http.port=8545 \
+      --ws \
+      --ws.addr=0.0.0.0 \
+      --ws.origins=* \
+      --ws.api=debug,eth,net,engine \
+      --ws.port=8546 \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.port=8551 \
-      --verbosity=3 \
       --syncmode=full \
       --gcmode=full \
       --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io \
@@ -66,8 +72,13 @@ case $CA_NETWORK in
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
       --http.vhosts=* \
-      --http.port=8545 \
       --http.api=web3,debug,eth,net,engine \
+      --http.port=8545 \
+      --ws \
+      --ws.addr=0.0.0.0 \
+      --ws.origins=* \
+      --ws.api=debug,eth,net,engine \
+      --ws.port=8546 \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
