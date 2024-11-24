@@ -59,7 +59,8 @@ case $CA_NETWORK in
       --authrpc.port=8551 \
       --syncmode=full \
       --gcmode=full \
-      --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io \
+      --rollup.disabletxpoolgossip=true \
+      --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io/ \
       --op-network=op-mainnet
     ;;
 
@@ -88,9 +89,9 @@ case $CA_NETWORK in
       --maxpeers=100 \
       --rollup.sequencerhttp=https://mainnet-sequencer.base.org \
       --rollup.halt=major \
+      --rollup.disabletxpoolgossip=true \
       --op-network=base-mainnet \
       --port=30304 \
-      --rollup.disabletxpoolgossip=true \
       --nat=extip:"$PUBLIC_IP"
     ;;
 
