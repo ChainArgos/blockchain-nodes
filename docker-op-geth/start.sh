@@ -30,26 +30,62 @@ else
   exit 1
 fi
 
-exec geth \
-  --datadir=/data/geth \
-  --db.engine=pebble \
-  --verbosity=3 \
-  --http \
-  --http.addr=0.0.0.0 \
-  --http.corsdomain=* \
-  --http.vhosts=* \
-  --http.port=8648 \
-  --http.api=web3,debug,eth,net,engine \
-  --authrpc.addr=0.0.0.0 \
-  --authrpc.port=38551 \
-  --authrpc.vhosts=* \
-  --authrpc.jwtsecret=/data/jwtsecret.hex \
-  --syncmode=full \
-  --gcmode=full \
-  --maxpeers=100 \
-  --rollup.sequencerhttp=https://mainnet-sequencer.base.org \
-  --rollup.halt=major \
-  --op-network=base-mainnet \
-  --port=30304 \
-  --rollup.disabletxpoolgossip=true \
-  --nat=extip:"$PUBLIC_IP"
+if [[ -z "${CA_NETWORK}" ]]; then
+  echo "ERROR: CA_NETWORK is not set"
+  exit 1
+fi
+
+case $CA_NETWORK in
+
+  optimism)
+    exec geth \
+      --datadir=/data/geth \
+      --db.engine=pebble \
+      --http \
+      --http.addr=0.0.0.0 \
+      --http.corsdomain=* \
+      --http.vhosts=* \
+      --http.port=8545 \
+      --authrpc.addr=0.0.0.0 \
+      --authrpc.vhosts=* \
+      --authrpc.jwtsecret=/data/jwtsecret.hex \
+      --authrpc.port=8551 \
+      --verbosity=3 \
+      --syncmode=full \
+      --gcmode=full \
+      --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io \
+      --op-network=op-mainnet
+    ;;
+
+  base)
+    exec geth \
+      --datadir=/data/geth \
+      --db.engine=pebble \
+      --verbosity=3 \
+      --http \
+      --http.addr=0.0.0.0 \
+      --http.corsdomain=* \
+      --http.vhosts=* \
+      --http.port=8545 \
+      --http.api=web3,debug,eth,net,engine \
+      --authrpc.addr=0.0.0.0 \
+      --authrpc.vhosts=* \
+      --authrpc.jwtsecret=/data/jwtsecret.hex \
+      --authrpc.port=8551 \
+      --syncmode=full \
+      --gcmode=full \
+      --maxpeers=100 \
+      --rollup.sequencerhttp=https://mainnet-sequencer.base.org \
+      --rollup.halt=major \
+      --op-network=base-mainnet \
+      --port=30304 \
+      --rollup.disabletxpoolgossip=true \
+      --nat=extip:"$PUBLIC_IP"
+    ;;
+
+  *)
+    echo "ERROR: CA_NETWORK is not correct"
+    exit 1
+    ;;
+
+esac

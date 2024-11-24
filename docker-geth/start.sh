@@ -13,7 +13,7 @@ exec geth \
   --http.corsdomain=* \
   --http.vhosts=* \
   --authrpc.addr=0.0.0.0 \
-  --authrpc.port=8551 \
   --authrpc.vhosts=* \
+  --authrpc.port=8551 \
   --maxpeers=200 \
   --cache=8000

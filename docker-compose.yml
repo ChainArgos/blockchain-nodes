@@ -18,8 +18,6 @@ services:
     env_file: "containers.env"
     ports:
       - "8545:8545"
-      - "30303:30303/tcp"
-      - "30303:30303/udp"
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
@@ -115,10 +113,9 @@ services:
     stop_grace_period: 15m
     env_file: "containers.env"
     ports:
-      - "8648:8648"
-      - "38551:38551"
-      - "30304:30304/tcp"
-      - "30304:30304/udp"
+      - "8648:8545"
+    environment:
+      CA_NETWORK: base
     volumes:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
@@ -128,8 +125,34 @@ services:
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
+    environment:
+      CA_NETWORK: base
     volumes:
       - ${BASE_ROOT_DIR:-~}/base:/data
+
+  optimism-op-geth:
+    image: donbeave/op-geth
+    container_name: optimism-op-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8651:8545"
+    environment:
+      CA_NETWORK: optimism
+    volumes:
+      - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
+
+  optimism-op-node:
+    image: donbeave/op-node
+    container_name: optimism-op-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    environment:
+      CA_NETWORK: optimism
+    volumes:
+      - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   heco-geth:
     image: donbeave/heco-geth
