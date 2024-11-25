@@ -44,6 +44,3 @@ RUN chmod a+x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/start.sh"]
-
-EXPOSE 1317
-EXPOSE 26657

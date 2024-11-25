@@ -26,7 +26,3 @@ RUN chmod a+x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/start.sh"]
-
-EXPOSE 8545
-EXPOSE 30303
-EXPOSE 30303/udp
