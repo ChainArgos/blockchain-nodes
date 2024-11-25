@@ -86,6 +86,7 @@ case $CA_NETWORK in
       --l2.jwt-secret=/data/jwtsecret.hex \
       --l2.enginekind=geth \
       --network=op-mainnet \
+      --syncmode=execution-layer \
       --rpc.addr=0.0.0.0
     ;;
 

@@ -18,6 +18,8 @@ services:
     env_file: "containers.env"
     ports:
       - "8545:8545"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
@@ -113,7 +115,9 @@ services:
     stop_grace_period: 15m
     env_file: "containers.env"
     ports:
-      - "8648:8545"
+      - "8648:8648"
+      - "30304:30304/tcp"
+      - "30304:30304/udp"
     environment:
       CA_NETWORK: base
     volumes:
@@ -137,7 +141,9 @@ services:
     stop_grace_period: 15m
     env_file: "containers.env"
     ports:
-      - "8651:8545"
+      - "8651:8651"
+      - "30305:30305/tcp"
+      - "30305:30305/udp"
     environment:
       CA_NETWORK: optimism
     volumes:

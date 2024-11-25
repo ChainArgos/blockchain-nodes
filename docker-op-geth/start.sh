@@ -47,21 +47,22 @@ case $CA_NETWORK in
       --http.corsdomain=* \
       --http.vhosts=* \
       --http.api=web3,debug,eth,net,engine \
-      --http.port=8545 \
+      --http.port=8651 \
       --ws \
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
       --ws.api=debug,eth,net,engine \
-      --ws.port=8546 \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.port=8551 \
-      --syncmode=full \
-      --gcmode=full \
+      --syncmode=snap \
       --rollup.disabletxpoolgossip=true \
       --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io/ \
-      --op-network=op-mainnet
+      --op-network=op-mainnet \
+      --port=30305 \
+      --discovery.port=30305 \
+      --nat=extip:"$PUBLIC_IP"
     ;;
 
   base)
@@ -74,12 +75,11 @@ case $CA_NETWORK in
       --http.corsdomain=* \
       --http.vhosts=* \
       --http.api=web3,debug,eth,net,engine \
-      --http.port=8545 \
+      --http.port=8648 \
       --ws \
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
       --ws.api=debug,eth,net,engine \
-      --ws.port=8546 \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
@@ -92,6 +92,7 @@ case $CA_NETWORK in
       --rollup.disabletxpoolgossip=true \
       --op-network=base-mainnet \
       --port=30304 \
+      --discovery.port=30304 \
       --nat=extip:"$PUBLIC_IP"
     ;;
 
