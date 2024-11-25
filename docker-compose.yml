@@ -142,8 +142,8 @@ services:
     env_file: "containers.env"
     ports:
       - "8651:8651"
-      - "30305:30305/tcp"
-      - "30305:30305/udp"
+      - "30306:30306/tcp"
+      - "30306:30306/udp"
     environment:
       CA_NETWORK: optimism
     volumes:

@@ -60,8 +60,8 @@ case $CA_NETWORK in
       --rollup.disabletxpoolgossip=true \
       --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io/ \
       --op-network=op-mainnet \
-      --port=30305 \
-      --discovery.port=30305 \
+      --port=30306 \
+      --discovery.port=30306 \
       --nat=extip:"$PUBLIC_IP"
     ;;
 
