@@ -41,9 +41,3 @@ NoDiscovery = false
 StaticNodes = []
 ListenAddr = ":30311"
 EnableMsgEvents = false
-
-[Node.LogConfig]
-FilePath = "bsc.log"
-MaxBytesSize = 10485760
-Level = "info"
-FileRoot = ""
