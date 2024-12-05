@@ -1,6 +1,6 @@
 FROM golang:1.22.6-bookworm AS build
 
-ENV OP_GETH_VERSION=1.101411.2
+ENV OP_GETH_VERSION=1.101411.3
 
 RUN apt-get update \
     && apt-get upgrade -y \
