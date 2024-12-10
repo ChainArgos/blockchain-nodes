@@ -1,11 +1,6 @@
 #!/bin/bash
 set -e
 
-if [[ -z "${POLYGON_HEIMDALL_HOSTNAME}" ]]; then
-  echo "ERROR: POLYGON_HEIMDALL_HOSTNAME is not set"
-  exit 1
-fi
-
 if [[ -z "${CA_ETHEREUM_RPC_URL}" ]]; then
   echo "ERROR: CA_ETHEREUM_RPC_URL is not set"
   exit 1
@@ -18,7 +13,7 @@ case $COMPONENT in
   rest-server)
     exec heimdalld rest-server \
       --home=/data/heimdalld \
-      --node "tcp://${POLYGON_HEIMDALL_HOSTNAME}:26657"
+      --node "tcp://polygon-heimdall:26657"
     ;;
 
   *)
