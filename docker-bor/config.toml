@@ -1,41 +1,195 @@
 chain = "mainnet"
-datadir = "/data/bor"
+identity = "f47f94038ffe"
+verbosity = 3
+log-level = ""
+vmdebug = false
+datadir = "/root/.bor"
+ancient = ""
+"db.engine" = "leveldb"
+keystore = ""
+"rpc.batchlimit" = 100
+"rpc.returndatalimit" = 100000
 syncmode = "full"
+gcmode = "full"
+"state.scheme" = "hash"
+snapshot = true
+"bor.logs" = false
+ethstats = ""
+devfakeauthor = false
+
+["eth.requiredblocks"]
+
+[log]
+  vmodule = ""
+  json = false
+  backtrace = ""
+  debug = false
+  enable-block-tracking = false
 
 [p2p]
-maxpeers = 200
-port = 30305
-bind = "0.0.0.0"
+  maxpeers = 50
+  maxpendpeers = 50
+  bind = "0.0.0.0"
+  port = 30303
+  nodiscover = false
+  nat = "any"
+  netrestrict = ""
+  nodekey = ""
+  nodekeyhex = ""
+  txarrivalwait = "500ms"
+  [p2p.discovery]
+    v4disc = true
+    v5disc = false
+    bootnodes = []
+    bootnodesv4 = []
+    bootnodesv5 = []
+    static-nodes = []
+    trusted-nodes = []
+    dns = []
 
-[p2p.discovery]
-bootnodes = ["enode://b8f1cc9c5d4403703fbf377116469667d2b1823c0daf16b7250aa576bacf399e42c3930ccfcb02c5df6879565a2b8931335565f0e8d3f8e72385ecf4a4bf160a@3.36.224.80:30303", "enode://8729e0c825f3d9cad382555f3e46dcff21af323e89025a0e6312df541f4a9e73abfa562d64906f5e59c51fe6f0501b3e61b07979606c56329c020ed739910759@54.194.245.5:30303"]
+[heimdall]
+  url = "http://localhost:1317"
+  "bor.without" = false
+  grpc-address = ""
+  "bor.runheimdall" = false
+  "bor.runheimdallargs" = ""
+  "bor.useheimdallapp" = false
 
 [txpool]
-nolocals = true
-pricelimit = 25000000000
-accountslots = 16
-globalslots = 32768
-accountqueue = 16
-globalqueue = 32768
-lifetime = "1h30m0s"
+  locals = []
+  nolocals = false
+  journal = "transactions.rlp"
+  rejournal = "1h0m0s"
+  pricelimit = 25000000000
+  pricebump = 10
+  accountslots = 16
+  globalslots = 32768
+  accountqueue = 16
+  globalqueue = 32768
+  lifetime = "3h0m0s"
 
 [miner]
-gaslimit = 30000000
-gasprice = "25000000000"
+  mine = false
+  etherbase = ""
+  extradata = ""
+  gaslimit = 30000000
+  gasprice = "25000000000"
+  recommit = "2m5s"
+  commitinterrupt = true
 
 [jsonrpc]
-ipcpath = "/data/bor/bor.ipc"
-
-[jsonrpc.http]
-enabled = true
-port = 8945
-host = "0.0.0.0"
-api = ["eth", "net", "web3", "txpool", "bor"]
-vhosts = ["*"]
-corsdomain = ["*"]
+  ipcdisable = false
+  ipcpath = ""
+  gascap = 50000000
+  evmtimeout = "5s"
+  txfeecap = 1.0
+  allow-unprotected-txs = false
+  enabledeprecatedpersonal = false
+  [jsonrpc.http]
+    enabled = false
+    port = 8545
+    prefix = ""
+    host = "localhost"
+    api = ["eth", "net", "web3", "txpool", "bor"]
+    vhosts = ["localhost"]
+    corsdomain = ["localhost"]
+    ep-size = 40
+    ep-requesttimeout = "0s"
+  [jsonrpc.ws]
+    enabled = false
+    port = 8546
+    prefix = ""
+    host = "localhost"
+    api = ["net", "web3"]
+    origins = ["localhost"]
+    ep-size = 40
+    ep-requesttimeout = "0s"
+  [jsonrpc.graphql]
+    enabled = false
+    port = 0
+    prefix = ""
+    host = ""
+    vhosts = ["localhost"]
+    corsdomain = ["localhost"]
+    ep-size = 0
+    ep-requesttimeout = ""
+  [jsonrpc.auth]
+    jwtsecret = ""
+    addr = "localhost"
+    port = 8551
+    vhosts = ["localhost"]
+  [jsonrpc.timeouts]
+    read = "10s"
+    write = "30s"
+    idle = "2m0s"
 
 [gpo]
-ignoreprice = "25000000000"
+  blocks = 20
+  percentile = 60
+  maxheaderhistory = 1024
+  maxblockhistory = 1024
+  maxprice = "500000000000"
+  ignoreprice = "25000000000"
+
+[telemetry]
+  metrics = false
+  expensive = false
+  prometheus-addr = "127.0.0.1:7071"
+  opencollector-endpoint = ""
+  [telemetry.influx]
+    influxdb = false
+    endpoint = ""
+    database = ""
+    username = ""
+    password = ""
+    influxdbv2 = false
+    token = ""
+    bucket = ""
+    organization = ""
+    [telemetry.influx.tags]
 
 [cache]
-cache = 4096
+  cache = 1024
+  gc = 25
+  snapshot = 10
+  database = 50
+  trie = 15
+  noprefetch = false
+  preimages = false
+  txlookuplimit = 2350000
+  triesinmemory = 128
+  blocklogs = 32
+  timeout = "1h0m0s"
+  fdlimit = 0
+
+[leveldb]
+  compactiontablesize = 2
+  compactiontablesizemultiplier = 1.0
+  compactiontotalsize = 10
+  compactiontotalsizemultiplier = 10.0
+
+[accounts]
+  unlock = []
+  password = ""
+  allow-insecure-unlock = false
+  lightkdf = false
+  disable-bor-wallet = true
+
+[grpc]
+  addr = ":3131"
+
+[developer]
+  dev = false
+  period = 0
+  gaslimit = 11500000
+
+[parallelevm]
+  enable = true
+  procs = 8
+
+[pprof]
+  pprof = false
+  port = 6060
+  addr = "127.0.0.1"
+  memprofilerate = 524288
+  blockprofilerate = 0
