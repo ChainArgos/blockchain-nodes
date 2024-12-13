@@ -1,14 +1,10 @@
 # blockchain-nodes
 
 ## TODO
-- Celo (https://docs.celo.org/network/mainnet/run-full-node)
-- Tezos (https://tezos.gitlab.io/user/history_modes.html)
-- Base (https://github.com/base-org/node)
+- Movement (https://github.com/movementlabsxyz/movement)
+- Aptos (https://aptos.dev/en/network/nodes/full-node)
+- dYdX (https://docs.dydx.exchange/infrastructure_providers-validators/set_up_full_node)
 - Arbitrum (https://docs.arbitrum.io/run-arbitrum-node/run-full-node)
-- Ronin:
-  - https://docs.roninchain.com/basics/nodes
-  - https://docs.roninchain.com/validators/setup/mainnet/run-archive
-- Optimism (https://docs.optimism.io/builders/node-operators/tutorials/mainnet)
 - TON (https://docs.ton.org/participate/run-nodes/archive-node)
 - Solana:
   - https://docs.solanalabs.com/operations/setup-an-rpc-node
@@ -16,11 +12,11 @@
 
 ## Configuration
 
-By default all nodes are designed to store data in the `/data` volume, which is mounted to the host machine (default
+By default, all nodes are designed to store data in the `/data` volume, which is mounted to the host machine (default
 path is `$HOME/<name_of_blockchain>`, for example for Bitcoin blockchain it will be `$HOME/bitcoin/`). This is done to 
 make it easy to backup and restore the data. This can be changed by creating a copy of `.env.sample` and renaming it
-to `.env`, with changing the root path for the particular blockchain (for example `BITCOIN_ROOT_DIR` env will manage 
-the path to root directory where Bitcoin data will be stored).
+to `.env`, by changing the root path for the particular blockchain (for example `BITCOIN_ROOT_DIR` env will manage 
+the path to the root directory where Bitcoin data will be stored).
 
 ## How to run nodes?
 
@@ -48,18 +44,11 @@ For Bitcoin, only one client is available, which is `bitcoin-core`:
 
 For Ethereum, there are two available configurations for how to run a full node.
 
-To run Ethereum with `geth` execution client (written in Go) and `Lighthouse` consensus client (written in Rust) need to execute the following commands:
+To run Ethereum with a `geth` execution client (written in Go) and a `Lighthouse` consensus client (written in Rust) need to execute the following commands:
 
 ```bash
 ./restart-ethereum-geth.sh
 ./restart-ethereum-lighthouse.sh
-```
-
-To run Ethereum with `Besu` execution client and `Teku` consensus client (both written in Java) need to execute the following:
-
-```bash
-./restart-ethereum-besu.sh
-./restart-ethereum-teku.sh
 ```
 
 ### BSC
@@ -114,10 +103,26 @@ Avalanche:
 - https://docs.avax.network/nodes/run-a-node/manually
 
 Cardano:
-- https://learn.lovelace.academy/getting-started/running-a-full-node/
+- https://learn.lovelace.academy/getting-started/running-a-full-node
 
 Dogecoin:
 - https://dogecoin.com/dogepedia/how-tos/operating-a-node/
 
 Scroll:
-- https://docs.scroll.io/en/developers/guides/running-a-scroll-node/
+- https://docs.scroll.io/en/developers/guides/running-a-scroll-node
+
+Optimism:
+- https://docs.optimism.io/builders/node-operators/tutorials/mainnet
+
+Ronin:
+- https://docs.roninchain.com/basics/nodes
+- https://docs.roninchain.com/validators/setup/mainnet/run-archive
+
+Base: 
+- https://github.com/base-org/node
+
+Celo: 
+- https://docs.celo.org/network/mainnet/run-full-node
+
+Tezos:
+- https://tezos.gitlab.io/user/history_modes.html
