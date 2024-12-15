@@ -113,7 +113,11 @@ services:
     container_name: base-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
-    env_file: "containers.env"
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-base.env
+        required: false
     ports:
       - "8648:8648"
       - "30304:30304/tcp"
@@ -128,7 +132,11 @@ services:
     container_name: base-op-node
     restart: unless-stopped
     stop_grace_period: 15m
-    env_file: "containers.env"
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-base.env
+        required: false
     environment:
       CA_NETWORK: base
     volumes:
