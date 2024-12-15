@@ -76,7 +76,11 @@ services:
     container_name: polygon-heimdall
     restart: unless-stopped
     stop_grace_period: 15m
-    env_file: "containers.env"
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-polygon.env
+        required: false
     ports:
       - "26657:26657"
     volumes:
@@ -87,7 +91,11 @@ services:
     container_name: polygon-heimdall-rest-server
     restart: unless-stopped
     stop_grace_period: 15m
-    env_file: "containers.env"
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-polygon.env
+        required: false
     ports:
       - "1317:1317"
     environment:
@@ -100,7 +108,11 @@ services:
     container_name: polygon-bor
     restart: unless-stopped
     stop_grace_period: 15m
-    env_file: "containers.env"
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-polygon.env
+        required: false
     ports:
       - "8945:8945"
       - "30305:30305/tcp"
