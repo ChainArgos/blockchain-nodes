@@ -7,3 +7,4 @@
 # custom
 .env
 containers.env
+containers-*.env

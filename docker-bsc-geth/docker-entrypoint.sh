@@ -1,6 +1,9 @@
 #!/bin/bash
 set -eou pipefail
 
+echo "ChainArgos environment variables:"
+env | grep CA_
+
 if [ ! -d "/data/geth" ]; then
   echo "Init genesis with Hash-Base Storage Scheme by default."
 
