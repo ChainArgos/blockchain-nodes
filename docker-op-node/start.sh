@@ -1,6 +1,11 @@
 #!/bin/bash
 set -eou pipefail
 
+echo "CA_NETWORK: ${CA_NETWORK}"
+echo "CA_ETHEREUM_RPC_URL: ${CA_ETHEREUM_RPC_URL}"
+echo "CA_ETHEREUM_BEACON_URL: ${CA_ETHEREUM_BEACON_URL}"
+echo "CA_ETHEREUM_BEACON_ARCHIVER_URL: ${CA_ETHEREUM_BEACON_ARCHIVER_URL}"
+
 if [[ -z "${CA_ETHEREUM_RPC_URL}" ]]; then
   echo "ERROR: CA_ETHEREUM_RPC_URL is not set"
   exit 1

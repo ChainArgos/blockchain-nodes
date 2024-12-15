@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eou pipefail
 
+echo "CA_NETWORK: ${CA_NETWORK}"
+
 get_public_ip() {
   # Define a list of HTTP-based providers
   local PROVIDERS=(
