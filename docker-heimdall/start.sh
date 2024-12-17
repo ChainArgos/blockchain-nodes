@@ -12,14 +12,14 @@ case $COMPONENT in
 
   rest-server)
     exec heimdalld rest-server \
-      --home=/data/heimdalld \
+      --home=/data/heimdall \
       --node "tcp://polygon-heimdall:26657"
     ;;
 
   *)
     exec heimdalld start \
       --chain=mainnet \
-      --home=/data/heimdalld \
+      --home=/data/heimdall \
       --home-client=/data/heimdallcli \
       --rest-server
     ;;
