@@ -30,6 +30,8 @@ COPY --from=build /heimdall/build/heimdalld /usr/local/bin/
 COPY --from=build /heimdall/build/heimdallcli /usr/local/bin/
 
 COPY config.toml.sample /
+COPY heimdall-config.toml /
+COPY genesis.json /
 
 COPY start.sh /
 RUN chmod a+x /start.sh
