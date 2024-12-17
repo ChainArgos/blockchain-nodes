@@ -39,7 +39,7 @@ case $CA_NETWORK in
 
   optimism)
     exec geth \
-      --datadir=/data/geth \
+      --datadir=/data/op-geth \
       --db.engine=pebble \
       --verbosity=3 \
       --http \
@@ -67,7 +67,7 @@ case $CA_NETWORK in
 
   base)
     exec geth \
-      --datadir=/data/geth \
+      --datadir=/data/op-geth \
       --db.engine=pebble \
       --verbosity=3 \
       --http \
