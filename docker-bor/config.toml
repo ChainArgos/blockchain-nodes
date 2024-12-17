@@ -72,7 +72,7 @@ syncmode = "full"
     # commitinterrupt = true
 
 [jsonrpc]
-    ipcpath = "/var/lib/bor/bor.ipc"
+    ipcpath = "/data/bor/bor.ipc"
     # ipcdisable = false
     # gascap = 50000000
     # evmtimeout = "5s"
