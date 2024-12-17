@@ -1,6 +1,6 @@
 FROM golang:1.22.6-bookworm AS build
 
-ENV BOR_VERSION=1.5.2
+ENV BOR_VERSION=1.5.3
 
 RUN apt-get update \
     && apt-get upgrade -y \
