@@ -21,8 +21,6 @@ case $COMPONENT in
       --chain=mainnet \
       --home=/data/heimdalld \
       --home-client=/data/heimdallcli \
-      --bor_rpc_url=http://polygon-bor:8945 \
-      --eth_rpc_url="${CA_ETHEREUM_RPC_URL}" \
       --rest-server
     ;;
 
