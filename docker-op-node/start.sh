@@ -124,7 +124,7 @@ case $CA_NETWORK in
       --p2p.scoring=none \
       --rollup.config=/ink/rollup.json \
       --rollup.load-protocol-versions=true \
-      --syncmode=consensus-layer \
+      --syncmode=execution-layer \
       --rpc.addr=0.0.0.0
     ;;
 

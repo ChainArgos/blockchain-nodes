@@ -115,8 +115,7 @@ case $CA_NETWORK in
       --authrpc.vhosts=* \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.port=8551 \
-      --syncmode=full \
-      --gcmode=full \
+      --syncmode=snap \
       --maxpeers=0 \
       --rollup.sequencerhttp=https://rpc-gel.inkonchain.com \
       --rollup.disabletxpoolgossip=true \
