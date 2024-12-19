@@ -191,7 +191,7 @@ services:
       - path: containers-ink.env
         required: false
     ports:
-      - "8648:8648"
+      - "8652:8652"
       - "30304:30304/tcp"
       - "30304:30304/udp"
     environment:
