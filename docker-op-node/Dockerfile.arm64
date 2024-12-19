@@ -27,7 +27,7 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 COPY --from=build /optimism/op-node/bin/op-node /usr/local/bin/
 
-COPY ink /
+COPY ink /ink
 
 COPY start.sh /
 RUN chmod a+x /start.sh
