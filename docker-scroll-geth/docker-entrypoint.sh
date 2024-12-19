@@ -1,8 +1,9 @@
 #!/bin/bash
-set -eou pipefail
 
 echo "ChainArgos environment variables:"
 env | grep CA_
+
+set -eou pipefail
 
 # initialize the data directory
 ls -la /data > /dev/null

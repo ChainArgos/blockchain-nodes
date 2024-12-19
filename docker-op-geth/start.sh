@@ -22,16 +22,16 @@ get_public_ip() {
   return 1
 }
 
+if [[ -z "${CA_NETWORK}" ]]; then
+  echo "ERROR: CA_NETWORK is not set"
+  exit 1
+fi
+
 # public-facing P2P node, advertise public IP address
 if PUBLIC_IP=$(get_public_ip); then
   echo "Fetched public IP is: $PUBLIC_IP"
 else
   echo "ERROR: Could not retrieve public IP."
-  exit 1
-fi
-
-if [[ -z "${CA_NETWORK}" ]]; then
-  echo "ERROR: CA_NETWORK is not set"
   exit 1
 fi
 

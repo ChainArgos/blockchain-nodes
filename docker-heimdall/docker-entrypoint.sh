@@ -1,8 +1,9 @@
 #!/bin/bash
-set -eou pipefail
 
 echo "ChainArgos environment variables:"
 env | grep CA_
+
+set -eou pipefail
 
 if [ ! -d "/data/heimdall" ]; then
   heimdalld init --chain=mainnet --home=/data/heimdall --home-client=/data/heimdallcli
