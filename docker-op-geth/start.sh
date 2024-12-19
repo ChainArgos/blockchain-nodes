@@ -96,6 +96,45 @@ case $CA_NETWORK in
       --nat=extip:"$PUBLIC_IP"
     ;;
 
+  ink)
+    exec geth \
+      --datadir=/data/op-geth \
+      --db.engine=pebble \
+      --verbosity=3 \
+      --http \
+      --http.addr=0.0.0.0 \
+      --http.corsdomain=* \
+      --http.vhosts=* \
+      --http.api=web3,debug,eth,net,engine \
+      --http.port=8652 \
+      --ws \
+      --ws.addr=0.0.0.0 \
+      --ws.origins=* \
+      --ws.api=debug,eth,net,engine \
+      --authrpc.addr=0.0.0.0 \
+      --authrpc.vhosts=* \
+      --authrpc.jwtsecret=/data/jwtsecret.hex \
+      --authrpc.port=8551 \
+      --syncmode=full \
+      --gcmode=full \
+      --maxpeers=0 \
+      --rollup.sequencerhttp=https://rpc-gel.inkonchain.com \
+      --rollup.disabletxpoolgossip=true \
+      --port=30304 \
+      --discovery.port=30304 \
+      --nat=extip:"$PUBLIC_IP" \
+      --state.scheme=hash \
+      --txlookuplimit=0 \
+      --history.state=0 \
+      --history.transactions=0 \
+      --txpool.pricebump=10 \
+      --txpool.lifetime=12h0m0s \
+      --rpc.txfeecap=4 \
+      --rpc.evmtimeout=0 \
+      --nodiscover \
+      --gpo.percentile=60
+    ;;
+
   *)
     echo "ERROR: CA_NETWORK is not correct"
     exit 1

@@ -180,6 +180,40 @@ services:
     volumes:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
+  ink-op-geth:
+    image: donbeave/op-geth
+    container_name: ink-op-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-ink.env
+        required: false
+    ports:
+      - "8648:8648"
+      - "30304:30304/tcp"
+      - "30304:30304/udp"
+    environment:
+      CA_NETWORK: ink
+    volumes:
+      - ${INK_ROOT_DIR:-~}/ink:/data
+
+  ink-op-node:
+    image: donbeave/op-node
+    container_name: ink-op-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-ink.env
+        required: false
+    environment:
+      CA_NETWORK: ink
+    volumes:
+      - ${INK_ROOT_DIR:-~}/ink:/data
+
   heco-geth:
     image: donbeave/heco-geth
     container_name: heco-geth

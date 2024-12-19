@@ -27,6 +27,8 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 COPY --from=build /op-geth/build/bin/geth /usr/local/bin/
 
+COPY ink /
+
 COPY start.sh /
 RUN chmod a+x /start.sh
 

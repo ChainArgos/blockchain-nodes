@@ -63,6 +63,10 @@ case $CA_NETWORK in
     export ca_op_geth_hostname="base-op-geth"
     ;;
 
+  ink)
+    export ca_op_geth_hostname="ink-op-geth"
+    ;;
+
   *)
     echo "ERROR: CA_NETWORK is not correct"
     exit 1
@@ -103,6 +107,24 @@ case $CA_NETWORK in
       --verifier.l1-confs=4 \
       --rollup.load-protocol-versions=true \
       --network=base-mainnet \
+      --rpc.addr=0.0.0.0
+    ;;
+
+  ink)
+    exec op-node \
+      --l1="${CA_ETHEREUM_RPC_URL}" \
+      --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
+      --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
+      --l2=ws://"${ca_op_geth_hostname}":8551 \
+      --l2.jwt-secret=/data/jwtsecret.hex \
+      --p2p.advertise.ip="$PUBLIC_IP" \
+      --p2p.listen.ip=0.0.0.0 \
+      --p2p.bootnodes="enr:-Iu4QCqTQZVBnbPWXcdUxcakGoCCzCFr5vVzDfNTOr-Pi3KaOJZMXlnqTR9r9p4EemXS8fS59EdQaX8qrkyE01nvsNcBgmlkgnY0gmlwhCIgwYaJc2VjcDI1NmsxoQMW3w0F1AibYelKqJUKaie5RuKc7S9sPfWvH4lSJw4Fo4N0Y3CCIyuDdWRwgiMs" \
+      --p2p.static="/ip4/34.32.193.134/tcp/9003/p2p/16Uiu2HAmECGb1vmBKhgxVHzX2aYkPcmV8CZjpPxrNkRiFA1wa3CN" \
+      --p2p.scoring=none \
+      --rollup.config=/ink/rollup.json \
+      --rollup.load-protocol-versions=true \
+      --syncmode=consensus-layer \
       --rpc.addr=0.0.0.0
     ;;
 
