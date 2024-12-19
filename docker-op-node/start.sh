@@ -68,7 +68,7 @@ case $CA_NETWORK in
     ;;
 
   *)
-    echo "ERROR: CA_NETWORK is not correct"
+    echo "ERROR: CA_NETWORK is not correct, current value: ${CA_NETWORK}"
     exit 1
     ;;
 esac
