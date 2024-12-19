@@ -113,6 +113,7 @@ case $CA_NETWORK in
   ink)
     exec op-node \
       --l1="${CA_ETHEREUM_RPC_URL}" \
+      --l1.trustrpc \
       --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
       --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
       --l2=ws://"${ca_op_geth_hostname}":8551 \
@@ -124,7 +125,7 @@ case $CA_NETWORK in
       --p2p.scoring=none \
       --rollup.config=/ink/rollup.json \
       --rollup.load-protocol-versions=true \
-      --syncmode=execution-layer \
+      --syncmode=consensus-layer \
       --rpc.addr=0.0.0.0
     ;;
 
