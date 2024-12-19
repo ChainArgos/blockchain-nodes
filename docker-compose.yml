@@ -192,8 +192,8 @@ services:
         required: false
     ports:
       - "8652:8652"
-      - "30304:30304/tcp"
-      - "30304:30304/udp"
+      - "30307:30307/tcp"
+      - "30307:30307/udp"
     environment:
       CA_NETWORK: ink
     volumes:

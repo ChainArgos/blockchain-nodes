@@ -120,8 +120,8 @@ case $CA_NETWORK in
       --rollup.sequencerhttp=https://rpc-gel.inkonchain.com \
       --rollup.disabletxpoolgossip=true \
       --networkid=57073 \
-      --port=30304 \
-      --discovery.port=30304 \
+      --port=30307 \
+      --discovery.port=30307 \
       --nat=extip:"$PUBLIC_IP" \
       --state.scheme=hash \
       --txlookuplimit=0 \
