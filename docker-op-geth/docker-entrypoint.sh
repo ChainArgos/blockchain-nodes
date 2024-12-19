@@ -3,7 +3,7 @@
 echo "ChainArgos environment variables:"
 env | grep CA_
 
-set -eou pipefail
+set -eo pipefail
 
 if [[ -z "${CA_NETWORK}" ]]; then
   echo "ERROR: CA_NETWORK is not set"
