@@ -86,23 +86,6 @@ services:
     volumes:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
-  polygon-heimdall-rest-server:
-    image: donbeave/heimdall
-    container_name: polygon-heimdall-rest-server
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-polygon.env
-        required: false
-    ports:
-      - "1317:1317"
-    environment:
-      COMPONENT: rest-server
-    volumes:
-      - ${POLYGON_ROOT_DIR:-~}/polygon:/data
-
   polygon-bor:
     image: donbeave/bor
     container_name: polygon-bor
