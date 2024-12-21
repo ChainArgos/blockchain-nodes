@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull polygon-bor
-docker compose down polygon-bor
-docker compose up -d polygon-bor
-docker logs -f polygon-bor
+./containerctl.main.kts restart -f polygon-bor

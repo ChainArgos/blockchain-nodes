@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull litecoin-core
-docker compose down litecoin-core
-docker compose up -d litecoin-core
-docker logs -f litecoin-core
+./containerctl.main.kts restart -f litecoin-core

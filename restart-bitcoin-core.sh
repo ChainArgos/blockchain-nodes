@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull bitcoin-core
-docker compose down bitcoin-core
-docker compose up -d bitcoin-core
-docker logs -f bitcoin-core
+./containerctl.main.kts restart -f bitcoin-core

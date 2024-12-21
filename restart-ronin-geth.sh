@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull ronin-geth
-docker compose down ronin-geth
-docker compose up -d ronin-geth
-docker logs -f ronin-geth
+./containerctl.main.kts restart -f ronin-geth

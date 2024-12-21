@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull tron-java
-docker compose down tron-java
-docker compose up -d tron-java
-docker logs -f tron-java
+./containerctl.main.kts restart -f tron-java

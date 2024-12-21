@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull optimism-op-geth
-docker compose down optimism-op-geth
-docker compose up -d optimism-op-geth
-docker logs -f optimism-op-geth
+./containerctl.main.kts restart -f optimism-op-geth

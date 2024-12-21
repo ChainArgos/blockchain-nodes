@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull kcc-geth
-docker compose down kcc-geth
-docker compose up -d kcc-geth
-docker logs -f kcc-geth
+./containerctl.main.kts restart -f kcc-geth

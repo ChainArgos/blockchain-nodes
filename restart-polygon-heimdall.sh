@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull polygon-heimdall
-docker compose down polygon-heimdall
-docker compose up -d polygon-heimdall
-docker logs -f polygon-heimdall
+./containerctl.main.kts restart -f polygon-heimdall

@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull celo-geth
-docker compose down celo-geth
-docker compose up -d celo-geth
-docker logs -f celo-geth
+./containerctl.main.kts restart -f celo-geth

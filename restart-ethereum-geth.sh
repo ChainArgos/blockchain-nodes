@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull ethereum-geth
-docker compose down ethereum-geth
-docker compose up -d ethereum-geth
-docker logs -f ethereum-geth
+./containerctl.main.kts restart -f ethereum-geth

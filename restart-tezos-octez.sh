@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull tezos-octez
-docker compose down tezos-octez
-docker compose up -d tezos-octez
-docker logs -f tezos-octez
+./containerctl.main.kts restart -f tezos-octez

@@ -4,7 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-docker compose pull ink-op-geth
-docker compose down ink-op-geth
-docker compose up -d ink-op-geth
-docker logs -f ink-op-geth
+./containerctl.main.kts restart -f ink-op-geth
