@@ -6,18 +6,25 @@ import picocli.CommandLine
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 import picocli.CommandLine.Parameters
-import java.nio.charset.Charset
+import java.io.File
 import kotlin.system.exitProcess
 
-val charset: Charset = Charset.forName("UTF-8")
+class ScriptContext {
+    companion object {
+        lateinit var currentDirectory: File
+    }
+}
+
+ScriptContext.currentDirectory = __FILE__.parentFile
 
 class CliHelper {
     companion object {
-        fun runCommand(command: List<String>): Int {
+        fun runCommand(command: List<String>, directory: File): Int {
             val commandString = command.joinToString(" ")
 
             println("> $commandString")
             val processBuilder: ProcessBuilder = ProcessBuilder(command)
+                .directory(directory)
                 .redirectOutput(ProcessBuilder.Redirect.INHERIT)
                 .redirectError(ProcessBuilder.Redirect.INHERIT)
 
@@ -32,8 +39,8 @@ class CliHelper {
             return process.exitValue()
         }
 
-        fun runCommandExitOnError(command: List<String>) {
-            val exitCode = runCommand(command)
+        fun runCommandExitOnError(command: List<String>, directory: File) {
+            val exitCode = runCommand(command, directory)
 
             if (exitCode != 0) {
                 exitProcess(exitCode)
@@ -66,11 +73,13 @@ class RestartCommand : Runnable {
     var followLogs = false
 
     override fun run() {
-        CliHelper.runCommandExitOnError(listOf("docker", "compose", "pull", name))
-        CliHelper.runCommand(listOf("docker", "compose", "down", name))
-        CliHelper.runCommandExitOnError(listOf("docker", "compose", "up", "-d", name))
+        val dir = ScriptContext.currentDirectory
+
+        CliHelper.runCommandExitOnError(listOf("docker", "compose", "pull", name), dir)
+        CliHelper.runCommand(listOf("docker", "compose", "down", name), dir)
+        CliHelper.runCommandExitOnError(listOf("docker", "compose", "up", "-d", name), dir)
         if (followLogs) {
-            CliHelper.runCommand(listOf("docker", "logs", "-f", name))
+            CliHelper.runCommand(listOf("docker", "logs", "-f", name), dir)
         }
     }
 
@@ -83,7 +92,9 @@ class StopCommand : Runnable {
     lateinit var name: String
 
     override fun run() {
-        CliHelper.runCommandExitOnError(listOf("docker", "compose", "down", name))
+        val dir = ScriptContext.currentDirectory
+
+        CliHelper.runCommandExitOnError(listOf("docker", "compose", "down", name), dir)
     }
 
 }
