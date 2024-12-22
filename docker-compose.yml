@@ -261,9 +261,9 @@ services:
     volumes:
       - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
 
-  tezos-octez:
+  tezos-octez-node:
     image: donbeave/octez
-    container_name: tezos-octez
+    container_name: tezos-octez-node
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"

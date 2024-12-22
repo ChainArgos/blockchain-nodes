@@ -3,7 +3,7 @@ FROM --platform=arm64 donbeave/debian-blockchain-base
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 RUN cd /tmp \
-    && curl -L https://gitlab.com/tezos/tezos/-/package_files/138318508/download -o octez.tar.gz \
+    && curl -L https://gitlab.com/tezos/tezos/-/package_files/166078371/download -o octez.tar.gz \
     && tar -xvf octez.tar.gz \
     && rm octez.tar.gz \
     && mv octez-*/octez-node /usr/local/bin/ \

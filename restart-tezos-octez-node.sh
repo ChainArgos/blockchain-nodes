@@ -4,4 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-./containerctl.main.kts restart -f tezos-octez
+./containerctl.main.kts restart -f tezos-octez-node
