@@ -7,11 +7,11 @@ exec geth \
   --datadir=/data/geth \
   --db.engine=pebble \
   --mainnet \
-  --authrpc.jwtsecret=/data/jwtsecret.hex \
   --http \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
   --http.vhosts=* \
+  --authrpc.jwtsecret=/data/jwtsecret.hex \
   --authrpc.addr=0.0.0.0 \
   --authrpc.vhosts=* \
   --authrpc.port=8551 \

@@ -52,9 +52,9 @@ case $CA_NETWORK in
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
       --ws.api=debug,eth,net,engine \
+      --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
-      --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.port=8551 \
       --syncmode=snap \
       --rollup.disabletxpoolgossip=true \
@@ -80,9 +80,9 @@ case $CA_NETWORK in
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
       --ws.api=debug,eth,net,engine \
+      --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
-      --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.port=8551 \
       --syncmode=full \
       --gcmode=full \
@@ -111,9 +111,9 @@ case $CA_NETWORK in
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
       --ws.api=debug,eth,net,engine \
+      --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
-      --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.port=8551 \
       --syncmode=full \
       --gcmode=full \
