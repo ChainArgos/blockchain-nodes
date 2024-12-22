@@ -304,3 +304,14 @@ services:
       - "8650:8650"
     volumes:
       - ${SCROLL_ROOT_DIR:-~}/scroll:/data
+
+  wbt-geth:
+    image: donbeave/wbt-geth
+    container_name: wbt-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8653:8653"
+    volumes:
+      - ${WBT_ROOT_DIR:-~}/wbt:/data
