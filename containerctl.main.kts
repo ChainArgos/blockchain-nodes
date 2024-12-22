@@ -15,7 +15,7 @@ class ScriptContext {
     }
 }
 
-ScriptContext.currentDirectory = __FILE__.parentFile
+ScriptContext.currentDirectory = __FILE__.absoluteFile.parentFile
 
 class CliHelper {
     companion object {
