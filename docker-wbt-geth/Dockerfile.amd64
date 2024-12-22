@@ -1,6 +1,6 @@
 ARG WBT_GETH_VERSION=1.1.0
 
-FROM golang:1.22.6-bookworm AS build
+FROM golang:1.23.4-bookworm AS build
 
 RUN apt-get update \
     && apt-get upgrade -y \
