@@ -6,6 +6,12 @@ if [[ -z "${CA_ETHEREUM_RPC_URL}" ]]; then
   exit 1
 fi
 
+# wait until local execution client comes up (authed so will return 401 without token)
+until [ "$(curl -s -w '%{http_code}' -o /dev/null "${CA_ETHEREUM_RPC_URL}")" -eq 401 ]; do
+  echo "waiting for execution (geth) client to be ready"
+  sleep 5
+done
+
 exec geth \
   --datadir=/data/geth \
   --scroll \
