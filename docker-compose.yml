@@ -53,6 +53,7 @@ services:
     env_file: "containers.env"
     ports:
       - "28090:28090"
+      - "28545:28545"
     volumes:
       - ${TRON_ROOT_DIR:-~}/tron:/data
 
