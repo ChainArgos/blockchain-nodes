@@ -3,6 +3,7 @@ set -eou pipefail
 
 exec geth \
   --syncmode=full \
+  --gcmode=archive \
   --history.transactions=0 \
   --datadir=/data/geth \
   --db.engine=pebble \
