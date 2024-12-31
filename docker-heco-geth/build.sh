@@ -20,6 +20,7 @@ export DOCKER_BUILD_EXTRA_ARGS=${DOCKER_BUILD_EXTRA_ARGS:-"--pull --progress pla
 echo "Building amd64"
 
 docker buildx build ${DOCKER_BUILD_EXTRA_ARGS} \
+  --pull \
   --push \
   --provenance=false \
   --platform linux/amd64 \
