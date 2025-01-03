@@ -1,5 +1,5 @@
 chain = "mainnet"
-# identity = "node_name"
+identity = "chainargos"
 # verbosity = 3
 # vmdebug = false
 datadir = "/data/bor"
