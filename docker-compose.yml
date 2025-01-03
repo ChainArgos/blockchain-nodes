@@ -83,6 +83,7 @@ services:
       - path: containers-polygon.env
         required: false
     ports:
+      - "1317:1317"
       - "26656:26656"
       - "26657:26657"
     volumes:
