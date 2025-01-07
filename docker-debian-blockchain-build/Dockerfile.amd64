@@ -1,0 +1,15 @@
+FROM donbeave/debian-blockchain-base AS build
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+               build-essential \
+               linux-headers-amd64 \
+               git \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/* \
+              /var/cache/apt/* \
+              /tmp/*
+
+RUN mise install go@1.22.10
+RUN mise use -g --pin go@1.22.10

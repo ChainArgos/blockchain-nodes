@@ -1,16 +1,6 @@
-FROM golang:1.22.6-bookworm AS build
+FROM donbeave/debian-blockchain-build AS build
 
 ENV HEIMDALL_VERSION=1.0.10
-
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends \
-               build-essential \
-               git \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/* \
-              /var/cache/apt/* \
-              /tmp/*
 
 RUN git clone --branch v${HEIMDALL_VERSION} --single-branch https://github.com/maticnetwork/heimdall.git
 

@@ -1,16 +1,6 @@
-FROM --platform=arm64 golang:1.22.6-bookworm AS build
+FROM --platform=arm64 donbeave/debian-blockchain-build AS build
 
 ENV BOR_VERSION=1.5.4-beta
-
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends \
-               build-essential \
-               git \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/* \
-              /var/cache/apt/* \
-              /tmp/*
 
 RUN git clone --branch v${BOR_VERSION} --single-branch https://github.com/maticnetwork/bor.git
 

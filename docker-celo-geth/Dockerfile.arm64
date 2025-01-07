@@ -1,24 +1,10 @@
 ARG CELO_BLOCKCHAIN_VERSION=1.8.4
 
-FROM --platform=arm64 golang:1.22.6-bookworm AS build
-
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends \
-               build-essential \
-               linux-headers-arm64 \
-               musl-dev \
-               git \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/* \
-              /var/cache/apt/* \
-              /tmp/*
+FROM --platform=arm64 donbeave/debian-blockchain-build AS build
 
 ARG CELO_BLOCKCHAIN_VERSION
 
 RUN git clone --branch v${CELO_BLOCKCHAIN_VERSION} --single-branch https://github.com/celo-org/celo-blockchain.git
-
-RUN mv celo-blockchain /celo-blockchain
 
 WORKDIR /celo-blockchain
 

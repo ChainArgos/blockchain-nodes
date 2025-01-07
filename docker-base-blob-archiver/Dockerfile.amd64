@@ -1,14 +1,4 @@
-FROM golang:1.22.6-bookworm AS build
-
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends \
-               build-essential \
-               git \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/* \
-              /var/cache/apt/* \
-              /tmp/*
+FROM donbeave/debian-blockchain-build AS build
 
 RUN git clone --branch master --single-branch https://github.com/base-org/blob-archiver.git
 
