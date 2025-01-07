@@ -5,6 +5,8 @@ env | grep CA_
 
 set -eo pipefail
 
+eval "$(mise activate bash)"
+
 if [ ! -d "/data/geth" ]; then
   echo "Init genesis."
 

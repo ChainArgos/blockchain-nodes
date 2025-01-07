@@ -28,3 +28,17 @@ RUN cd /tmp \
     && mv xh-*/xh /usr/local/bin/xh \
     && rm -r xh-* \
     && rm -rf /tmp/*
+
+RUN set -ex \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+               mise \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/* \
+              /var/cache/apt/* \
+              /tmp/*
+
+ENV MISE_CONFIG_DIR=/opt/mise/config
+ENV MISE_STATE_DIR=/opt/mise/state
+ENV MISE_DATA_DIR=/opt/mise/data

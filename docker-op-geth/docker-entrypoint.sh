@@ -5,6 +5,8 @@ env | grep CA_
 
 set -eo pipefail
 
+eval "$(mise activate bash)"
+
 if [[ -z "${CA_NETWORK}" ]]; then
   echo "ERROR: CA_NETWORK is not set"
   exit 1
