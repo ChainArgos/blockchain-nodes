@@ -4,8 +4,6 @@ ENV BOR_VERSION=1.5.4-beta
 
 RUN git clone --branch v${BOR_VERSION} --single-branch https://github.com/maticnetwork/bor.git
 
-RUN mv bor /bor
-
 WORKDIR /bor
 
 RUN make bor

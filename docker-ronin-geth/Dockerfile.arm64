@@ -6,8 +6,6 @@ ARG RONIN_VERSION
 
 RUN git clone --branch v${RONIN_VERSION} --single-branch https://github.com/axieinfinity/ronin.git
 
-RUN mv ronin /ronin
-
 WORKDIR /ronin
 
 RUN make ronin

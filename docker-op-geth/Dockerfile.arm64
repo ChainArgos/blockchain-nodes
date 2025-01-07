@@ -4,8 +4,6 @@ ENV OP_GETH_VERSION=1.101411.4
 
 RUN git clone --branch v${OP_GETH_VERSION} --single-branch https://github.com/ethereum-optimism/op-geth.git
 
-RUN mv op-geth /op-geth
-
 WORKDIR /op-geth
 
 RUN go run build/ci.go install -static ./cmd/geth

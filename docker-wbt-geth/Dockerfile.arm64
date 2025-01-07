@@ -6,8 +6,6 @@ ARG WBT_GETH_VERSION
 
 RUN git clone --branch v${WBT_GETH_VERSION} --single-branch https://github.com/whitebit-exchange/wbt.git
 
-RUN mv wbt /wbt
-
 WORKDIR /wbt
 
 RUN make all

@@ -4,8 +4,6 @@ ENV HEIMDALL_VERSION=1.0.10
 
 RUN git clone --branch v${HEIMDALL_VERSION} --single-branch https://github.com/maticnetwork/heimdall.git
 
-RUN mv heimdall /heimdall
-
 WORKDIR /heimdall
 
 RUN make install
