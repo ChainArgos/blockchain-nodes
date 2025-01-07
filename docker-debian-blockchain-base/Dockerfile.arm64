@@ -46,6 +46,11 @@ RUN set -ex \
               /var/cache/apt/* \
               /tmp/*
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 ENV MISE_CONFIG_DIR=/opt/mise/config
 ENV MISE_STATE_DIR=/opt/mise/state
 ENV MISE_DATA_DIR=/opt/mise/data
+ENV MISE_INSTALL_PATH=/usr/bin/mise
+
+ENV PATH="/opt/mise/data/shims:$PATH"
