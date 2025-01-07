@@ -30,6 +30,13 @@ RUN cd /tmp \
     && rm -rf /tmp/*
 
 RUN set -ex \
+    && install -m 0755 -d /etc/apt/keyrings \
+    && curl -fsSL https://mise.jdx.dev/gpg-key.pub -o /etc/apt/keyrings/mise.asc \
+    && chmod a+r /etc/apt/keyrings/mise.asc
+
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/mise.asc] https://mise.jdx.dev/deb stable main" > /etc/apt/sources.list.d/mise.list
+
+RUN set -ex \
     && apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
