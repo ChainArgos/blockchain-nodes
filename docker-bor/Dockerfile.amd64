@@ -1,6 +1,6 @@
 FROM donbeave/debian-blockchain-build AS build
 
-ENV BOR_VERSION=1.5.4-beta
+ENV BOR_VERSION=1.5.4
 
 RUN git clone --branch v${BOR_VERSION} --single-branch https://github.com/maticnetwork/bor.git
 
