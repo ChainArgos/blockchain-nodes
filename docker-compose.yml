@@ -18,8 +18,6 @@ services:
     env_file: "containers.env"
     ports:
       - "8545:8545"
-      - "30303:30303/tcp"
-      - "30303:30303/udp"
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
@@ -86,8 +84,6 @@ services:
         required: false
     ports:
       - "8945:8945"
-      - "30305:30305/tcp"
-      - "30305:30305/udp"
     volumes:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
@@ -103,8 +99,6 @@ services:
         required: false
     ports:
       - "8648:8648"
-      - "30304:30304/tcp"
-      - "30304:30304/udp"
     environment:
       CA_NETWORK: base
     volumes:
@@ -133,8 +127,6 @@ services:
     env_file: "containers.env"
     ports:
       - "8651:8651"
-      - "30306:30306/tcp"
-      - "30306:30306/udp"
     environment:
       CA_NETWORK: optimism
     volumes:
@@ -163,8 +155,6 @@ services:
         required: false
     ports:
       - "8652:8652"
-      - "30307:30307/tcp"
-      - "30307:30307/udp"
     environment:
       CA_NETWORK: ink
     volumes:
