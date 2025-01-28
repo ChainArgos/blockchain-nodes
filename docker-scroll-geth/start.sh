@@ -24,4 +24,5 @@ exec geth \
   --http.api=eth,net,web3,debug,scroll \
   --cache.noprefetch \
   --l1.endpoint="${CA_ETHEREUM_RPC_URL}" \
-  --rollup.verify
+  --rollup.verify \
+  --nodiscover

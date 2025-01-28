@@ -16,4 +16,5 @@ exec geth \
   --authrpc.vhosts=* \
   --authrpc.port=8551 \
   --maxpeers=200 \
-  --cache=8000
+  --cache=8000 \
+  --nodiscover
