@@ -15,4 +15,4 @@ exec geth \
   --http.port=8645 \
   --maxpeers=200 \
   --cache=8000 \
-  --nodiscover
+  --discv5
