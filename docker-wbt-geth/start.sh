@@ -14,5 +14,4 @@ exec geth \
   --authrpc.jwtsecret=/data/jwtsecret.hex \
   --authrpc.addr=0.0.0.0 \
   --authrpc.vhosts=* \
-  --authrpc.port=8551 \
-  --nodiscover
+  --authrpc.port=8551

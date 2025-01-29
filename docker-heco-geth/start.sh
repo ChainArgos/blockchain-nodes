@@ -10,5 +10,4 @@ exec geth \
   --http.vhosts=* \
   --http.port=8646 \
   --maxpeers=200 \
-  --cache=8000 \
-  --nodiscover
+  --cache=8000

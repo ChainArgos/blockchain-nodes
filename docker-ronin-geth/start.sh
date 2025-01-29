@@ -12,5 +12,4 @@ exec ronin \
   --http.corsdomain=* \
   --http.vhosts=* \
   --http.port=8745 \
-  --http.api=eth,net,web3,consortium \
-  --nodiscover
+  --http.api=eth,net,web3,consortium

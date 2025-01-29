@@ -62,7 +62,6 @@ case $CA_NETWORK in
       --op-network=op-mainnet \
       --port=30306 \
       --discovery.port=30306 \
-      --nodiscover \
       --nat=extip:"$PUBLIC_IP"
     ;;
 
@@ -94,7 +93,6 @@ case $CA_NETWORK in
       --op-network=base-mainnet \
       --port=30304 \
       --discovery.port=30304 \
-      --nodiscover \
       --nat=extip:"$PUBLIC_IP"
     ;;
 
@@ -125,7 +123,6 @@ case $CA_NETWORK in
       --networkid=57073 \
       --port=30307 \
       --discovery.port=30307 \
-      --nodiscover \
       --nat=extip:"$PUBLIC_IP" \
       --state.scheme=hash \
       --txlookuplimit=0 \
@@ -135,6 +132,7 @@ case $CA_NETWORK in
       --txpool.lifetime=12h0m0s \
       --rpc.txfeecap=4 \
       --rpc.evmtimeout=0 \
+      --nodiscover \
       --gpo.percentile=60
     ;;
 
