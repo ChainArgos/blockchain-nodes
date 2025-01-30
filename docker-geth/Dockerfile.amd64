@@ -2,7 +2,7 @@ FROM donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV GETH_VERSION=1.14.12-293a300d
+ENV GETH_VERSION=1.14.13-eb00f169
 
 RUN cd /tmp \
     && curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-amd64-${GETH_VERSION}.tar.gz -o geth.tar.gz \
