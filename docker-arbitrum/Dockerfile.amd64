@@ -1,0 +1,30 @@
+FROM offchainlabs/nitro-node:v3.4.0-d896e9c AS build
+
+RUN ls
+# end build
+
+FROM donbeave/debian-blockchain-base
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY --from=build /usr/local/bin/nitro /usr/local/bin/
+COPY --from=build /usr/local/bin/relay /usr/local/bin/
+COPY --from=build /usr/local/bin/nitro-val /usr/local/bin/
+COPY --from=build /usr/local/bin/seq-coordinator-manager /usr/local/bin/
+COPY --from=build /usr/local/bin/prover /usr/local/bin/
+COPY --from=build /usr/local/bin/dbconv /usr/local/bin/
+COPY --from=build /usr/local/bin/convert-databases.bash /usr/local/bin/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]

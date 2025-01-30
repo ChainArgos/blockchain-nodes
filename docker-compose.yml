@@ -303,3 +303,19 @@ services:
       - "8653:8653"
     volumes:
       - ${WBT_ROOT_DIR:-~}/wbt:/data
+
+  arbitrum-one:
+    image: donbeave/arbitrum
+    container_name: arbitrum-one
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-arbitrum.env
+        required: false
+    ports:
+      - "8547:8547"
+      - "8548:8548"
+    volumes:
+      - ${ARBITRUM_ROOT_DIR:-~}/arbitrum:/data

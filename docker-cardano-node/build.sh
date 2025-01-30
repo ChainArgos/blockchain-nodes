@@ -15,7 +15,7 @@ fi
 
 printf "> \e[1;37mBuilding docker\e[0m\n"
 
-export DOCKER_BUILD_EXTRA_ARGS=${DOCKER_BUILD_EXTRA_ARGS:-"--pull --progress plain"}
+export DOCKER_BUILD_EXTRA_ARGS=${DOCKER_BUILD_EXTRA_ARGS:-"--progress plain"}
 
 echo "Building amd64"
 
