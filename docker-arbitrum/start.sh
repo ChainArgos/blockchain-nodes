@@ -17,4 +17,7 @@ exec nitro \
   --chain.name=arb1 \
   --init.empty \
   --blocks-reexecutor.mode=full \
-  --persistent.global-config=/data
+  --persistent.global-config=/data \
+  --http.addr=0.0.0.0 \
+  --http.corsdomain=* \
+  --http.vhosts=*
