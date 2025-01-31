@@ -6,6 +6,7 @@ set -e
 
 ./docker-debian-blockchain-base/build.sh
 ./docker-debian-blockchain-build/build.sh
+./docker-arbitrum/build.sh
 ./docker-avalanchego/build.sh
 ./docker-bitcoin-core/build.sh
 ./docker-bor/build.sh
