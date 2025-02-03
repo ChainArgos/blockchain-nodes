@@ -4,7 +4,7 @@ FROM --platform=arm64 donbeave/debian-blockchain-build AS build
 
 ARG WBT_GETH_VERSION
 
-RUN git clone --branch v${WBT_GETH_VERSION} --single-branch https://github.com/whitebit-exchange/wbt.git
+RUN git clone --branch v${WBT_GETH_VERSION} --single-branch --depth=1 https://github.com/whitebit-exchange/wbt.git
 
 WORKDIR /wbt
 

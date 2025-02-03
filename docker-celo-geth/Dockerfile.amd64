@@ -4,7 +4,7 @@ FROM donbeave/debian-blockchain-build AS build
 
 ARG CELO_BLOCKCHAIN_VERSION
 
-RUN git clone --branch v${CELO_BLOCKCHAIN_VERSION} --single-branch https://github.com/celo-org/celo-blockchain.git
+RUN git clone --branch v${CELO_BLOCKCHAIN_VERSION} --single-branch --depth=1 https://github.com/celo-org/celo-blockchain.git
 
 WORKDIR /celo-blockchain
 
