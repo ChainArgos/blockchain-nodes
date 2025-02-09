@@ -11,7 +11,7 @@ exec reth \
   --port=30303 \
   --http \
   --http.addr=0.0.0.0 \
-  --http.port=8545 \
+  --http.port=8654 \
   --http.corsdomain="*" \
   --bootnodes="$EL_PEERS" \
   --trusted-peers="$EL_PEERS" \
