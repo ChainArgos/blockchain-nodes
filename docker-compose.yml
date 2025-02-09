@@ -319,3 +319,29 @@ services:
       - "8548:8548"
     volumes:
       - ${ARBITRUM_ROOT_DIR:-~}/arbitrum:/data
+
+  berachain-beacon-kit:
+    image: donbeave/beacon-kit
+    container_name: berachain-beacon-kit
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-berachain.env
+        required: false
+    volumes:
+      - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
+
+  berachain-reth:
+    image: donbeave/reth
+    container_name: berachain-reth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-berachain.env
+        required: false
+    volumes:
+      - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
