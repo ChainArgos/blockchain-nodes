@@ -345,5 +345,7 @@ services:
         required: false
     ports:
       - "8654:8654"
+      - "30308:30308/tcp"
+      - "30308:30308/udp"
     volumes:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
