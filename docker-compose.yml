@@ -185,6 +185,40 @@ services:
     volumes:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
+  unichain-op-geth:
+    image: donbeave/op-geth
+    container_name: unichain-op-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-unichain.env
+        required: false
+    ports:
+      - "8655:8655"
+      - "30309:30309/tcp"
+      - "30309:30309/udp"
+    environment:
+      CA_NETWORK: unichain
+    volumes:
+      - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
+
+  unichain-op-node:
+    image: donbeave/op-node
+    container_name: unichain-op-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-unichain.env
+        required: false
+    environment:
+      CA_NETWORK: unichain
+    volumes:
+      - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
+
   heco-geth:
     image: donbeave/heco-geth
     container_name: heco-geth

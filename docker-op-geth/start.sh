@@ -136,6 +136,38 @@ case $CA_NETWORK in
       --gpo.percentile=60
     ;;
 
+  unichain)
+    exec geth \
+      --datadir=/data/op-geth \
+      --db.engine=pebble \
+      --verbosity=3 \
+      --http \
+      --http.addr=0.0.0.0 \
+      --http.corsdomain=* \
+      --http.vhosts=* \
+      --http.api=web3,debug,eth,txpool,net,admin,rpc \
+      --http.port=8655 \
+      --ws \
+      --ws.addr=0.0.0.0 \
+      --ws.origins=* \
+      --ws.api=web3,debug,eth,txpool,net,admin,rpc \
+      --authrpc.jwtsecret=/data/jwtsecret.hex \
+      --authrpc.addr=0.0.0.0 \
+      --authrpc.vhosts=* \
+      --authrpc.port=8551 \
+      --syncmode=full \
+      --gcmode=full \
+      --maxpeers=100 \
+      --rollup.sequencerhttp=https://mainnet-sequencer.unichain.org \
+      --rollup.halt=major \
+      --rollup.disabletxpoolgossip=true \
+      --txpool.nolocals=true \
+      --op-network=unichain-mainnet \
+      --port=30309 \
+      --discovery.port=30309 \
+      --nat=extip:"$PUBLIC_IP"
+    ;;
+
   *)
     echo "ERROR: CA_NETWORK is not correct, current value: ${CA_NETWORK}"
     exit 1

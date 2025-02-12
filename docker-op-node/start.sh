@@ -67,6 +67,10 @@ case $CA_NETWORK in
     export ca_op_geth_hostname="ink-op-geth"
     ;;
 
+  unichain)
+    export ca_op_geth_hostname="unichain-op-geth"
+    ;;
+
   *)
     echo "ERROR: CA_NETWORK is not correct, current value: ${CA_NETWORK}"
     exit 1
@@ -126,6 +130,21 @@ case $CA_NETWORK in
       --rollup.config=/ink/rollup.json \
       --rollup.load-protocol-versions=true \
       --syncmode=consensus-layer \
+      --rpc.addr=0.0.0.0
+    ;;
+
+  unichain)
+    exec op-node \
+      --l1="${CA_ETHEREUM_RPC_URL}" \
+      --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
+      --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
+      --l2=ws://"${ca_op_geth_hostname}":8551 \
+      --l2.jwt-secret=/data/jwtsecret.hex \
+      --p2p.advertise.ip="$PUBLIC_IP" \
+      --p2p.listen.ip=0.0.0.0 \
+      --verifier.l1-confs=4 \
+      --rollup.load-protocol-versions=true \
+      --network=unichain-mainnet \
       --rpc.addr=0.0.0.0
     ;;
 
