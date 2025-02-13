@@ -21,4 +21,5 @@ exec nitro \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
   --http.vhosts=* \
-  --execution.caching.archive
+  --execution.caching.archive \
+  --execution.tx-lookup-limit=0
