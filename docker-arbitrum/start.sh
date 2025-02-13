@@ -20,4 +20,5 @@ exec nitro \
   --persistent.global-config=/data \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
-  --http.vhosts=*
+  --http.vhosts=* \
+  --execution.caching.archive
