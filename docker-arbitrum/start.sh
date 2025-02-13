@@ -15,7 +15,7 @@ exec nitro \
   --parent-chain.connection.url="${CA_ETHEREUM_RPC_URL}" \
   --parent-chain.blob-client.beacon-url="${CA_ETHEREUM_BEACON_URL}" \
   --chain.name=arb1 \
-  --init.empty \
+  --init.latest=genesis \
   --blocks-reexecutor.mode=full \
   --persistent.global-config=/data \
   --http.addr=0.0.0.0 \
