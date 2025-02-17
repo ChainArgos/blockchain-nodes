@@ -43,6 +43,15 @@ services:
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
+  ethereum-lighthouse2:
+    image: donbeave/lighthouse
+    container_name: ethereum-lighthouse2
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${ETHEREUM2_ROOT_DIR:-~}/ethereum:/data
+
   bsc-geth:
     image: donbeave/bsc-geth
     container_name: bsc-geth
