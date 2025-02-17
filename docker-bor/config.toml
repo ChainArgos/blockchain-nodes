@@ -28,8 +28,8 @@ syncmode = "full"
 [p2p]
     maxpeers = 200
     port = 30303
-    # maxpendpeers = 50
-    # bind = "0.0.0.0"
+    maxpendpeers = 50
+    bind = "0.0.0.0"
     # nodiscover = false
     # nat = "any"
     # netrestrict = ""
@@ -46,8 +46,8 @@ syncmode = "full"
         # trusted-nodes = ["<validator-ip>:<validator-p2p-port>"] # Recommended setting with sentry <> validator architecture
         dns = [ "enrtree://AKUEZKN7PSKVNR65FZDHECMKOJQSGPARGTPPBI7WS2VUL4EGR6XPC@pos.polygon-peers.io" ]
 
-# [heimdall]
-    # url = "http://localhost:1317"
+[heimdall]
+    url = "http://localhost:1317"
     # "bor.without" = false
     # grpc-address = ""
 
@@ -74,7 +74,7 @@ syncmode = "full"
     # commitinterrupt = true
 
 [jsonrpc]
-    ipcpath = "/var/lib/bor/bor.ipc"
+    ipcpath = "/data/bor/bor.ipc"
     # ipcdisable = false
     # gascap = 50000000
     # evmtimeout = "5s"
@@ -83,8 +83,8 @@ syncmode = "full"
     # enabledeprecatedpersonal = false
     [jsonrpc.http]
         enabled = true
-        port = 8545
-        host = "127.0.0.1"
+        port = 8945
+        host = "0.0.0.0"
         api = ["eth", "net", "web3", "txpool", "bor"]
         vhosts = ["*"]
         corsdomain = ["*"]
@@ -126,7 +126,7 @@ syncmode = "full"
     ignoreprice = "25000000000"
 
 [telemetry]
-    metrics = true
+    metrics = false
     # expensive = false
     # prometheus-addr = ""
     # opencollector-endpoint = ""
