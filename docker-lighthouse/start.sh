@@ -13,14 +13,14 @@ until [ "$(curl -s -w '%{http_code}' -o /dev/null "${CA_ETHEREUM_EXECUTION_URL}"
 done
 
 exec lighthouse \
-  --datadir=/data/lighthouse \
-  --network=mainnet \
   beacon_node \
+  --datadir=/data/lighthouse \
+  --checkpoint-sync-url=https://beaconstate.info \
   --execution-endpoint="${CA_ETHEREUM_EXECUTION_URL}" \
   --execution-jwt=/data/jwtsecret.hex \
-  --checkpoint-sync-url=https://beaconstate.info \
-  --http \
-  --http-address=0.0.0.0 \
-  --prune-blobs=false \
+  --network=mainnet \
+  --disable-deposit-contract-sync \
   --genesis-backfill \
-  --reconstruct-historic-states
+  --reconstruct-historic-states \
+  --http \
+  --http-address=0.0.0.0
