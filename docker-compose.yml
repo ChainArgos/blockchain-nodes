@@ -15,7 +15,11 @@ services:
     container_name: ethereum-geth
     restart: unless-stopped
     stop_grace_period: 15m
-    env_file: "containers.env"
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-ethereum.env
+        required: false
     ports:
       - "8545:8545"
       - "30303:30303/tcp"
@@ -28,7 +32,11 @@ services:
     container_name: ethereum-geth2
     restart: unless-stopped
     stop_grace_period: 15m
-    env_file: "containers.env"
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-ethereum2.env
+        required: false
     volumes:
       - ${ETHEREUM2_ROOT_DIR:-~}/ethereum:/data
 
@@ -37,7 +45,11 @@ services:
     container_name: ethereum-lighthouse
     restart: unless-stopped
     stop_grace_period: 15m
-    env_file: "containers.env"
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-ethereum.env
+        required: false
     ports:
       - "5052:5052"
     volumes:
@@ -48,7 +60,11 @@ services:
     container_name: ethereum-lighthouse2
     restart: unless-stopped
     stop_grace_period: 15m
-    env_file: "containers.env"
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-ethereum2.env
+        required: false
     volumes:
       - ${ETHEREUM2_ROOT_DIR:-~}/ethereum:/data
 
