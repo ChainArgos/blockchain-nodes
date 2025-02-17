@@ -41,6 +41,9 @@ case $CA_NETWORK in
     exec geth \
       --datadir=/data/op-geth \
       --db.engine=pebble \
+      --history.transactions=0 \
+      --state.scheme=path \
+      --syncmode=snap \
       --verbosity=3 \
       --http \
       --http.addr=0.0.0.0 \
@@ -56,12 +59,14 @@ case $CA_NETWORK in
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --syncmode=snap \
+      --maxpeers=100 \
       --rollup.disabletxpoolgossip=true \
       --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io/ \
       --op-network=op-mainnet \
       --port=30306 \
       --discovery.port=30306 \
+      --discv4=true \
+      --discv5=true \
       --nat=extip:"$PUBLIC_IP"
     ;;
 
@@ -69,6 +74,9 @@ case $CA_NETWORK in
     exec geth \
       --datadir=/data/op-geth \
       --db.engine=pebble \
+      --history.transactions=0 \
+      --state.scheme=path \
+      --syncmode=snap \
       --verbosity=3 \
       --http \
       --http.addr=0.0.0.0 \
@@ -84,8 +92,6 @@ case $CA_NETWORK in
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --syncmode=full \
-      --gcmode=full \
       --maxpeers=100 \
       --rollup.sequencerhttp=https://mainnet-sequencer.base.org \
       --rollup.halt=major \
@@ -93,6 +99,8 @@ case $CA_NETWORK in
       --op-network=base-mainnet \
       --port=30304 \
       --discovery.port=30304 \
+      --discv4=true \
+      --discv5=true \
       --nat=extip:"$PUBLIC_IP"
     ;;
 
@@ -100,6 +108,9 @@ case $CA_NETWORK in
     exec geth \
       --datadir=/data/op-geth \
       --db.engine=pebble \
+      --history.transactions=0 \
+      --state.scheme=path \
+      --syncmode=snap \
       --verbosity=3 \
       --http \
       --http.addr=0.0.0.0 \
@@ -115,24 +126,20 @@ case $CA_NETWORK in
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --syncmode=full \
-      --gcmode=full \
-      --maxpeers=0 \
+      --maxpeers=100 \
       --rollup.sequencerhttp=https://rpc-gel.inkonchain.com \
       --rollup.disabletxpoolgossip=true \
       --networkid=57073 \
       --port=30307 \
       --discovery.port=30307 \
+      --discv4=true \
+      --discv5=true \
       --nat=extip:"$PUBLIC_IP" \
-      --state.scheme=hash \
       --txlookuplimit=0 \
-      --history.state=0 \
-      --history.transactions=0 \
       --txpool.pricebump=10 \
       --txpool.lifetime=12h0m0s \
       --rpc.txfeecap=4 \
       --rpc.evmtimeout=0 \
-      --nodiscover \
       --gpo.percentile=60
     ;;
 
@@ -140,6 +147,9 @@ case $CA_NETWORK in
     exec geth \
       --datadir=/data/op-geth \
       --db.engine=pebble \
+      --history.transactions=0 \
+      --state.scheme=path \
+      --syncmode=snap \
       --verbosity=3 \
       --http \
       --http.addr=0.0.0.0 \
@@ -155,8 +165,6 @@ case $CA_NETWORK in
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --syncmode=full \
-      --gcmode=full \
       --maxpeers=100 \
       --rollup.sequencerhttp=https://mainnet-sequencer.unichain.org \
       --rollup.halt=major \
@@ -165,6 +173,8 @@ case $CA_NETWORK in
       --op-network=unichain-mainnet \
       --port=30309 \
       --discovery.port=30309 \
+      --discv4=true \
+      --discv5=true \
       --nat=extip:"$PUBLIC_IP"
     ;;
 

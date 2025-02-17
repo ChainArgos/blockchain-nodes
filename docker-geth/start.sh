@@ -2,10 +2,11 @@
 set -eou pipefail
 
 exec geth \
-  --syncmode=full \
-  --history.transactions=0 \
   --datadir=/data/geth \
   --db.engine=pebble \
+  --history.transactions=0 \
+  --state.scheme=path \
+  --syncmode=snap \
   --mainnet \
   --http \
   --http.addr=0.0.0.0 \
