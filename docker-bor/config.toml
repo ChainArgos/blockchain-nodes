@@ -2,7 +2,7 @@ chain = "mainnet"
 # identity = "node_name"
 # verbosity = 3
 # vmdebug = false
-datadir = "/var/lib/bor/data"
+datadir = "/data/bor"
 # ancient = ""
 "db.engine" = "pebble"
 "state.scheme" = "path"
@@ -47,7 +47,7 @@ syncmode = "full"
         dns = [ "enrtree://AKUEZKN7PSKVNR65FZDHECMKOJQSGPARGTPPBI7WS2VUL4EGR6XPC@pos.polygon-peers.io" ]
 
 [heimdall]
-    url = "http://localhost:1317"
+    url = "http://polygon-heimdall:1317"
     # "bor.without" = false
     # grpc-address = ""
 
