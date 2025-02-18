@@ -109,10 +109,10 @@ services:
         required: true
       - path: containers-base.env
         required: false
-    ports:
-      - "8648:8648"
-      - "30304:30304/tcp"
-      - "30304:30304/udp"
+#    ports:
+#      - "8648:8648"
+#      - "30304:30304/tcp"
+#      - "30304:30304/udp"
     environment:
       CA_NETWORK: base
     volumes:
@@ -139,10 +139,10 @@ services:
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
-    ports:
-      - "8651:8651"
-      - "30306:30306/tcp"
-      - "30306:30306/udp"
+#    ports:
+#      - "8651:8651"
+#      - "30306:30306/tcp"
+#      - "30306:30306/udp"
     environment:
       CA_NETWORK: optimism
     volumes:
@@ -169,10 +169,10 @@ services:
         required: true
       - path: containers-ink.env
         required: false
-    ports:
-      - "8652:8652"
-      - "30307:30307/tcp"
-      - "30307:30307/udp"
+#    ports:
+#      - "8652:8652"
+#      - "30307:30307/tcp"
+#      - "30307:30307/udp"
     environment:
       CA_NETWORK: ink
     volumes:
@@ -203,10 +203,10 @@ services:
         required: true
       - path: containers-unichain.env
         required: false
-    ports:
-      - "8655:8655"
-      - "30309:30309/tcp"
-      - "30309:30309/udp"
+#    ports:
+#      - "8655:8655"
+#      - "30309:30309/tcp"
+#      - "30309:30309/udp"
     environment:
       CA_NETWORK: unichain
     volumes:
