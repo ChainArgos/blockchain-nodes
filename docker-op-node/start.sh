@@ -111,6 +111,7 @@ case $CA_NETWORK in
       --verifier.l1-confs=4 \
       --rollup.load-protocol-versions=true \
       --network=base-mainnet \
+      --syncmode=execution-layer \
       --rpc.addr=0.0.0.0
     ;;
 
@@ -145,6 +146,7 @@ case $CA_NETWORK in
       --verifier.l1-confs=4 \
       --rollup.load-protocol-versions=true \
       --network=unichain-mainnet \
+      --syncmode=execution-layer \
       --rpc.addr=0.0.0.0
     ;;
 
