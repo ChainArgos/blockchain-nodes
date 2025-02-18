@@ -22,16 +22,6 @@ if [ ! -f "/data/jwtsecret.hex" ]; then
   openssl rand -hex 32 | tr -d "\n" > /data/jwtsecret.hex
 fi
 
-case $CA_NETWORK in
-  ink)
-    if [ ! -d "/data/op-geth" ]; then
-      echo "Init genesis geth."
-
-      geth --state.scheme=path --db.engine=pebble --datadir=/data/op-geth init /ink/genesis.json
-    fi
-    ;;
-esac
-
 echo "Initialization completed successfully"
 
 exec "$@"

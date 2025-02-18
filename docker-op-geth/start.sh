@@ -44,30 +44,33 @@ case $CA_NETWORK in
       --history.transactions=0 \
       --state.scheme=path \
       --syncmode=snap \
-      --verbosity=3 \
+      --verbosity=4 \
       --http \
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
       --http.vhosts=* \
-      --http.api=web3,debug,eth,net,engine \
+      --http.api=web3,debug,eth,txpool,net,admin,rpc \
       --http.port=8651 \
       --ws \
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
-      --ws.api=debug,eth,net,engine \
+      --ws.api=web3,debug,eth,txpool,net,admin,rpc \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --maxpeers=100 \
+      --maxpeers=0 \
+      --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io \
+      --rollup.halt=major \
       --rollup.disabletxpoolgossip=true \
-      --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io/ \
       --op-network=op-mainnet \
       --port=30306 \
       --discovery.port=30306 \
       --discv4=true \
       --discv5=true \
-      --nat=extip:"$PUBLIC_IP"
+      --nat=extip:"$PUBLIC_IP" \
+      --txlookuplimit=0 \
+      --txpool.nolocals=true
     ;;
 
   base)
@@ -77,22 +80,22 @@ case $CA_NETWORK in
       --history.transactions=0 \
       --state.scheme=path \
       --syncmode=snap \
-      --verbosity=3 \
+      --verbosity=4 \
       --http \
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
       --http.vhosts=* \
-      --http.api=web3,debug,eth,net,engine \
+      --http.api=web3,debug,eth,txpool,net,admin,rpc \
       --http.port=8648 \
       --ws \
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
-      --ws.api=debug,eth,net,engine \
+      --ws.api=web3,debug,eth,txpool,net,admin,rpc \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --maxpeers=100 \
+      --maxpeers=0 \
       --rollup.sequencerhttp=https://mainnet-sequencer.base.org \
       --rollup.halt=major \
       --rollup.disabletxpoolgossip=true \
@@ -101,7 +104,9 @@ case $CA_NETWORK in
       --discovery.port=30304 \
       --discv4=true \
       --discv5=true \
-      --nat=extip:"$PUBLIC_IP"
+      --nat=extip:"$PUBLIC_IP" \
+      --txlookuplimit=0 \
+      --txpool.nolocals=true
     ;;
 
   ink)
@@ -111,36 +116,34 @@ case $CA_NETWORK in
       --history.transactions=0 \
       --state.scheme=path \
       --syncmode=snap \
-      --verbosity=3 \
+      --verbosity=4 \
       --http \
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
       --http.vhosts=* \
-      --http.api=web3,debug,eth,net,engine \
+      --http.api=web3,debug,eth,txpool,net,admin,rpc \
       --http.port=8652 \
       --ws \
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
-      --ws.api=debug,eth,net,engine \
+      --ws.api=web3,debug,eth,txpool,net,admin,rpc \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --maxpeers=100 \
+      --maxpeers=0 \
       --rollup.sequencerhttp=https://rpc-gel.inkonchain.com \
+      --rollup.halt=major \
       --rollup.disabletxpoolgossip=true \
-      --networkid=57073 \
+      --op-network=ink-mainnet \
       --port=30307 \
       --discovery.port=30307 \
       --discv4=true \
       --discv5=true \
       --nat=extip:"$PUBLIC_IP" \
       --txlookuplimit=0 \
-      --txpool.pricebump=10 \
-      --txpool.lifetime=12h0m0s \
-      --rpc.txfeecap=4 \
-      --rpc.evmtimeout=0 \
-      --gpo.percentile=60
+      --txpool.nolocals=true \
+      --override.holocene=1740582000
     ;;
 
   unichain)
@@ -150,7 +153,7 @@ case $CA_NETWORK in
       --history.transactions=0 \
       --state.scheme=path \
       --syncmode=snap \
-      --verbosity=3 \
+      --verbosity=4 \
       --http \
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
@@ -165,17 +168,18 @@ case $CA_NETWORK in
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --maxpeers=100 \
+      --maxpeers=0 \
       --rollup.sequencerhttp=https://mainnet-sequencer.unichain.org \
       --rollup.halt=major \
       --rollup.disabletxpoolgossip=true \
-      --txpool.nolocals=true \
       --op-network=unichain-mainnet \
       --port=30309 \
       --discovery.port=30309 \
       --discv4=true \
       --discv5=true \
-      --nat=extip:"$PUBLIC_IP"
+      --nat=extip:"$PUBLIC_IP" \
+      --txlookuplimit=0 \
+      --txpool.nolocals=true
     ;;
 
   *)
