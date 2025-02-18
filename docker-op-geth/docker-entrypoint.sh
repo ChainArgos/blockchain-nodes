@@ -25,7 +25,7 @@ fi
 case $CA_NETWORK in
   ink)
     if [ ! -d "/data/op-geth" ]; then
-      echo "Init genesis with Hash-Base Storage Scheme by default."
+      echo "Init genesis geth."
 
       geth --state.scheme=path --db.engine=pebble --datadir=/data/op-geth init /ink/genesis.json
     fi
