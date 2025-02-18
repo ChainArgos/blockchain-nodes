@@ -156,7 +156,7 @@ implementation = "crate-crypto/go-kzg-4844"
 # Enabled determines if the local payload builder is enabled.
 # It should be enabled for validators, but it can be disabled
 # for full nodes.
-enabled = true
+enabled = false
 
 # Post bellatrix, this address will receive the transaction fees produced by any blocks
 # from this node.
