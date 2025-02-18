@@ -27,19 +27,6 @@ services:
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
-  ethereum-geth2:
-    image: donbeave/geth
-    container_name: ethereum-geth2
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-ethereum2.env
-        required: false
-    volumes:
-      - ${ETHEREUM2_ROOT_DIR:-~}/ethereum:/data
-
   ethereum-lighthouse:
     image: donbeave/lighthouse
     container_name: ethereum-lighthouse
@@ -54,19 +41,6 @@ services:
       - "5052:5052"
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
-
-  ethereum-lighthouse2:
-    image: donbeave/lighthouse
-    container_name: ethereum-lighthouse2
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-ethereum2.env
-        required: false
-    volumes:
-      - ${ETHEREUM2_ROOT_DIR:-~}/ethereum:/data
 
   bsc-geth:
     image: donbeave/bsc-geth
