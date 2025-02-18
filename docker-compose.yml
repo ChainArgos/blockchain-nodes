@@ -376,9 +376,9 @@ services:
         required: true
       - path: containers-arbitrum.env
         required: false
-    ports:
-      - "8547:8547"
-      - "8548:8548"
+#    ports:
+#      - "8547:8547"
+#      - "8548:8548"
     volumes:
       - ${ARBITRUM_ROOT_DIR:-~}/arbitrum:/data
 
