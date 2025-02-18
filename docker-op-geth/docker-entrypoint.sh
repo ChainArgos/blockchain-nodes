@@ -27,7 +27,7 @@ case $CA_NETWORK in
     if [ ! -d "/data/op-geth" ]; then
       echo "Init genesis with Hash-Base Storage Scheme by default."
 
-      geth --state.scheme=hash --db.engine=pebble --datadir=/data/op-geth init /ink/genesis.json
+      geth --state.scheme=path --db.engine=pebble --datadir=/data/op-geth init /ink/genesis.json
     fi
     ;;
 esac
