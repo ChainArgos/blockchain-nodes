@@ -139,10 +139,10 @@ services:
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
-#    ports:
+    ports:
 #      - "8651:8651"
-#      - "30306:30306/tcp"
-#      - "30306:30306/udp"
+      - "30306:30306/tcp"
+      - "30306:30306/udp"
     environment:
       CA_NETWORK: optimism
     volumes:
