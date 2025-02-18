@@ -109,10 +109,10 @@ services:
         required: true
       - path: containers-base.env
         required: false
-#    ports:
+    ports:
 #      - "8648:8648"
-#      - "30304:30304/tcp"
-#      - "30304:30304/udp"
+      - "30304:30304/tcp"
+      - "30304:30304/udp"
     environment:
       CA_NETWORK: base
     volumes:
@@ -177,10 +177,10 @@ services:
         required: true
       - path: containers-ink.env
         required: false
-#    ports:
+    ports:
 #      - "8652:8652"
-#      - "30307:30307/tcp"
-#      - "30307:30307/udp"
+      - "30307:30307/tcp"
+      - "30307:30307/udp"
     environment:
       CA_NETWORK: ink
     volumes:
@@ -211,10 +211,10 @@ services:
         required: true
       - path: containers-unichain.env
         required: false
-#    ports:
+    ports:
 #      - "8655:8655"
-#      - "30309:30309/tcp"
-#      - "30309:30309/udp"
+      - "30309:30309/tcp"
+      - "30309:30309/udp"
     environment:
       CA_NETWORK: unichain
     volumes:
