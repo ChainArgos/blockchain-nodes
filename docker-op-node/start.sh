@@ -101,8 +101,7 @@ case $CA_NETWORK in
       --rollup.load-protocol-versions=true \
       --network=op-mainnet \
       --syncmode=execution-layer \
-      --rpc.addr=0.0.0.0 \
-      --log.level=debug
+      --rpc.addr=0.0.0.0
     ;;
 
   base)
@@ -122,8 +121,7 @@ case $CA_NETWORK in
       --rollup.load-protocol-versions=true \
       --network=base-mainnet \
       --syncmode=execution-layer \
-      --rpc.addr=0.0.0.0 \
-      --log.level=debug
+      --rpc.addr=0.0.0.0
     ;;
 
   ink)
@@ -143,7 +141,6 @@ case $CA_NETWORK in
       --network=ink-mainnet \
       --syncmode=execution-layer \
       --rpc.addr=0.0.0.0 \
-      --log.level=debug \
       --override.holocene=1740582000
     ;;
 
@@ -163,8 +160,7 @@ case $CA_NETWORK in
       --rollup.load-protocol-versions=true \
       --network=unichain-mainnet \
       --syncmode=execution-layer \
-      --rpc.addr=0.0.0.0 \
-      --log.level=debug
+      --rpc.addr=0.0.0.0
     ;;
 
 esac

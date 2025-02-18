@@ -44,7 +44,6 @@ case $CA_NETWORK in
       --history.transactions=0 \
       --state.scheme=path \
       --syncmode=snap \
-      --verbosity=4 \
       --http \
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
@@ -80,7 +79,6 @@ case $CA_NETWORK in
       --history.transactions=0 \
       --state.scheme=path \
       --syncmode=snap \
-      --verbosity=4 \
       --http \
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
@@ -116,7 +114,6 @@ case $CA_NETWORK in
       --history.transactions=0 \
       --state.scheme=path \
       --syncmode=snap \
-      --verbosity=4 \
       --http \
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
@@ -153,7 +150,6 @@ case $CA_NETWORK in
       --history.transactions=0 \
       --state.scheme=path \
       --syncmode=snap \
-      --verbosity=4 \
       --http \
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \

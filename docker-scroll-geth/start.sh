@@ -14,7 +14,6 @@ done
 exec geth \
   --datadir=/data/geth \
   --scroll \
-  --verbosity=3 \
   --syncmode=full \
   --http \
   --http.addr=0.0.0.0 \
