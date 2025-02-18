@@ -78,7 +78,7 @@ service-name = "beacond_node"
 # Enabled enables the application telemetry functionality. When enabled,
 # an in-memory sink is also enabled by default. Operators may also enabled
 # other sinks such as Prometheus.
-enabled = true
+enabled = false
 
 # Enable prefixing gauge values with hostname.
 enable-hostname = true
