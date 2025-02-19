@@ -58,7 +58,7 @@ case $CA_NETWORK in
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --maxpeers=0 \
+      --maxpeers=200 \
       --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io \
       --rollup.halt=major \
       --rollup.disabletxpoolgossip=true \
@@ -93,7 +93,7 @@ case $CA_NETWORK in
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --maxpeers=0 \
+      --maxpeers=200 \
       --rollup.sequencerhttp=https://mainnet-sequencer.base.org \
       --rollup.halt=major \
       --rollup.disabletxpoolgossip=true \
@@ -128,7 +128,7 @@ case $CA_NETWORK in
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --maxpeers=0 \
+      --maxpeers=200 \
       --rollup.sequencerhttp=https://rpc-gel.inkonchain.com \
       --rollup.halt=major \
       --rollup.disabletxpoolgossip=true \
@@ -164,7 +164,7 @@ case $CA_NETWORK in
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
       --authrpc.port=8551 \
-      --maxpeers=0 \
+      --maxpeers=200 \
       --rollup.sequencerhttp=https://mainnet-sequencer.unichain.org \
       --rollup.halt=major \
       --rollup.disabletxpoolgossip=true \
