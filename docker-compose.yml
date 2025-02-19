@@ -184,7 +184,7 @@ services:
       - path: containers-ink.env
         required: false
     ports:
-#      - "8652:8652"
+      - "8652:8652"
       - "30307:30307/tcp"
       - "30307:30307/udp"
     environment:
@@ -221,7 +221,7 @@ services:
       - path: containers-unichain.env
         required: false
     ports:
-#      - "8655:8655"
+      - "8655:8655"
       - "30309:30309/tcp"
       - "30309:30309/udp"
     environment:
