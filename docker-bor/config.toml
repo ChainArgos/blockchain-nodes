@@ -143,14 +143,14 @@ syncmode = "full"
     # [telemetry.influx.tags]
 
 [cache]
-    cache = 4096
+    cache = 8000
     # gc = 25
     # snapshot = 10
     # database = 50
     # trie = 15
     # noprefetch = false
     # preimages = false
-    # txlookuplimit = 2350000
+    txlookuplimit = 0
     # blocklogs = 32
     # timeout = "1h0m0s"
     # fdlimit = 0
