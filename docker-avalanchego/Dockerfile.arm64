@@ -13,6 +13,8 @@ RUN cd /tmp \
     && chmod -v u+x /usr/local/bin/avalanchego \
     && rm -rf /tmp/*
 
+ADD config /config/
+
 COPY start.sh /
 RUN chmod a+x /start.sh
 

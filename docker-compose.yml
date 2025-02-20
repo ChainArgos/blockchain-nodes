@@ -294,6 +294,15 @@ services:
     volumes:
       - ${AVAX_ROOT_DIR:-~}/avax:/data
 
+  avax-avalanchego2:
+    image: donbeave/avalanchego
+    container_name: avax-avalanchego2
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${AVAX_ROOT_DIR2:-~}/avax:/data
+
   cardano-node:
     image: donbeave/cardano-node
     container_name: cardano-node
