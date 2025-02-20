@@ -110,7 +110,7 @@ services:
       - path: containers-base.env
         required: false
     ports:
-#      - "8648:8648"
+      - "8648:8648"
       - "30304:30304/tcp"
       - "30304:30304/udp"
     environment:
@@ -147,7 +147,7 @@ services:
       - path: containers-optimism.env
         required: false
     ports:
-#      - "8651:8651"
+      - "8651:8651"
       - "30306:30306/tcp"
       - "30306:30306/udp"
     environment:
