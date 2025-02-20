@@ -50,8 +50,23 @@ services:
     env_file: "containers.env"
     ports:
       - "8645:8645"
+      - "30310:30310/tcp"
+      - "30310:30310/udp"
     volumes:
       - ${BSC_ROOT_DIR:-~}/bsc:/data
+
+  bsc-geth2:
+    image: donbeave/bsc-geth
+    container_name: bsc-geth2
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8645:8645"
+      - "30310:30310/tcp"
+      - "30310:30310/udp"
+    volumes:
+      - ${BSC_ROOT_DIR2:-~}/bsc:/data
 
   tron-java:
     image: donbeave/tron-java

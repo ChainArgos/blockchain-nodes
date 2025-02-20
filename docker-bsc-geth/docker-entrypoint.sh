@@ -10,7 +10,7 @@ eval "$(mise activate bash)"
 if [ ! -d "/data/geth" ]; then
   echo "Init genesis geth."
 
-  geth --db.engine=pebble --datadir=/data/geth init /genesis.json
+  geth --db.engine=pebble --state.scheme=path --datadir=/data/geth init /config/genesis.json
 fi
 
 echo "Initialization completed successfully"

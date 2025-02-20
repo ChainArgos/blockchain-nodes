@@ -69,7 +69,6 @@ case $CA_NETWORK in
       --discv4=true \
       --discv5=true \
       --nat=extip:"$PUBLIC_IP" \
-      --txlookuplimit=0 \
       --txpool.nolocals=true
     ;;
 
@@ -105,7 +104,6 @@ case $CA_NETWORK in
       --discv4=true \
       --discv5=true \
       --nat=extip:"$PUBLIC_IP" \
-      --txlookuplimit=0 \
       --txpool.nolocals=true
     ;;
 
@@ -141,7 +139,6 @@ case $CA_NETWORK in
       --discv4=true \
       --discv5=true \
       --nat=extip:"$PUBLIC_IP" \
-      --txlookuplimit=0 \
       --txpool.nolocals=true \
       --override.holocene=1740582000
     ;;
@@ -178,7 +175,6 @@ case $CA_NETWORK in
       --discv4=true \
       --discv5=true \
       --nat=extip:"$PUBLIC_IP" \
-      --txlookuplimit=0 \
       --txpool.nolocals=true
     ;;
 
