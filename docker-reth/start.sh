@@ -23,4 +23,5 @@ exec reth \
   --authrpc.addr=0.0.0.0 \
   --authrpc.port=8551 \
   --authrpc.jwtsecret=/data/jwtsecret.hex \
-  --rpc.max-logs-per-response=0
+  --rpc.max-logs-per-response=0 \
+  --txpool.nolocals
