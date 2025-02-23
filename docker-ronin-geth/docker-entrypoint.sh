@@ -8,9 +8,9 @@ set -eo pipefail
 eval "$(mise activate bash)"
 
 if [ ! -d "/data/geth" ]; then
-  echo "Init genesis."
+  echo "Init genesis geth."
 
-  ronin init --datadir /data/geth /mainnet.json
+  ronin --db.engine=pebble --state.scheme=path --datadir=/data/geth init /config/mainnet.json
 fi
 
 echo "Initialization completed successfully"
