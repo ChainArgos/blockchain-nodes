@@ -143,8 +143,7 @@ case $CA_NETWORK in
       --rollup.load-protocol-versions=true \
       --network=ink-mainnet \
       --syncmode=execution-layer \
-      --rpc.addr=0.0.0.0 \
-      --override.holocene=1740582000
+      --rpc.addr=0.0.0.0
     ;;
 
   unichain)

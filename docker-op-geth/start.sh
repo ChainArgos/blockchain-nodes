@@ -139,8 +139,7 @@ case $CA_NETWORK in
       --discv4=true \
       --discv5=true \
       --nat=extip:"$PUBLIC_IP" \
-      --txpool.nolocals=true \
-      --override.holocene=1740582000
+      --txpool.nolocals=true
     ;;
 
   unichain)
