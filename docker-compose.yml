@@ -341,23 +341,10 @@ services:
     env_file: "containers.env"
     ports:
       - "8745:8745"
-#      - "30311:30311/tcp"
-#      - "30311:30311/udp"
-    volumes:
-      - ${RONIN_ROOT_DIR:-~}/ronin:/data
-
-  ronin-geth2:
-    image: donbeave/ronin-geth
-    container_name: ronin-geth2
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-#      - "8745:8745"
       - "30311:30311/tcp"
       - "30311:30311/udp"
     volumes:
-      - ${RONIN_ROOT_DIR2:-~}/ronin:/data
+      - ${RONIN_ROOT_DIR:-~}/ronin:/data
 
   celo-geth:
     image: donbeave/celo-geth
