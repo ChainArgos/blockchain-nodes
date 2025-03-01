@@ -53,4 +53,6 @@ exec reth \
   --txpool.nolocals \
   --full \
   --prune.transactionlookup.before=0 \
-  --prune.receipts.before=0
+  --prune.receipts.before=0 \
+  --engine.persistence-threshold=0 \
+  --engine.memory-block-buffer-target=0
