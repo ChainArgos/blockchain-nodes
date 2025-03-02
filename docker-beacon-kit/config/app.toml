@@ -119,7 +119,7 @@ datadog-hostname = "my_beacond_node"
 rpc-dial-url = "http://berachain-reth:8551"
 
 # Number of retries before shutting down consensus client.
-rpc-retries = "3"
+rpc-retries = "10"
 
 # RPC timeout for execution client requests.
 rpc-timeout = "5000ms"
