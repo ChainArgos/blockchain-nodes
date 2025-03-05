@@ -1,4 +1,4 @@
-ARG GETH_VERSION=1.15.4-8ccca244
+ARG GETH_VERSION=1.15.5-4263936a
 
 FROM donbeave/debian-blockchain-base
 
