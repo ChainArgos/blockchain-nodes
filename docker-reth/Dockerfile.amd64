@@ -1,4 +1,4 @@
-ARG RETH_VERSION=1.2.1
+ARG RETH_VERSION=1.2.2
 
 FROM donbeave/debian-blockchain-base
 
