@@ -10,4 +10,6 @@ exec geth \
   --http.vhosts=* \
   --http.port=8647 \
   --maxpeers=200 \
-  --cache=8000
+  --cache=8000 \
+  --txlookuplimit=0 \
+  --txpool.nolocals=true

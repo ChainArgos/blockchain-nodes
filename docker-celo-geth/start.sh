@@ -2,12 +2,13 @@
 set -eou pipefail
 
 exec geth \
-  --syncmode=full \
   --datadir=/data/geth \
+  --syncmode=full \
   --mainnet \
   --http \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
   --http.vhosts=* \
   --http.port=8649 \
-  --txlookuplimit=0
+  --txlookuplimit=0 \
+  --txpool.nolocals

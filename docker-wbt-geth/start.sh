@@ -2,8 +2,8 @@
 set -eou pipefail
 
 exec geth \
-  --syncmode=full \
   --datadir=/data/geth \
+  --syncmode=full \
   --db.engine=pebble \
   --wbt-mainnet \
   --http \
@@ -14,4 +14,6 @@ exec geth \
   --authrpc.jwtsecret=/data/jwtsecret.hex \
   --authrpc.addr=0.0.0.0 \
   --authrpc.vhosts=* \
-  --authrpc.port=8551
+  --authrpc.port=8551 \
+  --txlookuplimit=0 \
+  --txpool.nolocals=true
