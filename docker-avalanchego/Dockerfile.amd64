@@ -2,7 +2,7 @@ FROM donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV AVALANCHEGO_VERSION=1.12.2
+ENV AVALANCHEGO_VERSION=1.13.0-fuji
 
 RUN cd /tmp \
     && curl -L https://github.com/ava-labs/avalanchego/releases/download/v${AVALANCHEGO_VERSION}/avalanchego-linux-amd64-v${AVALANCHEGO_VERSION}.tar.gz -o avalanchego.tar.gz \
