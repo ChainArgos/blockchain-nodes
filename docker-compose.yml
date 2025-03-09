@@ -357,15 +357,6 @@ services:
     volumes:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
-  celo-geth2:
-    image: donbeave/celo-geth
-    container_name: celo-geth2
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    volumes:
-      - ${CELO_ROOT_DIR2:-~}/celo:/data
-
   scroll-geth:
     image: donbeave/scroll-geth
     container_name: scroll-geth
