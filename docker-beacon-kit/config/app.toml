@@ -122,7 +122,7 @@ rpc-dial-url = "http://berachain-reth:8551"
 rpc-retries = "10"
 
 # RPC timeout for execution client requests.
-rpc-timeout = "6000ms"
+rpc-timeout = "60000ms"
 
 # Interval for the startup check.
 rpc-startup-check-interval = "3s"
@@ -165,7 +165,7 @@ suggested-fee-recipient = "0x0000000000000000000000000000000000000000"
 # The timeout for local build payload. This should match, or be slightly less
 # than the configured timeout on your execution client. It also must be less than
 # timeout_proposal in the CometBFT configuration.
-payload-timeout = "5000ms"
+payload-timeout = "50000ms"
 
 [beacon-kit.validator]
 # Graffiti string that will be included in the graffiti field of the beacon block.
