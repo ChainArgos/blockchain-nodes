@@ -272,7 +272,7 @@ services:
       - ${KCC_ROOT_DIR:-~}/kcc:/data
 
   avax-avalanchego:
-    image: donbeave/avalanchego
+    image: donbeave/avalanchego:legacy
     container_name: avax-avalanchego
     restart: unless-stopped
     stop_grace_period: 15m
