@@ -14,7 +14,7 @@ done
 exec geth \
   --datadir=/data/geth \
   --scroll \
-  --syncmode=full \
+  --syncmode=snap \
   --http \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
