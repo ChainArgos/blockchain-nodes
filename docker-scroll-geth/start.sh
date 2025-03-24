@@ -25,4 +25,5 @@ exec geth \
   --l1.endpoint="${CA_ETHEREUM_RPC_URL}" \
   --rollup.verify \
   --txlookuplimit=0 \
-  --txpool.nolocals
+  --txpool.nolocals \
+  --v5disc
