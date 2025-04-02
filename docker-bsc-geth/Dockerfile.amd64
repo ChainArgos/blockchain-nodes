@@ -2,7 +2,7 @@ FROM donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV BSC_VERSION=1.5.8
+ENV BSC_VERSION=1.5.9
 
 RUN curl -L https://github.com/bnb-chain/bsc/releases/download/v${BSC_VERSION}/geth_linux -o /usr/local/bin/geth \
     && chmod -v u+x /usr/local/bin/geth
