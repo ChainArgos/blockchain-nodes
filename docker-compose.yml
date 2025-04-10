@@ -414,7 +414,7 @@ services:
       - path: containers-berachain.env
         required: false
     ports:
-      - "8654:8654"
+#      - "8654:8654"
       - "30308:30308/tcp"
       - "30308:30308/udp"
     volumes:
@@ -431,7 +431,7 @@ services:
       - path: containers-berachain.env
         required: false
     ports:
-      - "8654:8654"
+#      - "8654:8654"
       - "30308:30308/tcp"
       - "30308:30308/udp"
     environment:
