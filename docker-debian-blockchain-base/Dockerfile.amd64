@@ -31,7 +31,7 @@ RUN cd /tmp \
     && rm -rf /tmp/*
 
 RUN cd /tmp \
-    && curl -L https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-arm64 -o gomplate \
+    && curl -L https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-amd64 -o gomplate \
     && mv gomplate /usr/local/bin/gomplate \
     && rm -r gomplate \
     && rm -rf /tmp/*
