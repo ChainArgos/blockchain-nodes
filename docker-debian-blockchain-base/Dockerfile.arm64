@@ -4,6 +4,7 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV XH_VERSION=0.23.1
+ENV GOMPLATE_VERSION=4.3.1
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -27,6 +28,12 @@ RUN cd /tmp \
     && rm xh.tar.gz \
     && mv xh-*/xh /usr/local/bin/xh \
     && rm -r xh-* \
+    && rm -rf /tmp/*
+
+RUN cd /tmp \
+    && curl -L https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-amd64 -o gomplate \
+    && mv gomplate_* /usr/local/bin/gomplate \
+    && rm -r gomplate_* \
     && rm -rf /tmp/*
 
 RUN set -ex \
