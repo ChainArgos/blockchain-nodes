@@ -24,6 +24,8 @@ services:
       - "8545:8545"
       - "30303:30303/tcp"
       - "30303:30303/udp"
+    environment:
+      CA_NETWORK: ethereum
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
@@ -415,5 +417,24 @@ services:
       - "8654:8654"
       - "30308:30308/tcp"
       - "30308:30308/udp"
+    volumes:
+      - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
+
+  berachain-geth:
+    image: donbeave/geth
+    container_name: berachain-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-berachain.env
+        required: false
+    ports:
+      - "8654:8654"
+      - "30308:30308/tcp"
+      - "30308:30308/udp"
+    environment:
+      CA_NETWORK: berachain
     volumes:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data

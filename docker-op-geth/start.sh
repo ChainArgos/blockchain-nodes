@@ -1,6 +1,11 @@
 #!/bin/bash
 set -eou pipefail
 
+if [[ -z "${CA_NETWORK}" ]]; then
+  echo "ERROR: CA_NETWORK is not set"
+  exit 1
+fi
+
 get_public_ip() {
   # Define a list of HTTP-based providers
   local PROVIDERS=(
@@ -21,11 +26,6 @@ get_public_ip() {
   done
   return 1
 }
-
-if [[ -z "${CA_NETWORK}" ]]; then
-  echo "ERROR: CA_NETWORK is not set"
-  exit 1
-fi
 
 # public-facing P2P node, advertise public IP address
 if PUBLIC_IP=$(get_public_ip); then
