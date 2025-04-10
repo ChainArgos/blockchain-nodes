@@ -71,7 +71,7 @@ case $CA_NETWORK in
       --db.engine=pebble \
       --history.transactions=0 \
       --state.scheme=path \
-      --syncmode=snap \
+      --syncmode=full \
       --bootnodes="$EL_BOOTNODES" \
       --http \
       --http.addr=0.0.0.0 \
