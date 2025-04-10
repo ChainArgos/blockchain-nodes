@@ -33,7 +33,6 @@ RUN cd /tmp \
 RUN cd /tmp \
     && curl -L https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-arm64 -o gomplate \
     && mv gomplate /usr/local/bin/gomplate \
-    && rm -r gomplate \
     && rm -rf /tmp/*
 
 RUN set -ex \
