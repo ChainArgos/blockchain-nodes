@@ -114,15 +114,23 @@ datadog-hostname = "my_beacond_node"
 ###                                BeaconKit                                ###
 ###############################################################################
 
+[beacon-kit]
+# ShutdownTimeout is the maximum time to wait for the node to gracefully
+# shutdown before forcing an exit.
+shutdown-timeout = "5m0s"
+
 [beacon-kit.engine]
 # HTTP url of the execution client JSON-RPC endpoint.
 rpc-dial-url = "http://berachain-reth:8551"
 
-# Number of retries before shutting down consensus client.
-rpc-retries = "10"
-
 # RPC timeout for execution client requests.
-rpc-timeout = "60000ms"
+rpc-timeout = "2s"
+
+# RPC retry interval for execution client requests.
+rpc-retry-interval = "100ms"
+
+# RPC max retry interval for execution client requests.
+rpc-max-retry-interval = "10s"
 
 # Interval for the startup check.
 rpc-startup-check-interval = "3s"
@@ -165,7 +173,7 @@ suggested-fee-recipient = "0x0000000000000000000000000000000000000000"
 # The timeout for local build payload. This should match, or be slightly less
 # than the configured timeout on your execution client. It also must be less than
 # timeout_proposal in the CometBFT configuration.
-payload-timeout = "50000ms"
+payload-timeout = "850ms"
 
 [beacon-kit.validator]
 # Graffiti string that will be included in the graffiti field of the beacon block.

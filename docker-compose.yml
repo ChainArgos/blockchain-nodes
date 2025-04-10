@@ -396,8 +396,8 @@ services:
         required: true
       - path: containers-berachain.env
         required: false
-    ports:
-      - "26756:26756"
+#    ports:
+#      - "26756:26756"
     volumes:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
