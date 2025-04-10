@@ -27,12 +27,14 @@ RUN cd /tmp \
     && tar -xvf xh.tar.gz \
     && rm xh.tar.gz \
     && mv xh-*/xh /usr/local/bin/xh \
+    && chmod a+x /usr/local/bin/xh \
     && rm -r xh-* \
     && rm -rf /tmp/*
 
 RUN cd /tmp \
     && curl -L https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-arm64 -o gomplate \
     && mv gomplate /usr/local/bin/gomplate \
+    && chmod a+x /usr/local/bin/gomplate \
     && rm -rf /tmp/*
 
 RUN set -ex \
