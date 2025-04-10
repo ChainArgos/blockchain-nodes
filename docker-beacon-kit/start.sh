@@ -39,4 +39,9 @@ PUBLIC_IP=${PUBLIC_IP} gomplate -f /config/config.toml -o /data/beacon-kit/confi
 
 exec beacond \
   start \
-  --home /data/beacon-kit
+  --home /data/beacon-kit \
+  --address="tcp://0.0.0.0:26758" \
+  --p2p.external_address="${PUBLIC_IP}:26756" \
+  --p2p.laddr="tcp://0.0.0.0:26756" \
+  --proxy_app="tcp://0.0.0.0:26758" \
+  --rpc.laddr="tcp://0.0.0.0:26757"
