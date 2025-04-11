@@ -20,6 +20,7 @@ export DOCKER_BUILD_EXTRA_ARGS=${DOCKER_BUILD_EXTRA_ARGS:-"--progress plain"}
 echo "Building amd64"
 
 docker buildx build ${DOCKER_BUILD_EXTRA_ARGS} \
+  --build-arg GITHUB_TOKEN="${GITHUB_TOKEN}" \
   --pull \
   --push \
   --provenance=false \
@@ -30,6 +31,7 @@ docker buildx build ${DOCKER_BUILD_EXTRA_ARGS} \
 echo "Building arm64"
 
 docker buildx build ${DOCKER_BUILD_EXTRA_ARGS} \
+  --build-arg GITHUB_TOKEN="${GITHUB_TOKEN}" \
   --pull \
   --push \
   --provenance=false \
