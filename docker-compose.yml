@@ -454,7 +454,7 @@ services:
       - "30312:30312/tcp"
       - "30312:30312/udp"
     environment:
-      CA_NETWORK: base
+      CA_NETWORK: celo
     volumes:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
@@ -472,6 +472,6 @@ services:
       - "9226:9226/tcp"
       - "9226:9226/udp"
     environment:
-      CA_NETWORK: base
+      CA_NETWORK: celo
     volumes:
       - ${CELO_ROOT_DIR:-~}/celo:/data
