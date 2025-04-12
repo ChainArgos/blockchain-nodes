@@ -71,6 +71,10 @@ case $CA_NETWORK in
     export ca_op_geth_hostname="unichain-op-geth"
     ;;
 
+  celo)
+    export ca_op_geth_hostname="celo-op-geth"
+    ;;
+
   *)
     echo "ERROR: CA_NETWORK is not correct, current value: ${CA_NETWORK}"
     exit 1
@@ -162,6 +166,24 @@ case $CA_NETWORK in
       --verifier.l1-confs=4 \
       --rollup.load-protocol-versions=true \
       --network=unichain-mainnet \
+      --syncmode=execution-layer \
+      --rpc.addr=0.0.0.0
+    ;;
+
+  celo)
+    exec op-node \
+      --l1="${CA_ETHEREUM_RPC_URL}" \
+      --l1.trustrpc \
+      --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
+      --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
+      --l2=http://"${ca_op_geth_hostname}":8551 \
+      --l2.jwt-secret=/data/jwtsecret.hex \
+      --l2.enginekind=geth \
+      --p2p.advertise.ip="$PUBLIC_IP" \
+      --p2p.listen.ip=0.0.0.0 \
+      --p2p.listen.tcp=9226 \
+      --p2p.scoring=none \
+      --rollup.config=/config/celo/rollup.json \
       --syncmode=execution-layer \
       --rpc.addr=0.0.0.0
     ;;
