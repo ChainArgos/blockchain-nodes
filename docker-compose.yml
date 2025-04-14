@@ -440,7 +440,7 @@ services:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
   celo-op-geth:
-    image: donbeave/op-geth
+    image: donbeave/celo-op-geth
     container_name: celo-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -453,13 +453,11 @@ services:
       - "8656:8656"
       - "30312:30312/tcp"
       - "30312:30312/udp"
-    environment:
-      CA_NETWORK: celo
     volumes:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
   celo-op-node:
-    image: donbeave/op-node
+    image: donbeave/celo-op-node
     container_name: celo-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -471,7 +469,5 @@ services:
     ports:
       - "9226:9226/tcp"
       - "9226:9226/udp"
-    environment:
-      CA_NETWORK: celo
     volumes:
       - ${CELO_ROOT_DIR:-~}/celo:/data
