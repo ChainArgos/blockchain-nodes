@@ -20,7 +20,7 @@ fi
 if [ ! -d "/data/op-geth" ]; then
   echo "Init genesis op-geth."
 
-  geth --db.engine=pebble --state.scheme=path --datadir=/data/op-geth init /config/celo/genesis.json
+  geth --db.engine=pebble --state.scheme=path --datadir=/data/op-geth init /config/genesis.json
 fi
 
 echo "Initialization completed successfully"
