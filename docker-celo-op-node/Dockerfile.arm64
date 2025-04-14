@@ -1,0 +1,37 @@
+ARG GITHUB_TOKEN=
+
+FROM --platform=arm64 donbeave/debian-blockchain-build AS build
+
+ARG GITHUB_TOKEN
+
+ENV OP_NODE_VERSION=2.0.2
+
+RUN git clone --branch celo-v${OP_NODE_VERSION} --single-branch --depth=1 https://github.com/celo-org/optimism.git
+
+WORKDIR /optimism
+
+RUN mise trust
+RUN mise install
+
+RUN make op-node
+# end build
+
+FROM --platform=arm64 donbeave/debian-blockchain-base
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY --from=build /optimism/op-node/bin/op-node /usr/local/bin/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]

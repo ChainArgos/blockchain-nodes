@@ -1,0 +1,32 @@
+FROM donbeave/debian-blockchain-build AS build
+
+ENV OP_GETH_VERSION=2.0.4
+
+RUN git clone --branch celo-v${OP_GETH_VERSION} --single-branch --depth=1 https://github.com/celo-org/op-geth.git
+
+WORKDIR /op-geth
+
+RUN go run build/ci.go install -static ./cmd/geth
+# end build
+
+FROM donbeave/debian-blockchain-base
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY --from=build /op-geth/build/bin/geth /usr/local/bin/
+
+ADD config /config/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
