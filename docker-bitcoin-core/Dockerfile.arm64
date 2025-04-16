@@ -2,7 +2,7 @@ FROM --platform=arm64 donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV BITCOIN_VERSION=28.1
+ENV BITCOIN_VERSION=29.0
 
 RUN cd /tmp \
     && curl -L "https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}-aarch64-linux-gnu.tar.gz" -o bitcoin.tar.gz \
