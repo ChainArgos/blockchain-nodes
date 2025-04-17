@@ -398,25 +398,8 @@ services:
         required: true
       - path: containers-berachain.env
         required: false
-#    ports:
-#      - "26756:26756"
-    volumes:
-      - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
-
-  berachain-reth:
-    image: donbeave/reth
-    container_name: berachain-reth
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-berachain.env
-        required: false
     ports:
-#      - "8654:8654"
-      - "30308:30308/tcp"
-      - "30308:30308/udp"
+      - "26756:26756"
     volumes:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
