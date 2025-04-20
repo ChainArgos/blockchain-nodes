@@ -1,4 +1,4 @@
-FROM offchainlabs/nitro-node:v3.5.5-90ee45c AS build
+FROM offchainlabs/nitro-node:v3.5.6-9a29a1e AS build
 
 RUN ls
 # end build
