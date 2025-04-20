@@ -1,3 +1,7 @@
 ```bash
-curl -o mainnet.zip https://github.com/bnb-chain/bsc/releases/download/v1.5.6/mainnet.zip
+curl -L https://github.com/bnb-chain/bsc/releases/download/v1.5.11/mainnet.zip -o mainnet.zip
+unzip mainnet.zip
+mv config.toml config/
+mv genesis.json config/
+rm mainnet.zip
 ```
