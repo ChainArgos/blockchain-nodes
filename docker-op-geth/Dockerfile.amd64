@@ -1,6 +1,6 @@
 FROM donbeave/debian-blockchain-build AS build
 
-ENV OP_GETH_VERSION=1.101503.3
+ENV OP_GETH_VERSION=1.101503.4
 
 RUN git clone --branch v${OP_GETH_VERSION} --single-branch --depth=1 https://github.com/ethereum-optimism/op-geth.git
 
