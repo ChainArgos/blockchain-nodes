@@ -1,6 +1,6 @@
 #!/usr/bin/env kotlin
 
-@file:DependsOn("info.picocli:picocli:4.7.6")
+@file:DependsOn("info.picocli:picocli:4.7.7")
 
 import picocli.CommandLine
 import picocli.CommandLine.Command
