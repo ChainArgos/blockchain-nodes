@@ -27,7 +27,7 @@ services:
     environment:
       CA_NETWORK: ethereum
     volumes:
-      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
+      - ${ETHEREUM_GETH_ROOT_DIR:-~}/ethereum:/data
 
   ethereum-lighthouse:
     image: donbeave/lighthouse
