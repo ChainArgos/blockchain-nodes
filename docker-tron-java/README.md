@@ -1,4 +1,4 @@
-## celo mainnet config
+## tron mainnet config
 
 ```bash
 mkdir -p config
