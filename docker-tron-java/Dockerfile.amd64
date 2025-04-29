@@ -2,7 +2,7 @@ FROM donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV TRON_VERSION=4.7.7
+ENV TRON_VERSION=4.8.0
 
 RUN apt-get update \
         && apt-get upgrade -y \
@@ -30,7 +30,7 @@ RUN cd /tmp \
 
 RUN curl -L https://github.com/tronprotocol/java-tron/releases/download/GreatVoyage-v${TRON_VERSION}/FullNode.jar -o /FullNode.jar
 
-ADD main_net_config.conf /main_net_config.conf
+ADD config /config/
 
 COPY start.sh /
 RUN chmod a+x /start.sh
