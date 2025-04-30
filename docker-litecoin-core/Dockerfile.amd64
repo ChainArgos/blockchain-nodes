@@ -2,7 +2,7 @@ FROM donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV LITECOIN_VERSION=0.21.3
+ENV LITECOIN_VERSION=0.21.4
 
 RUN cd /tmp \
     && curl -L https://github.com/litecoin-project/litecoin/releases/download/v${LITECOIN_VERSION}/litecoin-${LITECOIN_VERSION}-x86_64-linux-gnu.tar.gz -o litecoin.tar.gz \
