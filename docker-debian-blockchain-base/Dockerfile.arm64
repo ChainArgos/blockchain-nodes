@@ -3,7 +3,7 @@ FROM --platform=arm64 debian:bookworm
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV XH_VERSION=0.23.1
+ENV XH_VERSION=0.24.1
 ENV GOMPLATE_VERSION=4.3.2
 
 RUN apt-get update \
