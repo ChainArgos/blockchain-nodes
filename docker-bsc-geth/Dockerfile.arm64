@@ -2,7 +2,7 @@ FROM --platform=arm64 donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV BSC_VERSION=1.5.12
+ENV BSC_VERSION=1.5.13
 
 RUN curl -L https://github.com/bnb-chain/bsc/releases/download/v${BSC_VERSION}/geth-linux-arm64 -o /usr/local/bin/geth \
     && chmod -v u+x /usr/local/bin/geth
