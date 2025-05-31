@@ -14,6 +14,7 @@ COPY --from=build /usr/local/bin/seq-coordinator-manager /usr/local/bin/
 COPY --from=build /usr/local/bin/prover /usr/local/bin/
 COPY --from=build /usr/local/bin/dbconv /usr/local/bin/
 COPY --from=build /usr/local/bin/convert-databases.bash /usr/local/bin/
+COPY --from=build /home/user/target/machines /opt/nitro/target/machines
 
 COPY start.sh /
 RUN chmod a+x /start.sh

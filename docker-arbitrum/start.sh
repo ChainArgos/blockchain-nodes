@@ -22,4 +22,5 @@ exec nitro \
   --http.corsdomain=* \
   --http.vhosts=* \
   --execution.caching.archive \
-  --execution.tx-lookup-limit=0
+  --execution.tx-lookup-limit=0 \
+  --validation.wasm.allowed-wasm-module-roots=/opt/nitro/target/machines
