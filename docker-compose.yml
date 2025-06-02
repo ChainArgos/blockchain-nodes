@@ -1,107 +1,30 @@
 services:
-  bitcoin-core:
-    image: donbeave/bitcoin-core
-    container_name: bitcoin-core
+  arbitrum-one:
+    image: donbeave/arbitrum
+    container_name: arbitrum-one
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-arbitrum.env
+        required: false
+    ports:
+      - "8547:8547"
+      - "8548:8548"
+    volumes:
+      - ${ARBITRUM_ROOT_DIR:-~}/arbitrum:/data
+
+  avax-avalanchego:
+    image: donbeave/avalanchego
+    container_name: avax-avalanchego
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
     ports:
-      - "8332:8332"
+      - "9650:9650"
     volumes:
-      - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
-
-  ethereum-geth:
-    image: donbeave/geth
-    container_name: ethereum-geth
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-ethereum.env
-        required: false
-    ports:
-      - "8545:8545"
-      - "30303:30303/tcp"
-      - "30303:30303/udp"
-    environment:
-      CA_NETWORK: ethereum
-    volumes:
-      - ${ETHEREUM_GETH_ROOT_DIR:-~}/ethereum:/data
-
-  ethereum-lighthouse:
-    image: donbeave/lighthouse
-    container_name: ethereum-lighthouse
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-ethereum.env
-        required: false
-    ports:
-      - "5052:5052"
-    volumes:
-      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
-
-  bsc-geth:
-    image: donbeave/bsc-geth
-    container_name: bsc-geth
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "8645:8645"
-      - "30310:30310/tcp"
-      - "30310:30310/udp"
-    volumes:
-      - ${BSC_ROOT_DIR:-~}/bsc:/data
-
-  tron-java:
-    image: donbeave/tron-java
-    container_name: tron-java
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "28090:28090"
-      - "28545:28545"
-    volumes:
-      - ${TRON_ROOT_DIR:-~}/tron:/data
-
-  polygon-heimdall:
-    image: donbeave/heimdall
-    container_name: polygon-heimdall
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-polygon.env
-        required: false
-    ports:
-      - "1317:1317"
-      - "26656:26656"
-      - "26657:26657"
-    volumes:
-      - ${POLYGON_ROOT_DIR:-~}/polygon:/data
-
-  polygon-bor:
-    image: donbeave/bor
-    container_name: polygon-bor
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-polygon.env
-        required: false
-    ports:
-      - "8945:8945"
-      - "30305:30305/tcp"
-      - "30305:30305/udp"
-    volumes:
-      - ${POLYGON_ROOT_DIR:-~}/polygon:/data
+      - ${AVAX_ROOT_DIR:-~}/avax:/data
 
   base-op-geth:
     image: donbeave/op-geth
@@ -140,42 +63,172 @@ services:
     volumes:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
-  optimism-op-geth:
-    image: donbeave/op-geth
-    container_name: optimism-op-geth
+  berachain-beacon-kit:
+    image: donbeave/beacon-kit
+    container_name: berachain-beacon-kit
     restart: unless-stopped
     stop_grace_period: 15m
     env_file:
       - path: containers.env
         required: true
-      - path: containers-optimism.env
+      - path: containers-berachain.env
         required: false
     ports:
-      - "8651:8651"
-      - "30306:30306/tcp"
-      - "30306:30306/udp"
-    environment:
-      CA_NETWORK: optimism
+      - "26756:26756"
     volumes:
-      - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
+      - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
-  optimism-op-node:
-    image: donbeave/op-node
-    container_name: optimism-op-node
+  berachain-geth:
+    image: donbeave/geth
+    container_name: berachain-geth
     restart: unless-stopped
     stop_grace_period: 15m
     env_file:
       - path: containers.env
         required: true
-      - path: containers-optimism.env
+      - path: containers-berachain.env
         required: false
     ports:
-      - "9222:9222/tcp"
-      - "9222:9222/udp"
+      - "8654:8654"
+      - "30308:30308/tcp"
+      - "30308:30308/udp"
     environment:
-      CA_NETWORK: optimism
+      CA_NETWORK: berachain
     volumes:
-      - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
+      - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
+
+  bitcoin-core:
+    image: donbeave/bitcoin-core
+    container_name: bitcoin-core
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8332:8332"
+    volumes:
+      - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
+
+  bsc-geth:
+    image: donbeave/bsc-geth
+    container_name: bsc-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8645:8645"
+      - "30310:30310/tcp"
+      - "30310:30310/udp"
+    volumes:
+      - ${BSC_ROOT_DIR:-~}/bsc:/data
+
+  cardano-node:
+    image: donbeave/cardano-node
+    container_name: cardano-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${CARDANO_ROOT_DIR:-~}/cardano:/data
+
+  celo-geth:
+    image: donbeave/celo-geth
+    container_name: celo-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8649:8649"
+    volumes:
+      - ${CELO_ROOT_DIR:-~}/celo:/data
+
+  celo-op-geth:
+    image: donbeave/celo-op-geth
+    container_name: celo-op-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-celo.env
+        required: false
+    ports:
+      - "8656:8656"
+      - "30312:30312/tcp"
+      - "30312:30312/udp"
+    volumes:
+      - ${CELO_ROOT_DIR:-~}/celo:/data
+
+  celo-op-node:
+    image: donbeave/celo-op-node
+    container_name: celo-op-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-celo.env
+        required: false
+    ports:
+      - "9226:9226/tcp"
+      - "9226:9226/udp"
+    volumes:
+      - ${CELO_ROOT_DIR:-~}/celo:/data
+
+  dogecoin-core:
+    image: donbeave/dogecoin-core
+    container_name: dogecoin-core
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8352:8352"
+    volumes:
+      - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
+
+  ethereum-geth:
+    image: donbeave/geth
+    container_name: ethereum-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-ethereum.env
+        required: false
+    ports:
+      - "8545:8545"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+    environment:
+      CA_NETWORK: ethereum
+    volumes:
+      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
+
+  ethereum-lighthouse:
+    image: donbeave/lighthouse
+    container_name: ethereum-lighthouse
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-ethereum.env
+        required: false
+    ports:
+      - "5052:5052"
+    volumes:
+      - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
+
+  heco-geth:
+    image: donbeave/heco-geth
+    container_name: heco-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8646:8646"
+    volumes:
+      - ${HECO_ROOT_DIR:-~}/heco:/data
 
   ink-op-geth:
     image: donbeave/op-geth
@@ -214,6 +267,146 @@ services:
     volumes:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
+  kcc-geth:
+    image: donbeave/kcc-geth
+    container_name: kcc-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8647:8647"
+    volumes:
+      - ${KCC_ROOT_DIR:-~}/kcc:/data
+
+  litecoin-core:
+    image: donbeave/litecoin-core
+    container_name: litecoin-core
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8342:8342"
+    volumes:
+      - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
+
+  optimism-op-geth:
+    image: donbeave/op-geth
+    container_name: optimism-op-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-optimism.env
+        required: false
+    ports:
+      - "8651:8651"
+      - "30306:30306/tcp"
+      - "30306:30306/udp"
+    environment:
+      CA_NETWORK: optimism
+    volumes:
+      - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
+
+  optimism-op-node:
+    image: donbeave/op-node
+    container_name: optimism-op-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-optimism.env
+        required: false
+    ports:
+      - "9222:9222/tcp"
+      - "9222:9222/udp"
+    environment:
+      CA_NETWORK: optimism
+    volumes:
+      - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
+
+  polygon-bor:
+    image: donbeave/bor
+    container_name: polygon-bor
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-polygon.env
+        required: false
+    ports:
+      - "8945:8945"
+      - "30305:30305/tcp"
+      - "30305:30305/udp"
+    volumes:
+      - ${POLYGON_ROOT_DIR:-~}/polygon:/data
+
+  polygon-heimdall:
+    image: donbeave/heimdall
+    container_name: polygon-heimdall
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-polygon.env
+        required: false
+    ports:
+      - "1317:1317"
+      - "26656:26656"
+      - "26657:26657"
+    volumes:
+      - ${POLYGON_ROOT_DIR:-~}/polygon:/data
+
+  ronin-geth:
+    image: donbeave/ronin-geth
+    container_name: ronin-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8745:8745"
+      - "30311:30311/tcp"
+      - "30311:30311/udp"
+    volumes:
+      - ${RONIN_ROOT_DIR:-~}/ronin:/data
+
+  scroll-geth:
+    image: donbeave/scroll-geth
+    container_name: scroll-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8650:8650"
+    volumes:
+      - ${SCROLL_ROOT_DIR:-~}/scroll:/data
+
+  tezos-octez-node:
+    image: donbeave/octez
+    container_name: tezos-octez-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8732:8732"
+    volumes:
+      - ${TEZOS_ROOT_DIR:-~}/tezos:/data
+
+  tron-java:
+    image: donbeave/tron-java
+    container_name: tron-java
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "28090:28090"
+      - "28545:28545"
+    volumes:
+      - ${TRON_ROOT_DIR:-~}/tron:/data
+
   unichain-op-geth:
     image: donbeave/op-geth
     container_name: unichain-op-geth
@@ -251,116 +444,6 @@ services:
     volumes:
       - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
 
-  heco-geth:
-    image: donbeave/heco-geth
-    container_name: heco-geth
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "8646:8646"
-    volumes:
-      - ${HECO_ROOT_DIR:-~}/heco:/data
-
-  kcc-geth:
-    image: donbeave/kcc-geth
-    container_name: kcc-geth
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "8647:8647"
-    volumes:
-      - ${KCC_ROOT_DIR:-~}/kcc:/data
-
-  avax-avalanchego:
-    image: donbeave/avalanchego
-    container_name: avax-avalanchego
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "9650:9650"
-    volumes:
-      - ${AVAX_ROOT_DIR:-~}/avax:/data
-
-  cardano-node:
-    image: donbeave/cardano-node
-    container_name: cardano-node
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    volumes:
-      - ${CARDANO_ROOT_DIR:-~}/cardano:/data
-
-  dogecoin-core:
-    image: donbeave/dogecoin-core
-    container_name: dogecoin-core
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "8352:8352"
-    volumes:
-      - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
-
-  litecoin-core:
-    image: donbeave/litecoin-core
-    container_name: litecoin-core
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "8342:8342"
-    volumes:
-      - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
-
-  tezos-octez-node:
-    image: donbeave/octez
-    container_name: tezos-octez-node
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "8732:8732"
-    volumes:
-      - ${TEZOS_ROOT_DIR:-~}/tezos:/data
-
-  ronin-geth:
-    image: donbeave/ronin-geth
-    container_name: ronin-geth
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "8745:8745"
-      - "30311:30311/tcp"
-      - "30311:30311/udp"
-    volumes:
-      - ${RONIN_ROOT_DIR:-~}/ronin:/data
-
-  celo-geth:
-    image: donbeave/celo-geth
-    container_name: celo-geth
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "8649:8649"
-    volumes:
-      - ${CELO_ROOT_DIR:-~}/celo:/data
-
-  scroll-geth:
-    image: donbeave/scroll-geth
-    container_name: scroll-geth
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file: "containers.env"
-    ports:
-      - "8650:8650"
-    volumes:
-      - ${SCROLL_ROOT_DIR:-~}/scroll:/data
-
   wbt-geth:
     image: donbeave/wbt-geth
     container_name: wbt-geth
@@ -371,86 +454,3 @@ services:
       - "8653:8653"
     volumes:
       - ${WBT_ROOT_DIR:-~}/wbt:/data
-
-  arbitrum-one:
-    image: donbeave/arbitrum
-    container_name: arbitrum-one
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-arbitrum.env
-        required: false
-    ports:
-      - "8547:8547"
-      - "8548:8548"
-    volumes:
-      - ${ARBITRUM_ROOT_DIR:-~}/arbitrum:/data
-
-  berachain-beacon-kit:
-    image: donbeave/beacon-kit
-    container_name: berachain-beacon-kit
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-berachain.env
-        required: false
-    ports:
-      - "26756:26756"
-    volumes:
-      - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
-
-  berachain-geth:
-    image: donbeave/geth
-    container_name: berachain-geth
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-berachain.env
-        required: false
-    ports:
-      - "8654:8654"
-      - "30308:30308/tcp"
-      - "30308:30308/udp"
-    environment:
-      CA_NETWORK: berachain
-    volumes:
-      - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
-
-  celo-op-geth:
-    image: donbeave/celo-op-geth
-    container_name: celo-op-geth
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-celo.env
-        required: false
-    ports:
-      - "8656:8656"
-      - "30312:30312/tcp"
-      - "30312:30312/udp"
-    volumes:
-      - ${CELO_ROOT_DIR:-~}/celo:/data
-
-  celo-op-node:
-    image: donbeave/celo-op-node
-    container_name: celo-op-node
-    restart: unless-stopped
-    stop_grace_period: 15m
-    env_file:
-      - path: containers.env
-        required: true
-      - path: containers-celo.env
-        required: false
-    ports:
-      - "9226:9226/tcp"
-      - "9226:9226/udp"
-    volumes:
-      - ${CELO_ROOT_DIR:-~}/celo:/data
