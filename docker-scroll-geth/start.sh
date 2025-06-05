@@ -56,10 +56,14 @@ exec geth \
   --http.port=8650 \
   --http.api=eth,net,web3,debug,scroll \
   --cache.noprefetch \
+  --cache.snapshot=0 \
   --l1.endpoint="${CA_ETHEREUM_RPC_URL}" \
   --da.blob.beaconnode="${CA_ETHEREUM_BEACON_URL}" \
   --rollup.verify \
   --txlookuplimit=0 \
   --v5disc \
   --nat=extip:"$PUBLIC_IP" \
-  --txpool.nolocals
+  --txpool.nolocals \
+  --snapshot=false \
+  --gpo.maxprice=500000000 \
+  --gpo.congestionthreshold=1000
