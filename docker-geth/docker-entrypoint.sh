@@ -18,9 +18,10 @@ fi
 case $CA_NETWORK in
 
   berachain)
-      echo "Init genesis geth."
+    echo "Init genesis geth."
 
-      geth --db.engine=pebble --state.scheme=path --datadir=/data/geth init /config/berachain/genesis.json
+    geth --db.engine=pebble --state.scheme=path --datadir=/data/geth init /config/berachain/genesis.json
+    ;;
 
 esac
 
