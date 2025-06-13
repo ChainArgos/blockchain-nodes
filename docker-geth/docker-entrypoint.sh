@@ -18,12 +18,9 @@ fi
 case $CA_NETWORK in
 
   berachain)
-    if [ ! -d "/data/geth" ]; then
       echo "Init genesis geth."
 
       geth --db.engine=pebble --state.scheme=path --datadir=/data/geth init /config/berachain/genesis.json
-    fi
-    ;;
 
 esac
 
