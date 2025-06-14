@@ -4,7 +4,6 @@
 - Movement (https://github.com/movementlabsxyz/movement)
 - Aptos (https://aptos.dev/en/network/nodes/full-node)
 - dYdX (https://docs.dydx.exchange/infrastructure_providers-validators/set_up_full_node)
-- Arbitrum (https://docs.arbitrum.io/run-arbitrum-node/run-full-node)
 - TON (https://docs.ton.org/participate/run-nodes/archive-node)
 - Solana:
   - https://docs.solanalabs.com/operations/setup-an-rpc-node
