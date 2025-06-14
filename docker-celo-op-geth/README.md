@@ -3,7 +3,7 @@
 ```bash
 export CONFIG_BASE_URL=https://storage.googleapis.com/cel2-rollup-files/celo
 
-mkdir -p config/celo
+mkdir -p config
 
-curl -L "${CONFIG_BASE_URL}/genesis.json" -o config/celo/genesis.json
+curl -L "${CONFIG_BASE_URL}/genesis.json" -o config/genesis.json
 ```
