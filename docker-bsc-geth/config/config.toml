@@ -3,16 +3,15 @@ NetworkId = 56
 TrieTimeout = 150000000000
 
 [Eth.Miner]
-GasCeil = 140000000
-GasPrice = 1000000000
-Recommit = 10000000000
+GasCeil = 70000000
+GasPrice = 100000000
 
 [Eth.TxPool]
 Locals = []
 NoLocals = true
 Journal = "transactions.rlp"
 Rejournal = 3600000000000
-PriceLimit = 1000000000
+PriceLimit = 100000000
 PriceBump = 10
 AccountSlots = 200
 GlobalSlots = 8000
