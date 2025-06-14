@@ -2,5 +2,5 @@
 set -eou pipefail
 
 exec dogecoind \
-  -conf=/dogecoin.conf \
+  -conf=/config/dogecoin.conf \
   -printtoconsole

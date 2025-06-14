@@ -15,7 +15,7 @@ RUN cd /tmp \
     && rm -r dogecoin-* \
     && rm -rf /tmp/*
 
-COPY dogecoin.conf /
+ADD config /config/
 
 COPY start.sh /
 RUN chmod a+x /start.sh

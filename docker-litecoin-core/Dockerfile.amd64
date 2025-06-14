@@ -13,7 +13,7 @@ RUN cd /tmp \
     && rm -r litecoin-* \
     && rm -rf /tmp/*
 
-COPY litecoin.conf /
+ADD config /config/
 
 COPY start.sh /
 RUN chmod a+x /start.sh

@@ -13,7 +13,7 @@ RUN cd /tmp \
     && rm -r bitcoin-* \
     && rm -rf /tmp/*
 
-COPY bitcoin.conf /
+ADD config /config/
 
 COPY start.sh /
 RUN chmod a+x /start.sh

@@ -2,5 +2,5 @@
 set -eou pipefail
 
 exec bitcoind \
-  -conf=/bitcoin.conf \
+  -conf=/config/bitcoin.conf \
   -printtoconsole

@@ -2,5 +2,5 @@
 set -eou pipefail
 
 exec litecoind \
-  -conf=/litecoin.conf \
+  -conf=/config/litecoin.conf \
   -printtoconsole
