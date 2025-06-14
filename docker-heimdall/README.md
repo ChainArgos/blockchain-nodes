@@ -16,5 +16,5 @@ export CONFIG_BASE_URL=https://raw.githubusercontent.com/maticnetwork/heimdall/m
 
 mkdir -p config
 
-curl -L "${CONFIG_BASE_URL}/genesis-mainnet-v1.json" -o config/genesis.json 
+curl -L "${CONFIG_BASE_URL}/genesis-mainnet-v1.json" -o config/genesis.json
 ```
