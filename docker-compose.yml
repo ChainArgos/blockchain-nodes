@@ -454,3 +454,40 @@ services:
       - "8653:8653"
     volumes:
       - ${WBT_ROOT_DIR:-~}/wbt:/data
+
+  worldchain-op-geth:
+    image: donbeave/op-geth
+    container_name: worldchain-op-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-worldchain.env
+        required: false
+    ports:
+      - "8657:8657"
+      - "30313:30313/tcp"
+      - "30313:30313/udp"
+    environment:
+      CA_NETWORK: worldchain
+    volumes:
+      - ${WORLDCHAIN_ROOT_DIR:-~}/worldchain:/data
+
+  worldchain-op-node:
+    image: donbeave/op-node
+    container_name: worldchain-op-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-worldchain.env
+        required: false
+    ports:
+      - "9227:9227/tcp"
+      - "9227:9227/udp"
+    environment:
+      CA_NETWORK: worldchain
+    volumes:
+      - ${WORLDCHAIN_ROOT_DIR:-~}/worldchain:/data

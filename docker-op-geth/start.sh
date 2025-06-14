@@ -177,6 +177,41 @@ case $CA_NETWORK in
       --txpool.nolocals=true
     ;;
 
+  worldchain)
+    exec geth \
+      --datadir=/data/op-geth \
+      --db.engine=pebble \
+      --history.transactions=0 \
+      --state.scheme=path \
+      --syncmode=snap \
+      --http \
+      --http.addr=0.0.0.0 \
+      --http.corsdomain=* \
+      --http.vhosts=* \
+      --http.api=web3,debug,eth,txpool,net,admin,rpc \
+      --http.port=8657 \
+      --ws \
+      --ws.addr=0.0.0.0 \
+      --ws.origins=* \
+      --ws.api=web3,debug,eth,txpool,net,admin,rpc \
+      --authrpc.jwtsecret=/data/jwtsecret.hex \
+      --authrpc.addr=0.0.0.0 \
+      --authrpc.vhosts=* \
+      --authrpc.port=8551 \
+      --maxpeers=200 \
+      --cache=8000 \
+      --rollup.sequencerhttp=https://worldchain-mainnet-sequencer.g.alchemy.com \
+      --rollup.halt=major \
+      --rollup.disabletxpoolgossip=true \
+      --op-network=worldchain-mainnet \
+      --port=30313 \
+      --discovery.port=30313 \
+      --discv4=true \
+      --discv5=true \
+      --nat=extip:"$PUBLIC_IP" \
+      --txpool.nolocals=true
+    ;;
+
   *)
     echo "ERROR: CA_NETWORK is not correct, current value: ${CA_NETWORK}"
     exit 1
