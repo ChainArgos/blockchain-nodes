@@ -17,9 +17,7 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 COPY --from=build /heimdall/build/heimdalld /usr/local/bin/
 COPY --from=build /heimdall/build/heimdallcli /usr/local/bin/
 
-COPY config.toml /
-COPY heimdall-config.toml /
-COPY genesis.json /
+ADD config /config/
 
 COPY start.sh /
 RUN chmod a+x /start.sh
