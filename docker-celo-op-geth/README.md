@@ -1,7 +1,7 @@
 ## celo mainnet config
 
 ```bash
-export CONFIG_BASE_URL=https://storage.googleapis.com/cel2-rollup-files/celo
+export CONFIG_BASE_URL=https://raw.githubusercontent.com/celo-org/celo-l2-node-docker-compose/refs/heads/main/envs/mainnet/config
 
 mkdir -p config
 
