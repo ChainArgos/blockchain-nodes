@@ -14,11 +14,7 @@ RUN cd /tmp \
     && chmod a+x /usr/local/bin/beacond \
     && rm -rf /tmp/*
 
-COPY config/app.toml /config/
-COPY config/client.toml /config/
-COPY config/config.toml /config/
-COPY config/genesis.json /config/
-COPY config/kzg-trusted-setup.json /config/
+ADD config /config/
 
 COPY start.sh /
 RUN chmod a+x /start.sh

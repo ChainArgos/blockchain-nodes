@@ -15,7 +15,7 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 COPY --from=build /bor/build/bin/bor /usr/local/bin/
 
-COPY config.toml /
+ADD config /config/
 
 COPY start.sh /
 RUN chmod a+x /start.sh

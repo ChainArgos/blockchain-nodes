@@ -36,5 +36,5 @@ until [ "$(curl -s http://polygon-heimdall:26657/status | jq '.result.sync_info.
 done
 
 exec bor server \
-  -config "/config.toml" \
+  -config "/config/config.toml" \
   -nat=extip:"$PUBLIC_IP"
