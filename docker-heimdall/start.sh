@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eou pipefail
 
 exec heimdalld start \
   --chain=mainnet \

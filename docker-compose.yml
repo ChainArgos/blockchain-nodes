@@ -130,6 +130,17 @@ services:
     volumes:
       - ${CARDANO_ROOT_DIR:-~}/cardano:/data
 
+  celo-eigenda-proxy:
+    image: donbeave/eigenda-proxy
+    container_name: celo-eigenda-proxy
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "4242:4242"
+    volumes:
+      - ${CELO_ROOT_DIR:-~}/eigenda-proxy:/data
+
   celo-geth:
     image: donbeave/celo-geth
     container_name: celo-geth

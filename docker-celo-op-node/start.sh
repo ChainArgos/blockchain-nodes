@@ -57,6 +57,13 @@ until [ "$(curl -s -w '%{http_code}' -o /dev/null "http://${ca_op_geth_hostname}
   sleep 5
 done
 
+export ca_eigenda_proxy_hostname="celo-eigenda-proxy"
+
+until [ "$(curl -s -w '%{http_code}' -o /dev/null "http://${ca_eigenda_proxy_hostname}:4242")" -eq 404 ]; do
+  echo "waiting for eigenda-proxy to be ready"
+  sleep 5
+done
+
 exec op-node \
   --l1="${CA_ETHEREUM_RPC_URL}" \
   --l1.trustrpc \
@@ -74,5 +81,6 @@ exec op-node \
   --syncmode=execution-layer \
   --rpc.addr=0.0.0.0 \
   --altda.enabled=true \
+  --altda.da-server=http://"${ca_eigenda_proxy_hostname}":4242 \
   --altda.da-service=true \
   --altda.verify-on-read=false
