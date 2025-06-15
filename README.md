@@ -122,6 +122,7 @@ Base:
 
 Celo: 
 - https://docs.celo.org/network/mainnet/run-full-node
+- https://docs.celo.org/cel2/operators/run-node
 
 Tezos:
 - https://tezos.gitlab.io/user/history_modes.html
