@@ -138,8 +138,6 @@ services:
     env_file: "containers.env"
     ports:
       - "4242:4242"
-    volumes:
-      - ${CELO_ROOT_DIR:-~}/eigenda-proxy:/data
 
   celo-geth:
     image: donbeave/celo-geth
