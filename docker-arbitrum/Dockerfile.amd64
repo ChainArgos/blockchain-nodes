@@ -15,8 +15,16 @@ COPY --from=build /usr/local/bin/prover /usr/local/bin/
 COPY --from=build /usr/local/bin/dbconv /usr/local/bin/
 COPY --from=build /usr/local/bin/convert-databases.bash /usr/local/bin/
 COPY --from=build /home/user/target/machines /workspace/target/machines
+COPY --from=build /usr/local/bin/jit /usr/local/bin/
+COPY --from=build /usr/local/bin/daserver /usr/local/bin/
+COPY --from=build /usr/local/bin/daprovider /usr/local/bin/
+COPY --from=build /usr/local/bin/autonomous-auctioneer /usr/local/bin/
+COPY --from=build /usr/local/bin/bidder-client /usr/local/bin/
+COPY --from=build /usr/local/bin/datool /usr/local/bin/
+COPY --from=build /home/user/nitro-legacy/machines /workspace/nitro-legacy/machines
 
 RUN chown -R root:root /workspace/target/machines
+RUN chown -R root:root /workspace/nitro-legacy/machines
 
 COPY start.sh /
 RUN chmod a+x /start.sh
