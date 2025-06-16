@@ -23,4 +23,5 @@ exec nitro \
   --http.vhosts=* \
   --execution.caching.archive \
   --execution.tx-lookup-limit=0 \
+  --node.staker.enable=false \
   --validation.wasm.allowed-wasm-module-roots=/workspace/nitro-legacy/machines,/workspace/target/machines
