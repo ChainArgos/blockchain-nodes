@@ -299,7 +299,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: ./init-docker-buildx.sh
       - run: ./docker-scroll-geth/build.sh
-  docker-sonic:
+  docker-sonic-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
     steps:
@@ -310,7 +310,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@v4
       - run: ./init-docker-buildx.sh
-      - run: ./docker-sonic/build.sh
+      - run: ./docker-sonic-geth/build.sh
   docker-tron-java:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
