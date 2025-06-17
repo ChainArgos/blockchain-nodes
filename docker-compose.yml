@@ -395,6 +395,17 @@ services:
     volumes:
       - ${SCROLL_ROOT_DIR:-~}/scroll:/data
 
+  sonic-geth:
+    image: donbeave/sonic-geth
+    container_name: sonic-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8658:8658"
+    volumes:
+      - ${SONIC_ROOT_DIR:-~}/sonic:/data
+
   tezos-octez-node:
     image: donbeave/octez
     container_name: tezos-octez-node

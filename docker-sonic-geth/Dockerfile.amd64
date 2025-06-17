@@ -1,0 +1,33 @@
+FROM donbeave/debian-blockchain-build AS build
+
+ENV SONIC_VERSION=2.0.6
+
+RUN git clone --branch v${SONIC_VERSION} --single-branch --depth=1 https://github.com/0xsoniclabs/sonic
+
+WORKDIR /sonic
+
+RUN make all
+# end build
+
+FROM donbeave/debian-blockchain-base
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY --from=build /sonic/build/sonicd /usr/local/bin/
+COPY --from=build /sonic/build/sonictool /usr/local/bin/
+
+ADD config /config/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
