@@ -122,7 +122,8 @@ case $CA_NETWORK in
       --txpool.globalqueue=50000 \
       --txpool.globalslots=50000 \
       --txpool.pricelimit=1000000 \
-      --txpool.pricebump=1
+      --txpool.pricebump=1 \
+      --rpc.allow-unprotected-txs
     ;;
 
   *)
