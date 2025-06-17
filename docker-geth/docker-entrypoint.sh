@@ -23,6 +23,12 @@ case $CA_NETWORK in
     geth --db.engine=pebble --state.scheme=path --datadir=/data/geth init /config/berachain/genesis.json
     ;;
 
+  linea)
+    echo "Init genesis geth."
+
+    /opt/geth-1.13/geth --db.engine=pebble --state.scheme=path --datadir=/data/geth init /config/linea/genesis.json
+    ;;
+
 esac
 
 if [ ! -f "/data/jwtsecret.hex" ]; then

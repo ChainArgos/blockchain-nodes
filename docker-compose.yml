@@ -289,6 +289,25 @@ services:
     volumes:
       - ${KCC_ROOT_DIR:-~}/kcc:/data
 
+  linea-geth:
+    image: donbeave/geth
+    container_name: linea-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-linea.env
+        required: false
+    ports:
+      - "8659:8659"
+      - "30314:30314/tcp"
+      - "30314:30314/udp"
+    environment:
+      CA_NETWORK: linea
+    volumes:
+      - ${LINEA_ROOT_DIR:-~}/linea:/data
+
   litecoin-core:
     image: donbeave/litecoin-core
     container_name: litecoin-core
