@@ -37,7 +37,7 @@ exec sonicd \
   --http.corsdomain=* \
   --http.vhosts=* \
   --http.port=8658 \
-  --cache=16000 \
+  --cache=12000 \
   --discovery.v4 \
   --discovery.v5 \
   --nat=extip:"$PUBLIC_IP" \
