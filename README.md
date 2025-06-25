@@ -130,3 +130,5 @@ Tezos:
 Ink:
 - https://github.com/inkonchain/node
 
+Sonic:
+- https://docs.soniclabs.com/sonic/node-deployment/archive-node
