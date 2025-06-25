@@ -4,7 +4,7 @@ FROM --platform=arm64 donbeave/debian-blockchain-build AS build
 
 ARG GITHUB_TOKEN
 
-ENV OP_NODE_VERSION=2.0.2
+ENV OP_NODE_VERSION=2.1.0
 
 RUN git clone --branch celo-v${OP_NODE_VERSION} --single-branch --depth=1 https://github.com/celo-org/optimism.git
 
