@@ -135,3 +135,6 @@ Sonic:
 
 Linea:
 - https://docs.linea.build/get-started/how-to/run-a-node/geth
+
+World Chain:
+- https://github.com/worldcoin-foundation/simple-worldchain-node
