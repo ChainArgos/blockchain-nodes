@@ -130,3 +130,11 @@ Tezos:
 Ink:
 - https://github.com/inkonchain/node
 
+Sonic:
+- https://docs.soniclabs.com/sonic/node-deployment/archive-node
+
+Linea:
+- https://docs.linea.build/get-started/how-to/run-a-node/geth
+
+World Chain:
+- https://github.com/worldcoin-foundation/simple-worldchain-node
