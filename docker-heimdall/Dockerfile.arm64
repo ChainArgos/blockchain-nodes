@@ -1,6 +1,6 @@
 FROM --platform=arm64 donbeave/debian-blockchain-build AS build
 
-ENV HEIMDALL_VERSION=1.2.3
+ENV HEIMDALL_VERSION=1.2.5
 
 RUN git clone --branch v${HEIMDALL_VERSION} --single-branch --depth=1 https://github.com/maticnetwork/heimdall.git
 
