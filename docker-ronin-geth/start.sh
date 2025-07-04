@@ -43,11 +43,13 @@ exec ronin \
   --http.corsdomain=* \
   --http.vhosts=* \
   --http.port=8745 \
-  --http.api=eth,net,web3,ronin \
+  --http.api=eth,net,web3,ronin,consortium \
   --maxpeers=200 \
   --cache=8000 \
   --port=30311 \
   --v5disc \
   --nat=extip:"$PUBLIC_IP" \
+  --miner.gaslimit=30000000 \
+  --miner.gasreserve=10000000 \
   --txpool.nolocals=true \
-  --txpool.pricelimit 20000000000
+  --txpool.pricelimit=20000000000
