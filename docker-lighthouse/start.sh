@@ -19,7 +19,6 @@ exec lighthouse \
   --execution-endpoint="${CA_ETHEREUM_EXECUTION_URL}" \
   --execution-jwt=/data/jwtsecret.hex \
   --network=mainnet \
-  --disable-deposit-contract-sync \
   --genesis-backfill \
   --reconstruct-historic-states \
   --http \
