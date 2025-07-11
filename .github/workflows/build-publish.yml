@@ -1,4 +1,6 @@
 on: [push]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   docker-debian-blockchain-base:
     runs-on: ubuntu-24.04
