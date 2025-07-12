@@ -49,6 +49,7 @@ syncmode = "full"
 
 [heimdall]
     url = "http://polygon-heimdall:1317"
+    ws-address = "ws://polygon-heimdall:26657/websocket"
     # "bor.without" = false
     # grpc-address = ""
 

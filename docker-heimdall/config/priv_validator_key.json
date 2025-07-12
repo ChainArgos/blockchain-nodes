@@ -1,0 +1,11 @@
+{
+  "address": "D1DC4DCF01260308C63C990E9A8E6186B5C55806",
+  "pub_key": {
+    "type": "cometbft/PubKeySecp256k1eth",
+    "value": "BHowwfzHU/rvHvl9k7ZY7D0KbAaZumq1rl9i53M1YCmlpx9bjPdcG6jDifWzfXaQHC1vlswWesCCFM1F5a/UVaA="
+  },
+  "priv_key": {
+    "type": "cometbft/PrivKeySecp256k1eth",
+    "value": "DGWUGgnr4IIlhZWisheHchbpC//MpxM/Z+lGDyJwytM="
+  }
+}
