@@ -6,7 +6,6 @@ RUN git clone --branch v${HEIMDALL_VERSION} --single-branch --depth=1 https://gi
 
 WORKDIR /heimdall
 
-RUN make install
 RUN make build-arm
 # end build
 
