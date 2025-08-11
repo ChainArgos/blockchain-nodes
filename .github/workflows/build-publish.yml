@@ -10,7 +10,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-debian-blockchain-base/build.sh
   docker-debian-blockchain-build:
@@ -22,7 +22,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-debian-blockchain-build/build.sh
   docker-arbitrum:
@@ -34,7 +34,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-arbitrum/build.sh
   docker-avalanchego:
@@ -46,7 +46,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-avalanchego/build.sh
   docker-beacon-kit:
@@ -58,7 +58,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-beacon-kit/build.sh
   docker-bitcoin-core:
@@ -70,7 +70,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-bitcoin-core/build.sh
   docker-bor:
@@ -82,7 +82,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-bor/build.sh
   docker-bsc-geth:
@@ -94,7 +94,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-bsc-geth/build.sh
   docker-cardano-node:
@@ -106,7 +106,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-cardano-node/build.sh
   docker-celo-geth:
@@ -118,7 +118,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-celo-geth/build.sh
   docker-dogecoin-core:
@@ -130,7 +130,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-dogecoin-core/build.sh
   docker-eigenda-proxy:
@@ -142,7 +142,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-eigenda-proxy/build.sh
   docker-geth:
@@ -154,7 +154,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-geth/build.sh
   docker-heco-geth:
@@ -166,7 +166,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-heco-geth/build.sh
   docker-heimdall:
@@ -178,7 +178,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-heimdall/build.sh
   docker-kcc-geth:
@@ -190,7 +190,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-kcc-geth/build.sh
   docker-lighthouse:
@@ -202,7 +202,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-lighthouse/build.sh
   docker-litecoin-core:
@@ -214,7 +214,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-litecoin-core/build.sh
   docker-octez:
@@ -226,7 +226,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-octez/build.sh
   docker-celo-op-geth:
@@ -238,7 +238,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-celo-op-geth/build.sh
   docker-celo-op-node:
@@ -250,7 +250,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-celo-op-node/build.sh
   docker-op-geth:
@@ -262,7 +262,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-op-geth/build.sh
   docker-op-node:
@@ -274,7 +274,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-op-node/build.sh
   docker-ronin-geth:
@@ -286,7 +286,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-ronin-geth/build.sh
   docker-scroll-geth:
@@ -298,7 +298,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-scroll-geth/build.sh
   docker-sonic-geth:
@@ -310,7 +310,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-sonic-geth/build.sh
   docker-tron-java:
@@ -322,7 +322,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-tron-java/build.sh
   docker-wbt-geth:
@@ -334,6 +334,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./init-docker-buildx.sh
       - run: ./docker-wbt-geth/build.sh
