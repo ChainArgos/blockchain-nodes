@@ -1,6 +1,6 @@
 FROM donbeave/debian-blockchain-build AS build
 
-ENV SONIC_VERSION=2.0.6
+ENV SONIC_VERSION=2.1.0
 
 RUN git clone --branch v${SONIC_VERSION} --single-branch --depth=1 https://github.com/0xsoniclabs/sonic
 
