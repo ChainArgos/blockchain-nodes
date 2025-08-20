@@ -48,6 +48,7 @@ fi
 exec geth \
   --datadir=/data/geth \
   --scroll \
+  --scroll-mpt \
   --syncmode=snap \
   --http \
   --http.addr=0.0.0.0 \
