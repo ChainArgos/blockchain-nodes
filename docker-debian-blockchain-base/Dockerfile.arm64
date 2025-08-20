@@ -1,4 +1,4 @@
-FROM --platform=arm64 debian:bookworm
+FROM --platform=arm64 debian:trixie
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
