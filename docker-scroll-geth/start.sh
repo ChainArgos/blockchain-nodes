@@ -59,6 +59,7 @@ exec geth \
   --cache.snapshot=0 \
   --l1.endpoint="${CA_ETHEREUM_RPC_URL}" \
   --da.blob.beaconnode="${CA_ETHEREUM_BEACON_URL}" \
+  --da.blob.awss3=https://scroll-mainnet-blob-data.s3.us-west-2.amazonaws.com \
   --rollup.verify \
   --txlookuplimit=0 \
   --v5disc \
@@ -66,4 +67,4 @@ exec geth \
   --txpool.nolocals \
   --snapshot=false \
   --gpo.maxprice=500000000 \
-  --gpo.congestionthreshold=1000
+  --gossip.sequencerhttp=https://mainnet-sequencer-proxy.scroll.io
