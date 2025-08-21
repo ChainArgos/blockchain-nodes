@@ -50,6 +50,7 @@ exec geth \
   --scroll \
   --scroll-mpt \
   --syncmode=full \
+  --gcmode=full \
   --http \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
