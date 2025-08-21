@@ -49,7 +49,7 @@ exec geth \
   --datadir=/data/geth \
   --scroll \
   --scroll-mpt \
-  --syncmode=snap \
+  --syncmode=full \
   --http \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
