@@ -8,7 +8,7 @@ set -eo pipefail
 eval "$(mise activate bash)"
 
 if [ ! -d "/data/heimdall" ]; then
-  heimdalld init chainargos --chain=mainnet --home=/data/heimdall
+  heimdalld init chainargos --home=/data/heimdall --chain-id heimdallv2-137
 
   # override with our config
   cp /config/app.toml /data/heimdall/config/app.toml

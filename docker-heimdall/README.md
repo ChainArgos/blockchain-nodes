@@ -3,7 +3,7 @@ Generate basic configurations
 ```bash
 rm -rf $HOME/heimdall
 
-docker run -v $HOME/heimdall:/heimdall-home:rw --entrypoint /usr/bin/heimdalld -it 0xpolygon/heimdall-v2:0.2.17 init chainargos --chain=mainnet --home=/heimdall-home
+docker run -v $HOME/heimdall:/heimdall-home:rw --entrypoint /usr/bin/heimdalld -it 0xpolygon/heimdall-v2:0.2.17 init chainargos --home=/heimdall-home --chain-id heimdallv2-137
 
 mkdir -p config
 
