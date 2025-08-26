@@ -1,10 +1,10 @@
 FROM --platform=arm64 donbeave/debian-blockchain-build AS build
 
-ENV HEIMDALL_VERSION=0.2.14
+ENV HEIMDALL_VERSION=0.2.17
 
 RUN git clone --branch v${HEIMDALL_VERSION} --single-branch --depth=1 https://github.com/0xPolygon/heimdall-v2.git
 
-WORKDIR /heimdall
+WORKDIR /heimdall-v2
 
 RUN make build-arm
 # end build
@@ -13,8 +13,8 @@ FROM --platform=arm64 donbeave/debian-blockchain-base
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-COPY --from=build /heimdall/build/heimdalld /usr/local/bin/
-COPY --from=build /heimdall/build/heimdallcli /usr/local/bin/
+COPY --from=build /heimdall-v2/build/heimdalld /usr/local/bin/
+COPY --from=build /heimdall-v2/build/heimdallcli /usr/local/bin/
 
 ADD config /config/
 
