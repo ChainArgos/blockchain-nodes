@@ -1,7 +1,7 @@
 # Extract config from docker image
 
 ```bash
-docker run -it 0xpolygon/bor:2.0.0 dumpconfig
+docker run -it 0xpolygon/bor:2.2.10 dumpconfig
 ```
 
 # Latest mainnet config
