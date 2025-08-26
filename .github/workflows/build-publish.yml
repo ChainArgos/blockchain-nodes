@@ -1,4 +1,4 @@
-on: [push]
+on: [ push ]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
@@ -179,6 +179,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@v5
+        with:
+          lfs: true
       - run: ./init-docker-buildx.sh
       - run: ./docker-heimdall/build.sh
   docker-kcc-geth:
