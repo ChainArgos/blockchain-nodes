@@ -11,12 +11,15 @@ if [ ! -d "/data/heimdall" ]; then
   heimdalld init chainargos --chain=mainnet --home=/data/heimdall
 
   # override with our config
+  cp /config/app.toml /data/heimdall/config/app.toml
+  cp /config/client.toml /data/heimdall/config/client.toml
   cp /config/config.toml /data/heimdall/config/config.toml
 
   # replace with mainnet genesis file
-  cp /config/genesis.json /data/heimdall/config/genesis.json
-
-  cp /config/heimdall-config.toml /data/heimdall/config/heimdall-config.toml
+  cp /config/genesis.json.xz /data/heimdall/config/genesis.json.xz
+  rm /data/heimdall/config/genesis.json
+  unxz /data/heimdall/config/genesis.json.xz
+  rm /data/heimdall/config/genesis.json.xz
 fi
 
 echo "Initialization completed successfully"
