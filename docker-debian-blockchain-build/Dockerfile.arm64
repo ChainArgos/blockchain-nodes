@@ -12,7 +12,7 @@ RUN apt-get update \
               /var/cache/apt/* \
               /tmp/*
 
-RUN mise install go@1.22.10
+RUN mise install go@1.23.12
 RUN mise install go@1.25.0
 
 RUN mise use -g --pin go@1.25.0
