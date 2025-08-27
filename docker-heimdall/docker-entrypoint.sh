@@ -19,7 +19,6 @@ if [ ! -d "/data/heimdall" ]; then
   cp /config/genesis.json.xz /data/heimdall/config/genesis.json.xz
   rm /data/heimdall/config/genesis.json
   unxz /data/heimdall/config/genesis.json.xz
-  rm /data/heimdall/config/genesis.json.xz
 fi
 
 echo "Initialization completed successfully"
