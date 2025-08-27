@@ -1,5 +1,7 @@
 FROM donbeave/debian-blockchain-build AS build
 
+RUN mise use -g --pin go@1.22.10
+
 ENV SCROLL_GETH_VERSION=5.9.2
 
 RUN git clone --branch scroll-v${SCROLL_GETH_VERSION} --single-branch --depth=1 https://github.com/scroll-tech/go-ethereum.git
