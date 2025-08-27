@@ -2,7 +2,7 @@ ARG WBT_GETH_VERSION=1.2.0
 
 FROM --platform=arm64 donbeave/debian-blockchain-build AS build
 
-RUN mise use -g --pin go@1.23.12
+RUN mise use -g --pin go@1.22.12
 
 ARG WBT_GETH_VERSION
 
