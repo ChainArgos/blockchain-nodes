@@ -48,12 +48,12 @@ case $CA_NETWORK in
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
       --http.vhosts=* \
-      --http.api=web3,debug,eth,txpool,net,admin,rpc \
+      --http.api=web3,debug,eth,txpool,net,rpc \
       --http.port=8651 \
       --ws \
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
-      --ws.api=web3,debug,eth,txpool,net,admin,rpc \
+      --ws.api=web3,debug,eth,txpool,net,rpc \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
@@ -83,12 +83,12 @@ case $CA_NETWORK in
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
       --http.vhosts=* \
-      --http.api=web3,debug,eth,txpool,net,admin,rpc \
+      --http.api=web3,debug,eth,txpool,net,rpc \
       --http.port=8648 \
       --ws \
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
-      --ws.api=web3,debug,eth,txpool,net,admin,rpc \
+      --ws.api=web3,debug,eth,txpool,net,rpc \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
@@ -118,12 +118,12 @@ case $CA_NETWORK in
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
       --http.vhosts=* \
-      --http.api=web3,debug,eth,txpool,net,admin,rpc \
+      --http.api=web3,debug,eth,txpool,net,rpc \
       --http.port=8652 \
       --ws \
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
-      --ws.api=web3,debug,eth,txpool,net,admin,rpc \
+      --ws.api=web3,debug,eth,txpool,net,rpc \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
@@ -153,12 +153,12 @@ case $CA_NETWORK in
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
       --http.vhosts=* \
-      --http.api=web3,debug,eth,txpool,net,admin,rpc \
+      --http.api=web3,debug,eth,txpool,net,rpc \
       --http.port=8655 \
       --ws \
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
-      --ws.api=web3,debug,eth,txpool,net,admin,rpc \
+      --ws.api=web3,debug,eth,txpool,net,rpc \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
@@ -188,12 +188,12 @@ case $CA_NETWORK in
       --http.addr=0.0.0.0 \
       --http.corsdomain=* \
       --http.vhosts=* \
-      --http.api=web3,debug,eth,txpool,net,admin,rpc \
+      --http.api=web3,debug,eth,txpool,net,rpc \
       --http.port=8657 \
       --ws \
       --ws.addr=0.0.0.0 \
       --ws.origins=* \
-      --ws.api=web3,debug,eth,txpool,net,admin,rpc \
+      --ws.api=web3,debug,eth,txpool,net,rpc \
       --authrpc.jwtsecret=/data/jwtsecret.hex \
       --authrpc.addr=0.0.0.0 \
       --authrpc.vhosts=* \
