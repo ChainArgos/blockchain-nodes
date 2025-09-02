@@ -1,4 +1,4 @@
-ARG GETH_VERSION=1.16.2-dd1ebac1
+ARG GETH_VERSION=1.16.3-d818a9af
 
 FROM --platform=arm64 donbeave/debian-blockchain-base
 
