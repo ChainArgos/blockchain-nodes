@@ -21,7 +21,6 @@ exec nitro \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
   --http.vhosts=* \
-  --execution.caching.archive \
   --execution.tx-indexer.tx-lookup-limit=0 \
   --execution.rpc.log-history=0 \
   --node.staker.enable=false \
