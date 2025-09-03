@@ -14,6 +14,7 @@ fi
 exec nitro \
   --parent-chain.connection.url="${CA_ETHEREUM_RPC_URL}" \
   --parent-chain.blob-client.beacon-url="${CA_ETHEREUM_BEACON_URL}" \
+  --parent-chain.blob-client.secondary-beacon-url="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
   --chain.name=arb1 \
   --init.latest=pruned \
   --blocks-reexecutor.mode=full \
