@@ -1,4 +1,4 @@
-ARG RONIN_VERSION=1.1.1
+ARG RONIN_VERSION=1.1.2
 
 FROM --platform=arm64 donbeave/debian-blockchain-build AS build
 
