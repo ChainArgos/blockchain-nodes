@@ -1,0 +1,34 @@
+ARG BERA_GETH_VERSION=1.011602.3
+ARG BERA_GETH_COMMIT=d2eb3b37
+
+FROM --platform=arm64 donbeave/debian-blockchain-base
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+ARG BERA_GETH_VERSION
+ARG BERA_GETH_COMMIT
+
+RUN cd /tmp \
+    && curl -L https://github.com/berachain/bera-geth/releases/download/v${BERA_GETH_VERSION}/bera-geth-alltools-linux-arm64-v${BERA_GETH_VERSION}-${BERA_GETH_COMMIT}.tar.gz -o geth.tar.gz \
+    && tar -xvf geth.tar.gz \
+    && rm geth.tar.gz \
+    && rm bera-geth-*/COPYING \
+    && mv bera-geth-*/* /usr/local/bin/ \
+    && rm -r bera-geth-* \
+    && rm -rf /tmp/*
+
+ADD config /config/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]

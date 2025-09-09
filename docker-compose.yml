@@ -79,7 +79,7 @@ services:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
   berachain-geth:
-    image: donbeave/geth
+    image: donbeave/bera-geth
     container_name: berachain-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -92,8 +92,6 @@ services:
       - "8654:8654"
       - "30308:30308/tcp"
       - "30308:30308/udp"
-    environment:
-      CA_NETWORK: berachain
     volumes:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 

@@ -63,35 +63,6 @@ case $CA_NETWORK in
       --txpool.nolocals=true
     ;;
 
-  berachain)
-    EL_BOOTNODES=$(grep '^enode://' "/config/berachain/el-bootnodes.txt"| tr '\n' ',' | sed 's/,$//')
-
-    exec geth \
-      --datadir=/data/geth \
-      --db.engine=pebble \
-      --history.transactions=0 \
-      --state.scheme=path \
-      --syncmode=full \
-      --bootnodes="$EL_BOOTNODES" \
-      --http \
-      --http.addr=0.0.0.0 \
-      --http.corsdomain=* \
-      --http.vhosts=* \
-      --http.port=8654 \
-      --authrpc.jwtsecret=/data/jwtsecret.hex \
-      --authrpc.addr=0.0.0.0 \
-      --authrpc.vhosts=* \
-      --authrpc.port=8551 \
-      --maxpeers=200 \
-      --cache=8000 \
-      --port=30308 \
-      --discovery.port=30308 \
-      --discv4=true \
-      --discv5=true \
-      --nat=extip:"$PUBLIC_IP" \
-      --txpool.nolocals=true
-    ;;
-
   linea)
     exec /opt/geth-1.13/geth \
       --datadir=/data/geth \
