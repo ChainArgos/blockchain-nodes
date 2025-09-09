@@ -10,11 +10,6 @@ eval "$(mise activate bash)"
 # initialize the data directory
 ls -la /data > /dev/null
 
-if [[ -z "${CA_NETWORK}" ]]; then
-  echo "ERROR: CA_NETWORK is not set"
-  exit 1
-fi
-
 if [ ! -d "/data/geth" ]; then
   echo "Init genesis geth."
 
