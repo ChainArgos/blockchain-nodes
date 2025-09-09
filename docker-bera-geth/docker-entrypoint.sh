@@ -13,7 +13,7 @@ ls -la /data > /dev/null
 if [ ! -d "/data/geth" ]; then
   echo "Init genesis geth."
 
-  geth --db.engine=pebble --state.scheme=path --datadir=/data/geth init /config/berachain/genesis.json
+  bera-geth --db.engine=pebble --state.scheme=path --datadir=/data/geth init /config/berachain/genesis.json
 fi
 
 if [ ! -f "/data/jwtsecret.hex" ]; then
