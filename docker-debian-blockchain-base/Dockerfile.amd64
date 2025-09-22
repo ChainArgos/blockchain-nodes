@@ -3,7 +3,7 @@ FROM debian:trixie
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV XH_VERSION=0.24.1
+ENV XH_VERSION=0.25.0
 ENV GOMPLATE_VERSION=4.3.3
 
 RUN apt-get update \
