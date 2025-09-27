@@ -19,6 +19,8 @@ if [ ! -d "/data/heimdall" ]; then
   cp /config/genesis.json.xz /data/heimdall/config/genesis.json.xz
   rm /data/heimdall/config/genesis.json
   unxz /data/heimdall/config/genesis.json.xz
+
+  chmod 600 /data/heimdall/config/priv_validator_key.json
 fi
 
 echo "Initialization completed successfully"
