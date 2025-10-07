@@ -1,6 +1,6 @@
 FROM --platform=arm64 donbeave/debian-blockchain-build AS build
 
-ENV BOR_VERSION=2.2.11
+ENV BOR_VERSION=2.3.1
 
 RUN git clone --branch v${BOR_VERSION} --single-branch --depth=1 https://github.com/maticnetwork/bor.git
 
