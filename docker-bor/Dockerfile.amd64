@@ -1,6 +1,6 @@
 FROM donbeave/debian-blockchain-build AS build
 
-ENV BOR_VERSION=2.3.1-hotfix2
+ENV BOR_VERSION=2.3.3
 
 RUN git clone --branch v${BOR_VERSION} --single-branch --depth=1 https://github.com/maticnetwork/bor.git
 
