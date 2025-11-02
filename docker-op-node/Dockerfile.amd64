@@ -4,7 +4,7 @@ FROM donbeave/debian-blockchain-build AS build
 
 ARG GITHUB_TOKEN
 
-ENV OP_NODE_VERSION=1.14.3
+ENV OP_NODE_VERSION=1.16.0
 
 RUN git clone --branch op-node/v${OP_NODE_VERSION} --single-branch --depth=1 https://github.com/ethereum-optimism/optimism.git
 
