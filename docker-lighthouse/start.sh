@@ -21,5 +21,6 @@ exec lighthouse \
   --network=mainnet \
   --genesis-backfill \
   --reconstruct-historic-states \
+  --supernode \
   --http \
   --http-address=0.0.0.0
