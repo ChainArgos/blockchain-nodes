@@ -1,4 +1,4 @@
-FROM --platform=arm64 offchainlabs/nitro-node:v3.9.0-cca645a AS build
+FROM --platform=arm64 offchainlabs/nitro-node:v3.9.1-241cd93 AS build
 
 RUN ls
 # end build
