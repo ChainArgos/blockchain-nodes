@@ -6,11 +6,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-debian-blockchain-base/build.sh
   docker-debian-blockchain-build:
@@ -18,11 +18,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-debian-blockchain-build/build.sh
   docker-arbitrum:
@@ -30,11 +30,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-arbitrum/build.sh
   docker-avalanchego:
@@ -42,11 +42,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-avalanchego/build.sh
   docker-beacon-kit:
@@ -54,11 +54,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-beacon-kit/build.sh
   docker-bera-geth:
@@ -66,11 +66,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-bera-geth/build.sh
   docker-bitcoin-core:
@@ -78,11 +78,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-bitcoin-core/build.sh
   docker-bor:
@@ -90,11 +90,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-bor/build.sh
   docker-bsc-geth:
@@ -102,11 +102,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-bsc-geth/build.sh
   docker-cardano-node:
@@ -114,11 +114,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-cardano-node/build.sh
   docker-celo-geth:
@@ -126,11 +126,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-celo-geth/build.sh
   docker-dogecoin-core:
@@ -138,11 +138,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-dogecoin-core/build.sh
   docker-eigenda-proxy:
@@ -150,11 +150,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-eigenda-proxy/build.sh
   docker-geth:
@@ -162,11 +162,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-geth/build.sh
   docker-heco-geth:
@@ -174,11 +174,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-heco-geth/build.sh
   docker-heimdall:
@@ -186,11 +186,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
         with:
           lfs: true
       - run: ./init-docker-buildx.sh
@@ -200,11 +200,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-kcc-geth/build.sh
   docker-lighthouse:
@@ -212,11 +212,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-lighthouse/build.sh
   docker-litecoin-core:
@@ -224,11 +224,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-litecoin-core/build.sh
   docker-octez:
@@ -236,11 +236,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-octez/build.sh
   docker-celo-op-geth:
@@ -248,11 +248,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-celo-op-geth/build.sh
   docker-celo-op-node:
@@ -260,11 +260,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-celo-op-node/build.sh
   docker-op-geth:
@@ -272,11 +272,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-op-geth/build.sh
   docker-op-node:
@@ -284,11 +284,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-op-node/build.sh
   docker-ronin-geth:
@@ -296,11 +296,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-ronin-geth/build.sh
   docker-scroll-geth:
@@ -308,11 +308,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-scroll-geth/build.sh
   docker-sonic-geth:
@@ -320,11 +320,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-sonic-geth/build.sh
   docker-tron-java:
@@ -332,11 +332,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-tron-java/build.sh
   docker-wbt-geth:
@@ -344,10 +344,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: ./init-docker-buildx.sh
       - run: ./docker-wbt-geth/build.sh

@@ -1,4 +1,4 @@
-FROM --platform=arm64 donbeave/debian-blockchain-build AS build
+FROM --platform=arm64 donbeave/debian-blockchain-build@sha256:6a5245c45cd72b1832991bdfc1d6c1b91b9d8a5cdaf445d093bf7a2f1ffc6581 AS build
 
 ENV OP_GETH_VERSION=1.101603.5
 
@@ -9,7 +9,7 @@ WORKDIR /op-geth
 RUN go run build/ci.go install -static ./cmd/geth
 # end build
 
-FROM --platform=arm64 donbeave/debian-blockchain-base
+FROM --platform=arm64 donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4d3c34f96dc26a5a874f9c476224dd94afaae4789e2bba
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 

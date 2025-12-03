@@ -1,6 +1,6 @@
 services:
   arbitrum-one:
-    image: donbeave/arbitrum
+    image: donbeave/arbitrum@sha256:458c8bd2268c37ff3c665a9c43ec54db567ccd42d8ad6ca557708348ce792159
     container_name: arbitrum-one
     restart: unless-stopped
     stop_grace_period: 15m
@@ -16,7 +16,7 @@ services:
       - ${ARBITRUM_ROOT_DIR:-~}/arbitrum:/data
 
   avax-avalanchego:
-    image: donbeave/avalanchego
+    image: donbeave/avalanchego@sha256:6b4389102647f732907691565f81455f95a6b02d85c68d3fa8ac273f13a57c5a
     container_name: avax-avalanchego
     restart: unless-stopped
     stop_grace_period: 15m
@@ -27,7 +27,7 @@ services:
       - ${AVAX_ROOT_DIR:-~}/avax:/data
 
   base-op-geth:
-    image: donbeave/op-geth
+    image: donbeave/op-geth@sha256:6c41d8a7b60863bab91035a58aec03e34719518898f1fa6c571d86cf3b7520cf
     container_name: base-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -46,7 +46,7 @@ services:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
   base-op-node:
-    image: donbeave/op-node
+    image: donbeave/op-node@sha256:dcb9e1580f09a6639b480e6f1824ac0813668f237a0e763c87a88718293bf1d1
     container_name: base-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -64,7 +64,7 @@ services:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
   berachain-beacon-kit:
-    image: donbeave/beacon-kit
+    image: donbeave/beacon-kit@sha256:3ca7c675826ab09ac0d6f8522c5f79251cb7f6435183c384a0c14d54a48c6ea1
     container_name: berachain-beacon-kit
     restart: unless-stopped
     stop_grace_period: 15m
@@ -79,7 +79,7 @@ services:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
   berachain-geth:
-    image: donbeave/bera-geth
+    image: donbeave/bera-geth@sha256:46bd486e334fed3c295fb86551a794e3e3685467f8362c1655cc6654ff3e63e3
     container_name: berachain-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -96,7 +96,7 @@ services:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
   bitcoin-core:
-    image: donbeave/bitcoin-core
+    image: donbeave/bitcoin-core@sha256:1b101a3827d0762546c342a4df70e0eb93c07698e01c5f39ce752235a6662bdb
     container_name: bitcoin-core
     restart: unless-stopped
     stop_grace_period: 15m
@@ -107,7 +107,7 @@ services:
       - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
   bsc-geth:
-    image: donbeave/bsc-geth
+    image: donbeave/bsc-geth@sha256:f29a65c9e4b45b6d7840e1c92ff87ce6fca33a9bb885dd3336fa0245b1d0aee9
     container_name: bsc-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -120,7 +120,7 @@ services:
       - ${BSC_ROOT_DIR:-~}/bsc:/data
 
   cardano-node:
-    image: donbeave/cardano-node
+    image: donbeave/cardano-node@sha256:ff59a1ad886b21bdca41716857f7a300d10d93c386a4a2a0210dc3c1c530520d
     container_name: cardano-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -129,7 +129,7 @@ services:
       - ${CARDANO_ROOT_DIR:-~}/cardano:/data
 
   celo-eigenda-proxy:
-    image: donbeave/eigenda-proxy
+    image: donbeave/eigenda-proxy@sha256:12eb94ee9863ab9de809cd3c0c8d7fe270d73a6e770031656507cd8abf7f7a66
     container_name: celo-eigenda-proxy
     restart: unless-stopped
     stop_grace_period: 15m
@@ -140,7 +140,7 @@ services:
       CA_NETWORK: celo
 
   celo-geth:
-    image: donbeave/celo-geth
+    image: donbeave/celo-geth@sha256:ebcba3af1a0c7ce9d9fab0cac908a2887950d931ebfd9ff60c4977c8a5fe638f
     container_name: celo-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -151,7 +151,7 @@ services:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
   celo-op-geth:
-    image: donbeave/celo-op-geth
+    image: donbeave/celo-op-geth@sha256:a7b5b6982001d312232a617eae23eaf3d0ca7ad747a11f66f5652d789cd6cbc0
     container_name: celo-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -168,7 +168,7 @@ services:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
   celo-op-node:
-    image: donbeave/celo-op-node
+    image: donbeave/celo-op-node@sha256:9aa4db392cf327a73479fec9d60f1eb58410d42bdc6d25e9d0b0da954ee40d71
     container_name: celo-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -184,7 +184,7 @@ services:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
   dogecoin-core:
-    image: donbeave/dogecoin-core
+    image: donbeave/dogecoin-core@sha256:4f883020ef0da4f6a96e2ef04ef544c926cf07b3cb705d323dfb4b1bce815e10
     container_name: dogecoin-core
     restart: unless-stopped
     stop_grace_period: 15m
@@ -195,7 +195,7 @@ services:
       - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
 
   ethereum-geth:
-    image: donbeave/geth
+    image: donbeave/geth@sha256:c1b4a47a4199a462acd88f2e519506ae1a635ea583e287ea5f6e1ae8435970ef
     container_name: ethereum-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -214,7 +214,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   ethereum-lighthouse:
-    image: donbeave/lighthouse
+    image: donbeave/lighthouse@sha256:82bfc1541d304082bff846336fe8cfd24f90d562ecdce067cf957c931a530970
     container_name: ethereum-lighthouse
     restart: unless-stopped
     stop_grace_period: 15m
@@ -229,7 +229,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   heco-geth:
-    image: donbeave/heco-geth
+    image: donbeave/heco-geth@sha256:c84b2f07583c859a97627be4421406c97ed71ff54df423c9da9add8f9ad7acfd
     container_name: heco-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -240,7 +240,7 @@ services:
       - ${HECO_ROOT_DIR:-~}/heco:/data
 
   ink-op-geth:
-    image: donbeave/op-geth
+    image: donbeave/op-geth@sha256:6c41d8a7b60863bab91035a58aec03e34719518898f1fa6c571d86cf3b7520cf
     container_name: ink-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -259,7 +259,7 @@ services:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
   ink-op-node:
-    image: donbeave/op-node
+    image: donbeave/op-node@sha256:dcb9e1580f09a6639b480e6f1824ac0813668f237a0e763c87a88718293bf1d1
     container_name: ink-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -277,7 +277,7 @@ services:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
   kcc-geth:
-    image: donbeave/kcc-geth
+    image: donbeave/kcc-geth@sha256:991431ef6100aff43fdffb0cb899c944b8f093e2603bbe5bfa2939da30f44839
     container_name: kcc-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -288,7 +288,7 @@ services:
       - ${KCC_ROOT_DIR:-~}/kcc:/data
 
   linea-geth:
-    image: donbeave/geth
+    image: donbeave/geth@sha256:c1b4a47a4199a462acd88f2e519506ae1a635ea583e287ea5f6e1ae8435970ef
     container_name: linea-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -307,7 +307,7 @@ services:
       - ${LINEA_ROOT_DIR:-~}/linea:/data
 
   litecoin-core:
-    image: donbeave/litecoin-core
+    image: donbeave/litecoin-core@sha256:d5a79874c2d7fb626aef665b780c1b8be5900d825676ff21f8c63b7f7bee8039
     container_name: litecoin-core
     restart: unless-stopped
     stop_grace_period: 15m
@@ -318,7 +318,7 @@ services:
       - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
 
   optimism-op-geth:
-    image: donbeave/op-geth
+    image: donbeave/op-geth@sha256:6c41d8a7b60863bab91035a58aec03e34719518898f1fa6c571d86cf3b7520cf
     container_name: optimism-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -337,7 +337,7 @@ services:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   optimism-op-node:
-    image: donbeave/op-node
+    image: donbeave/op-node@sha256:dcb9e1580f09a6639b480e6f1824ac0813668f237a0e763c87a88718293bf1d1
     container_name: optimism-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -355,7 +355,7 @@ services:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   polygon-bor:
-    image: donbeave/bor
+    image: donbeave/bor@sha256:d3c751629d421b82159989af0a12d3dd59cf39a69f104131c8ed67599f2313ae
     container_name: polygon-bor
     restart: unless-stopped
     stop_grace_period: 15m
@@ -372,7 +372,7 @@ services:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
   polygon-heimdall:
-    image: donbeave/heimdall
+    image: donbeave/heimdall@sha256:8131dba5e8a7c59f2d5cfcab731c3d9d125b7a541d07c80c02dba22ee0bb4e49
     container_name: polygon-heimdall
     restart: unless-stopped
     stop_grace_period: 15m
@@ -389,7 +389,7 @@ services:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
   ronin-geth:
-    image: donbeave/ronin-geth
+    image: donbeave/ronin-geth@sha256:5b3b77a9c97617ff4b6aa3749249376bba5e868ff4162753375959786d4f5282
     container_name: ronin-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -402,7 +402,7 @@ services:
       - ${RONIN_ROOT_DIR:-~}/ronin:/data
 
   scroll-geth:
-    image: donbeave/scroll-geth
+    image: donbeave/scroll-geth@sha256:4960b97907688c33bc21c13e590b4d8419cb0c2c729e470293eff75ef693d390
     container_name: scroll-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -413,7 +413,7 @@ services:
       - ${SCROLL_ROOT_DIR:-~}/scroll:/data
 
   sonic-geth:
-    image: donbeave/sonic-geth
+    image: donbeave/sonic-geth@sha256:5dd08b50f8a619180faf22306262b9689ad7a7dce47c153207030c72449554e1
     container_name: sonic-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -424,7 +424,7 @@ services:
       - ${SONIC_ROOT_DIR:-~}/sonic:/data
 
   tezos-octez-node:
-    image: donbeave/octez
+    image: donbeave/octez@sha256:0947cee2eb53cc7fd5d5b520796e0c2693c7c329d8d9b4c67ae40b9d7f217dab
     container_name: tezos-octez-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -435,7 +435,7 @@ services:
       - ${TEZOS_ROOT_DIR:-~}/tezos:/data
 
   tron-java:
-    image: donbeave/tron-java
+    image: donbeave/tron-java@sha256:c1cd5d939fa66634d07a18e6e04b9a7e5711be20c6b0ea808e84aa95a63aff29
     container_name: tron-java
     restart: unless-stopped
     stop_grace_period: 15m
@@ -447,7 +447,7 @@ services:
       - ${TRON_ROOT_DIR:-~}/tron:/data
 
   unichain-op-geth:
-    image: donbeave/op-geth
+    image: donbeave/op-geth@sha256:6c41d8a7b60863bab91035a58aec03e34719518898f1fa6c571d86cf3b7520cf
     container_name: unichain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -466,7 +466,7 @@ services:
       - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
 
   unichain-op-node:
-    image: donbeave/op-node
+    image: donbeave/op-node@sha256:dcb9e1580f09a6639b480e6f1824ac0813668f237a0e763c87a88718293bf1d1
     container_name: unichain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -484,7 +484,7 @@ services:
       - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
 
   wbt-geth:
-    image: donbeave/wbt-geth
+    image: donbeave/wbt-geth@sha256:77a480491eb5a2dd8f42ceecd368c2e29d1709280a25bf3d165f2de8629a1bd9
     container_name: wbt-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -495,7 +495,7 @@ services:
       - ${WBT_ROOT_DIR:-~}/wbt:/data
 
   worldchain-op-geth:
-    image: donbeave/op-geth
+    image: donbeave/op-geth@sha256:6c41d8a7b60863bab91035a58aec03e34719518898f1fa6c571d86cf3b7520cf
     container_name: worldchain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -514,7 +514,7 @@ services:
       - ${WORLDCHAIN_ROOT_DIR:-~}/worldchain:/data
 
   worldchain-op-node:
-    image: donbeave/op-node
+    image: donbeave/op-node@sha256:dcb9e1580f09a6639b480e6f1824ac0813668f237a0e763c87a88718293bf1d1
     container_name: worldchain-op-node
     restart: unless-stopped
     stop_grace_period: 15m

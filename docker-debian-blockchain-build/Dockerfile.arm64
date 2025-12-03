@@ -1,4 +1,4 @@
-FROM --platform=arm64 donbeave/debian-blockchain-base AS build
+FROM --platform=arm64 donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4d3c34f96dc26a5a874f9c476224dd94afaae4789e2bba AS build
 
 RUN apt-get update \
     && apt-get upgrade -y \
