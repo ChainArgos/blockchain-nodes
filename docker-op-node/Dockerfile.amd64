@@ -1,6 +1,6 @@
 ARG GITHUB_TOKEN=
 
-FROM donbeave/debian-blockchain-build AS build
+FROM donbeave/debian-blockchain-build@sha256:6a5245c45cd72b1832991bdfc1d6c1b91b9d8a5cdaf445d093bf7a2f1ffc6581 AS build
 
 ARG GITHUB_TOKEN
 
@@ -16,7 +16,7 @@ RUN mise install
 RUN make op-node
 # end build
 
-FROM donbeave/debian-blockchain-base
+FROM donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4d3c34f96dc26a5a874f9c476224dd94afaae4789e2bba
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
