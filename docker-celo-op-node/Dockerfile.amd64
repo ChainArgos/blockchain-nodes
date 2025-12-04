@@ -11,6 +11,7 @@ RUN git clone --branch celo-v${OP_NODE_VERSION} --single-branch --depth=1 https:
 WORKDIR /optimism
 
 RUN mise trust
+RUN mise config set settings.disable_tools --type list asterisc,kontrol,binary_signer
 RUN mise install
 
 RUN make op-node
