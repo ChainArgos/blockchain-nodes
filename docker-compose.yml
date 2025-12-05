@@ -16,7 +16,7 @@ services:
       - ${ARBITRUM_ROOT_DIR:-~}/arbitrum:/data
 
   avax-avalanchego:
-    image: donbeave/avalanchego@sha256:6b4389102647f732907691565f81455f95a6b02d85c68d3fa8ac273f13a57c5a
+    image: donbeave/avalanchego@sha256:882922f83df1237e893724e9d97cf98740f1f9fb192833b6d84a0f2ec53ea1b9
     container_name: avax-avalanchego
     restart: unless-stopped
     stop_grace_period: 15m
