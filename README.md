@@ -1,140 +1,283 @@
-# blockchain-nodes
+# Blockchain Nodes
 
-## TODO
-- Movement (https://github.com/movementlabsxyz/movement)
-- Aptos (https://aptos.dev/en/network/nodes/full-node)
-- dYdX (https://docs.dydx.exchange/infrastructure_providers-validators/set_up_full_node)
-- TON (https://docs.ton.org/participate/run-nodes/archive-node)
-- Solana:
-  - https://docs.solanalabs.com/operations/setup-an-rpc-node
-  - https://medium.com/coinmonks/how-to-run-a-solana-rpc-node-214c418429e5
+Modern Rust-based tooling for managing blockchain node Docker images and containers.
+
+## Quick Start
+
+### Prerequisites
+
+```bash
+# Install rust-script for running Rust scripts
+cargo install rust-script
+
+# Install Just command runner (optional but recommended)
+brew install just  # macOS
+# or
+cargo install just
+```
+
+### Common Tasks
+
+```bash
+# List all available commands
+just
+
+# Build a Docker image
+just build geth
+
+# Restart a container
+just restart-ethereum-geth
+
+# Stop a container
+just stop ethereum-geth
+```
+
+## Tools
+
+This project includes three main Rust-based CLI tools:
+
+### 1. build.rs - Docker Image Builder
+
+Builds multi-platform Docker images for blockchain nodes.
+
+```bash
+# Build a package
+./build.rs geth
+
+# Dry run to see what would be executed
+./build.rs geth --dry-run
+
+# Or use Just
+just build geth
+just build-dry geth
+```
+
+**Features:**
+- Multi-platform builds (amd64, arm64)
+- Automatic manifest creation
+- Color-coded output with progress indicators
+- Configuration via simple TOML files
+
+📖 [Full Documentation](BUILD_SYSTEM.md)
+
+### 2. containerctl.rs - Container Management
+
+Manages Docker Compose containers with restart and stop operations.
+
+```bash
+# Restart a container with log following
+./containerctl.rs restart ethereum-geth -f
+
+# Stop a container
+./containerctl.rs stop ethereum-geth
+
+# Or use Just
+just restart ethereum-geth
+just stop ethereum-geth
+```
+
+**Features:**
+- Pull latest images
+- Graceful container restarts
+- Optional log following
+- Modern CLI with visual feedback
+
+📖 [Full Documentation](CONTAINERCTL.md)
+
+### 3. Justfile - Command Runner
+
+Simplifies common tasks with memorable commands.
+
+```bash
+# See all available commands
+just
+
+# Use named commands
+just restart-ethereum-geth
+just restart-bitcoin-core
+just build geth
+```
+
+**Benefits:**
+- Simple, memorable commands
+- Self-documenting (just --list)
+- Tab completion support
+- All commands in one place
+
+📖 [Full Documentation](JUSTFILE.md)
+
+## Project Structure
+
+```
+blockchain-nodes/
+├── build.rs              # Docker image builder
+├── containerctl.rs       # Container management tool
+├── Justfile             # Just command runner recipes
+├── Cargo.toml           # Rust dependencies
+│
+├── docker-*/            # Package directories
+│   ├── build.toml       # Build configuration
+│   ├── Dockerfile.amd64 # AMD64 Dockerfile
+│   └── Dockerfile.arm64 # ARM64 Dockerfile
+│
+└── docs/
+    ├── BUILD_SYSTEM.md  # Build system documentation
+    ├── CONTAINERCTL.md  # Container management docs
+    └── JUSTFILE.md      # Just command runner docs
+```
 
 ## Configuration
 
-By default, all nodes are designed to store data in the `/data` volume, which is mounted to the host machine (default
-path is `$HOME/<name_of_blockchain>`, for example for Bitcoin blockchain it will be `$HOME/bitcoin/`). This is done to 
-make it easy to backup and restore the data. This can be changed by creating a copy of `.env.sample` and renaming it
-to `.env`, by changing the root path for the particular blockchain (for example `BITCOIN_ROOT_DIR` env will manage 
-the path to the root directory where Bitcoin data will be stored).
+Each package has a `build.toml` configuration file:
 
-## How to run nodes?
+```toml
+[package]
+name = "geth"
+version = "1.16.7-1"
 
-This repo contains docker images for nodes that we run on our machines. We built our images for a few reasons:
-- We used the same approach for the project's structure, we store all persistent data in `/data` volume.
-- We added some utilities to work with RPC API inside the docker container, to make it easy to debug the state of the node.
-- All images are designed to be full nodes (archive nodes) first, and tuned for maximum performance for such purpose.
-- Most of our images are available for Linux AMD64 and ARM64 platforms, these images can be run on macOS with `Docker Desktop` (https://www.docker.com/products/docker-desktop/) or `OrbStack` (https://orbstack.dev). We suggest using OrbStack as it is much faster and using native virtualization.
+[docker]
+repository = "donbeave/geth"
+platforms = ["amd64", "arm64"]
+```
 
-We also provide a Docker Compose file to simplify the process of running a node.
+## Examples
 
-For some blockchains (like Ethereum) we use different clients to compare the performance and storage usage. Below is an instruction on how to run nodes separated by different blockchains.
-
-We also provide some helper scripts, which by default pull the latest image from the Docker Hub, and start it (if it was not started before) or stop the previous running node to restart it with the latest pulled image. After running the node in a daemon mode, it will stream the logs from the container to the stdout console to see the results.
-
-### Bitcoin
-
-For Bitcoin, only one client is available, which is `bitcoin-core`:
+### Building Images
 
 ```bash
+# Build a single package
+just build geth
+
+# Build with custom docker args
+./build.rs geth --extra-args "--progress auto"
+
+# Dry run to preview commands
+just build-dry geth
+```
+
+### Managing Containers
+
+```bash
+# Restart and follow logs
+just restart-ethereum-geth
+
+# Generic restart command
+just restart ethereum-geth
+
+# Stop a container
+just stop ethereum-geth
+```
+
+### Multiple Operations
+
+```bash
+# Restart multiple containers
+just restart-ethereum-geth restart-bitcoin-core
+```
+
+## Migration from Old Scripts
+
+### build.sh → build.rs
+
+**Before:**
+```bash
+cd docker-geth
+./build.sh
+```
+
+**After:**
+```bash
+just build geth
+# or
+./build.rs geth
+```
+
+### restart-*.sh → Justfile
+
+**Before:**
+```bash
+./restart-ethereum-geth.sh
 ./restart-bitcoin-core.sh
 ```
 
-### Ethereum
-
-For Ethereum, there are two available configurations for how to run a full node.
-
-To run Ethereum with a `geth` execution client (written in Go) and a `Lighthouse` consensus client (written in Rust) need to execute the following commands:
-
+**After:**
 ```bash
-./restart-ethereum-geth.sh
-./restart-ethereum-lighthouse.sh
+just restart-ethereum-geth
+just restart-bitcoin-core
 ```
 
-### BSC
+### containerctl.main.kts → containerctl.rs
 
-BSC is using a forked version of Ethereum's `geth` client to run it execute this command:
-
+**Before:**
 ```bash
-./restart-bsc-geth.sh
+./containerctl.main.kts restart ethereum-geth -f
 ```
 
-### Tron
-
-There is only one client available for Tron and it's written in Java. It uses the old Java 8 and it doesn't work on ARM64 architecture (even though we provide that image), probably one day there be a solution for that, please follow this PR for ongoing discussion: https://github.com/tronprotocol/java-tron/pull/5845.
-
+**After:**
 ```bash
-./restart-tron-java.sh
+./containerctl.rs restart ethereum-geth -f
+# or
+just restart ethereum-geth
 ```
 
-## How to build docker images?
+## Features
 
-First of all, you need to run the BuildKit docker container, it's necessary to build multi-arch images. Latest version of Docker
-already integrated it as command `buildx`. Run the following command to create a new builder and set it as default:
+✅ **Modern CLI** - Color-coded output with progress indicators  
+✅ **Simplified commands** - Easy-to-remember Just recipes  
+✅ **Multi-platform builds** - Support for amd64 and arm64  
+✅ **Self-documenting** - Built-in help and command listings  
+✅ **Error handling** - Clear error messages and proper exit codes  
+✅ **Dry-run mode** - Preview commands before execution  
+✅ **Configuration-driven** - Simple TOML configs per package  
+
+## Development
+
+### Running with Cargo
 
 ```bash
-docker buildx create --name "buildx" --driver docker-container --use
-docker buildx use buildx
+# Build system
+cargo run --bin build -- geth
+
+# Container control
+cargo run --bin containerctl -- restart ethereum-geth -f
 ```
 
-Inside the specific project folder, just run the `build.sh` command to build the image, for example for Bitcoin Core:
+### Dependencies
 
-```bash
-./docker-bitcoin-core/build.sh
-```
+All tools use:
+- `anyhow` - Error handling
+- `clap` - Command-line argument parsing
+- `owo-colors` - Terminal colors
+- `serde` & `toml` - Configuration parsing (build.rs only)
 
-## How to run full nodes (official wiki)
+## Supported Blockchain Nodes
 
-Ethereum:
-- https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node
-- Besu/Teku clients: https://besu.hyperledger.org/public-networks/tutorials/besu-teku-mainnet
+- Arbitrum
+- Avalanche
+- Base
+- Berachain
+- Bitcoin
+- BSC (Binance Smart Chain)
+- Cardano
+- Celo
+- Dogecoin
+- Ethereum (Geth + Lighthouse)
+- HECO
+- Ink
+- KCC
+- Linea
+- Litecoin
+- Optimism
+- Polygon
+- Ronin
+- Scroll
+- Sonic
+- Tezos
+- Tron
+- Unichain
+- WBT
+- Worldchain
 
-BSC:
-- https://docs.bnbchain.org/docs/validator/fullnode/
+## License
 
-Tron:
-- https://developers.tron.network/docs/deploy-the-fullnode-or-supernode
-
-Polygon:
-- https://docs.polygon.technology/pos/how-to/full-node/full-node-binaries
-- https://docs.polygon.technology/pos/how-to/full-node/full-node-docker
-
-Avalanche:
-- https://docs.avax.network/nodes/run-a-node/manually
-
-Cardano:
-- https://learn.lovelace.academy/getting-started/running-a-full-node
-
-Dogecoin:
-- https://dogecoin.com/dogepedia/how-tos/operating-a-node/
-
-Scroll:
-- https://docs.scroll.io/en/developers/guides/running-a-scroll-node
-
-Optimism:
-- https://docs.optimism.io/builders/node-operators/tutorials/mainnet
-
-Ronin:
-- https://docs.roninchain.com/basics/nodes
-- https://docs.roninchain.com/validators/setup/mainnet/run-archive
-
-Base: 
-- https://github.com/base-org/node
-
-Celo: 
-- https://docs.celo.org/network/mainnet/run-full-node
-- https://docs.celo.org/cel2/operators/run-node
-
-Tezos:
-- https://tezos.gitlab.io/user/history_modes.html
-
-Ink:
-- https://github.com/inkonchain/node
-
-Sonic:
-- https://docs.soniclabs.com/sonic/node-deployment/archive-node
-
-Linea:
-- https://docs.linea.build/get-started/how-to/run-a-node/geth
-
-World Chain:
-- https://github.com/worldcoin-foundation/simple-worldchain-node
+See LICENSE file for details.
