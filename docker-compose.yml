@@ -79,7 +79,7 @@ services:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
   berachain-geth:
-    image: donbeave/bera-geth@sha256:46bd486e334fed3c295fb86551a794e3e3685467f8362c1655cc6654ff3e63e3
+    image: donbeave/bera-geth@sha256:e2cad2c09360382dbcf450dbceb09ea53a700c0c088f6c29f34722c69416732f
     container_name: berachain-geth
     restart: unless-stopped
     stop_grace_period: 15m
