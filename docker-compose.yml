@@ -195,7 +195,7 @@ services:
       - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
 
   ethereum-geth:
-    image: donbeave/geth
+    image: donbeave/geth@sha256:e39f057761b67cac4301fa8c22a95c88abba45dd1ee8ca380e4f3a559769d0fc
     container_name: ethereum-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -214,7 +214,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   ethereum-lighthouse:
-    image: donbeave/lighthouse
+    image: donbeave/lighthouse@sha256:2778c47a6377d38d208aa1995c94f1a052004d07e735640495286480b36ae309
     container_name: ethereum-lighthouse
     restart: unless-stopped
     stop_grace_period: 15m
