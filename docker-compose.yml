@@ -214,7 +214,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   ethereum-lighthouse:
-    image: donbeave/lighthouse@sha256:2778c47a6377d38d208aa1995c94f1a052004d07e735640495286480b36ae309
+    image: donbeave/lighthouse@sha256:7c9157dc7e6f3ad04c6f0c6c5c5a5a068c40d680979d98f472d9c035105fd9de
     container_name: ethereum-lighthouse
     restart: unless-stopped
     stop_grace_period: 15m
