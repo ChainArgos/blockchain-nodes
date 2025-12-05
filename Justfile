@@ -20,6 +20,122 @@ build package:
 build-dry package:
     ./build.rs {{package}} --dry-run
 
+# Build Arbitrum Docker image
+build-arbitrum:
+    ./build.rs arbitrum
+
+# Build Avalanchego Docker image
+build-avalanchego:
+    ./build.rs avalanchego
+
+# Build Beacon Kit Docker image
+build-beacon-kit:
+    ./build.rs beacon-kit
+
+# Build Bera Geth Docker image
+build-bera-geth:
+    ./build.rs bera-geth
+
+# Build Bitcoin Core Docker image
+build-bitcoin-core:
+    ./build.rs bitcoin-core
+
+# Build Bor Docker image
+build-bor:
+    ./build.rs bor
+
+# Build BSC Geth Docker image
+build-bsc-geth:
+    ./build.rs bsc-geth
+
+# Build Cardano Node Docker image
+build-cardano-node:
+    ./build.rs cardano-node
+
+# Build Celo Geth Docker image
+build-celo-geth:
+    ./build.rs celo-geth
+
+# Build Celo OP Geth Docker image
+build-celo-op-geth:
+    ./build.rs celo-op-geth
+
+# Build Celo OP Node Docker image
+build-celo-op-node:
+    ./build.rs celo-op-node
+
+# Build Debian Blockchain Base Docker image
+build-debian-blockchain-base:
+    ./build.rs debian-blockchain-base
+
+# Build Debian Blockchain Build Docker image
+build-debian-blockchain-build:
+    ./build.rs debian-blockchain-build
+
+# Build Dogecoin Core Docker image
+build-dogecoin-core:
+    ./build.rs dogecoin-core
+
+# Build EigenDA Proxy Docker image
+build-eigenda-proxy:
+    ./build.rs eigenda-proxy
+
+# Build Geth Docker image
+build-geth:
+    ./build.rs geth
+
+# Build HECO Geth Docker image
+build-heco-geth:
+    ./build.rs heco-geth
+
+# Build Heimdall Docker image
+build-heimdall:
+    ./build.rs heimdall
+
+# Build KCC Geth Docker image
+build-kcc-geth:
+    ./build.rs kcc-geth
+
+# Build Lighthouse Docker image
+build-lighthouse:
+    ./build.rs lighthouse
+
+# Build Litecoin Core Docker image
+build-litecoin-core:
+    ./build.rs litecoin-core
+
+# Build Octez Docker image
+build-octez:
+    ./build.rs octez
+
+# Build OP Geth Docker image
+build-op-geth:
+    ./build.rs op-geth
+
+# Build OP Node Docker image
+build-op-node:
+    ./build.rs op-node
+
+# Build Ronin Geth Docker image
+build-ronin-geth:
+    ./build.rs ronin-geth
+
+# Build Scroll Geth Docker image
+build-scroll-geth:
+    ./build.rs scroll-geth
+
+# Build Sonic Geth Docker image
+build-sonic-geth:
+    ./build.rs sonic-geth
+
+# Build Tron Java Docker image
+build-tron-java:
+    ./build.rs tron-java
+
+# Build WBT Geth Docker image
+build-wbt-geth:
+    ./build.rs wbt-geth
+
 # Restart Arbitrum One node
 restart-arbitrum-one:
     ./containerctl.rs restart arbitrum-one -f

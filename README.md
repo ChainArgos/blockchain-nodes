@@ -145,7 +145,12 @@ platforms = ["amd64", "arm64"]
 ### Building Images
 
 ```bash
-# Build a single package
+# Build with named commands
+just build-geth
+just build-bitcoin-core
+just build-arbitrum
+
+# Build with generic command
 just build geth
 
 # Build with custom docker args

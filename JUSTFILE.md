@@ -66,6 +66,17 @@ Example:
 just build-dry geth
 ```
 
+#### Build specific images with named commands
+
+Each Docker image has a dedicated build command:
+
+```bash
+just build-geth
+just build-bitcoin-core
+just build-arbitrum
+# ... etc
+```
+
 ### Named Restart Commands
 
 For convenience, each container has a dedicated restart command:
@@ -123,11 +134,55 @@ just restart-ethereum-geth
 just restart-bitcoin-core
 ```
 
+## Available Build Commands
+
+```bash
+just build-arbitrum
+just build-avalanchego
+just build-beacon-kit
+just build-bera-geth
+just build-bitcoin-core
+just build-bor
+just build-bsc-geth
+just build-cardano-node
+just build-celo-geth
+just build-celo-op-geth
+just build-celo-op-node
+just build-debian-blockchain-base
+just build-debian-blockchain-build
+just build-dogecoin-core
+just build-eigenda-proxy
+just build-geth
+just build-heco-geth
+just build-heimdall
+just build-kcc-geth
+just build-lighthouse
+just build-litecoin-core
+just build-octez
+just build-op-geth
+just build-op-node
+just build-ronin-geth
+just build-scroll-geth
+just build-sonic-geth
+just build-tron-java
+just build-wbt-geth
+```
+
 ## Examples
 
 ```bash
 # List all commands
 just
+
+# Build Docker images
+just build-geth
+just build-bitcoin-core
+
+# Build with generic command
+just build geth
+
+# Dry run build
+just build-dry geth
 
 # Restart Ethereum node
 just restart-ethereum-geth
@@ -137,12 +192,6 @@ just restart ethereum-geth
 
 # Stop a container
 just stop ethereum-geth
-
-# Build geth Docker image
-just build geth
-
-# Dry run build
-just build-dry geth
 ```
 
 ## Benefits of Using Just
