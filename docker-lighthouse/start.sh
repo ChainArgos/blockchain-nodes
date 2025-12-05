@@ -15,7 +15,8 @@ done
 exec lighthouse \
   beacon_node \
   --datadir=/data/lighthouse \
-  --checkpoint-sync-url=https://beaconstate.info \
+  --checkpoint-sync-url=https://mainnet.checkpoint.sigp.io \
+  --checkpoint-sync-url-timeout=300 \
   --execution-endpoint="${CA_ETHEREUM_EXECUTION_URL}" \
   --execution-jwt=/data/jwtsecret.hex \
   --network=mainnet \
