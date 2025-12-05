@@ -140,7 +140,7 @@ services:
       CA_NETWORK: celo
 
   celo-geth:
-    image: donbeave/celo-geth@sha256:ebcba3af1a0c7ce9d9fab0cac908a2887950d931ebfd9ff60c4977c8a5fe638f
+    image: donbeave/celo-geth@sha256:38385f8726ffd112968b972c45d80e163d468d8bf72e60dee28da5e120e5fa90
     container_name: celo-geth
     restart: unless-stopped
     stop_grace_period: 15m
