@@ -5,7 +5,7 @@ cd "${ABSOLUTE_PATH}" || exit
 set -e
 
 export PACKAGE="litecoin-core"
-export DOCKER_IMAGE_VERSION="latest"
+export DOCKER_IMAGE_VERSION="0.21.4-1"
 export DOCKER_REPOSITORY="donbeave/${PACKAGE}"
 
 if [[ -z "${DOCKER_REPOSITORY}" ]]; then

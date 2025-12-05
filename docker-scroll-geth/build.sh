@@ -5,7 +5,7 @@ cd "${ABSOLUTE_PATH}" || exit
 set -e
 
 export PACKAGE="scroll-geth"
-export DOCKER_IMAGE_VERSION="latest"
+export DOCKER_IMAGE_VERSION="5.9.2-1"
 export DOCKER_REPOSITORY="donbeave/${PACKAGE}"
 
 if [[ -z "${DOCKER_REPOSITORY}" ]]; then

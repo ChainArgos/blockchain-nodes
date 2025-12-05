@@ -5,7 +5,7 @@ cd "${ABSOLUTE_PATH}" || exit
 set -e
 
 export PACKAGE="dogecoin-core"
-export DOCKER_IMAGE_VERSION="latest"
+export DOCKER_IMAGE_VERSION="1.14.8-1"
 export DOCKER_REPOSITORY="donbeave/${PACKAGE}"
 
 if [[ -z "${DOCKER_REPOSITORY}" ]]; then

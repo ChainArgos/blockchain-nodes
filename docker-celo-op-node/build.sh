@@ -5,7 +5,7 @@ cd "${ABSOLUTE_PATH}" || exit
 set -e
 
 export PACKAGE="celo-op-node"
-export DOCKER_IMAGE_VERSION="latest"
+export DOCKER_IMAGE_VERSION="2.1.0-1"
 export DOCKER_REPOSITORY="donbeave/${PACKAGE}"
 
 if [[ -z "${DOCKER_REPOSITORY}" ]]; then
