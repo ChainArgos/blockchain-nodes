@@ -1,8 +1,10 @@
+ARG LITECOIN_VERSION=0.21.4
+
 FROM --platform=arm64 donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4d3c34f96dc26a5a874f9c476224dd94afaae4789e2bba
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV LITECOIN_VERSION=0.21.4
+ARG LITECOIN_VERSION
 
 RUN cd /tmp \
     && curl -L https://github.com/litecoin-project/litecoin/releases/download/v${LITECOIN_VERSION}/litecoin-${LITECOIN_VERSION}-aarch64-linux-gnu.tar.gz -o litecoin.tar.gz \

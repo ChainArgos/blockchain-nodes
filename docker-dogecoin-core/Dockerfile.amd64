@@ -1,8 +1,10 @@
+ARG DOGECOIN_VERSION=1.14.8
+
 FROM donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4d3c34f96dc26a5a874f9c476224dd94afaae4789e2bba
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV DOGECOIN_VERSION=1.14.8
+ARG DOGECOIN_VERSION
 
 RUN cd /tmp \
     && curl -L https://github.com/dogecoin/dogecoin/releases/download/v${DOGECOIN_VERSION}/dogecoin-${DOGECOIN_VERSION}-x86_64-linux-gnu.tar.gz -o dogecoin.tar.gz \

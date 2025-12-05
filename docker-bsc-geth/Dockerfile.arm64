@@ -1,8 +1,10 @@
+ARG BSC_VERSION=1.6.3
+
 FROM --platform=arm64 donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4d3c34f96dc26a5a874f9c476224dd94afaae4789e2bba
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV BSC_VERSION=1.6.3
+ARG BSC_VERSION
 
 RUN curl -L https://github.com/bnb-chain/bsc/releases/download/v${BSC_VERSION}/geth-linux-arm64 -o /usr/local/bin/geth \
     && chmod -v u+x /usr/local/bin/geth

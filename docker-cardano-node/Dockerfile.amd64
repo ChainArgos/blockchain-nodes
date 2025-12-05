@@ -1,8 +1,10 @@
+ARG CARDANO_NODE_VERSION=10.5.3
+
 FROM donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4d3c34f96dc26a5a874f9c476224dd94afaae4789e2bba
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ENV CARDANO_NODE_VERSION=10.5.3
+ARG CARDANO_NODE_VERSION
 
 RUN cd /tmp \
     && curl -L https://github.com/IntersectMBO/cardano-node/releases/download/${CARDANO_NODE_VERSION}/cardano-node-${CARDANO_NODE_VERSION}-linux.tar.gz -o cardano-node.tar.gz \

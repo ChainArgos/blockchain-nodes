@@ -1,6 +1,8 @@
+ARG BOR_VERSION=2.5.0
+
 FROM donbeave/debian-blockchain-build@sha256:6a5245c45cd72b1832991bdfc1d6c1b91b9d8a5cdaf445d093bf7a2f1ffc6581 AS build
 
-ENV BOR_VERSION=2.5.0
+ARG BOR_VERSION
 
 RUN git clone --branch v${BOR_VERSION} --single-branch --depth=1 https://github.com/maticnetwork/bor.git
 

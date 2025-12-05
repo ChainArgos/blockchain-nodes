@@ -1,6 +1,8 @@
+ARG HEIMDALL_VERSION=0.4.3
+
 FROM --platform=arm64 donbeave/debian-blockchain-build@sha256:6a5245c45cd72b1832991bdfc1d6c1b91b9d8a5cdaf445d093bf7a2f1ffc6581 AS build
 
-ENV HEIMDALL_VERSION=0.4.3
+ARG HEIMDALL_VERSION
 
 RUN git clone --branch v${HEIMDALL_VERSION} --single-branch --depth=1 https://github.com/0xPolygon/heimdall-v2.git
 

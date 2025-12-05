@@ -1,6 +1,8 @@
+ARG EIGENDA_PROXY_VERSION=1.8.2
+
 FROM donbeave/debian-blockchain-build@sha256:6a5245c45cd72b1832991bdfc1d6c1b91b9d8a5cdaf445d093bf7a2f1ffc6581 AS build
 
-ENV EIGENDA_PROXY_VERSION=1.8.2
+ARG EIGENDA_PROXY_VERSION
 
 RUN git clone --branch v${EIGENDA_PROXY_VERSION} --single-branch --depth=1 https://github.com/Layr-Labs/eigenda-proxy.git
 
