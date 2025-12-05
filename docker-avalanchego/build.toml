@@ -1,0 +1,7 @@
+[package]
+name = "avalanchego"
+version = "1.14.0-1"
+
+[docker]
+repository = "donbeave/avalanchego"
+platforms = ["amd64", "arm64"]

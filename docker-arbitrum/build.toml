@@ -1,0 +1,7 @@
+[package]
+name = "arbitrum"
+version = "3.9.2-1"
+
+[docker]
+repository = "donbeave/arbitrum"
+platforms = ["amd64", "arm64"]

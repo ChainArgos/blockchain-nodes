@@ -1,0 +1,7 @@
+[package]
+name = "dogecoin-core"
+version = "1.14.8-1"
+
+[docker]
+repository = "donbeave/dogecoin-core"
+platforms = ["amd64", "arm64"]

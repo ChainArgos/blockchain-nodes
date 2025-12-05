@@ -1,0 +1,7 @@
+[package]
+name = "octez"
+version = "166077302-1"
+
+[docker]
+repository = "donbeave/octez"
+platforms = ["amd64", "arm64"]

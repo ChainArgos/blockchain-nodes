@@ -1,0 +1,7 @@
+[package]
+name = "op-node"
+version = "1.16.2-1"
+
+[docker]
+repository = "donbeave/op-node"
+platforms = ["amd64", "arm64"]

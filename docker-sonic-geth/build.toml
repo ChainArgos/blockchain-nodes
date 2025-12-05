@@ -1,0 +1,7 @@
+[package]
+name = "sonic-geth"
+version = "2.1.4-1"
+
+[docker]
+repository = "donbeave/sonic-geth"
+platforms = ["amd64", "arm64"]

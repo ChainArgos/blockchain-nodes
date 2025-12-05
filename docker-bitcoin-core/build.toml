@@ -1,0 +1,7 @@
+[package]
+name = "bitcoin-core"
+version = "30.0-1"
+
+[docker]
+repository = "donbeave/bitcoin-core"
+platforms = ["amd64", "arm64"]

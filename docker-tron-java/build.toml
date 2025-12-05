@@ -1,0 +1,7 @@
+[package]
+name = "tron-java"
+version = "4.8.0-1"
+
+[docker]
+repository = "donbeave/tron-java"
+platforms = ["amd64"]
