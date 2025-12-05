@@ -136,7 +136,7 @@ fn build_platform(
         config.docker.repository, config.package.version, platform
     );
 
-    let dockerfile_path = format!("{}/Dockerfile", platform);
+    let dockerfile_path = format!("Dockerfile.{}", platform);
 
     println!();
     println!(
