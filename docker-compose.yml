@@ -129,7 +129,7 @@ services:
       - ${CARDANO_ROOT_DIR:-~}/cardano:/data
 
   celo-eigenda-proxy:
-    image: donbeave/eigenda-proxy@sha256:12eb94ee9863ab9de809cd3c0c8d7fe270d73a6e770031656507cd8abf7f7a66
+    image: donbeave/eigenda-proxy@sha256:e4bc2c0211bc05a9b90a117b5871163c0ba63da72c8237523fb3507d8b02d610
     container_name: celo-eigenda-proxy
     restart: unless-stopped
     stop_grace_period: 15m
