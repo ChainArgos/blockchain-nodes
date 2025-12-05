@@ -7,6 +7,10 @@ edition = "2021"
 name = "build"
 path = "build.rs"
 
+[[bin]]
+name = "containerctl"
+path = "containerctl.rs"
+
 [dependencies]
 anyhow = "1.0"
 serde = { version = "1.0", features = ["derive"] }
