@@ -372,7 +372,7 @@ services:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
   polygon-heimdall:
-    image: donbeave/heimdall@sha256:8131dba5e8a7c59f2d5cfcab731c3d9d125b7a541d07c80c02dba22ee0bb4e49
+    image: donbeave/heimdall@sha256:487eac4993c8d39c070d916f0755226d8855109eb1aae4eca3f0b611a33a419a
     container_name: polygon-heimdall
     restart: unless-stopped
     stop_grace_period: 15m
