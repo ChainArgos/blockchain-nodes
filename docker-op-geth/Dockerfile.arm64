@@ -1,4 +1,4 @@
-FROM --platform=arm64 donbeave/debian-blockchain-build@sha256:6a5245c45cd72b1832991bdfc1d6c1b91b9d8a5cdaf445d093bf7a2f1ffc6581 AS build
+FROM --platform=arm64 donbeave/debian-blockchain-build@sha256:1c21aa337d61d94ca5af3cb9441ade0a7ae0d814d1b822376fb40408928a9e05 AS build
 
 ARG OP_GETH_VERSION
 
