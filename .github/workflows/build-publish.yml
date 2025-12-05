@@ -1,411 +1,205 @@
 on: [push]
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   docker-debian-blockchain-base:
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-debian-blockchain-base
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: debian-blockchain-base
+
   docker-debian-blockchain-build:
     needs: docker-debian-blockchain-base
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-debian-blockchain-build
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: debian-blockchain-build
+
   docker-arbitrum:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-arbitrum
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: arbitrum
+
   docker-avalanchego:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-avalanchego
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: avalanchego
+
   docker-beacon-kit:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-beacon-kit
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: beacon-kit
+
   docker-bera-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-bera-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: bera-geth
+
   docker-bitcoin-core:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-bitcoin-core
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: bitcoin-core
+
   docker-bor:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-bor
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: bor
+
   docker-bsc-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-bsc-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: bsc-geth
+
   docker-cardano-node:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-cardano-node
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: cardano-node
+
   docker-celo-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-celo-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: celo-geth
+
   docker-dogecoin-core:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-dogecoin-core
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: dogecoin-core
+
   docker-eigenda-proxy:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-eigenda-proxy
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: eigenda-proxy
+
   docker-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: geth
+
   docker-heco-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-heco-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: heco-geth
+
   docker-heimdall:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-        with:
-          lfs: true
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-heimdall
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: heimdall
+      enable-lfs: true
+
   docker-kcc-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-kcc-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: kcc-geth
+
   docker-lighthouse:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-lighthouse
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: lighthouse
+
   docker-litecoin-core:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-litecoin-core
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: litecoin-core
+
   docker-octez:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-octez
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: octez
+
   docker-celo-op-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-celo-op-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: celo-op-geth
+
   docker-celo-op-node:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-celo-op-node
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: celo-op-node
+
   docker-op-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-op-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: op-geth
+
   docker-op-node:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-op-node
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: op-node
+
   docker-ronin-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-ronin-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: ronin-geth
+
   docker-scroll-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-scroll-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: scroll-geth
+
   docker-sonic-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-sonic-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: sonic-geth
+
   docker-tron-java:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-tron-java
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: tron-java
+
   docker-wbt-geth:
     needs: docker-debian-blockchain-build
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - name: Install just
-        uses: extractions/setup-just@v3
-      - run: ./init-docker-buildx.sh
-      - run: just build-wbt-geth
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: wbt-geth

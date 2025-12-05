@@ -1,0 +1,52 @@
+name: Build Docker Image
+
+on:
+  workflow_call:
+    inputs:
+      package:
+        required: true
+        type: string
+        description: "Package name to build (e.g., geth, bitcoin-core)"
+      enable-lfs:
+        required: false
+        type: boolean
+        default: false
+        description: "Enable Git LFS for checkout"
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Checkout code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          lfs: ${{ inputs.enable-lfs }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
+        with:
+          shared-key: "rust-build-cache"
+          cache-on-failure: true
+
+      - name: Install rust-script
+        run: cargo install rust-script
+
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+
+      - name: Initialize Docker Buildx
+        run: ./init-docker-buildx.sh
+
+      - name: Build Docker image
+        run: just build-${{ inputs.package }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
