@@ -96,7 +96,7 @@ services:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
   bitcoin-core:
-    image: donbeave/bitcoin-core@sha256:1b101a3827d0762546c342a4df70e0eb93c07698e01c5f39ce752235a6662bdb
+    image: donbeave/bitcoin-core@sha256:cdf6e62cd4092f8208350226ed9dd18e2bf5fdbfb83967a9b7d498d3eded82af
     container_name: bitcoin-core
     restart: unless-stopped
     stop_grace_period: 15m
