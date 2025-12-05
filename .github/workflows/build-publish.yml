@@ -12,7 +12,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-debian-blockchain-base
   docker-debian-blockchain-build:
@@ -26,7 +26,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-debian-blockchain-build
   docker-arbitrum:
@@ -40,7 +40,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-arbitrum
   docker-avalanchego:
@@ -54,7 +54,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-avalanchego
   docker-beacon-kit:
@@ -68,7 +68,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-beacon-kit
   docker-bera-geth:
@@ -82,7 +82,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-bera-geth
   docker-bitcoin-core:
@@ -96,7 +96,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-bitcoin-core
   docker-bor:
@@ -110,7 +110,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-bor
   docker-bsc-geth:
@@ -124,7 +124,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-bsc-geth
   docker-cardano-node:
@@ -138,7 +138,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-cardano-node
   docker-celo-geth:
@@ -152,7 +152,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-celo-geth
   docker-dogecoin-core:
@@ -166,7 +166,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-dogecoin-core
   docker-eigenda-proxy:
@@ -180,7 +180,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-eigenda-proxy
   docker-geth:
@@ -194,7 +194,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-geth
   docker-heco-geth:
@@ -208,7 +208,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-heco-geth
   docker-heimdall:
@@ -224,7 +224,7 @@ jobs:
         with:
           lfs: true
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-heimdall
   docker-kcc-geth:
@@ -238,7 +238,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-kcc-geth
   docker-lighthouse:
@@ -252,7 +252,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-lighthouse
   docker-litecoin-core:
@@ -266,7 +266,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-litecoin-core
   docker-octez:
@@ -280,7 +280,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-octez
   docker-celo-op-geth:
@@ -294,7 +294,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-celo-op-geth
   docker-celo-op-node:
@@ -308,7 +308,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-celo-op-node
   docker-op-geth:
@@ -322,7 +322,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-op-geth
   docker-op-node:
@@ -336,7 +336,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-op-node
   docker-ronin-geth:
@@ -350,7 +350,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-ronin-geth
   docker-scroll-geth:
@@ -364,7 +364,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-scroll-geth
   docker-sonic-geth:
@@ -378,7 +378,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-sonic-geth
   docker-tron-java:
@@ -392,7 +392,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-tron-java
   docker-wbt-geth:
@@ -406,6 +406,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
       - run: ./init-docker-buildx.sh
       - run: just build-wbt-geth
