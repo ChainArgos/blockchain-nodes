@@ -195,7 +195,7 @@ services:
       - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
 
   ethereum-geth:
-    image: donbeave/geth@sha256:e39f057761b67cac4301fa8c22a95c88abba45dd1ee8ca380e4f3a559769d0fc
+    image: donbeave/geth@sha256:9ff6e76f29104ada2b4604243e0d534ef9fd32acc3caa4f2d7ba02b224c1dd85
     container_name: ethereum-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -288,7 +288,7 @@ services:
       - ${KCC_ROOT_DIR:-~}/kcc:/data
 
   linea-geth:
-    image: donbeave/geth@sha256:c1b4a47a4199a462acd88f2e519506ae1a635ea583e287ea5f6e1ae8435970ef
+    image: donbeave/geth@sha256:9ff6e76f29104ada2b4604243e0d534ef9fd32acc3caa4f2d7ba02b224c1dd85
     container_name: linea-geth
     restart: unless-stopped
     stop_grace_period: 15m
