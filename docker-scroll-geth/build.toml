@@ -1,6 +1,7 @@
 [package]
 name = "scroll-geth"
-version = "5.9.2-1"
+version = "5.9.2"
+build = "1"
 
 [docker]
 repository = "donbeave/scroll-geth"

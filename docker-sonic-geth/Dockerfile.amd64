@@ -1,5 +1,3 @@
-ARG SONIC_VERSION=2.1.4
-
 FROM donbeave/debian-blockchain-build@sha256:6a5245c45cd72b1832991bdfc1d6c1b91b9d8a5cdaf445d093bf7a2f1ffc6581 AS build
 
 ARG SONIC_VERSION

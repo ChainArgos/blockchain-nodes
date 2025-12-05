@@ -1,6 +1,7 @@
 [package]
 name = "sonic-geth"
-version = "2.1.4-1"
+version = "2.1.4"
+build = "1"
 
 [docker]
 repository = "donbeave/sonic-geth"

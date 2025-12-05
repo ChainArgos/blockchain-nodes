@@ -1,6 +1,6 @@
 [package]
 name = "debian-blockchain-build"
-version = "latest"
+version = "1.0.0"
 
 [docker]
 repository = "donbeave/debian-blockchain-build"

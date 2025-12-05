@@ -1,6 +1,7 @@
 [package]
 name = "octez"
-version = "166077302-1"
+version = "166077302"
+build = "1"
 
 [docker]
 repository = "donbeave/octez"

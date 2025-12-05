@@ -1,6 +1,7 @@
 [package]
 name = "bera-geth"
-version = "1.011607.0-1"
+version = "1.011607.0"
+build = "1"
 
 [docker]
 repository = "donbeave/bera-geth"

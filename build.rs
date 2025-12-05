@@ -26,6 +26,23 @@ struct BuildConfig {
 struct PackageConfig {
     name: String,
     version: String,
+    build: Option<String>,
+}
+
+impl PackageConfig {
+    /// Get the full version string (version-build)
+    fn full_version(&self) -> String {
+        if let Some(build) = &self.build {
+            format!("{}-{}", self.version, build)
+        } else {
+            self.version.clone()
+        }
+    }
+
+    /// Get the build argument name from package name (e.g., "wbt-geth" -> "WBT_GETH_VERSION")
+    fn build_arg_name(&self) -> String {
+        self.name.to_uppercase().replace('-', "_") + "_VERSION"
+    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -77,7 +94,7 @@ fn main() -> Result<()> {
         "{} {} {}",
         "Building".bold().cyan(),
         config.package.name.bold().green(),
-        format!("v{}", config.package.version).dimmed()
+        format!("v{}", config.package.full_version()).dimmed()
     );
     println!("{}", "━".repeat(60).bright_black());
     println!(
@@ -133,7 +150,9 @@ fn build_platform(
 ) -> Result<()> {
     let platform_tag = format!(
         "{}:{}-{}",
-        config.docker.repository, config.package.version, platform
+        config.docker.repository,
+        config.package.full_version(),
+        platform
     );
 
     let dockerfile_path = format!("Dockerfile.{}", platform);
@@ -176,6 +195,11 @@ fn build_platform(
             .arg(format!("GITHUB_TOKEN={}", token));
     }
 
+    // Add version as build arg (e.g., WBT_GETH_VERSION=1.2.0)
+    let version_arg_name = config.package.build_arg_name();
+    cmd.arg("--build-arg")
+        .arg(format!("{}={}", version_arg_name, config.package.version));
+
     cmd.arg(".");
 
     if dry_run {
@@ -212,7 +236,11 @@ fn build_platform(
 }
 
 fn create_manifest(config: &BuildConfig, dry_run: bool) -> Result<()> {
-    let manifest_tag = format!("{}:{}", config.docker.repository, config.package.version);
+    let manifest_tag = format!(
+        "{}:{}",
+        config.docker.repository,
+        config.package.full_version()
+    );
 
     println!();
     println!(
@@ -230,7 +258,9 @@ fn create_manifest(config: &BuildConfig, dry_run: bool) -> Result<()> {
         .map(|p| {
             format!(
                 "{}:{}-{}",
-                config.docker.repository, config.package.version, p
+                config.docker.repository,
+                config.package.full_version(),
+                p
             )
         })
         .collect();

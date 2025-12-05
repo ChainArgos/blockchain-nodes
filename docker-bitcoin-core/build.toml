@@ -1,6 +1,7 @@
 [package]
 name = "bitcoin-core"
-version = "30.0-1"
+version = "30.0"
+build = "1"
 
 [docker]
 repository = "donbeave/bitcoin-core"
