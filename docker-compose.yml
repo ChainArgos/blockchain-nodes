@@ -107,7 +107,7 @@ services:
       - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
   bsc-geth:
-    image: donbeave/bsc-geth@sha256:f29a65c9e4b45b6d7840e1c92ff87ce6fca33a9bb885dd3336fa0245b1d0aee9
+    image: donbeave/bsc-geth@sha256:570d9853bb38fe76ac58edae9bd5dc24b82c0d1be85a14c731d1eb4bbe04aa26
     container_name: bsc-geth
     restart: unless-stopped
     stop_grace_period: 15m
