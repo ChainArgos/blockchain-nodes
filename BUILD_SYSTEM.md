@@ -36,13 +36,11 @@ Each package should have the following structure:
 ```
 docker-<package>/
 ├── build.toml
-├── amd64/
-│   └── Dockerfile
-└── arm64/
-    └── Dockerfile
+├── Dockerfile.amd64
+└── Dockerfile.arm64
 ```
 
-For single-platform builds, only include the relevant platform directory.
+For single-platform builds, only include the relevant Dockerfile (e.g., only `Dockerfile.amd64`).
 
 ## Usage
 
