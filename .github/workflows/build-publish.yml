@@ -1,4 +1,4 @@
-on: [ push ]
+on: [push]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
@@ -11,8 +11,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-debian-blockchain-base/build.sh
+      - run: just build-debian-blockchain-base
   docker-debian-blockchain-build:
     needs: docker-debian-blockchain-base
     runs-on: ubuntu-24.04
@@ -23,8 +25,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-debian-blockchain-build/build.sh
+      - run: just build-debian-blockchain-build
   docker-arbitrum:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -35,8 +39,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-arbitrum/build.sh
+      - run: just build-arbitrum
   docker-avalanchego:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -47,8 +53,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-avalanchego/build.sh
+      - run: just build-avalanchego
   docker-beacon-kit:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -59,8 +67,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-beacon-kit/build.sh
+      - run: just build-beacon-kit
   docker-bera-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -71,8 +81,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-bera-geth/build.sh
+      - run: just build-bera-geth
   docker-bitcoin-core:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -83,8 +95,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-bitcoin-core/build.sh
+      - run: just build-bitcoin-core
   docker-bor:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -95,8 +109,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-bor/build.sh
+      - run: just build-bor
   docker-bsc-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -107,8 +123,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-bsc-geth/build.sh
+      - run: just build-bsc-geth
   docker-cardano-node:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -119,8 +137,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-cardano-node/build.sh
+      - run: just build-cardano-node
   docker-celo-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -131,8 +151,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-celo-geth/build.sh
+      - run: just build-celo-geth
   docker-dogecoin-core:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -143,8 +165,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-dogecoin-core/build.sh
+      - run: just build-dogecoin-core
   docker-eigenda-proxy:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -155,8 +179,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-eigenda-proxy/build.sh
+      - run: just build-eigenda-proxy
   docker-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -167,8 +193,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-geth/build.sh
+      - run: just build-geth
   docker-heco-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -179,8 +207,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-heco-geth/build.sh
+      - run: just build-heco-geth
   docker-heimdall:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -193,8 +223,10 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
         with:
           lfs: true
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-heimdall/build.sh
+      - run: just build-heimdall
   docker-kcc-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -205,8 +237,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-kcc-geth/build.sh
+      - run: just build-kcc-geth
   docker-lighthouse:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -217,8 +251,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-lighthouse/build.sh
+      - run: just build-lighthouse
   docker-litecoin-core:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -229,8 +265,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-litecoin-core/build.sh
+      - run: just build-litecoin-core
   docker-octez:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -241,8 +279,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-octez/build.sh
+      - run: just build-octez
   docker-celo-op-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -253,8 +293,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-celo-op-geth/build.sh
+      - run: just build-celo-op-geth
   docker-celo-op-node:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -265,8 +307,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-celo-op-node/build.sh
+      - run: just build-celo-op-node
   docker-op-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -277,8 +321,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-op-geth/build.sh
+      - run: just build-op-geth
   docker-op-node:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -289,8 +335,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-op-node/build.sh
+      - run: just build-op-node
   docker-ronin-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -301,8 +349,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-ronin-geth/build.sh
+      - run: just build-ronin-geth
   docker-scroll-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -313,8 +363,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-scroll-geth/build.sh
+      - run: just build-scroll-geth
   docker-sonic-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -325,8 +377,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-sonic-geth/build.sh
+      - run: just build-sonic-geth
   docker-tron-java:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -337,8 +391,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-tron-java/build.sh
+      - run: just build-tron-java
   docker-wbt-geth:
     needs: docker-debian-blockchain-build
     runs-on: ubuntu-24.04
@@ -349,5 +405,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - name: Install just
+        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
       - run: ./init-docker-buildx.sh
-      - run: ./docker-wbt-geth/build.sh
+      - run: just build-wbt-geth
