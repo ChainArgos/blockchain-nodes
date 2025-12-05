@@ -229,7 +229,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   heco-geth:
-    image: donbeave/heco-geth@sha256:c84b2f07583c859a97627be4421406c97ed71ff54df423c9da9add8f9ad7acfd
+    image: donbeave/heco-geth@sha256:18b82c2482742562751d3dd896919609863337fb43728e2e83b6062cf509bd5c
     container_name: heco-geth
     restart: unless-stopped
     stop_grace_period: 15m
