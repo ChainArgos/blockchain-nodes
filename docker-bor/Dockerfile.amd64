@@ -1,4 +1,4 @@
-FROM donbeave/debian-blockchain-build@sha256:6a5245c45cd72b1832991bdfc1d6c1b91b9d8a5cdaf445d093bf7a2f1ffc6581 AS build
+FROM donbeave/debian-blockchain-build:1.0.0 AS build
 
 ARG BOR_VERSION
 
