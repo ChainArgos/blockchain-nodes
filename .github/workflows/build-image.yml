@@ -53,15 +53,6 @@ jobs:
             rust-script-${{ runner.os }}-toolchain-${{ steps.rust-toolchain.outputs.name || 'stable' }}-
             rust-script-${{ runner.os }}-
 
-      - name: List ~/.cache before
-        run: ls -la ~/.cache || true
-
-      - name: Run script
-        run: just exists geth
-
-      - name: List ~/.cache after
-        run: ls -la ~/.cache || true
-
       - name: Check if image exists
         id: check-image
         run: |
