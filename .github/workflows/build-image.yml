@@ -25,14 +25,6 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Cache Rust dependencies
-        uses: Swatinem/rust-cache@v2
-        with:
-          cache-directories: |
-            ~/.cache/rust-script
-          shared-key: "rust-build-cache"
-          cache-on-failure: true
-
       - name: Install just
         uses: extractions/setup-just@v3
 
@@ -40,6 +32,14 @@ jobs:
         with:
           crate: rust-script
           locked: true
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-directories: |
+            ~/.cache/rust-script
+          shared-key: "rust-build-cache"
+          cache-on-failure: true
 
       - name: List ~/.cache before
         run: ls -la ~/.cache || true
