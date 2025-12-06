@@ -3,7 +3,7 @@ FROM --platform=arm64 offchainlabs/nitro-node:v3.9.2-52e8959@sha256:07baf4f93736
 RUN ls
 # end build
 
-FROM --platform=arm64 donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4d3c34f96dc26a5a874f9c476224dd94afaae4789e2bba
+FROM --platform=arm64 donbeave/debian-blockchain-base:1.0.0
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
