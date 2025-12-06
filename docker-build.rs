@@ -127,10 +127,7 @@ fn main() -> Result<()> {
         )?;
     }
 
-    // Create and push manifest if multiple platforms
-    if config.docker.platforms.len() > 1 {
-        create_manifest(&config, args.dry_run)?;
-    }
+    create_manifest(&config, args.dry_run)?;
 
     println!();
     println!("{}", "━".repeat(60).bright_black());
