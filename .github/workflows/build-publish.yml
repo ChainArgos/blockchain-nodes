@@ -1,4 +1,11 @@
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   docker-debian-blockchain-base:
