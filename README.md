@@ -245,7 +245,7 @@ All tools use:
 - Arbitrum
 - Avalanche
 - Beacon Kit (Berachain)
-- Berachain (Geth)
+- Berachain (Reth)
 - Bitcoin
 - Bor (Polygon)
 - BSC (Binance Smart Chain)
@@ -259,6 +259,7 @@ All tools use:
 - KCC
 - Litecoin
 - Octez (Tezos)
+- Omni Core
 - Optimism (OP Geth + OP Node)
 - Celo OP Stack (OP Geth + OP Node)
 - Ronin

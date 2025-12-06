@@ -51,6 +51,7 @@ build-all:
     just build-lighthouse
     just build-litecoin-core
     just build-octez
+    just build-omnicore
     just build-op-geth
     just build-op-node
     just build-ronin-geth
@@ -145,6 +146,10 @@ build-litecoin-core:
 # Build Octez Docker image
 build-octez:
     ./docker-build.rs octez
+
+# Build Omni Core Docker image
+build-omnicore:
+    ./docker-build.rs omnicore
 
 # Build OP Geth Docker image
 build-op-geth:
@@ -293,6 +298,10 @@ restart-sonic-geth:
 # Restart Tezos Octez node
 restart-tezos-octez-node:
     ./containerctl.rs restart tezos-octez-node -f
+
+# Restart Omni Core node
+restart-omnicore:
+    ./containerctl.rs restart omnicore -f
 
 # Restart Tron Java node
 restart-tron-java:

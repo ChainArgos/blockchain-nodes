@@ -1,0 +1,32 @@
+FROM donbeave/debian-blockchain-base:1.0.0
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+ARG OMNICORE_VERSION
+
+RUN cd /tmp \
+    && curl -L https://github.com/OmniLayer/omnicore/releases/download/v${OMNICORE_VERSION}/omnicore-${OMNICORE_VERSION}-x86_64-linux-gnu.tar.gz -o omnicore.tar.gz \
+    && tar -xvf omnicore.tar.gz \
+    && rm omnicore.tar.gz \
+    && mv omnicore-*/bin/* /usr/local/bin/ \
+    && mv omnicore-*/include/* /usr/local/include/ \
+    && mv omnicore-*/lib/* /usr/local/lib/ \
+    && mv omnicore-*/share/* /usr/local/share/ \
+    && rm -r omnicore-* \
+    && rm -rf /tmp/*
+
+ADD config /config/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]

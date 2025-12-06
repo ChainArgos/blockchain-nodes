@@ -434,6 +434,17 @@ services:
     volumes:
       - ${TEZOS_ROOT_DIR:-~}/tezos:/data
 
+  omnicore:
+    image: donbeave/omnicore:0.12.0.1-1
+    container_name: omnicore
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8333:8333"
+    volumes:
+      - ${OMNI_ROOT_DIR:-~}/omni:/data
+
   tron-java:
     image: donbeave/tron-java:4.8.0-1
     container_name: tron-java

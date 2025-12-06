@@ -150,6 +150,13 @@ jobs:
     with:
       package: octez
 
+  docker-omnicore:
+    needs: docker-debian-blockchain-build
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: omnicore
+
   docker-celo-op-geth:
     needs: docker-debian-blockchain-build
     uses: ./.github/workflows/build-image.yml
