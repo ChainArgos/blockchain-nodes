@@ -7,13 +7,13 @@ Modern Rust-based tooling for managing blockchain node Docker images and contain
 ### Prerequisites
 
 ```bash
-# Install rust-script for running Rust scripts
-cargo install rust-script
-
-# Install Just command runner (optional but recommended)
+# Install Just command runner
 brew install just  # macOS
 # or
 cargo install just
+
+# Install Rust (if not already installed)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
 ### Common Tasks
@@ -25,6 +25,9 @@ just
 # Build a Docker image
 just build geth
 
+# Build all images
+just build-all
+
 # Restart a container
 just restart-ethereum-geth
 
@@ -34,20 +37,20 @@ just stop ethereum-geth
 
 ## Tools
 
-This project includes three main Rust-based CLI tools:
+This project includes two main Rust-based CLI tools:
 
-### 1. build.rs - Docker Image Builder
+### 1. docker-build.rs - Docker Image Builder
 
 Builds multi-platform Docker images for blockchain nodes.
 
 ```bash
 # Build a package
-./build.rs geth
+./docker-build.rs geth
 
 # Dry run to see what would be executed
-./build.rs geth --dry-run
+./docker-build.rs geth --dry-run
 
-# Or use Just
+# Or use Just (recommended)
 just build geth
 just build-dry geth
 ```
@@ -57,6 +60,7 @@ just build-dry geth
 - Automatic manifest creation
 - Color-coded output with progress indicators
 - Configuration via simple TOML files
+- Dynamic version management with separate version and build fields
 
 📖 [Full Documentation](BUILD_SYSTEM.md)
 
@@ -71,8 +75,8 @@ Manages Docker Compose containers with restart and stop operations.
 # Stop a container
 ./containerctl.rs stop ethereum-geth
 
-# Or use Just
-just restart ethereum-geth
+# Or use Just (recommended)
+just restart-ethereum-geth
 just stop ethereum-geth
 ```
 
@@ -95,7 +99,8 @@ just
 # Use named commands
 just restart-ethereum-geth
 just restart-bitcoin-core
-just build geth
+just build-geth
+just build-all
 ```
 
 **Benefits:**
@@ -110,13 +115,13 @@ just build geth
 
 ```
 blockchain-nodes/
-├── build.rs              # Docker image builder
-├── containerctl.rs       # Container management tool
-├── Justfile             # Just command runner recipes
-├── Cargo.toml           # Rust dependencies
+├── docker-build.rs      # Docker image builder
+├── containerctl.rs      # Container management tool
+├── Justfile            # Just command runner recipes
+├── Cargo.toml          # Rust project configuration
 │
-├── docker-*/            # Package directories
-│   ├── build.toml       # Build configuration
+├── docker-*/           # Package directories
+│   ├── build.toml      # Build configuration
 │   ├── Dockerfile.amd64 # AMD64 Dockerfile
 │   └── Dockerfile.arm64 # ARM64 Dockerfile
 │
@@ -133,12 +138,20 @@ Each package has a `build.toml` configuration file:
 ```toml
 [package]
 name = "geth"
-version = "1.16.7-1"
+version = "1.16.7"
+build = "1"
 
 [docker]
 repository = "donbeave/geth"
 platforms = ["amd64", "arm64"]
 ```
+
+### Version Management
+
+- `version` - Upstream software version (e.g., "1.16.7")
+- `build` - Build number for packaging (e.g., "1")
+- Docker tags use the full version: `{version}-{build}` (e.g., "1.16.7-1")
+- Build arguments pass only the version to Dockerfiles
 
 ## Examples
 
@@ -153,8 +166,8 @@ just build-arbitrum
 # Build with generic command
 just build geth
 
-# Build with custom docker args
-./build.rs geth --extra-args "--progress auto"
+# Build all images
+just build-all
 
 # Dry run to preview commands
 just build-dry geth
@@ -173,57 +186,13 @@ just restart ethereum-geth
 just stop ethereum-geth
 ```
 
-### Multiple Operations
+## CI/CD Integration
 
-```bash
-# Restart multiple containers
-just restart-ethereum-geth restart-bitcoin-core
-```
-
-## Migration from Old Scripts
-
-### build.sh → build.rs
-
-**Before:**
-```bash
-cd docker-geth
-./build.sh
-```
-
-**After:**
-```bash
-just build geth
-# or
-./build.rs geth
-```
-
-### restart-*.sh → Justfile
-
-**Before:**
-```bash
-./restart-ethereum-geth.sh
-./restart-bitcoin-core.sh
-```
-
-**After:**
-```bash
-just restart-ethereum-geth
-just restart-bitcoin-core
-```
-
-### containerctl.main.kts → containerctl.rs
-
-**Before:**
-```bash
-./containerctl.main.kts restart ethereum-geth -f
-```
-
-**After:**
-```bash
-./containerctl.rs restart ethereum-geth -f
-# or
-just restart ethereum-geth
-```
+The project uses GitHub Actions for automated builds with:
+- Rust toolchain setup via `dtolnay/rust-toolchain`
+- Rust dependency caching via `Swatinem/rust-cache`
+- Just command runner via `extractions/setup-just`
+- Reusable workflow for all builds (70% less code duplication)
 
 ## Features
 
@@ -234,6 +203,8 @@ just restart ethereum-geth
 ✅ **Error handling** - Clear error messages and proper exit codes  
 ✅ **Dry-run mode** - Preview commands before execution  
 ✅ **Configuration-driven** - Simple TOML configs per package  
+✅ **Version management** - Separate version and build numbers  
+✅ **Build argument automation** - Auto-generated from package names  
 
 ## Development
 
@@ -241,10 +212,24 @@ just restart ethereum-geth
 
 ```bash
 # Build system
-cargo run --bin build -- geth
+cargo run --bin docker-build -- geth
 
 # Container control
 cargo run --bin containerctl -- restart ethereum-geth -f
+```
+
+### Building the Project
+
+```bash
+# Build all binaries
+cargo build --release
+
+# Run tests
+cargo test
+
+# Build specific binary
+cargo build --bin docker-build --release
+cargo build --bin containerctl --release
 ```
 
 ### Dependencies
@@ -253,35 +238,34 @@ All tools use:
 - `anyhow` - Error handling
 - `clap` - Command-line argument parsing
 - `owo-colors` - Terminal colors
-- `serde` & `toml` - Configuration parsing (build.rs only)
+- `serde` & `toml` - Configuration parsing (docker-build.rs only)
 
 ## Supported Blockchain Nodes
 
 - Arbitrum
 - Avalanche
-- Base
-- Berachain
+- Beacon Kit (Berachain)
+- Berachain (Geth)
 - Bitcoin
+- Bor (Polygon)
 - BSC (Binance Smart Chain)
 - Cardano
 - Celo
 - Dogecoin
+- EigenDA Proxy
 - Ethereum (Geth + Lighthouse)
 - HECO
-- Ink
+- Heimdall (Polygon)
 - KCC
-- Linea
 - Litecoin
-- Optimism
-- Polygon
+- Octez (Tezos)
+- Optimism (OP Geth + OP Node)
+- Celo OP Stack (OP Geth + OP Node)
 - Ronin
 - Scroll
 - Sonic
-- Tezos
 - Tron
-- Unichain
 - WBT
-- Worldchain
 
 ## License
 

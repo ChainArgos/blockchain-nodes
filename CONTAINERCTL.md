@@ -4,46 +4,51 @@ A modern CLI utility for managing Docker Compose containers with a focus on simp
 
 ## Prerequisites
 
-- [rust-script](https://rust-script.org/) - Install with: `cargo install rust-script`
+- [Just](https://just.systems/) - Command runner (recommended)
+  ```bash
+  brew install just  # macOS
+  # or
+  cargo install just
+  ```
+- Rust toolchain (for development)
+  ```bash
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  ```
 - Docker and Docker Compose
 
 ## Usage
 
-### Restart a Container
+### Recommended: Using Just
 
-Pulls the latest image, stops the container, and starts it again:
-
-```bash
-./containerctl.rs restart <container-name>
-```
-
-With log following:
+The easiest way to manage containers is with `just` commands:
 
 ```bash
-./containerctl.rs restart <container-name> --follow
-# or
-./containerctl.rs restart <container-name> -f
+# Restart a container with log following
+just restart-ethereum-geth
+just restart-bitcoin-core
+
+# Restart with generic command
+just restart ethereum-geth
+
+# Stop a container
+just stop ethereum-geth
 ```
 
-### Stop a Container
+### Alternative: Direct Script Execution
 
-Stops a running container:
-
-```bash
-./containerctl.rs stop <container-name>
-```
-
-## Examples
+You can also run the containerctl script directly:
 
 ```bash
 # Restart a container
-./containerctl.rs restart geth
+./containerctl.rs restart ethereum-geth
 
-# Restart and follow logs
-./containerctl.rs restart geth -f
+# Restart with log following
+./containerctl.rs restart ethereum-geth --follow
+# or
+./containerctl.rs restart ethereum-geth -f
 
 # Stop a container
-./containerctl.rs stop geth
+./containerctl.rs stop ethereum-geth
 ```
 
 ## Commands
@@ -64,36 +69,78 @@ Options:
 Stops a running container:
 - Runs `docker compose down <name>`
 
+## Examples
+
+### Using Just (Recommended)
+
+```bash
+# Restart containers
+just restart-ethereum-geth
+just restart-bitcoin-core
+just restart-polygon-bor
+
+# Stop containers
+just stop ethereum-geth
+```
+
+### Using Direct Script
+
+```bash
+# Restart a container
+./containerctl.rs restart geth
+
+# Restart and follow logs
+./containerctl.rs restart geth -f
+
+# Stop a container
+./containerctl.rs stop geth
+```
+
+## Available Named Commands
+
+Run `just --list` to see all available container management commands. Here are some examples:
+
+### Restart Commands
+- `just restart-arbitrum-one`
+- `just restart-avax-avalanchego`
+- `just restart-base-op-geth`
+- `just restart-base-op-node`
+- `just restart-berachain-beacon-kit`
+- `just restart-berachain-geth`
+- `just restart-bitcoin-core`
+- `just restart-bsc-geth`
+- `just restart-cardano-node`
+- `just restart-celo-geth`
+- `just restart-dogecoin-core`
+- `just restart-ethereum-geth`
+- `just restart-ethereum-lighthouse`
+- `just restart-polygon-bor`
+- `just restart-polygon-heimdall`
+- And many more...
+
+### Generic Commands
+- `just restart <container-name>` - Restart any container
+- `just stop <container-name>` - Stop any container
+
 ## Features
 
 - **Color-coded output**: Clear visual feedback with colors and symbols
 - **Progress indicators**: Shows what's happening at each step (⠿, ✓, ✗, →)
 - **Error handling**: Exits immediately on errors with clear messages
 - **Log following**: Optional `-f` flag to follow container logs after restart
+- **Named commands**: Predefined commands for all containers via Justfile
 
-## Migration from Kotlin Script
+## Using with Cargo
 
-### Old way:
-```bash
-./containerctl.main.kts restart geth -f
-./containerctl.main.kts stop geth
-```
-
-### New way:
-```bash
-./containerctl.rs restart geth -f
-./containerctl.rs stop geth
-```
-
-The commands and flags are identical!
-
-## Using with Cargo (Optional)
-
-If you prefer to use `cargo run`:
+For development or when Just is not available:
 
 ```bash
-cargo run --bin containerctl -- restart geth
-cargo run --bin containerctl -- stop geth
+# Run with cargo
+cargo run --bin containerctl -- restart ethereum-geth
+cargo run --bin containerctl -- stop ethereum-geth
+
+# Build the binary
+cargo build --release --bin containerctl
 ```
 
 ## Output Examples
@@ -102,19 +149,19 @@ cargo run --bin containerctl -- stop geth
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Restarting container: geth
+Restarting container: ethereum-geth
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 → Pulling latest image...
-  ⠿ docker compose pull geth
+  ⠿ docker compose pull ethereum-geth
   ✓ Image pulled
 
 → Stopping container...
-  ⠿ docker compose down geth
+  ⠿ docker compose down ethereum-geth
   ✓ Container stopped
 
 → Starting container...
-  ⠿ docker compose up -d geth
+  ⠿ docker compose up -d ethereum-geth
   ✓ Container started
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -126,14 +173,54 @@ Restarting container: geth
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Stopping container: geth
+Stopping container: ethereum-geth
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 → Stopping container...
-  ⠿ docker compose down geth
+  ⠿ docker compose down ethereum-geth
   ✓ Container stopped
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✓ Stop completed successfully!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+## Why Use Just?
+
+The Justfile provides several benefits:
+
+1. **Simple commands**: `just restart-ethereum-geth` vs `./containerctl.rs restart ethereum-geth -f`
+2. **Discoverability**: Run `just --list` to see all available commands
+3. **Consistency**: All commands follow the same naming convention
+4. **Integration**: Works seamlessly with build commands (`just build-geth`)
+5. **Documentation**: Each command has a description visible in `just --list`
+
+## Supported Containers
+
+The following containers have named restart commands in the Justfile:
+
+- Arbitrum (arbitrum-one)
+- Avalanche (avax-avalanchego)
+- Base (base-op-geth, base-op-node)
+- Berachain (berachain-beacon-kit, berachain-geth)
+- Bitcoin (bitcoin-core)
+- BSC (bsc-geth)
+- Cardano (cardano-node)
+- Celo (celo-geth, celo-op-geth, celo-op-node, celo-eigenda-proxy)
+- Dogecoin (dogecoin-core)
+- Ethereum (ethereum-geth, ethereum-lighthouse)
+- HECO (heco-geth)
+- Ink (ink-op-geth, ink-op-node)
+- KCC (kcc-geth)
+- Linea (linea-geth)
+- Litecoin (litecoin-core)
+- Optimism (optimism-op-geth, optimism-op-node)
+- Polygon (polygon-bor, polygon-heimdall)
+- Ronin (ronin-geth)
+- Scroll (scroll-geth)
+- Sonic (sonic-geth)
+- Tezos (tezos-octez-node)
+- Tron (tron-java)
+- Unichain (unichain-op-geth, unichain-op-node)
+- WBT (wbt-geth)
+- Worldchain (worldchain-op-geth, worldchain-op-node)
