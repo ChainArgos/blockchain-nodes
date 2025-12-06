@@ -36,6 +36,9 @@ jobs:
       - name: Install just
         uses: extractions/setup-just@v3
 
+      - name: Install rust-script
+        run: cargo install rust-script --locked
+
       - name: List ~/.cache before
         run: ls -la ~/.cache || true
 
