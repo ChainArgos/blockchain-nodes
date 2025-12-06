@@ -46,7 +46,7 @@ services:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
   base-op-node:
-    image: donbeave/op-node:1.16.2-1
+    image: donbeave/op-node:1.16.3-1
     container_name: base-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -259,7 +259,7 @@ services:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
   ink-op-node:
-    image: donbeave/op-node:1.16.2-1
+    image: donbeave/op-node:1.16.3-1
     container_name: ink-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -337,7 +337,7 @@ services:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   optimism-op-node:
-    image: donbeave/op-node:1.16.2-1
+    image: donbeave/op-node:1.16.3-1
     container_name: optimism-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -466,7 +466,7 @@ services:
       - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
 
   unichain-op-node:
-    image: donbeave/op-node:1.16.2-1
+    image: donbeave/op-node:1.16.3-1
     container_name: unichain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -514,7 +514,7 @@ services:
       - ${WORLDCHAIN_ROOT_DIR:-~}/worldchain:/data
 
   worldchain-op-node:
-    image: donbeave/op-node:1.16.2-1
+    image: donbeave/op-node:1.16.3-1
     container_name: worldchain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
