@@ -20,6 +20,18 @@ build package:
 build-dry package:
     ./docker-build.rs {{package}} --dry-run
 
+# Check if a Docker image exists on Docker Hub
+exists package:
+    ./docker-exists.rs {{package}}
+
+# Check if a Docker image exists (verbose)
+exists-verbose package:
+    ./docker-exists.rs {{package}} --verbose
+
+# Check if a platform-specific Docker image exists
+exists-platform package platform:
+    ./docker-exists.rs {{package}} --platform {{platform}}
+
 # Build all Docker images in sequence
 build-all:
     just build-debian-blockchain-base
