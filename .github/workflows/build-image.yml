@@ -46,9 +46,7 @@ jobs:
         with:
           path: ~/.cache/rust-script
           key: >
-            rust-script-${{ runner.os }}-
-            toolchain-${{ steps.rust-toolchain.outputs.name || 'stable' }}-
-            ${{ hashFiles('**/Cargo.lock', '**/*.rs') }}
+            rust-script-${{ runner.os }}-toolchain-${{ steps.rust-toolchain.outputs.name || 'stable' }}-${{ hashFiles('**/Cargo.lock', '**/*.rs') }}
           restore-keys: |
             rust-script-${{ runner.os }}-toolchain-${{ steps.rust-toolchain.outputs.name || 'stable' }}-
             rust-script-${{ runner.os }}-
