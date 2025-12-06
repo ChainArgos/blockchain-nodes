@@ -34,6 +34,15 @@ jobs:
       - name: Install just
         uses: extractions/setup-just@v3
 
+      - name: List ~/.cache before
+        run: ls -la ~/.cache || true
+
+      - name: Run script
+        run: just exists geth
+
+      - name: List ~/.cache after
+        run: ls -la ~/.cache || true
+
       - name: Check if image exists
         id: check-image
         run: |
