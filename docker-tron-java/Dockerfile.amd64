@@ -2,7 +2,7 @@ FROM donbeave/debian-blockchain-base:1.0.0
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG TRON_VERSION
+ARG TRON_JAVA_VERSION
 
 RUN apt-get update \
         && apt-get upgrade -y \
@@ -28,7 +28,7 @@ RUN cd /tmp \
     && rm liberica.deb \
     && rm -rf /tmp/*
 
-RUN curl -L https://github.com/tronprotocol/java-tron/releases/download/GreatVoyage-v${TRON_VERSION}/FullNode.jar -o /FullNode.jar
+RUN curl -L https://github.com/tronprotocol/java-tron/releases/download/GreatVoyage-v${TRON_JAVA_VERSION}/FullNode.jar -o /FullNode.jar
 
 ADD config /config/
 
