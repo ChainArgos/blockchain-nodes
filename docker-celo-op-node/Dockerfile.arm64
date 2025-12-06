@@ -15,7 +15,7 @@ RUN mise install
 RUN make op-node
 # end build
 
-FROM --platform=arm64 donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4d3c34f96dc26a5a874f9c476224dd94afaae4789e2bba
+FROM --platform=arm64 donbeave/debian-blockchain-base@sha256:ddbef80a9f6d007a7b5c0862b9b3e9a91cf3d95a84a778b74eecf9e3cee973ab
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
