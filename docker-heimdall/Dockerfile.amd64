@@ -1,4 +1,4 @@
-FROM donbeave/debian-blockchain-build:1.0.0 AS build
+FROM donbeave/debian-blockchain-build:1.0.0@sha256:41495d9ad42c2cf6145e24574e23d9a69cc571fe7b441253963a4d91367465d1 AS build
 
 ARG HEIMDALL_VERSION
 
@@ -9,7 +9,7 @@ WORKDIR /heimdall-v2
 RUN make build
 # end build
 
-FROM donbeave/debian-blockchain-base:1.0.0
+FROM donbeave/debian-blockchain-base:1.0.0@sha256:b6ce5ae5183425bc65547fedda6b4be0fa95879807a35e59ba5e4aa366131a9c
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
