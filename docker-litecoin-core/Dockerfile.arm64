@@ -2,10 +2,10 @@ FROM --platform=arm64 donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG LITECOIN_VERSION
+ARG LITECOIN_CORE_VERSION
 
 RUN cd /tmp \
-    && curl -L https://github.com/litecoin-project/litecoin/releases/download/v${LITECOIN_VERSION}/litecoin-${LITECOIN_VERSION}-aarch64-linux-gnu.tar.gz -o litecoin.tar.gz \
+    && curl -L https://github.com/litecoin-project/litecoin/releases/download/v${LITECOIN_CORE_VERSION}/litecoin-${LITECOIN_CORE_VERSION}-aarch64-linux-gnu.tar.gz -o litecoin.tar.gz \
     && tar -xvf litecoin.tar.gz \
     && rm litecoin.tar.gz \
     && mv litecoin-*/bin/* /usr/local/bin/ \

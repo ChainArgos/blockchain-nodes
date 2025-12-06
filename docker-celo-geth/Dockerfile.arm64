@@ -2,9 +2,9 @@ FROM --platform=arm64 donbeave/debian-blockchain-build@sha256:6a5245c45cd72b1832
 
 RUN mise use -g --pin go@1.22.12
 
-ARG CELO_BLOCKCHAIN_VERSION
+ARG CELO_GETH_VERSION
 
-RUN git clone --branch v${CELO_BLOCKCHAIN_VERSION} --single-branch --depth=1 https://github.com/celo-org/celo-blockchain.git
+RUN git clone --branch v${CELO_GETH_VERSION} --single-branch --depth=1 https://github.com/celo-org/celo-blockchain.git
 
 WORKDIR /celo-blockchain
 

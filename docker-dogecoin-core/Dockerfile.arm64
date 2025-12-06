@@ -2,10 +2,10 @@ FROM --platform=arm64 donbeave/debian-blockchain-base@sha256:ad370c0a576cc58a8a4
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG DOGECOIN_VERSION
+ARG DOGECOIN_CORE_VERSION
 
 RUN cd /tmp \
-    && curl -L https://github.com/dogecoin/dogecoin/releases/download/v${DOGECOIN_VERSION}/dogecoin-${DOGECOIN_VERSION}-aarch64-linux-gnu.tar.gz -o dogecoin.tar.gz \
+    && curl -L https://github.com/dogecoin/dogecoin/releases/download/v${DOGECOIN_CORE_VERSION}/dogecoin-${DOGECOIN_CORE_VERSION}-aarch64-linux-gnu.tar.gz -o dogecoin.tar.gz \
     && tar -xvf dogecoin.tar.gz \
     && rm dogecoin.tar.gz \
     && mv dogecoin-*/bin/* /usr/local/bin/ \
