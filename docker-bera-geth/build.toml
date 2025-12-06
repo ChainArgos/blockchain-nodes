@@ -1,8 +1,0 @@
-[package]
-name = "bera-geth"
-version = "1.011607.0"
-build = "1"
-
-[docker]
-repository = "donbeave/bera-geth"
-platforms = ["amd64", "arm64"]

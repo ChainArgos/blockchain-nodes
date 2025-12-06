@@ -1,0 +1,28 @@
+FROM donbeave/debian-blockchain-base:1.0.0
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+ARG BERA_RETH_VERSION
+
+RUN cd /tmp \
+    && curl -L https://github.com/berachain/bera-reth/releases/download/v${BERA_RETH_VERSION}/bera-reth-v${BERA_RETH_VERSION}-x86_64-unknown-linux-gnu.tar.gz -o reth.tar.gz \
+    && tar -xvf reth.tar.gz \
+    && rm reth.tar.gz \
+    && mv bera-reth /usr/local/bin/ \
+    && rm -rf /tmp/*
+
+ADD config /config/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]

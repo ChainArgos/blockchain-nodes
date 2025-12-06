@@ -70,9 +70,9 @@ build-avalanchego:
 build-beacon-kit:
     ./docker-build.rs beacon-kit
 
-# Build Bera Geth Docker image
-build-bera-geth:
-    ./docker-build.rs bera-geth
+# Build Bera Reth Docker image
+build-bera-reth:
+    ./docker-build.rs bera-reth
 
 # Build Bitcoin Core Docker image
 build-bitcoin-core:
@@ -194,9 +194,9 @@ restart-base-op-node:
 restart-berachain-beacon-kit:
     ./containerctl.rs restart berachain-beacon-kit -f
 
-# Restart Berachain Geth node
-restart-berachain-geth:
-    ./containerctl.rs restart berachain-geth -f
+# Restart Berachain Reth node
+restart-berachain-reth:
+    ./containerctl.rs restart berachain-reth -f
 
 # Restart Bitcoin Core node
 restart-bitcoin-core:

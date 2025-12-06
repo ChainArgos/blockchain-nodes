@@ -1,0 +1,8 @@
+[package]
+name = "bera-reth"
+version = "1.3.1"
+build = "1"
+
+[docker]
+repository = "donbeave/bera-reth"
+platforms = ["amd64", "arm64"]

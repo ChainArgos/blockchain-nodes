@@ -127,7 +127,7 @@ shutdown-timeout = "5m0s"
 
 [beacon-kit.engine]
 # HTTP url of the execution client JSON-RPC endpoint.
-rpc-dial-url = "http://berachain-geth:8551"
+rpc-dial-url = "http://berachain-reth:8551"
 
 # RPC timeout for execution client requests.
 rpc-timeout = "2s"

@@ -44,12 +44,12 @@ jobs:
     with:
       package: beacon-kit
 
-  docker-bera-geth:
+  docker-bera-reth:
     needs: docker-debian-blockchain-build
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
-      package: bera-geth
+      package: bera-reth
 
   docker-bitcoin-core:
     needs: docker-debian-blockchain-build
