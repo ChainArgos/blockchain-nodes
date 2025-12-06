@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "build"
-path = "build.rs"
+name = "docker-build"
+path = "docker-build.rs"
 
 [[bin]]
 name = "containerctl"

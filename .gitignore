@@ -4,6 +4,10 @@
 # IntelliJ IDEA
 .idea
 
+# Rust
+debug
+target
+
 # custom
 .env
 containers.env
