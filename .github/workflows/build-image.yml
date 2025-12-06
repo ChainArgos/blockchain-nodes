@@ -41,6 +41,18 @@ jobs:
           shared-key: "rust-build-cache"
           cache-on-failure: true
 
+      - name: Cache rust-script
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/rust-script
+          key: >
+            rust-script-${{ runner.os }}-
+            toolchain-${{ steps.rust-toolchain.outputs.name || 'stable' }}-
+            ${{ hashFiles('**/Cargo.lock', '**/*.rs') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-toolchain-${{ steps.rust-toolchain.outputs.name || 'stable' }}-
+            rust-script-${{ runner.os }}-
+
       - name: List ~/.cache before
         run: ls -la ~/.cache || true
 
