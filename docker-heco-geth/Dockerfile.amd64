@@ -2,10 +2,10 @@ FROM donbeave/debian-blockchain-base:1.0.0
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG HECO_VERSION
+ARG HECO_GETH_VERSION
 
 RUN cd /tmp \
-    && curl -L https://github.com/stars-labs/heco-chain/releases/download/v${HECO_VERSION}/geth-linux-amd64 -o geth \
+    && curl -L https://github.com/stars-labs/heco-chain/releases/download/v${HECO_GETH_VERSION}/geth-linux-amd64 -o geth \
     && mv geth /usr/local/bin/geth \
     && chmod -v u+x /usr/local/bin/geth \
     && rm -rf /tmp/*

@@ -2,10 +2,10 @@ FROM donbeave/debian-blockchain-base:1.0.0
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG KCC_VERSION
+ARG KCC_GETH_VERSION
 
 RUN cd /tmp \
-    && curl -L https://github.com/kcc-community/kcc/releases/download/v${KCC_VERSION}-stable/geth -o geth \
+    && curl -L https://github.com/kcc-community/kcc/releases/download/v${KCC_GETH_VERSION}-stable/geth -o geth \
     && mv geth /usr/local/bin/geth \
     && chmod -v u+x /usr/local/bin/geth \
     && rm -rf /tmp/*
