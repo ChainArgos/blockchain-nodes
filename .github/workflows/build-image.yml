@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@v6
         with:
           lfs: ${{ inputs.enable-lfs }}
 
@@ -26,13 +26,13 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Cache Rust dependencies
-        uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
+        uses: Swatinem/rust-cache@v2
         with:
           shared-key: "rust-build-cache"
           cache-on-failure: true
 
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@v3
 
       - name: Check if image exists
         id: check-image
@@ -47,7 +47,7 @@ jobs:
 
       - name: Login to Docker Hub
         if: steps.check-image.outputs.exists == 'false'
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
