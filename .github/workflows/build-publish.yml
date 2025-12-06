@@ -1,3 +1,5 @@
+name: Build And Publish All
+
 on:
   push:
     branches:
