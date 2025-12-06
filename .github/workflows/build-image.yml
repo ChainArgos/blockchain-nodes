@@ -28,6 +28,8 @@ jobs:
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
         with:
+          cache-directories: |
+            ~/.cache/rust-script
           shared-key: "rust-build-cache"
           cache-on-failure: true
 
