@@ -32,7 +32,7 @@ jobs:
           cache-on-failure: true
 
       - name: Install just
-        uses: extractions/setup-just@3b8772e8a1c0c0d8773c5a8c397d3c558e58f552 # v2
+        uses: extractions/setup-just@dd310ad5a97d8e7b41793f8ef055398d51ad4de6 # v2
 
       - name: Check if image exists
         id: check-image
