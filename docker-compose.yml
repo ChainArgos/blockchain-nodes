@@ -315,7 +315,7 @@ services:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
   kcc-geth:
-    image: donbeave/kcc-geth:1.4.4-1@sha256:74c56968f30404a2b278e456aeef9486e1c35fc140cd98cb27c03643050a62a3
+    image: donbeave/kcc-geth:1.4.4-1@sha256:942df534f6e3c831570d145c01447b7510755b9784ae1216a77907f7f73dbba0
     container_name: kcc-geth
     restart: unless-stopped
     stop_grace_period: 15m
