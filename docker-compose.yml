@@ -64,7 +64,7 @@ services:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
   berachain-beacon-kit:
-    image: donbeave/beacon-kit:1.3.4-1@sha256:9dec4ebf08cbf55b417edd228638aa5019edb25009394181ae3688b4b8ed726c
+    image: donbeave/beacon-kit:1.3.4-1@sha256:4a4a06112a889e9d8b5453648f26052ea74f5d5a2528d745aa0e567457eb3349
     container_name: berachain-beacon-kit
     restart: unless-stopped
     stop_grace_period: 15m
