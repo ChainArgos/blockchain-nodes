@@ -267,7 +267,7 @@ services:
       - ${GNOSIS_ROOT_DIR:-~}/gnosis:/data
 
   heco-geth:
-    image: donbeave/heco-geth:1.2.2-1@sha256:dd4c1546cfa631dfaaea53e59e2d7674be0bd16455e81fa58fe7d596d11adc09
+    image: donbeave/heco-geth:1.2.2-1@sha256:6656582bf835348519bcb3408bfcacc0068e2881c67b530c2c3fd77b91c12f80
     container_name: heco-geth
     restart: unless-stopped
     stop_grace_period: 15m
