@@ -3,6 +3,9 @@ FROM donbeave/debian-blockchain-base:1.0.0
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ARG GETH_VERSION
+ARG GIT_COMMIT
+ARG LEGACY_VERSION
+ARG LEGACY_GIT_COMMIT
 
 RUN cd /tmp \
     && curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-amd64-${GETH_VERSION}-${GIT_COMMIT}.tar.gz -o geth.tar.gz \
