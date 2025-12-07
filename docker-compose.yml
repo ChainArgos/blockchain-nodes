@@ -27,7 +27,7 @@ services:
       - ${AVAX_ROOT_DIR:-~}/avax:/data
 
   base-op-geth:
-    image: donbeave/op-geth:1.101603.5-1@sha256:e880405f5198f2c16071957b95bf2e370089771004e3329adebdcdf2a0d71268
+    image: donbeave/op-geth:1.101603.5-1@sha256:3a0cb8a1a062fd31b3f505be770bec649a33cfdf603b9d3161040bb9c9236a6f
     container_name: base-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -278,7 +278,7 @@ services:
       - ${HECO_ROOT_DIR:-~}/heco:/data
 
   ink-op-geth:
-    image: donbeave/op-geth:1.101603.5-1@sha256:e880405f5198f2c16071957b95bf2e370089771004e3329adebdcdf2a0d71268
+    image: donbeave/op-geth:1.101603.5-1@sha256:3a0cb8a1a062fd31b3f505be770bec649a33cfdf603b9d3161040bb9c9236a6f
     container_name: ink-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -356,7 +356,7 @@ services:
       - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
 
   optimism-op-geth:
-    image: donbeave/op-geth:1.101603.5-1@sha256:e880405f5198f2c16071957b95bf2e370089771004e3329adebdcdf2a0d71268
+    image: donbeave/op-geth:1.101603.5-1@sha256:3a0cb8a1a062fd31b3f505be770bec649a33cfdf603b9d3161040bb9c9236a6f
     container_name: optimism-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -496,7 +496,7 @@ services:
       - ${TRON_ROOT_DIR:-~}/tron:/data
 
   unichain-op-geth:
-    image: donbeave/op-geth:1.101603.5-1@sha256:e880405f5198f2c16071957b95bf2e370089771004e3329adebdcdf2a0d71268
+    image: donbeave/op-geth:1.101603.5-1@sha256:3a0cb8a1a062fd31b3f505be770bec649a33cfdf603b9d3161040bb9c9236a6f
     container_name: unichain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -544,7 +544,7 @@ services:
       - ${WBT_ROOT_DIR:-~}/wbt:/data
 
   worldchain-op-geth:
-    image: donbeave/op-geth:1.101603.5-1@sha256:e880405f5198f2c16071957b95bf2e370089771004e3329adebdcdf2a0d71268
+    image: donbeave/op-geth:1.101603.5-1@sha256:3a0cb8a1a062fd31b3f505be770bec649a33cfdf603b9d3161040bb9c9236a6f
     container_name: worldchain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
