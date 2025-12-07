@@ -120,7 +120,7 @@ services:
       - ${BSC_ROOT_DIR:-~}/bsc:/data
 
   cardano-node:
-    image: donbeave/cardano-node:10.5.3-1@sha256:4ce76794426f87aab0bf43a582e5120f6b422bf33f9856bff671026ed7703df2
+    image: donbeave/cardano-node:10.5.3-1@sha256:eea183bdf452f9f1d1b8307c1d2fb757885deccbc8c7d4ff7c235bdf177c4acf
     container_name: cardano-node
     restart: unless-stopped
     stop_grace_period: 15m
