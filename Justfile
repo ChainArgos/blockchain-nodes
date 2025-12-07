@@ -45,6 +45,7 @@ build-all:
     just build-celo-geth
     just build-dogecoin-core
     just build-geth
+    just build-gnosis-geth
     just build-heco-geth
     just build-heimdall
     just build-kcc-geth
@@ -122,6 +123,10 @@ build-eigenda-proxy:
 # Build Geth Docker image
 build-geth:
     ./docker-build.rs geth
+
+# Build Gnosis Geth Docker image
+build-gnosis-geth:
+    ./docker-build.rs gnosis-geth
 
 # Build HECO Geth Docker image
 build-heco-geth:
@@ -242,6 +247,14 @@ restart-ethereum-geth:
 # Restart Ethereum Lighthouse node
 restart-ethereum-lighthouse:
     ./containerctl.rs restart ethereum-lighthouse -f
+
+# Restart Gnosis Geth node
+restart-gnosis-geth:
+    ./containerctl.rs restart gnosis-geth -f
+
+# Restart Gnosis Lighthouse node
+restart-gnosis-lighthouse:
+    ./containerctl.rs restart gnosis-lighthouse -f
 
 # Restart HECO Geth node
 restart-heco-geth:

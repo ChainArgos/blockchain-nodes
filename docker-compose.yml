@@ -225,8 +225,46 @@ services:
         required: false
     ports:
       - "5052:5052"
+    environment:
+      CA_NETWORK: ethereum
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
+
+  gnosis-geth:
+    image: donbeave/gnosis-geth:1.16.7-gc.4-1
+    container_name: gnosis-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-gnosis.env
+        required: false
+    ports:
+      - "8660:8660"
+      - "30315:30315/tcp"
+      - "30315:30315/udp"
+    volumes:
+      - ${GNOSIS_ROOT_DIR:-~}/gnosis:/data
+
+  gnosis-lighthouse:
+    image: donbeave/lighthouse:8.0.1-1
+    container_name: gnosis-lighthouse
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-gnosis.env
+        required: false
+    ports:
+      - "4000:4000"
+      - "9000:9000/tcp"
+      - "9000:9000/udp"
+    environment:
+      CA_NETWORK: gnosis
+    volumes:
+      - ${GNOSIS_ROOT_DIR:-~}/gnosis:/data
 
   heco-geth:
     image: donbeave/heco-geth:1.2.2-1

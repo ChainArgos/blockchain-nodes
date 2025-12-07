@@ -107,6 +107,13 @@ jobs:
     with:
       package: geth
 
+  docker-gnosis-geth:
+    needs: docker-debian-blockchain-build
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: gnosis-geth
+
   docker-heco-geth:
     needs: docker-debian-blockchain-build
     uses: ./.github/workflows/build-image.yml
