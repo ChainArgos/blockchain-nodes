@@ -252,6 +252,7 @@ All tools use:
 - Cardano
 - Celo
 - Dogecoin
+- Gnosis Chain
 - EigenDA Proxy
 - Ethereum (Geth + Lighthouse)
 - HECO
