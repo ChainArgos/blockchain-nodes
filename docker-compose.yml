@@ -184,7 +184,7 @@ services:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
   dogecoin-core:
-    image: donbeave/dogecoin-core:1.14.8-1@sha256:3781b01206e18f483566e517fd3d5fbafb35a185dbf1b95ccd0d811aabd86737
+    image: donbeave/dogecoin-core:1.14.8-1@sha256:d2555f48cc1700a4d3f0ff5a7baf1024898ee752b19b952c4b6a120ff3084dfd
     container_name: dogecoin-core
     restart: unless-stopped
     stop_grace_period: 15m
