@@ -12,7 +12,6 @@ use anyhow::{Context, Result};
 use clap::Parser;
 use owo_colors::OwoColorize;
 use serde::Deserialize;
-use std::collections::HashMap;
 use std::env;
 use std::path::Path;
 use std::process::Command;

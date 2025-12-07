@@ -9,7 +9,7 @@ WORKDIR /op-geth
 RUN go run build/ci.go install -static ./cmd/geth
 # end build
 
-FROM donbeave/debian-blockchain-base:1.0.0@sha256:b6ce5ae5183425bc65547fedda6b4be0fa95879807a35e59ba5e4aa366131a9c
+FROM donbeave/debian-blockchain-base:1.0.0
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
