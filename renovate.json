@@ -4,7 +4,7 @@
     "config:recommended",
     "docker:pinDigests",
     "default:automergeDigest",
-    "default:automergeBranchPush"
+    ":automergeBranch"
   ],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 20
