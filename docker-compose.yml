@@ -231,7 +231,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   gnosis-geth:
-    image: donbeave/gnosis-geth:1.16.7-gc.4-1@sha256:5b4ead4e99d994660a1b58fa3f54ca7ce39bfd77abfa5a93af7e9640bd9a0d80
+    image: donbeave/gnosis-geth:1.16.7-gc.4-1@sha256:81ebd41fbb930aebe94e8d6b899abbf2107059bfd3a39a2c55164a446e283e0a
     container_name: gnosis-geth
     restart: unless-stopped
     stop_grace_period: 15m
