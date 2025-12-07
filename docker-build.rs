@@ -12,6 +12,7 @@ use anyhow::{Context, Result};
 use clap::Parser;
 use owo_colors::OwoColorize;
 use serde::Deserialize;
+use std::collections::HashMap;
 use std::env;
 use std::path::Path;
 use std::process::Command;
@@ -20,6 +21,8 @@ use std::process::Command;
 struct BuildConfig {
     package: PackageConfig,
     docker: DockerConfig,
+    #[serde(default)]
+    vars: std::collections::HashMap<String, String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -107,6 +110,19 @@ fn main() -> Result<()> {
         "Platforms:".bold().blue(),
         config.docker.platforms.join(", ").magenta()
     );
+    if !config.vars.is_empty() {
+        println!(
+            "{:>12} {}",
+            "Variables:".bold().blue(),
+            config
+                .vars
+                .keys()
+                .map(|k| k.as_str())
+                .collect::<Vec<_>>()
+                .join(", ")
+                .cyan()
+        );
+    }
     println!("{}", "━".repeat(60).bright_black());
 
     // Get GITHUB_TOKEN from environment if available
@@ -196,6 +212,13 @@ fn build_platform(
     let version_arg_name = config.package.build_arg_name();
     cmd.arg("--build-arg")
         .arg(format!("{}={}", version_arg_name, config.package.version));
+
+    // Add custom variables as build args (e.g., GIT_COMMIT=b9f3a3d9)
+    for (key, value) in &config.vars {
+        let build_arg_name = key.to_uppercase();
+        cmd.arg("--build-arg")
+            .arg(format!("{}={}", build_arg_name, value));
+    }
 
     cmd.arg(".");
 

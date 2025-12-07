@@ -6,3 +6,8 @@ build = "1"
 [docker]
 repository = "donbeave/geth"
 platforms = ["amd64", "arm64"]
+
+[vars]
+git_commit = "b9f3a3d9"
+legacy_version = "1.13.15"
+legacy_git_commit = "c5ba367e"

@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 ARG GETH_VERSION
 
 RUN cd /tmp \
-    && curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-arm64-${GETH_VERSION}.tar.gz -o geth.tar.gz \
+    && curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-arm64-${GETH_VERSION}-${GIT_COMMIT}.tar.gz -o geth.tar.gz \
     && tar -xvf geth.tar.gz \
     && rm geth.tar.gz \
     && rm geth-*/COPYING \
@@ -14,7 +14,7 @@ RUN cd /tmp \
     && rm -rf /tmp/*
 
 RUN cd /tmp \
-    && curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-arm64-1.13.15-c5ba367e.tar.gz -o geth.tar.gz \
+    && curl -L https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-arm64-${LEGACY_VERSION}-${LEGACY_GIT_COMMIT}.tar.gz -o geth.tar.gz \
     && tar -xvf geth.tar.gz \
     && rm geth.tar.gz \
     && rm geth-*/COPYING \
