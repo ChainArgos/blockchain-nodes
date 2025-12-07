@@ -345,7 +345,7 @@ services:
       - ${LINEA_ROOT_DIR:-~}/linea:/data
 
   litecoin-core:
-    image: donbeave/litecoin-core:0.21.4-1@sha256:c7747cfb69ecd36e7f1d425a32b0b749864043ffc528a0493d4468db4116eb28
+    image: donbeave/litecoin-core:0.21.4-1@sha256:1d6c6239fd8e93f54fffafe2934b2acafbd8a15c6995905731cbdc5a6af75466
     container_name: litecoin-core
     restart: unless-stopped
     stop_grace_period: 15m
