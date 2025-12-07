@@ -427,7 +427,7 @@ services:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
   ronin-geth:
-    image: donbeave/ronin-geth:1.1.2-1@sha256:2af60a8498f534f62e70cd3864478f6f844f15985df3fd243ac41ffeb41049e1
+    image: donbeave/ronin-geth:1.1.2-1@sha256:673cf5053fa38e26f8c2df9ae5a9e10dba9fe619a19bdae8626cd9ade85053b1
     container_name: ronin-geth
     restart: unless-stopped
     stop_grace_period: 15m
