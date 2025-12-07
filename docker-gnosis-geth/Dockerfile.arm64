@@ -9,7 +9,7 @@ WORKDIR /go-ethereum
 RUN make geth
 # end build
 
-FROM --platform=arm64 donbeave/debian-blockchain-base:1.0.0@sha256:bbd4761fdee07a4c30516b70857c4e86a0370061ade7aebaad24775a62ca4108
+FROM --platform=arm64 donbeave/debian-blockchain-base:1.0.0@sha256:b6ce5ae5183425bc65547fedda6b4be0fa95879807a35e59ba5e4aa366131a9c
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
