@@ -76,6 +76,10 @@ build-beacon-kit:
 build-bera-reth:
     ./docker-build.rs bera-reth
 
+# Build Bitcoin Cash Docker image
+build-bitcoin-cash:
+    ./docker-build.rs bitcoin-cash
+
 # Build Bitcoin Core Docker image
 build-bitcoin-core:
     ./docker-build.rs bitcoin-core
@@ -207,6 +211,10 @@ restart-berachain-beacon-kit:
 # Restart Berachain Reth node
 restart-berachain-reth:
     ./containerctl.rs restart berachain-reth -f
+
+# Restart Bitcoin Core node
+restart-bitcoin-cash:
+    ./containerctl.rs restart bitcoin-cash -f
 
 # Restart Bitcoin Core node
 restart-bitcoin-core:

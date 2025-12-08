@@ -51,6 +51,13 @@ jobs:
     with:
       package: bera-reth
 
+  docker-bitcoin-cash:
+    needs: docker-debian-blockchain-build
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: bitcoin-cash
+
   docker-bitcoin-core:
     needs: docker-debian-blockchain-build
     uses: ./.github/workflows/build-image.yml

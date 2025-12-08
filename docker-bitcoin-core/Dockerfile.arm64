@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 ARG BITCOIN_CORE_VERSION
 
 RUN cd /tmp \
-    && curl -L "https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_CORE_VERSION}/bitcoin-${BITCOIN_CORE_VERSION}-aarch64-linux-gnu.tar.gz" -o bitcoin.tar.gz \
+    && curl -L https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_CORE_VERSION}/bitcoin-${BITCOIN_CORE_VERSION}-aarch64-linux-gnu.tar.gz -o bitcoin.tar.gz \
     && tar -xvf bitcoin.tar.gz \
     && rm bitcoin.tar.gz \
     && mv bitcoin-*/bin/* /usr/local/bin/ \

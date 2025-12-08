@@ -95,6 +95,17 @@ services:
     volumes:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
+  bitcoin-cash:
+    image: donbeave/bitcoin-cash:28.0.1-1
+    container_name: bitcoin-cash
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "8334:8334"
+    volumes:
+      - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
+
   bitcoin-core:
     image: donbeave/bitcoin-core:30.0-1@sha256:ae87569a2c2bc3f9b1b535e30274c9f065b965f201ff4e6ba04856ac5877d8fd
     container_name: bitcoin-core

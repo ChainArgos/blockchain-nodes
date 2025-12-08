@@ -1,0 +1,32 @@
+FROM donbeave/debian-blockchain-base:1.0.0@sha256:bbd4761fdee07a4c30516b70857c4e86a0370061ade7aebaad24775a62ca4108
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+ARG BITCOIN_CASH_VERSION
+
+RUN cd /tmp \
+    && curl -L https://github.com/bitcoin-cash-node/bitcoin-cash-node/releases/download/v${BITCOIN_CASH_VERSION}/bitcoin-cash-node-${BITCOIN_CASH_VERSION}-x86_64-linux-gnu.tar.gz -o bitcoin-cash.tar.gz \
+    && tar -xvf bitcoin-cash.tar.gz \
+    && rm bitcoin-cash.tar.gz \
+    && mv bitcoin-cash-*/bin/* /usr/local/bin/ \
+    && mv bitcoin-cash-*/include/* /usr/local/include/ \
+    && mv bitcoin-cash-*/lib/* /usr/local/lib/ \
+    && mv bitcoin-cash-*/share/* /usr/local/share/ \
+    && rm -r bitcoin-cash-* \
+    && rm -rf /tmp/*
+
+ADD config /config/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
