@@ -5,4 +5,4 @@ build = "1"
 
 [docker]
 repository = "donbeave/celo-op-node"
-platforms = ["amd64", "arm64"]
+platforms = ["amd64"]
