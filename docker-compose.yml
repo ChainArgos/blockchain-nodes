@@ -46,7 +46,7 @@ services:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
   base-op-node:
-    image: donbeave/op-node:1.16.3-1@sha256:fe5a62a23ef31fe653fb31038f945b9f74599f845717c3b172a2833b645b6e65
+    image: donbeave/op-node:1.16.3-1@sha256:d665a8c616ba2004d000b091054d80604c85d5e2868d5d94997f29bb403f44db
     container_name: base-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -297,7 +297,7 @@ services:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
   ink-op-node:
-    image: donbeave/op-node:1.16.3-1@sha256:fe5a62a23ef31fe653fb31038f945b9f74599f845717c3b172a2833b645b6e65
+    image: donbeave/op-node:1.16.3-1@sha256:d665a8c616ba2004d000b091054d80604c85d5e2868d5d94997f29bb403f44db
     container_name: ink-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -375,7 +375,7 @@ services:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   optimism-op-node:
-    image: donbeave/op-node:1.16.3-1@sha256:fe5a62a23ef31fe653fb31038f945b9f74599f845717c3b172a2833b645b6e65
+    image: donbeave/op-node:1.16.3-1@sha256:d665a8c616ba2004d000b091054d80604c85d5e2868d5d94997f29bb403f44db
     container_name: optimism-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -515,7 +515,7 @@ services:
       - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
 
   unichain-op-node:
-    image: donbeave/op-node:1.16.3-1@sha256:fe5a62a23ef31fe653fb31038f945b9f74599f845717c3b172a2833b645b6e65
+    image: donbeave/op-node:1.16.3-1@sha256:d665a8c616ba2004d000b091054d80604c85d5e2868d5d94997f29bb403f44db
     container_name: unichain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -563,7 +563,7 @@ services:
       - ${WORLDCHAIN_ROOT_DIR:-~}/worldchain:/data
 
   worldchain-op-node:
-    image: donbeave/op-node:1.16.3-1@sha256:fe5a62a23ef31fe653fb31038f945b9f74599f845717c3b172a2833b645b6e65
+    image: donbeave/op-node:1.16.3-1@sha256:d665a8c616ba2004d000b091054d80604c85d5e2868d5d94997f29bb403f44db
     container_name: worldchain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
