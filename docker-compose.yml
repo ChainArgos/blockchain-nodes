@@ -533,7 +533,7 @@ services:
       - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
 
   wbt-geth:
-    image: donbeave/wbt-geth:1.2.0-1@sha256:25065f0ebc06855e975e6036ad8ba1ec93c08031cb1620c79c1eb663413d5598
+    image: donbeave/wbt-geth:1.2.0-1@sha256:ddc05050ee792501d712a38a33dd3deaa90fb6b2fca29e00a1e7dfbb5bdaaa2c
     container_name: wbt-geth
     restart: unless-stopped
     stop_grace_period: 15m
