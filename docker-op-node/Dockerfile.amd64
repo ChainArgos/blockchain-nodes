@@ -1,4 +1,4 @@
-FROM donbeave/debian-blockchain-build:1.0.0@sha256:41495d9ad42c2cf6145e24574e23d9a69cc571fe7b441253963a4d91367465d1 AS build
+FROM donbeave/debian-blockchain-build:1.0.0@sha256:6071173e56543db5b775cc365263ec1fe29799add200984b10fa798f831fd17c AS build
 
 ARG GITHUB_TOKEN
 
