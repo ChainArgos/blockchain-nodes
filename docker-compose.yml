@@ -473,7 +473,7 @@ services:
       - ${SONIC_ROOT_DIR:-~}/sonic:/data
 
   tezos-octez-node:
-    image: donbeave/octez:166077302-1@sha256:8a68b0f131033c3c1470d9dafb5e6a5c621b9e3022af8127ad4a95f93845edb1
+    image: donbeave/octez:166077302-1@sha256:91c7188967917f81f2ba0aa8cdf812112602ac0199af5ffa0340715b3fea5a68
     container_name: tezos-octez-node
     restart: unless-stopped
     stop_grace_period: 15m
