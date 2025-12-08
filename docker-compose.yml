@@ -462,7 +462,7 @@ services:
       - ${SCROLL_ROOT_DIR:-~}/scroll:/data
 
   sonic-geth:
-    image: donbeave/sonic-geth:2.1.4-1@sha256:a270b7f92a6d095f5d99a762115b7e25306c9ce492fbb56c0bc5cb5af98328ee
+    image: donbeave/sonic-geth:2.1.4-1@sha256:68adf7ed90c63bd2ba4e2bbbb663434f19d145b95c0da9aa3b09be18c8995a18
     container_name: sonic-geth
     restart: unless-stopped
     stop_grace_period: 15m
