@@ -1,6 +1,6 @@
 services:
   arbitrum-one:
-    image: donbeave/arbitrum:3.9.2-1@sha256:0bdb0b93f7f403e44084f8cf4dcce2938ecc57e9389bae045f17378bb1829042
+    image: donbeave/arbitrum:3.9.2-1@sha256:7013cb1db6dd4ffc74e9acbdcbb5940322a8658981f7c3a700d5e2dcaec8c671
     container_name: arbitrum-one
     restart: unless-stopped
     stop_grace_period: 15m
