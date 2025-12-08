@@ -8,7 +8,6 @@
   ],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 20,
-  "platformAutomerge": true,
   "packageRules": [
     {
       "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest"],
