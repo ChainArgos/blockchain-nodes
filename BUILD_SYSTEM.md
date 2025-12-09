@@ -30,27 +30,42 @@ build = "1"
 [docker]
 repository = "donbeave/geth"
 platforms = ["amd64", "arm64"]
+
+[vars]
+git_commit = "b9f3a3d9"
+legacy_version = "1.13.15"
+legacy_git_commit = "c5ba367e"
 ```
 
 ### Configuration Fields
 
+#### Required Fields
+
 - `package.name`: The package name (e.g., "geth")
 - `package.version`: The upstream software version (e.g., "1.16.7")
-- `package.build`: The build number for this version (e.g., "1")
+- `package.build`: The build number for this version (e.g., "1") - optional, if omitted the Docker tag will only include the version
 - `docker.repository`: The Docker repository (e.g., "donbeave/geth")
 - `docker.platforms`: List of platforms to build for (e.g., ["amd64", "arm64"])
+
+#### Optional Fields
+
+- `vars`: A map of custom variables to pass as build arguments to Docker (optional)
+  - Keys are automatically converted to uppercase (e.g., `git_commit` → `GIT_COMMIT`)
+  - Useful for passing additional metadata like commit hashes or secondary versions
+  - Example: `[vars]` section with `git_commit = "b9f3a3d9"`
 
 ### Version Management
 
 The build system uses separate `version` and `build` fields:
 
 - **version**: Upstream software version (passed to Dockerfile as build arg)
-- **build**: Your build/packaging version
-- **Full version**: `{version}-{build}` used for Docker tags (e.g., "1.16.7-1")
+- **build**: Your build/packaging version (optional)
+- **Full version**: `{version}-{build}` used for Docker tags when build is specified, or just `{version}` when omitted
 
-Example:
+Examples:
 - `version = "1.16.7"` + `build = "1"` → Docker tag: `donbeave/geth:1.16.7-1`
-- Build argument passed to Dockerfile: `GETH_VERSION=1.16.7`
+- `version = "1.0.0"` (no build field) → Docker tag: `donbeave/debian-blockchain-base:1.0.0`
+- Build argument passed to Dockerfile: `GETH_VERSION=1.16.7` (always just the version, never includes build number)
 
 ## Directory Structure
 
@@ -142,6 +157,8 @@ The build script performs the following steps:
 
 ## Build Argument Naming Convention
 
+### Automatic Version Arguments
+
 Build arguments are automatically generated from the package name:
 
 - Package: `geth` → Arg: `GETH_VERSION`
@@ -150,6 +167,27 @@ Build arguments are automatically generated from the package name:
 - Package: `wbt-geth` → Arg: `WBT_GETH_VERSION`
 
 The version (without build number) is passed as the argument value.
+
+### Custom Variables
+
+Additional build arguments can be defined in the `[vars]` section of `build.toml`:
+
+```toml
+[vars]
+git_commit = "b9f3a3d9"
+legacy_version = "1.13.15"
+```
+
+These are automatically converted to uppercase and passed as build arguments:
+- `git_commit` → `--build-arg GIT_COMMIT=b9f3a3d9`
+- `legacy_version` → `--build-arg LEGACY_VERSION=1.13.15`
+
+Your Dockerfile must declare these arguments:
+```dockerfile
+ARG GETH_VERSION
+ARG GIT_COMMIT
+ARG LEGACY_VERSION
+```
 
 ## Using with Cargo
 
@@ -174,13 +212,13 @@ cargo build --release --bin docker-build
 
 Run `just --list` to see all available build commands, or build any of these packages:
 
-- arbitrum, avalanchego, beacon-kit, bera-geth
-- bitcoin-core, bor, bsc-geth, cardano-node
-- celo-geth, celo-op-geth, celo-op-node
+- arbitrum, avalanchego, beacon-kit, bera-reth
+- bitcoin-cash, bitcoin-core, bor, bsc-geth
+- cardano-node, celo-geth, celo-op-geth, celo-op-node
 - debian-blockchain-base, debian-blockchain-build
 - dogecoin-core, eigenda-proxy
-- geth, heco-geth, heimdall, kcc-geth
-- lighthouse, litecoin-core, octez
+- geth, gnosis-geth, heco-geth, heimdall, kcc-geth
+- lighthouse, litecoin-core, octez, omnicore
 - op-geth, op-node, ronin-geth
 - scroll-geth, sonic-geth, tron-java, wbt-geth
 

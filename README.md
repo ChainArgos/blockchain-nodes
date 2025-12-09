@@ -186,26 +186,6 @@ just restart ethereum-geth
 just stop ethereum-geth
 ```
 
-## CI/CD Integration
-
-The project uses GitHub Actions for automated builds with:
-- Rust toolchain setup via `dtolnay/rust-toolchain`
-- Rust dependency caching via `Swatinem/rust-cache`
-- Just command runner via `extractions/setup-just`
-- Reusable workflow for all builds (70% less code duplication)
-
-## Features
-
-✅ **Modern CLI** - Color-coded output with progress indicators  
-✅ **Simplified commands** - Easy-to-remember Just recipes  
-✅ **Multi-platform builds** - Support for amd64 and arm64  
-✅ **Self-documenting** - Built-in help and command listings  
-✅ **Error handling** - Clear error messages and proper exit codes  
-✅ **Dry-run mode** - Preview commands before execution  
-✅ **Configuration-driven** - Simple TOML configs per package  
-✅ **Version management** - Separate version and build numbers  
-✅ **Build argument automation** - Auto-generated from package names  
-
 ## Development
 
 ### Running with Cargo
