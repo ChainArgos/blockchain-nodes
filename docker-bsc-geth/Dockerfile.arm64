@@ -2,10 +2,11 @@ FROM --platform=arm64 donbeave/debian-blockchain-base:1.0.0@sha256:bbd4761fdee07
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG BSC_VERSION
+ARG BSC_GETH_VERSION
 
-RUN curl -L https://github.com/bnb-chain/bsc/releases/download/v${BSC_VERSION}/geth-linux-arm64 -o /usr/local/bin/geth \
-    && chmod -v u+x /usr/local/bin/geth
+RUN curl -L https://github.com/bnb-chain/bsc/releases/download/v${BSC_GETH_VERSION}/geth-linux-arm64 -o /usr/local/bin/geth \
+    && chmod -v u+x /usr/local/bin/geth \
+    && /usr/local/bin/geth --version
 
 ADD config/config.toml /config/
 ADD config/genesis.json /config/

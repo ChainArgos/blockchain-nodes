@@ -242,32 +242,34 @@ All tools use:
 
 ## Supported Blockchain Nodes
 
-- Arbitrum
+- Arbitrum One
 - Avalanche
-- Beacon Kit (Berachain)
-- Berachain (Reth)
-- Bitcoin
-- Bor (Polygon)
+- Base (OP Stack)
+- Berachain (Beacon Kit + Reth)
+- Bitcoin Cash
+- Bitcoin Core
 - BSC (Binance Smart Chain)
 - Cardano
-- Celo
+- Celo (Geth + OP Stack + EigenDA Proxy)
 - Dogecoin
-- Gnosis Chain
-- EigenDA Proxy
 - Ethereum (Geth + Lighthouse)
+- Gnosis (Geth + Lighthouse)
 - HECO
-- Heimdall (Polygon)
+- Ink (OP Stack)
 - KCC
+- Linea
 - Litecoin
-- Octez (Tezos)
 - Omni Core
-- Optimism (OP Geth + OP Node)
-- Celo OP Stack (OP Geth + OP Node)
+- Optimism (OP Stack)
+- Polygon (Bor + Heimdall)
 - Ronin
 - Scroll
 - Sonic
+- Tezos (Octez)
 - Tron
+- Unichain (OP Stack)
 - WBT
+- Worldchain (OP Stack)
 
 ## License
 
