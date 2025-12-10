@@ -451,7 +451,7 @@ services:
       - ${RONIN_ROOT_DIR:-~}/ronin:/data
 
   scroll-geth:
-    image: donbeave/scroll-geth:5.9.2-1@sha256:0ed25ec878cfc924e4b92f722cad38220176fbf7c4fe6a5d9ca5f9f22c7b0806
+    image: donbeave/scroll-geth:5.10.0-1@sha256:258c76f5adf15af4e7224151a694a458cd4081ce10a1f52eeae7141cf019453d
     container_name: scroll-geth
     restart: unless-stopped
     stop_grace_period: 15m
