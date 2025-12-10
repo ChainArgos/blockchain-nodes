@@ -287,3 +287,16 @@ main_chain_max_gas_price = "400000000000"
 no_ack_wait_time = "30m0s"
 
 chain = "mainnet"
+
+#### Health check configs ####
+# Maximum number of goroutines before heimdall health check fails (0 = disabled)
+max_goroutine_threshold = "0"
+
+# Maximum number of goroutines before heimdall health check warns (0 = disabled)
+warn_goroutine_threshold = "0"
+
+# Minimum number of peers before heimdall health check fails (0 = disabled)
+min_peer_threshold = "0"
+
+# Minimum number of peers before heimdall health check warns (0 = disabled)
+warn_peer_threshold = "0"
