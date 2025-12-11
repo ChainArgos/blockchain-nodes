@@ -9,9 +9,19 @@
 //! ```
 
 use anyhow::{Context, Result};
+use clap::builder::styling::{AnsiColor, Effects, Styles};
 use clap::Parser;
 use serde::Deserialize;
 use std::env;
+
+const HELP_STYLES: Styles = Styles::styled()
+    .header(AnsiColor::Blue.on_default().effects(Effects::BOLD))
+    .usage(AnsiColor::Blue.on_default().effects(Effects::BOLD))
+    .literal(AnsiColor::Cyan.on_default().effects(Effects::BOLD))
+    .placeholder(AnsiColor::Cyan.on_default())
+    .error(AnsiColor::Red.on_default().effects(Effects::BOLD))
+    .valid(AnsiColor::Green.on_default())
+    .invalid(AnsiColor::Yellow.on_default());
 
 #[derive(Debug, Deserialize)]
 struct BuildConfig {
@@ -48,6 +58,7 @@ struct DockerConfig {
 #[derive(Parser, Debug)]
 #[command(name = "docker-exists")]
 #[command(about = "Check if a Docker image exists on Docker Hub", long_about = None)]
+#[command(styles = HELP_STYLES)]
 struct Args {
     /// Package name to check (e.g., "geth", "bitcoin-core")
     package: Option<String>,

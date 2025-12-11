@@ -7,15 +7,26 @@
 //! ```
 
 use anyhow::{Context, Result};
+use clap::builder::styling::{AnsiColor, Effects, Styles};
 use clap::{Parser, Subcommand};
 use owo_colors::OwoColorize;
 use std::env;
 use std::process::{Command, Stdio};
 
+const HELP_STYLES: Styles = Styles::styled()
+    .header(AnsiColor::Blue.on_default().effects(Effects::BOLD))
+    .usage(AnsiColor::Blue.on_default().effects(Effects::BOLD))
+    .literal(AnsiColor::Cyan.on_default().effects(Effects::BOLD))
+    .placeholder(AnsiColor::Cyan.on_default())
+    .error(AnsiColor::Red.on_default().effects(Effects::BOLD))
+    .valid(AnsiColor::Green.on_default())
+    .invalid(AnsiColor::Yellow.on_default());
+
 #[derive(Parser, Debug)]
 #[command(name = "containerctl")]
 #[command(version = "1.0.0")]
 #[command(about = "Docker Compose container management utility", long_about = None)]
+#[command(styles = HELP_STYLES)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -58,49 +69,27 @@ fn main() -> Result<()> {
 
             // Pull the latest image
             println!();
-            println!(
-                "{} {}",
-                "→".bold().cyan(),
-                "Pulling latest image...".bold()
-            );
-            run_command_exit_on_error(
-                &["docker", "compose", "pull", &name],
-                &current_dir,
-            )?;
+            println!("{} {}", "→".bold().cyan(), "Pulling latest image...".bold());
+            run_command_exit_on_error(&["docker", "compose", "pull", &name], &current_dir)?;
             println!("  {} Image pulled", "✓".bold().green());
 
             // Stop the container
             println!();
-            println!(
-                "{} {}",
-                "→".bold().cyan(),
-                "Stopping container...".bold()
-            );
+            println!("{} {}", "→".bold().cyan(), "Stopping container...".bold());
             run_command(&["docker", "compose", "down", &name], &current_dir)?;
             println!("  {} Container stopped", "✓".bold().green());
 
             // Start the container
             println!();
-            println!(
-                "{} {}",
-                "→".bold().cyan(),
-                "Starting container...".bold()
-            );
-            run_command_exit_on_error(
-                &["docker", "compose", "up", "-d", &name],
-                &current_dir,
-            )?;
+            println!("{} {}", "→".bold().cyan(), "Starting container...".bold());
+            run_command_exit_on_error(&["docker", "compose", "up", "-d", &name], &current_dir)?;
             println!("  {} Container started", "✓".bold().green());
 
             // Follow logs if requested
             if follow {
                 println!();
                 println!("{}", "━".repeat(60).bright_black());
-                println!(
-                    "{} {}",
-                    "Following logs for:".bold().cyan(),
-                    name.yellow()
-                );
+                println!("{} {}", "Following logs for:".bold().cyan(), name.yellow());
                 println!("{}", "━".repeat(60).bright_black());
                 println!();
                 run_command(&["docker", "logs", "-f", &name], &current_dir)?;
@@ -124,15 +113,8 @@ fn main() -> Result<()> {
             println!("{}", "━".repeat(60).bright_black());
 
             println!();
-            println!(
-                "{} {}",
-                "→".bold().cyan(),
-                "Stopping container...".bold()
-            );
-            run_command_exit_on_error(
-                &["docker", "compose", "down", &name],
-                &current_dir,
-            )?;
+            println!("{} {}", "→".bold().cyan(), "Stopping container...".bold());
+            run_command_exit_on_error(&["docker", "compose", "down", &name], &current_dir)?;
             println!("  {} Container stopped", "✓".bold().green());
 
             println!();

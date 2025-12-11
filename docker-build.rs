@@ -9,12 +9,22 @@
 //! ```
 
 use anyhow::{Context, Result};
+use clap::builder::styling::{AnsiColor, Effects, Styles};
 use clap::Parser;
 use owo_colors::OwoColorize;
 use serde::Deserialize;
 use std::env;
 use std::path::Path;
 use std::process::Command;
+
+const HELP_STYLES: Styles = Styles::styled()
+    .header(AnsiColor::Blue.on_default().effects(Effects::BOLD))
+    .usage(AnsiColor::Blue.on_default().effects(Effects::BOLD))
+    .literal(AnsiColor::Cyan.on_default().effects(Effects::BOLD))
+    .placeholder(AnsiColor::Cyan.on_default())
+    .error(AnsiColor::Red.on_default().effects(Effects::BOLD))
+    .valid(AnsiColor::Green.on_default())
+    .invalid(AnsiColor::Yellow.on_default());
 
 #[derive(Debug, Deserialize)]
 struct BuildConfig {
@@ -56,6 +66,7 @@ struct DockerConfig {
 #[derive(Parser, Debug)]
 #[command(name = "build")]
 #[command(about = "Build Docker images for blockchain nodes", long_about = None)]
+#[command(styles = HELP_STYLES)]
 struct Args {
     /// Package name to build (e.g., "geth", "bitcoin-core")
     package: Option<String>,
