@@ -1,8 +1,11 @@
 [package]
 name = "arbitrum"
-version = "3.9.2"
+version = "3.9.4"
 build = "1"
 
 [docker]
 repository = "donbeave/arbitrum"
 platforms = ["amd64", "arm64"]
+
+[vars]
+git_commit = "7f582c3"

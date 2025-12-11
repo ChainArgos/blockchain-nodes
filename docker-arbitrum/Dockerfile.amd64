@@ -1,4 +1,7 @@
-FROM offchainlabs/nitro-node:v3.9.2-52e8959@sha256:07baf4f937368c66eac7c113f5572854a5c486e36fa7da27f4ce36bfb370b8bb AS build
+ARG ARBITRUM_VERSION
+ARG GIT_COMMIT
+
+FROM offchainlabs/nitro-node:v${ARBITRUM_VERSION}-${GIT_COMMIT} AS build
 
 RUN ls
 # end build
