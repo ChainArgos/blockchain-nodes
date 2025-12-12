@@ -71,7 +71,7 @@ jobs:
 
       - name: Initialize Docker Buildx
         if: steps.check-image.outputs.exists == 'false'
-        run: ./init-docker-buildx.sh
+        uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
         if: steps.check-image.outputs.exists == 'false'
