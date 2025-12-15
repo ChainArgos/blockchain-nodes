@@ -46,7 +46,7 @@ services:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
   base-op-node:
-    image: donbeave/op-node:1.16.3-3
+    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
     container_name: base-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -242,7 +242,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   fraxtal-op-geth:
-    image: donbeave/fraxtal-op-geth:1.101603.5-frax-1.3.0-1
+    image: donbeave/fraxtal-op-geth:1.101603.5-frax-1.3.0-1@sha256:6666c665e7b5e040bd5dc0f76335a33f3786df0695dba28c65bcdbe575fa95b1
     container_name: fraxtal-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -259,7 +259,7 @@ services:
       - ${FRAXTAL_ROOT_DIR:-~}/fraxtal:/data
 
   fraxtal-op-node:
-    image: donbeave/fraxtal-op-node:1.16.3-frax-1.2.0-1
+    image: donbeave/fraxtal-op-node:1.16.3-frax-1.2.0-1@sha256:1e344d573279da309a58b42742031d93d08001e91fcfc3f5c930192dedc0962d
     container_name: fraxtal-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -332,7 +332,7 @@ services:
       - ${HASHKEYCHAIN_ROOT_DIR:-~}/hashkeychain:/data
 
   hashkeychain-op-node:
-    image: donbeave/op-node:1.16.3-3
+    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
     container_name: hashkeychain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -380,7 +380,7 @@ services:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
   ink-op-node:
-    image: donbeave/op-node:1.16.3-3
+    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
     container_name: ink-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -458,7 +458,7 @@ services:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   optimism-op-node:
-    image: donbeave/op-node:1.16.3-3
+    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
     container_name: optimism-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -598,7 +598,7 @@ services:
       - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
 
   unichain-op-node:
-    image: donbeave/op-node:1.16.3-3
+    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
     container_name: unichain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -646,7 +646,7 @@ services:
       - ${WORLDCHAIN_ROOT_DIR:-~}/worldchain:/data
 
   worldchain-op-node:
-    image: donbeave/op-node:1.16.3-3
+    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
     container_name: worldchain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
