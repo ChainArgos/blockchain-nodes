@@ -259,7 +259,7 @@ services:
       - ${FRAXTAL_ROOT_DIR:-~}/fraxtal:/data
 
   fraxtal-op-node:
-    image: donbeave/fraxtal-op-node:1.16.3-frax-1.2.0-1@sha256:1e344d573279da309a58b42742031d93d08001e91fcfc3f5c930192dedc0962d
+    image: donbeave/fraxtal-op-node:1.16.3-frax-1.2.0-1@sha256:092434b4ca8bcae85f16679f778f170219376de176bdf26a875980e101d2f9c9
     container_name: fraxtal-op-node
     restart: unless-stopped
     stop_grace_period: 15m
