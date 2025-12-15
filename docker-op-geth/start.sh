@@ -76,14 +76,6 @@ case $CA_NETWORK in
     discovery_port=30313
     ;;
 
-  fraxtal)
-    http_port=8661
-    sequencer_http=https://rpc.mainnet.frax.com
-    op_network=fraxtal-mainnet
-    p2p_port=30316
-    discovery_port=30316
-    ;;
-
   hashkeychain)
     http_port=8662
     sequencer_http="https://mainnet.hsk.xyz"

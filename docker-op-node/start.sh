@@ -85,12 +85,6 @@ case $CA_NETWORK in
     network=worldchain-mainnet
     ;;
 
-  fraxtal)
-    ca_op_geth_hostname="fraxtal-op-geth"
-    p2p_listen_tcp=9228
-    network=fraxtal-mainnet
-    ;;
-
   hashkeychain)
     ca_op_geth_hostname="hashkeychain-op-geth"
     p2p_listen_tcp=9229

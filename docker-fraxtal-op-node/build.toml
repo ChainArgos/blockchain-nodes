@@ -1,0 +1,8 @@
+[package]
+name = "fraxtal-op-node"
+version = "1.16.3-frax-1.2.0"
+build = "1"
+
+[docker]
+repository = "donbeave/fraxtal-op-node"
+platforms = ["amd64"]

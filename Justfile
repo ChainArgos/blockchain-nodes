@@ -124,6 +124,14 @@ build-dogecoin-core:
 build-eigenda-proxy:
     ./docker-build.rs eigenda-proxy
 
+# Build Fraxtal OP Geth Docker image
+build-fraxtal-op-geth:
+    ./docker-build.rs fraxtal-op-geth
+
+# Build Fraxtal OP Node Docker image
+build-fraxtal-op-node:
+    ./docker-build.rs fraxtal-op-node
+
 # Build Geth Docker image
 build-geth:
     ./docker-build.rs geth
