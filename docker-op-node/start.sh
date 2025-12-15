@@ -56,23 +56,45 @@ fi
 
 case $CA_NETWORK in
   optimism)
-    export ca_op_geth_hostname="optimism-op-geth"
+    ca_op_geth_hostname="optimism-op-geth"
+    p2p_listen_tcp=9222
+    network=op-mainnet
     ;;
 
   base)
-    export ca_op_geth_hostname="base-op-geth"
+    ca_op_geth_hostname="base-op-geth"
+    p2p_listen_tcp=9223
+    network=base-mainnet
     ;;
 
   ink)
-    export ca_op_geth_hostname="ink-op-geth"
+    ca_op_geth_hostname="ink-op-geth"
+    p2p_listen_tcp=9224
+    network=ink-mainnet
     ;;
 
   unichain)
-    export ca_op_geth_hostname="unichain-op-geth"
+    ca_op_geth_hostname="unichain-op-geth"
+    p2p_listen_tcp=9225
+    network=unichain-mainnet
     ;;
 
   worldchain)
-    export ca_op_geth_hostname="worldchain-op-geth"
+    ca_op_geth_hostname="worldchain-op-geth"
+    p2p_listen_tcp=9227
+    network=worldchain-mainnet
+    ;;
+
+  fraxtal)
+    ca_op_geth_hostname="fraxtal-op-geth"
+    p2p_listen_tcp=9228
+    network=fraxtal-mainnet
+    ;;
+
+  hashkeychain)
+    ca_op_geth_hostname="hashkeychain-op-geth"
+    p2p_listen_tcp=9229
+    network=hashkeychain-mainnet
     ;;
 
   *)
@@ -87,107 +109,20 @@ until [ "$(curl -s -w '%{http_code}' -o /dev/null "http://${ca_op_geth_hostname}
   sleep 5
 done
 
-case $CA_NETWORK in
-
-  optimism)
-    exec op-node \
-      --l1="${CA_ETHEREUM_RPC_URL}" \
-      --l1.trustrpc \
-      --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
-      --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
-      --l2=http://"${ca_op_geth_hostname}":8551 \
-      --l2.jwt-secret=/data/jwtsecret.hex \
-      --l2.enginekind=geth \
-      --p2p.advertise.ip="$PUBLIC_IP" \
-      --p2p.listen.ip=0.0.0.0 \
-      --p2p.listen.tcp=9222 \
-      --p2p.scoring=none \
-      --verifier.l1-confs=4 \
-      --rollup.load-protocol-versions=true \
-      --network=op-mainnet \
-      --syncmode=execution-layer \
-      --rpc.addr=0.0.0.0
-    ;;
-
-  base)
-    exec op-node \
-      --l1="${CA_ETHEREUM_RPC_URL}" \
-      --l1.trustrpc \
-      --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
-      --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
-      --l2=http://"${ca_op_geth_hostname}":8551 \
-      --l2.jwt-secret=/data/jwtsecret.hex \
-      --l2.enginekind=geth \
-      --p2p.advertise.ip="$PUBLIC_IP" \
-      --p2p.listen.ip=0.0.0.0 \
-      --p2p.listen.tcp=9223 \
-      --p2p.scoring=none \
-      --p2p.bootnodes=enr:-J24QNz9lbrKbN4iSmmjtnr7SjUMk4zB7f1krHZcTZx-JRKZd0kA2gjufUROD6T3sOWDVDnFJRvqBBo62zuF-hYCohOGAYiOoEyEgmlkgnY0gmlwhAPniryHb3BzdGFja4OFQgCJc2VjcDI1NmsxoQKNVFlCxh_B-716tTs-h1vMzZkSs1FTu_OYTNjgufplG4N0Y3CCJAaDdWRwgiQG,enr:-J24QH-f1wt99sfpHy4c0QJM-NfmsIfmlLAMMcgZCUEgKG_BBYFc6FwYgaMJMQN5dsRBJApIok0jFn-9CS842lGpLmqGAYiOoDRAgmlkgnY0gmlwhLhIgb2Hb3BzdGFja4OFQgCJc2VjcDI1NmsxoQJ9FTIv8B9myn1MWaC_2lJ-sMoeCDkusCsk4BYHjjCq04N0Y3CCJAaDdWRwgiQG,enr:-J24QDXyyxvQYsd0yfsN0cRr1lZ1N11zGTplMNlW4xNEc7LkPXh0NAJ9iSOVdRO95GPYAIc6xmyoCCG6_0JxdL3a0zaGAYiOoAjFgmlkgnY0gmlwhAPckbGHb3BzdGFja4OFQgCJc2VjcDI1NmsxoQJwoS7tzwxqXSyFL7g0JM-KWVbgvjfB8JA__T7yY_cYboN0Y3CCJAaDdWRwgiQG,enr:-J24QHmGyBwUZXIcsGYMaUqGGSl4CFdx9Tozu-vQCn5bHIQbR7On7dZbU61vYvfrJr30t0iahSqhc64J46MnUO2JvQaGAYiOoCKKgmlkgnY0gmlwhAPnCzSHb3BzdGFja4OFQgCJc2VjcDI1NmsxoQINc4fSijfbNIiGhcgvwjsjxVFJHUstK9L1T8OTKUjgloN0Y3CCJAaDdWRwgiQG,enr:-J24QG3ypT4xSu0gjb5PABCmVxZqBjVw9ca7pvsI8jl4KATYAnxBmfkaIuEqy9sKvDHKuNCsy57WwK9wTt2aQgcaDDyGAYiOoGAXgmlkgnY0gmlwhDbGmZaHb3BzdGFja4OFQgCJc2VjcDI1NmsxoQIeAK_--tcLEiu7HvoUlbV52MspE0uCocsx1f_rYvRenIN0Y3CCJAaDdWRwgiQG \
-      --verifier.l1-confs=4 \
-      --rollup.load-protocol-versions=true \
-      --network=base-mainnet \
-      --syncmode=execution-layer \
-      --rpc.addr=0.0.0.0
-    ;;
-
-  ink)
-    exec op-node \
-      --l1="${CA_ETHEREUM_RPC_URL}" \
-      --l1.trustrpc \
-      --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
-      --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
-      --l2=http://"${ca_op_geth_hostname}":8551 \
-      --l2.jwt-secret=/data/jwtsecret.hex \
-      --l2.enginekind=geth \
-      --p2p.advertise.ip="$PUBLIC_IP" \
-      --p2p.listen.ip=0.0.0.0 \
-      --p2p.listen.tcp=9224 \
-      --p2p.scoring=none \
-      --verifier.l1-confs=4 \
-      --rollup.load-protocol-versions=true \
-      --network=ink-mainnet \
-      --syncmode=execution-layer \
-      --rpc.addr=0.0.0.0
-    ;;
-
-  unichain)
-    exec op-node \
-      --l1="${CA_ETHEREUM_RPC_URL}" \
-      --l1.trustrpc \
-      --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
-      --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
-      --l2=http://"${ca_op_geth_hostname}":8551 \
-      --l2.jwt-secret=/data/jwtsecret.hex \
-      --l2.enginekind=geth \
-      --p2p.advertise.ip="$PUBLIC_IP" \
-      --p2p.listen.ip=0.0.0.0 \
-      --p2p.listen.tcp=9225 \
-      --p2p.scoring=none \
-      --verifier.l1-confs=4 \
-      --rollup.load-protocol-versions=true \
-      --network=unichain-mainnet \
-      --syncmode=execution-layer \
-      --rpc.addr=0.0.0.0
-    ;;
-
-  worldchain)
-    exec op-node \
-      --l1="${CA_ETHEREUM_RPC_URL}" \
-      --l1.trustrpc \
-      --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
-      --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
-      --l2=http://"${ca_op_geth_hostname}":8551 \
-      --l2.jwt-secret=/data/jwtsecret.hex \
-      --l2.enginekind=geth \
-      --p2p.advertise.ip="$PUBLIC_IP" \
-      --p2p.listen.ip=0.0.0.0 \
-      --p2p.listen.tcp=9227 \
-      --p2p.scoring=none \
-      --verifier.l1-confs=4 \
-      --rollup.load-protocol-versions=true \
-      --network=worldchain-mainnet \
-      --syncmode=execution-layer \
-      --rpc.addr=0.0.0.0
-    ;;
-
-esac
+exec op-node \
+  --l1="${CA_ETHEREUM_RPC_URL}" \
+  --l1.trustrpc \
+  --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
+  --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
+  --l2=http://"${ca_op_geth_hostname}":8551 \
+  --l2.jwt-secret=/data/jwtsecret.hex \
+  --l2.enginekind=geth \
+  --p2p.advertise.ip="$PUBLIC_IP" \
+  --p2p.listen.ip=0.0.0.0 \
+  --p2p.listen.tcp="$p2p_listen_tcp" \
+  --p2p.scoring=none \
+  --verifier.l1-confs=4 \
+  --rollup.load-protocol-versions=true \
+  --network="$network" \
+  --syncmode=execution-layer \
+  --rpc.addr=0.0.0.0

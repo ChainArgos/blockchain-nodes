@@ -36,185 +36,97 @@ else
 fi
 
 case $CA_NETWORK in
-
   optimism)
-    exec geth \
-      --datadir=/data/op-geth \
-      --db.engine=pebble \
-      --history.transactions=0 \
-      --state.scheme=path \
-      --syncmode=snap \
-      --http \
-      --http.addr=0.0.0.0 \
-      --http.corsdomain=* \
-      --http.vhosts=* \
-      --http.api=web3,debug,eth,txpool,net,rpc \
-      --http.port=8651 \
-      --ws \
-      --ws.addr=0.0.0.0 \
-      --ws.origins=* \
-      --ws.api=web3,debug,eth,txpool,net,rpc \
-      --authrpc.jwtsecret=/data/jwtsecret.hex \
-      --authrpc.addr=0.0.0.0 \
-      --authrpc.vhosts=* \
-      --authrpc.port=8551 \
-      --maxpeers=200 \
-      --cache=8000 \
-      --rollup.sequencerhttp=https://mainnet-sequencer.optimism.io \
-      --rollup.halt=major \
-      --rollup.disabletxpoolgossip=true \
-      --op-network=op-mainnet \
-      --port=30306 \
-      --discovery.port=30306 \
-      --discv4=true \
-      --discv5=true \
-      --nat=extip:"$PUBLIC_IP" \
-      --txpool.nolocals=true
+    http_port=8651
+    sequencer_http=https://mainnet-sequencer.optimism.io
+    op_network=op-mainnet
+    p2p_port=30306
+    discovery_port=30306
     ;;
 
   base)
-    exec geth \
-      --datadir=/data/op-geth \
-      --db.engine=pebble \
-      --history.transactions=0 \
-      --state.scheme=path \
-      --syncmode=snap \
-      --http \
-      --http.addr=0.0.0.0 \
-      --http.corsdomain=* \
-      --http.vhosts=* \
-      --http.api=web3,debug,eth,txpool,net,rpc \
-      --http.port=8648 \
-      --ws \
-      --ws.addr=0.0.0.0 \
-      --ws.origins=* \
-      --ws.api=web3,debug,eth,txpool,net,rpc \
-      --authrpc.jwtsecret=/data/jwtsecret.hex \
-      --authrpc.addr=0.0.0.0 \
-      --authrpc.vhosts=* \
-      --authrpc.port=8551 \
-      --maxpeers=200 \
-      --cache=8000 \
-      --rollup.sequencerhttp=https://mainnet-sequencer.base.org \
-      --rollup.halt=major \
-      --rollup.disabletxpoolgossip=true \
-      --op-network=base-mainnet \
-      --port=30304 \
-      --discovery.port=30304 \
-      --discv4=true \
-      --discv5=true \
-      --nat=extip:"$PUBLIC_IP" \
-      --txpool.nolocals=true
+    http_port=8648
+    sequencer_http=https://mainnet-sequencer.base.org
+    op_network=base-mainnet
+    p2p_port=30304
+    discovery_port=30304
     ;;
 
   ink)
-    exec geth \
-      --datadir=/data/op-geth \
-      --db.engine=pebble \
-      --history.transactions=0 \
-      --state.scheme=path \
-      --syncmode=snap \
-      --http \
-      --http.addr=0.0.0.0 \
-      --http.corsdomain=* \
-      --http.vhosts=* \
-      --http.api=web3,debug,eth,txpool,net,rpc \
-      --http.port=8652 \
-      --ws \
-      --ws.addr=0.0.0.0 \
-      --ws.origins=* \
-      --ws.api=web3,debug,eth,txpool,net,rpc \
-      --authrpc.jwtsecret=/data/jwtsecret.hex \
-      --authrpc.addr=0.0.0.0 \
-      --authrpc.vhosts=* \
-      --authrpc.port=8551 \
-      --maxpeers=200 \
-      --cache=8000 \
-      --rollup.sequencerhttp=https://rpc-gel.inkonchain.com \
-      --rollup.halt=major \
-      --rollup.disabletxpoolgossip=true \
-      --op-network=ink-mainnet \
-      --port=30307 \
-      --discovery.port=30307 \
-      --discv4=true \
-      --discv5=true \
-      --nat=extip:"$PUBLIC_IP" \
-      --txpool.nolocals=true
+    http_port=8652
+    sequencer_http=https://rpc-gel.inkonchain.com
+    op_network=ink-mainnet
+    p2p_port=30307
+    discovery_port=30307
     ;;
 
   unichain)
-    exec geth \
-      --datadir=/data/op-geth \
-      --db.engine=pebble \
-      --history.transactions=0 \
-      --state.scheme=path \
-      --syncmode=snap \
-      --http \
-      --http.addr=0.0.0.0 \
-      --http.corsdomain=* \
-      --http.vhosts=* \
-      --http.api=web3,debug,eth,txpool,net,rpc \
-      --http.port=8655 \
-      --ws \
-      --ws.addr=0.0.0.0 \
-      --ws.origins=* \
-      --ws.api=web3,debug,eth,txpool,net,rpc \
-      --authrpc.jwtsecret=/data/jwtsecret.hex \
-      --authrpc.addr=0.0.0.0 \
-      --authrpc.vhosts=* \
-      --authrpc.port=8551 \
-      --maxpeers=200 \
-      --cache=8000 \
-      --rollup.sequencerhttp=https://mainnet-sequencer.unichain.org \
-      --rollup.halt=major \
-      --rollup.disabletxpoolgossip=true \
-      --op-network=unichain-mainnet \
-      --port=30309 \
-      --discovery.port=30309 \
-      --discv4=true \
-      --discv5=true \
-      --nat=extip:"$PUBLIC_IP" \
-      --txpool.nolocals=true
+    http_port=8655
+    sequencer_http=https://mainnet-sequencer.unichain.org
+    op_network=unichain-mainnet
+    p2p_port=30309
+    discovery_port=30309
     ;;
 
   worldchain)
-    exec geth \
-      --datadir=/data/op-geth \
-      --db.engine=pebble \
-      --history.transactions=0 \
-      --state.scheme=path \
-      --syncmode=snap \
-      --http \
-      --http.addr=0.0.0.0 \
-      --http.corsdomain=* \
-      --http.vhosts=* \
-      --http.api=web3,debug,eth,txpool,net,rpc \
-      --http.port=8657 \
-      --ws \
-      --ws.addr=0.0.0.0 \
-      --ws.origins=* \
-      --ws.api=web3,debug,eth,txpool,net,rpc \
-      --authrpc.jwtsecret=/data/jwtsecret.hex \
-      --authrpc.addr=0.0.0.0 \
-      --authrpc.vhosts=* \
-      --authrpc.port=8551 \
-      --maxpeers=200 \
-      --cache=8000 \
-      --rollup.sequencerhttp=https://worldchain-mainnet-sequencer.g.alchemy.com \
-      --rollup.halt=major \
-      --rollup.disabletxpoolgossip=true \
-      --op-network=worldchain-mainnet \
-      --port=30313 \
-      --discovery.port=30313 \
-      --discv4=true \
-      --discv5=true \
-      --nat=extip:"$PUBLIC_IP" \
-      --txpool.nolocals=true
+    http_port=8657
+    sequencer_http=https://worldchain-mainnet-sequencer.g.alchemy.com
+    op_network=worldchain-mainnet
+    p2p_port=30313
+    discovery_port=30313
+    ;;
+
+  fraxtal)
+    http_port=8661
+    sequencer_http=https://rpc.mainnet.frax.com
+    op_network=fraxtal-mainnet
+    p2p_port=30316
+    discovery_port=30316
+    ;;
+
+  hashkeychain)
+    http_port=8662
+    sequencer_http="https://mainnet.hsk.xyz"
+    op_network=hashkeychain-mainnet
+    p2p_port=30317
+    discovery_port=30317
     ;;
 
   *)
     echo "ERROR: CA_NETWORK is not correct, current value: ${CA_NETWORK}"
     exit 1
     ;;
-
 esac
+
+exec geth \
+  --datadir=/data/op-geth \
+  --db.engine=pebble \
+  --history.transactions=0 \
+  --state.scheme=path \
+  --syncmode=snap \
+  --http \
+  --http.addr=0.0.0.0 \
+  --http.corsdomain=* \
+  --http.vhosts=* \
+  --http.api=web3,debug,eth,txpool,net,rpc \
+  --http.port="$http_port" \
+  --ws \
+  --ws.addr=0.0.0.0 \
+  --ws.origins=* \
+  --ws.api=web3,debug,eth,txpool,net,rpc \
+  --authrpc.jwtsecret=/data/jwtsecret.hex \
+  --authrpc.addr=0.0.0.0 \
+  --authrpc.vhosts=* \
+  --authrpc.port=8551 \
+  --maxpeers=200 \
+  --cache=8000 \
+  --rollup.sequencerhttp="$sequencer_http" \
+  --rollup.halt=major \
+  --rollup.disabletxpoolgossip=true \
+  --op-network="$op_network" \
+  --port="$p2p_port" \
+  --discovery.port="$discovery_port" \
+  --discv4=true \
+  --discv5=true \
+  --nat=extip:"$PUBLIC_IP" \
+  --txpool.nolocals=true

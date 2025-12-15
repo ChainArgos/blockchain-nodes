@@ -256,6 +256,14 @@ restart-ethereum-geth:
 restart-ethereum-lighthouse:
     ./containerctl.rs restart ethereum-lighthouse -f
 
+# Restart Fraxtal OP Geth node
+restart-fraxtal-op-geth:
+    ./containerctl.rs restart fraxtal-op-geth -f
+
+# Restart Fraxtal OP Node
+restart-fraxtal-op-node:
+    ./containerctl.rs restart fraxtal-op-node -f
+
 # Restart Gnosis Geth node
 restart-gnosis-geth:
     ./containerctl.rs restart gnosis-geth -f
@@ -263,6 +271,14 @@ restart-gnosis-geth:
 # Restart Gnosis Lighthouse node
 restart-gnosis-lighthouse:
     ./containerctl.rs restart gnosis-lighthouse -f
+
+# Restart Hashkeychain OP Geth node
+restart-hashkeychain-op-geth:
+    ./containerctl.rs restart hashkeychain-op-geth -f
+
+# Restart Hashkeychain OP Node
+restart-hashkeychain-op-node:
+    ./containerctl.rs restart hashkeychain-op-node -f
 
 # Restart HECO Geth node
 restart-heco-geth:

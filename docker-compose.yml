@@ -241,6 +241,43 @@ services:
     volumes:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
+  fraxtal-op-geth:
+    image: donbeave/op-geth:1.101603.5-1@sha256:3a0cb8a1a062fd31b3f505be770bec649a33cfdf603b9d3161040bb9c9236a6f
+    container_name: fraxtal-op-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-fraxtal.env
+        required: false
+    ports:
+      - "8661:8661"
+      - "30316:30316/tcp"
+      - "30316:30316/udp"
+    environment:
+      CA_NETWORK: fraxtal
+    volumes:
+      - ${FRAXTAL_ROOT_DIR:-~}/fraxtal:/data
+
+  fraxtal-op-node:
+    image: donbeave/op-node:1.16.3-1@sha256:fe5a62a23ef31fe653fb31038f945b9f74599f845717c3b172a2833b645b6e65
+    container_name: fraxtal-op-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-fraxtal.env
+        required: false
+    ports:
+      - "9228:9228/tcp"
+      - "9228:9228/udp"
+    environment:
+      CA_NETWORK: fraxtal
+    volumes:
+      - ${FRAXTAL_ROOT_DIR:-~}/fraxtal:/data
+
   gnosis-geth:
     image: donbeave/gnosis-geth:1.16.7-gc.4-1@sha256:81ebd41fbb930aebe94e8d6b899abbf2107059bfd3a39a2c55164a446e283e0a
     container_name: gnosis-geth
@@ -276,6 +313,43 @@ services:
       CA_NETWORK: gnosis
     volumes:
       - ${GNOSIS_ROOT_DIR:-~}/gnosis:/data
+
+  hashkeychain-op-geth:
+    image: donbeave/op-geth:1.101603.5-1@sha256:3a0cb8a1a062fd31b3f505be770bec649a33cfdf603b9d3161040bb9c9236a6f
+    container_name: hashkeychain-op-geth
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-hashkeychain.env
+        required: false
+    ports:
+      - "8662:8662"
+      - "30317:30317/tcp"
+      - "30317:30317/udp"
+    environment:
+      CA_NETWORK: hashkeychain
+    volumes:
+      - ${HASHKEYCHAIN_ROOT_DIR:-~}/hashkeychain:/data
+
+  hashkeychain-op-node:
+    image: donbeave/op-node:1.16.3-1@sha256:fe5a62a23ef31fe653fb31038f945b9f74599f845717c3b172a2833b645b6e65
+    container_name: hashkeychain-op-node
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file:
+      - path: containers.env
+        required: true
+      - path: containers-hashkeychain.env
+        required: false
+    ports:
+      - "9229:9229/tcp"
+      - "9229:9229/udp"
+    environment:
+      CA_NETWORK: hashkeychain
+    volumes:
+      - ${HASHKEYCHAIN_ROOT_DIR:-~}/hashkeychain:/data
 
   heco-geth:
     image: donbeave/heco-geth:1.2.2-1@sha256:dd4c1546cfa631dfaaea53e59e2d7674be0bd16455e81fa58fe7d596d11adc09
