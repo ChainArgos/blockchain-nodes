@@ -1,24 +1,15 @@
-FROM donbeave/debian-blockchain-build:1.0.0@sha256:6071173e56543db5b775cc365263ec1fe29799add200984b10fa798f831fd17c AS build
-
-ARG GITHUB_TOKEN
-
 ARG FRAXTAL_OP_NODE_VERSION
 
-RUN git clone --branch op-node-${FRAXTAL_OP_NODE_VERSION} --single-branch --depth=1 https://github.com/FraxFinance/fraxtal.git
+FROM ghcr.io/fraxfinance/fraxtal-op-node:v${FRAXTAL_OP_NODE_VERSION} AS build
 
-WORKDIR /fraxtal
-
-RUN mise trust
-RUN mise install
-
-RUN make build
+RUN ls
 # end build
 
 FROM donbeave/debian-blockchain-base:1.0.0@sha256:bbd4761fdee07a4c30516b70857c4e86a0370061ade7aebaad24775a62ca4108
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-COPY --from=build /fraxtal/op-node/bin/op-node /usr/local/bin/
+COPY --from=build /usr/local/bin/op-node /usr/local/bin/
 
 ADD config /config/
 

@@ -1,19 +1,15 @@
-FROM --platform=arm64 donbeave/debian-blockchain-build:1.0.0@sha256:6071173e56543db5b775cc365263ec1fe29799add200984b10fa798f831fd17c AS build
-
 ARG FRAXTAL_OP_GETH_VERSION
 
-RUN git clone --branch v${FRAXTAL_OP_GETH_VERSION} --single-branch --depth=1 https://github.com/FraxFinance/fraxtal-op-geth.git
+FROM --platform=arm64 ghcr.io/fraxfinance/fraxtal-op-geth:v${FRAXTAL_OP_GETH_VERSION} AS build
 
-WORKDIR /fraxtal-op-geth
-
-RUN make geth
+RUN ls
 # end build
 
-FROM --platform=arm64 donbeave/debian-blockchain-base:1.0.0@sha256:bbd4761fdee07a4c30516b70857c4e86a0370061ade7aebaad24775a62ca4108
+FROM donbeave/debian-blockchain-base:1.0.0@sha256:bbd4761fdee07a4c30516b70857c4e86a0370061ade7aebaad24775a62ca4108
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-COPY --from=build /fraxtal-op-geth/build/bin/geth /usr/local/bin/
+COPY --from=build /usr/local/bin/geth /usr/local/bin/
 
 ADD config /config/
 

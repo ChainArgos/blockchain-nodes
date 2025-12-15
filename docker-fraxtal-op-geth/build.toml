@@ -5,4 +5,4 @@ build = "1"
 
 [docker]
 repository = "donbeave/fraxtal-op-geth"
-platforms = ["amd64"]
+platforms = ["amd64", "arm64"]
