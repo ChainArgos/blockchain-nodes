@@ -107,6 +107,20 @@ jobs:
     with:
       package: eigenda-proxy
 
+  docker-fraxtal-op-geth:
+    needs: docker-debian-blockchain-build
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: fraxtal-op-geth
+
+  docker-fraxtal-op-node:
+    needs: docker-debian-blockchain-build
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: fraxtal-op-node
+
   docker-geth:
     needs: docker-debian-blockchain-build
     uses: ./.github/workflows/build-image.yml
