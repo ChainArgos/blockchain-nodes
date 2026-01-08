@@ -474,7 +474,7 @@ services:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   polygon-bor:
-    image: donbeave/bor:2.5.5-1@sha256:84b2dedb79d2e3bd0bf91695e65adc3aa1a2846e93ecd86dbc0a636158581e5b
+    image: donbeave/bor:2.5.6-1@sha256:a8b5f06da7be795d66994e7e99d1ef099e2c17dfc93937fdef34e8e225418e39
     container_name: polygon-bor
     restart: unless-stopped
     stop_grace_period: 15m
