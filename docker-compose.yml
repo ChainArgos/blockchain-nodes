@@ -27,7 +27,7 @@ services:
       - ${AVAX_ROOT_DIR:-~}/avax:/data
 
   base-op-geth:
-    image: donbeave/op-geth:1.101603.5-3@sha256:2027c34ed619dd69e694f465527fa0750aea9576eda2d28cb523db40206b2d8f
+    image: donbeave/op-geth:1.101603.5-3
     container_name: base-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -46,7 +46,7 @@ services:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
   base-op-node:
-    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
+    image: donbeave/op-node:1.16.3-3
     container_name: base-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -311,7 +311,7 @@ services:
       - ${GNOSIS_ROOT_DIR:-~}/gnosis:/data
 
   hashkeychain-op-geth:
-    image: donbeave/op-geth:1.101603.5-3@sha256:2027c34ed619dd69e694f465527fa0750aea9576eda2d28cb523db40206b2d8f
+    image: donbeave/op-geth:1.101603.5-3
     container_name: hashkeychain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -330,7 +330,7 @@ services:
       - ${HASHKEYCHAIN_ROOT_DIR:-~}/hashkeychain:/data
 
   hashkeychain-op-node:
-    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
+    image: donbeave/op-node:1.16.3-3
     container_name: hashkeychain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -359,7 +359,7 @@ services:
       - ${HECO_ROOT_DIR:-~}/heco:/data
 
   ink-op-geth:
-    image: donbeave/op-geth:1.101603.5-3@sha256:2027c34ed619dd69e694f465527fa0750aea9576eda2d28cb523db40206b2d8f
+    image: donbeave/op-geth:1.101603.5-3
     container_name: ink-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -378,7 +378,7 @@ services:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
   ink-op-node:
-    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
+    image: donbeave/op-node:1.16.3-3
     container_name: ink-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -437,7 +437,7 @@ services:
       - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
 
   optimism-op-geth:
-    image: donbeave/op-geth:1.101603.5-3@sha256:2027c34ed619dd69e694f465527fa0750aea9576eda2d28cb523db40206b2d8f
+    image: donbeave/op-geth:1.101603.5-3
     container_name: optimism-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -456,7 +456,7 @@ services:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   optimism-op-node:
-    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
+    image: donbeave/op-node:1.16.3-3
     container_name: optimism-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -577,7 +577,7 @@ services:
       - ${TRON_ROOT_DIR:-~}/tron:/data
 
   unichain-op-geth:
-    image: donbeave/op-geth:1.101603.5-3@sha256:2027c34ed619dd69e694f465527fa0750aea9576eda2d28cb523db40206b2d8f
+    image: donbeave/op-geth:1.101603.5-3
     container_name: unichain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -596,7 +596,7 @@ services:
       - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
 
   unichain-op-node:
-    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
+    image: donbeave/op-node:1.16.3-3
     container_name: unichain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -625,7 +625,7 @@ services:
       - ${WBT_ROOT_DIR:-~}/wbt:/data
 
   worldchain-op-geth:
-    image: donbeave/op-geth:1.101603.5-3@sha256:2027c34ed619dd69e694f465527fa0750aea9576eda2d28cb523db40206b2d8f
+    image: donbeave/op-geth:1.101603.5-3
     container_name: worldchain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -644,7 +644,7 @@ services:
       - ${WORLDCHAIN_ROOT_DIR:-~}/worldchain:/data
 
   worldchain-op-node:
-    image: donbeave/op-node:1.16.3-3@sha256:21599976f878b00ee60c37c53637a7e18074b67734946239a1994a167221b5d8
+    image: donbeave/op-node:1.16.3-3
     container_name: worldchain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
