@@ -8,4 +8,4 @@ repository = "donbeave/arbitrum"
 platforms = ["amd64", "arm64"]
 
 [vars]
-git_commit = "7f582c3"
+git_commit = "66e42c4"
