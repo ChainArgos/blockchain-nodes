@@ -1,6 +1,6 @@
 [package]
 name = "tron-java"
-version = "4.8.0"
+version = "4.8.0.1"
 build = "1"
 
 [docker]
