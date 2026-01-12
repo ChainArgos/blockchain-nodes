@@ -1,6 +1,6 @@
 [package]
 name = "heimdall"
-version = "0.5.4"
+version = "0.5.5"
 build = "1"
 
 [docker]
