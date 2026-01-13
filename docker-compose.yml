@@ -107,7 +107,7 @@ services:
       - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
   bitcoin-core:
-    image: donbeave/bitcoin-core:30.1-1@sha256:59481f5ff247c48f576a9bf629233f935817830b3d0df08f0d8eba2069d82b6d
+    image: donbeave/bitcoin-core:30.2-1@sha256:b0c4404d51a515cde1482504adbb2ffbc71e466dbd91bbb2d745f2da72fd7392
     container_name: bitcoin-core
     restart: unless-stopped
     stop_grace_period: 15m
