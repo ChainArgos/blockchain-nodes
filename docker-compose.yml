@@ -27,7 +27,7 @@ services:
       - ${AVAX_ROOT_DIR:-~}/avax:/data
 
   base-op-geth:
-    image: donbeave/op-geth:1.101604.0-1@sha256:ed0508b7e5dd28035f3383af1315f90da12224420990c2bfc65e586c85825e0b
+    image: donbeave/op-geth:1.101605.0-1@sha256:e8347957ecb202077196592e0960722f0217f3bdd8a7be024ec886e3f19523b0
     container_name: base-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -311,7 +311,7 @@ services:
       - ${GNOSIS_ROOT_DIR:-~}/gnosis:/data
 
   hashkeychain-op-geth:
-    image: donbeave/op-geth:1.101604.0-1@sha256:ed0508b7e5dd28035f3383af1315f90da12224420990c2bfc65e586c85825e0b
+    image: donbeave/op-geth:1.101605.0-1@sha256:e8347957ecb202077196592e0960722f0217f3bdd8a7be024ec886e3f19523b0
     container_name: hashkeychain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -359,7 +359,7 @@ services:
       - ${HECO_ROOT_DIR:-~}/heco:/data
 
   ink-op-geth:
-    image: donbeave/op-geth:1.101604.0-1@sha256:ed0508b7e5dd28035f3383af1315f90da12224420990c2bfc65e586c85825e0b
+    image: donbeave/op-geth:1.101605.0-1@sha256:e8347957ecb202077196592e0960722f0217f3bdd8a7be024ec886e3f19523b0
     container_name: ink-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -437,7 +437,7 @@ services:
       - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
 
   optimism-op-geth:
-    image: donbeave/op-geth:1.101604.0-1@sha256:ed0508b7e5dd28035f3383af1315f90da12224420990c2bfc65e586c85825e0b
+    image: donbeave/op-geth:1.101605.0-1@sha256:e8347957ecb202077196592e0960722f0217f3bdd8a7be024ec886e3f19523b0
     container_name: optimism-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -577,7 +577,7 @@ services:
       - ${TRON_ROOT_DIR:-~}/tron:/data
 
   unichain-op-geth:
-    image: donbeave/op-geth:1.101604.0-1@sha256:ed0508b7e5dd28035f3383af1315f90da12224420990c2bfc65e586c85825e0b
+    image: donbeave/op-geth:1.101605.0-1@sha256:e8347957ecb202077196592e0960722f0217f3bdd8a7be024ec886e3f19523b0
     container_name: unichain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -625,7 +625,7 @@ services:
       - ${WBT_ROOT_DIR:-~}/wbt:/data
 
   worldchain-op-geth:
-    image: donbeave/op-geth:1.101604.0-1@sha256:ed0508b7e5dd28035f3383af1315f90da12224420990c2bfc65e586c85825e0b
+    image: donbeave/op-geth:1.101605.0-1@sha256:e8347957ecb202077196592e0960722f0217f3bdd8a7be024ec886e3f19523b0
     container_name: worldchain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
