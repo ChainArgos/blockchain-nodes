@@ -162,7 +162,7 @@ services:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
   celo-op-geth:
-    image: donbeave/celo-op-geth:2.1.2-1@sha256:9ca6ef01964ee601c584a842f4593d33a1a5f2c71f04d4c968e59d4d709c9fca
+    image: donbeave/celo-op-geth:2.1.3-1@sha256:61bfe933f52ba12d129938abfe950917906a53b43d0a3b91d83942c899b02214
     container_name: celo-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
