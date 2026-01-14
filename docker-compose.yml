@@ -242,7 +242,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   fraxtal-op-geth:
-    image: donbeave/fraxtal-op-geth:1.101603.5-frax-1.3.0-1@sha256:81ca241c0ef932c4869c4ba560aa25fe2af229d7fe670ff17d74d9d4a7a3de18
+    image: donbeave/fraxtal-op-geth:1.101605.0-frax-1.3.0-1@sha256:dd9cff65a4c8657b7a9960062b0349052adeb1a2f714af6d5ed7928976effe9c
     container_name: fraxtal-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
