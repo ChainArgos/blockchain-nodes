@@ -206,7 +206,7 @@ services:
       - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
 
   fetchai-fetchd:
-    image: donbeave/fetchd:0.14.1-1
+    image: donbeave/fetchd:0.14.1-1@sha256:09889ed540569db31f63884addf6dfd84ea566de81ada23e3c0b21b6967fc29d
     container_name: fetchai-fetchd
     restart: unless-stopped
     stop_grace_period: 15m
