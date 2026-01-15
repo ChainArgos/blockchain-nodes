@@ -8,13 +8,18 @@ RUN git clone --branch v${FETCHD_VERSION} --single-branch --depth=1 https://gith
 
 WORKDIR /fetchd
 
+RUN make install
 RUN make build
+
+RUN ls /go/pkg/mod/github.com
+RUN ARCH=`uname -m` && cp /go/pkg/mod/github.com/\!cosm\!wasm/wasmvm@v*/api/libwasmvm.${ARCH}.so /usr/lib/libwasmvm.${ARCH}.so
 # end build
 
 FROM donbeave/debian-blockchain-base:1.0.0@sha256:bbd4761fdee07a4c30516b70857c4e86a0370061ade7aebaad24775a62ca4108
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
+COPY --from=build /usr/lib/libwasmvm.*.so /usr/lib/
 COPY --from=build /fetchd/build/fetchd /usr/local/bin/
 
 ADD config /config/
