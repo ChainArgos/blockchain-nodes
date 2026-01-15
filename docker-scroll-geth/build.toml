@@ -1,6 +1,6 @@
 [package]
 name = "scroll-geth"
-version = "5.10.0"
+version = "5.10.2"
 build = "1"
 
 [docker]
