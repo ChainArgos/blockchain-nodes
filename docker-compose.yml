@@ -179,7 +179,7 @@ services:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
   celo-op-node:
-    image: donbeave/celo-op-node:2.1.0-1@sha256:120e443c94fe0a5ec42d0a329c51a7c1b1a14dd6c6c2dd03f8c9d8359ffcc1c7
+    image: donbeave/celo-op-node:2.1.1-1@sha256:7f2c881d005cd6a873c1a57abb882c84f2599828ef1dd74ba10846733605d657
     container_name: celo-op-node
     restart: unless-stopped
     stop_grace_period: 15m
