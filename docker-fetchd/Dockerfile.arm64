@@ -18,6 +18,11 @@ FROM --platform=arm64 donbeave/debian-blockchain-base:1.0.0@sha256:bbd4761fdee07
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends aria2 \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/* /var/cache/apt/* /tmp/*
+
 COPY --from=build /usr/lib/libwasmvm.*.so /usr/lib/
 COPY --from=build /fetchd/build/fetchd /usr/local/bin/
 
