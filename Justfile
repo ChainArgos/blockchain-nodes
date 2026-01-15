@@ -124,6 +124,10 @@ build-dogecoin-core:
 build-eigenda-proxy:
     ./docker-build.rs eigenda-proxy
 
+# Build Fetchd Docker image
+build-fetchd:
+    ./docker-build.rs fetchd
+
 # Build Fraxtal OP Geth Docker image
 build-fraxtal-op-geth:
     ./docker-build.rs fraxtal-op-geth
@@ -263,6 +267,10 @@ restart-ethereum-geth:
 # Restart Ethereum Lighthouse node
 restart-ethereum-lighthouse:
     ./containerctl.rs restart ethereum-lighthouse -f
+
+# Restart Fetch.ai fetchd node
+restart-fetchai-fetchd:
+    ./containerctl.rs restart fetchai-fetchd -f
 
 # Restart Fraxtal OP Geth node
 restart-fraxtal-op-geth:

@@ -1,0 +1,8 @@
+[package]
+name = "fetchd"
+version = "0.14.1"
+build = "1"
+
+[docker]
+repository = "donbeave/fetchd"
+platforms = ["amd64", "arm64"]

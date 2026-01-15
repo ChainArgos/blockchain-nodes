@@ -205,6 +205,15 @@ services:
     volumes:
       - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
 
+  fetchai-fetchd:
+    image: donbeave/fetchd:0.14.1-1
+    container_name: fetchai-fetchd
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    volumes:
+      - ${FETCHAI_ROOT_DIR:-~}/fetchai:/data
+
   ethereum-geth:
     image: donbeave/geth:1.16.8-1@sha256:52ed56e4e4daf64faaaeb5ee7e43ba00d8c7e6f2d1e875a3f4979f7d8062e1bc
     container_name: ethereum-geth

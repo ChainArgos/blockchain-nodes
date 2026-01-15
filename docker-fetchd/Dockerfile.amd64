@@ -1,0 +1,34 @@
+FROM donbeave/debian-blockchain-build:1.0.0@sha256:6071173e56543db5b775cc365263ec1fe29799add200984b10fa798f831fd17c AS build
+
+ARG FETCHD_VERSION
+
+RUN mise use -g --pin go@1.18.10
+
+RUN git clone --branch v${FETCHD_VERSION} --single-branch --depth=1 https://github.com/fetchai/fetchd.git
+
+WORKDIR /fetchd
+
+RUN make build
+# end build
+
+FROM donbeave/debian-blockchain-base:1.0.0@sha256:bbd4761fdee07a4c30516b70857c4e86a0370061ade7aebaad24775a62ca4108
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY --from=build /fetchd/build/fetchd /usr/local/bin/
+
+ADD config /config/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
