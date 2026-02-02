@@ -46,7 +46,7 @@ services:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
   base-op-node:
-    image: donbeave/op-node:1.16.5-1@sha256:45f3e5102051970775f3602c325f43ef2dd7c592dd94c113f34bf7f019d7c10c
+    image: donbeave/op-node:1.16.6-1@sha256:cd2e586f559a80f8c37d1f8bb0e755a0403f210280b3385713bfa8bfb479e08d
     container_name: base-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -341,7 +341,7 @@ services:
       - ${HASHKEYCHAIN_ROOT_DIR:-~}/hashkeychain:/data
 
   hashkeychain-op-node:
-    image: donbeave/op-node:1.16.5-1@sha256:45f3e5102051970775f3602c325f43ef2dd7c592dd94c113f34bf7f019d7c10c
+    image: donbeave/op-node:1.16.6-1@sha256:cd2e586f559a80f8c37d1f8bb0e755a0403f210280b3385713bfa8bfb479e08d
     container_name: hashkeychain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -389,7 +389,7 @@ services:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
   ink-op-node:
-    image: donbeave/op-node:1.16.5-1@sha256:45f3e5102051970775f3602c325f43ef2dd7c592dd94c113f34bf7f019d7c10c
+    image: donbeave/op-node:1.16.6-1@sha256:cd2e586f559a80f8c37d1f8bb0e755a0403f210280b3385713bfa8bfb479e08d
     container_name: ink-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -467,7 +467,7 @@ services:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   optimism-op-node:
-    image: donbeave/op-node:1.16.5-1@sha256:45f3e5102051970775f3602c325f43ef2dd7c592dd94c113f34bf7f019d7c10c
+    image: donbeave/op-node:1.16.6-1@sha256:cd2e586f559a80f8c37d1f8bb0e755a0403f210280b3385713bfa8bfb479e08d
     container_name: optimism-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -607,7 +607,7 @@ services:
       - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
 
   unichain-op-node:
-    image: donbeave/op-node:1.16.5-1@sha256:45f3e5102051970775f3602c325f43ef2dd7c592dd94c113f34bf7f019d7c10c
+    image: donbeave/op-node:1.16.6-1@sha256:cd2e586f559a80f8c37d1f8bb0e755a0403f210280b3385713bfa8bfb479e08d
     container_name: unichain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -655,7 +655,7 @@ services:
       - ${WORLDCHAIN_ROOT_DIR:-~}/worldchain:/data
 
   worldchain-op-node:
-    image: donbeave/op-node:1.16.5-1@sha256:45f3e5102051970775f3602c325f43ef2dd7c592dd94c113f34bf7f019d7c10c
+    image: donbeave/op-node:1.16.6-1@sha256:cd2e586f559a80f8c37d1f8bb0e755a0403f210280b3385713bfa8bfb479e08d
     container_name: worldchain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
