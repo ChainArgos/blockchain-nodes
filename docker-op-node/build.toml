@@ -1,6 +1,6 @@
 [package]
 name = "op-node"
-version = "1.16.5"
+version = "1.16.6"
 build = "1"
 
 [docker]
