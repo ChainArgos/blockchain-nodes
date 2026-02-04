@@ -22,11 +22,8 @@ RUN apt-get update \
 ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libtcmalloc.so.4"
 ENV TCMALLOC_RELEASE_RATE=10
 
-RUN cd /tmp \
-    && curl -L https://download.bell-sw.com/java/8u432+7/bellsoft-jdk8u432+7-linux-amd64.deb -o liberica.deb \
-    && dpkg -i liberica.deb \
-    && rm liberica.deb \
-    && rm -rf /tmp/*
+RUN mise install java@liberica-8u482+10
+RUN mise use -g --pin java@liberica-8u482+10
 
 RUN curl -L https://github.com/tronprotocol/java-tron/releases/download/GreatVoyage-v${TRON_JAVA_VERSION}/FullNode.jar -o /FullNode.jar
 
