@@ -576,7 +576,7 @@ services:
       - ${OMNI_ROOT_DIR:-~}/omni:/data
 
   tron-java:
-    image: donbeave/tron-java:4.8.0-1@sha256:7ea8bf5ae4dd4d66de3c2bb0107e2858d9f6d8f9f48914a244523e00310ca260
+    image: donbeave/tron-java:4.8.1-1@sha256:51d664d32c679344cdec5088fea1e604684b1bd7885bb70a6871dd3debb290e8
     container_name: tron-java
     restart: unless-stopped
     stop_grace_period: 15m
