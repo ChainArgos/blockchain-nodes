@@ -4,5 +4,5 @@ version = "1.2.2"
 build = "1"
 
 [docker]
-repository = "donbeave/heco-geth"
+repository = "chainargos/heco-geth"
 platforms = ["amd64"]

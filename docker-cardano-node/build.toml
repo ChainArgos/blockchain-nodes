@@ -4,5 +4,5 @@ version = "10.5.4"
 build = "1"
 
 [docker]
-repository = "donbeave/cardano-node"
+repository = "chainargos/cardano-node"
 platforms = ["amd64"]

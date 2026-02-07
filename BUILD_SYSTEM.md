@@ -28,7 +28,7 @@ version = "1.16.7"
 build = "1"
 
 [docker]
-repository = "donbeave/geth"
+repository = "chainargos/geth"
 platforms = ["amd64", "arm64"]
 
 [vars]
@@ -44,7 +44,7 @@ legacy_git_commit = "c5ba367e"
 - `package.name`: The package name (e.g., "geth")
 - `package.version`: The upstream software version (e.g., "1.16.7")
 - `package.build`: The build number for this version (e.g., "1") - optional, if omitted the Docker tag will only include the version
-- `docker.repository`: The Docker repository (e.g., "donbeave/geth")
+- `docker.repository`: The Docker repository (e.g., "chainargos/geth")
 - `docker.platforms`: List of platforms to build for (e.g., ["amd64", "arm64"])
 
 #### Optional Fields
@@ -63,8 +63,8 @@ The build system uses separate `version` and `build` fields:
 - **Full version**: `{version}-{build}` used for Docker tags when build is specified, or just `{version}` when omitted
 
 Examples:
-- `version = "1.16.7"` + `build = "1"` → Docker tag: `donbeave/geth:1.16.7-1`
-- `version = "1.0.0"` (no build field) → Docker tag: `donbeave/debian-blockchain-base:1.0.0`
+- `version = "1.16.7"` + `build = "1"` → Docker tag: `chainargos/geth:1.16.7-1`
+- `version = "1.0.0"` (no build field) → Docker tag: `chainargos/debian-blockchain-base:1.0.0`
 - Build argument passed to Dockerfile: `GETH_VERSION=1.16.7` (always just the version, never includes build number)
 
 ## Directory Structure
@@ -149,7 +149,7 @@ The build script performs the following steps:
 3. For each platform in `platforms`:
    - Builds the Docker image using `Dockerfile.<platform>`
    - Passes version as build argument (e.g., `--build-arg GETH_VERSION=1.16.7`)
-   - Tags it as `<repository>:<version>-<build>-<platform>` (e.g., `donbeave/geth:1.16.7-1-amd64`)
+   - Tags it as `<repository>:<version>-<build>-<platform>` (e.g., `chainargos/geth:1.16.7-1-amd64`)
    - Pushes it to the registry
 4. If multiple platforms are configured:
    - Creates a multi-platform manifest tagged as `<repository>:<version>-<build>`

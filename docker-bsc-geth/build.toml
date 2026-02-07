@@ -4,5 +4,5 @@ version = "1.6.6"
 build = "1"
 
 [docker]
-repository = "donbeave/bsc-geth"
+repository = "chainargos/bsc-geth"
 platforms = ["amd64", "arm64"]

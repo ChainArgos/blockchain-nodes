@@ -4,5 +4,5 @@ version = "1.14.8"
 build = "1"
 
 [docker]
-repository = "donbeave/dogecoin-core"
+repository = "chainargos/dogecoin-core"
 platforms = ["amd64", "arm64"]

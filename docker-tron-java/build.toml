@@ -4,5 +4,5 @@ version = "4.8.1"
 build = "1"
 
 [docker]
-repository = "donbeave/tron-java"
+repository = "chainargos/tron-java"
 platforms = ["amd64"]

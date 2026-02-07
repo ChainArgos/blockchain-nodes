@@ -4,5 +4,5 @@ version = "1.16.8-gc"
 build = "1"
 
 [docker]
-repository = "donbeave/gnosis-geth"
+repository = "chainargos/gnosis-geth"
 platforms = ["amd64", "arm64"]

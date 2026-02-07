@@ -4,7 +4,7 @@ version = "3.9.5"
 build = "1"
 
 [docker]
-repository = "donbeave/arbitrum"
+repository = "chainargos/arbitrum"
 platforms = ["amd64", "arm64"]
 
 [vars]

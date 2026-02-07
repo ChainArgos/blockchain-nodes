@@ -4,5 +4,5 @@ version = "2.1.1"
 build = "1"
 
 [docker]
-repository = "donbeave/celo-op-node"
+repository = "chainargos/celo-op-node"
 platforms = ["amd64"]

@@ -4,5 +4,5 @@ version = "1.16.6"
 build = "1"
 
 [docker]
-repository = "donbeave/op-node"
+repository = "chainargos/op-node"
 platforms = ["amd64"]

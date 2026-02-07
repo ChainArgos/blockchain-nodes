@@ -4,5 +4,5 @@ version = "2.1.5"
 build = "1"
 
 [docker]
-repository = "donbeave/sonic-geth"
+repository = "chainargos/sonic-geth"
 platforms = ["amd64", "arm64"]

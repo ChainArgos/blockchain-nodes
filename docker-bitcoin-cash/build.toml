@@ -4,5 +4,5 @@ version = "28.0.1"
 build = "1"
 
 [docker]
-repository = "donbeave/bitcoin-cash"
+repository = "chainargos/bitcoin-cash"
 platforms = ["amd64", "arm64"]

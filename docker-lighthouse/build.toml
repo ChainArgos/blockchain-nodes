@@ -4,5 +4,5 @@ version = "8.1.0"
 build = "1"
 
 [docker]
-repository = "donbeave/lighthouse"
+repository = "chainargos/lighthouse"
 platforms = ["amd64", "arm64"]

@@ -3,5 +3,5 @@ name = "debian-blockchain-build"
 version = "1.0.0"
 
 [docker]
-repository = "donbeave/debian-blockchain-build"
+repository = "chainargos/debian-blockchain-build"
 platforms = ["amd64", "arm64"]

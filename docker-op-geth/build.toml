@@ -4,5 +4,5 @@ version = "1.101608.0"
 build = "1"
 
 [docker]
-repository = "donbeave/op-geth"
+repository = "chainargos/op-geth"
 platforms = ["amd64", "arm64"]

@@ -4,5 +4,5 @@ version = "1.2.0"
 build = "1"
 
 [docker]
-repository = "donbeave/wbt-geth"
+repository = "chainargos/wbt-geth"
 platforms = ["amd64", "arm64"]

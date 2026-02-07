@@ -3,5 +3,5 @@ name = "debian-blockchain-base"
 version = "1.0.0"
 
 [docker]
-repository = "donbeave/debian-blockchain-base"
+repository = "chainargos/debian-blockchain-base"
 platforms = ["amd64", "arm64"]

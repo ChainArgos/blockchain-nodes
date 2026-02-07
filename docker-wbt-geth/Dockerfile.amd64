@@ -1,4 +1,4 @@
-FROM donbeave/debian-blockchain-build:1.0.0@sha256:6071173e56543db5b775cc365263ec1fe29799add200984b10fa798f831fd17c AS build
+FROM chainargos/debian-blockchain-build:1.0.0 AS build
 
 RUN mise use -g --pin go@1.22.12
 
@@ -11,7 +11,7 @@ WORKDIR /wbt
 RUN make all
 # end build
 
-FROM donbeave/debian-blockchain-base:1.0.0@sha256:bbd4761fdee07a4c30516b70857c4e86a0370061ade7aebaad24775a62ca4108
+FROM chainargos/debian-blockchain-base:1.0.0
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 

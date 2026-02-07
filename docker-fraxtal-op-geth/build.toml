@@ -4,5 +4,5 @@ version = "1.101605.0-frax-1.3.0"
 build = "1"
 
 [docker]
-repository = "donbeave/fraxtal-op-geth"
+repository = "chainargos/fraxtal-op-geth"
 platforms = ["amd64", "arm64"]

@@ -128,7 +128,7 @@ fn check_image_exists(repository: &str, tag: &str, verbose: bool) -> Result<bool
 
     let parts: Vec<&str> = repository.split('/').collect();
     if parts.len() != 2 {
-        anyhow::bail!("Invalid repository format. Expected format: namespace/repository (e.g., donbeave/geth)");
+        anyhow::bail!("Invalid repository format. Expected format: namespace/repository (e.g., chainargos/geth)");
     }
 
     let namespace = parts[0];

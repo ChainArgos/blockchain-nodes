@@ -4,5 +4,5 @@ version = "1.8.2"
 build = "1"
 
 [docker]
-repository = "donbeave/eigenda-proxy"
+repository = "chainargos/eigenda-proxy"
 platforms = ["amd64", "arm64"]

@@ -4,5 +4,5 @@ version = "166077302"
 build = "1"
 
 [docker]
-repository = "donbeave/octez"
+repository = "chainargos/octez"
 platforms = ["amd64", "arm64"]

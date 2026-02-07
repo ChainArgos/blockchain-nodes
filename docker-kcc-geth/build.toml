@@ -4,5 +4,5 @@ version = "1.4.4"
 build = "1"
 
 [docker]
-repository = "donbeave/kcc-geth"
+repository = "chainargos/kcc-geth"
 platforms = ["amd64"]

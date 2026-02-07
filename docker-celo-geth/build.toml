@@ -4,5 +4,5 @@ version = "1.8.9"
 build = "1"
 
 [docker]
-repository = "donbeave/celo-geth"
+repository = "chainargos/celo-geth"
 platforms = ["amd64", "arm64"]

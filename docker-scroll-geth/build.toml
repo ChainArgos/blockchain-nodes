@@ -4,5 +4,5 @@ version = "5.10.2"
 build = "1"
 
 [docker]
-repository = "donbeave/scroll-geth"
+repository = "chainargos/scroll-geth"
 platforms = ["amd64", "arm64"]

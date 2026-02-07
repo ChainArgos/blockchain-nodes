@@ -142,7 +142,7 @@ version = "1.16.7"
 build = "1"
 
 [docker]
-repository = "donbeave/geth"
+repository = "chainargos/geth"
 platforms = ["amd64", "arm64"]
 ```
 
