@@ -236,7 +236,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   ethereum-lighthouse:
-    image: donbeave/lighthouse:8.0.1-1@sha256:2a83350ce287ab6e77bf48735001cc1640ccb3e29f07199d42dd781ce02ed77e
+    image: donbeave/lighthouse:8.1.0-1@sha256:7c4a87209890cce8e3ee50a950e4893d81c5cd232a153dae78ed1a311d2578b1
     container_name: ethereum-lighthouse
     restart: unless-stopped
     stop_grace_period: 15m
@@ -303,7 +303,7 @@ services:
       - ${GNOSIS_ROOT_DIR:-~}/gnosis:/data
 
   gnosis-lighthouse:
-    image: donbeave/lighthouse:8.0.1-1@sha256:2a83350ce287ab6e77bf48735001cc1640ccb3e29f07199d42dd781ce02ed77e
+    image: donbeave/lighthouse:8.1.0-1@sha256:7c4a87209890cce8e3ee50a950e4893d81c5cd232a153dae78ed1a311d2578b1
     container_name: gnosis-lighthouse
     restart: unless-stopped
     stop_grace_period: 15m
