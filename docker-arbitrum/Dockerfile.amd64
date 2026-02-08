@@ -6,7 +6,7 @@ FROM offchainlabs/nitro-node:v${ARBITRUM_VERSION}-${GIT_COMMIT} AS build
 RUN ls
 # end build
 
-FROM chainargos/debian-blockchain-base:1.0.0
+FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
