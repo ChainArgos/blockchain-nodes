@@ -1,6 +1,6 @@
 [package]
 name = "fraxtal-op-node"
-version = "1.16.5-frax-1.2.0"
+version = "1.16.6-frax-1.2.0"
 build = "1"
 
 [docker]
