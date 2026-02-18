@@ -118,7 +118,7 @@ services:
       - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
   bsc-geth:
-    image: chainargos/bsc-geth:1.6.6-1@sha256:7a81c212129ed9d0190cbecd6f4116689fe87993032a8302f0b697c98eb83d73
+    image: chainargos/bsc-geth:1.6.7-1@sha256:c6ccc6f0359a780004156b854fdaf800146c71b51638f1999a1fd7e086c70e2f
     container_name: bsc-geth
     restart: unless-stopped
     stop_grace_period: 15m
