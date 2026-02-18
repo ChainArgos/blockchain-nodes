@@ -1,6 +1,6 @@
 [package]
 name = "geth"
-version = "1.16.8"
+version = "1.17.0"
 build = "1"
 
 [docker]
@@ -8,6 +8,6 @@ repository = "chainargos/geth"
 platforms = ["amd64", "arm64"]
 
 [vars]
-git_commit = "abeb78c6"
+git_commit = "0cf3d3ba"
 legacy_version = "1.13.15"
 legacy_git_commit = "c5ba367e"
