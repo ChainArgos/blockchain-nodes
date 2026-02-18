@@ -217,7 +217,7 @@ services:
       - ${FETCHAI_ROOT_DIR:-~}/fetchai:/data
 
   ethereum-geth:
-    image: chainargos/geth:1.16.8-1@sha256:e31de219c2943bbdd78c024dcb11d928114f6dcd8e2f37390162764ec4148580
+    image: chainargos/geth:1.17.0-1@sha256:faa03f0fa359f300a909ccee4b2a03f4667e920f4297a11cd67fb666d3e801d9
     container_name: ethereum-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -418,7 +418,7 @@ services:
       - ${KCC_ROOT_DIR:-~}/kcc:/data
 
   linea-geth:
-    image: chainargos/geth:1.16.8-1@sha256:e31de219c2943bbdd78c024dcb11d928114f6dcd8e2f37390162764ec4148580
+    image: chainargos/geth:1.17.0-1@sha256:faa03f0fa359f300a909ccee4b2a03f4667e920f4297a11cd67fb666d3e801d9
     container_name: linea-geth
     restart: unless-stopped
     stop_grace_period: 15m
