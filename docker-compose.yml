@@ -27,7 +27,7 @@ services:
       - ${AVAX_ROOT_DIR:-~}/avax:/data
 
   base-op-geth:
-    image: chainargos/op-geth:1.101608.0-1@sha256:bb65d46564bd398e8331cfcbe63a50bf32ee7296aa5565bce4b2ce400f211349
+    image: chainargos/op-geth:1.101609.0-1@sha256:647ad452e71979f24f04be6e07ec83f7d8c5a88318591034e87b86c758fdcfde
     container_name: base-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -322,7 +322,7 @@ services:
       - ${GNOSIS_ROOT_DIR:-~}/gnosis:/data
 
   hashkeychain-op-geth:
-    image: chainargos/op-geth:1.101608.0-1@sha256:bb65d46564bd398e8331cfcbe63a50bf32ee7296aa5565bce4b2ce400f211349
+    image: chainargos/op-geth:1.101609.0-1@sha256:647ad452e71979f24f04be6e07ec83f7d8c5a88318591034e87b86c758fdcfde
     container_name: hashkeychain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -370,7 +370,7 @@ services:
       - ${HECO_ROOT_DIR:-~}/heco:/data
 
   ink-op-geth:
-    image: chainargos/op-geth:1.101608.0-1@sha256:bb65d46564bd398e8331cfcbe63a50bf32ee7296aa5565bce4b2ce400f211349
+    image: chainargos/op-geth:1.101609.0-1@sha256:647ad452e71979f24f04be6e07ec83f7d8c5a88318591034e87b86c758fdcfde
     container_name: ink-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -448,7 +448,7 @@ services:
       - ${LITECOIN_ROOT_DIR:-~}/litecoin:/data
 
   optimism-op-geth:
-    image: chainargos/op-geth:1.101608.0-1@sha256:bb65d46564bd398e8331cfcbe63a50bf32ee7296aa5565bce4b2ce400f211349
+    image: chainargos/op-geth:1.101609.0-1@sha256:647ad452e71979f24f04be6e07ec83f7d8c5a88318591034e87b86c758fdcfde
     container_name: optimism-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -588,7 +588,7 @@ services:
       - ${TRON_ROOT_DIR:-~}/tron:/data
 
   unichain-op-geth:
-    image: chainargos/op-geth:1.101608.0-1@sha256:bb65d46564bd398e8331cfcbe63a50bf32ee7296aa5565bce4b2ce400f211349
+    image: chainargos/op-geth:1.101609.0-1@sha256:647ad452e71979f24f04be6e07ec83f7d8c5a88318591034e87b86c758fdcfde
     container_name: unichain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
@@ -636,7 +636,7 @@ services:
       - ${WBT_ROOT_DIR:-~}/wbt:/data
 
   worldchain-op-geth:
-    image: chainargos/op-geth:1.101608.0-1@sha256:bb65d46564bd398e8331cfcbe63a50bf32ee7296aa5565bce4b2ce400f211349
+    image: chainargos/op-geth:1.101609.0-1@sha256:647ad452e71979f24f04be6e07ec83f7d8c5a88318591034e87b86c758fdcfde
     container_name: worldchain-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
