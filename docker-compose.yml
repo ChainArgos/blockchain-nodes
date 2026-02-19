@@ -253,7 +253,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   fraxtal-op-geth:
-    image: chainargos/fraxtal-op-geth:1.101605.0-frax-1.3.0-1@sha256:e17bcbbe77db7cf781b6cb1c89d0d65b65b2c7964ccf50e55f488d0850615ca6
+    image: chainargos/fraxtal-op-geth:1.101609.0-frax-1.3.0-1@sha256:c5ab7667141537c3d325ca1dbf3d1e84e8e478ae12bcc1626c8d3fdb7d64f417
     container_name: fraxtal-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
