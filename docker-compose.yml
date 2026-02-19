@@ -270,7 +270,7 @@ services:
       - ${FRAXTAL_ROOT_DIR:-~}/fraxtal:/data
 
   fraxtal-op-node:
-    image: chainargos/fraxtal-op-node:1.16.5-frax-1.2.0-1@sha256:23ad7c1b67c66e19af6fa7e30a680e00dc0a8a4c843a56100854284883516a2f
+    image: chainargos/fraxtal-op-node:1.16.6-frax-1.2.0-1@sha256:8ca16672f023f282634822520cab5ea7cfcb0be6fafcd396435e61da4112f657
     container_name: fraxtal-op-node
     restart: unless-stopped
     stop_grace_period: 15m
