@@ -1,6 +1,6 @@
 [package]
 name = "celo-op-geth"
-version = "2.1.3"
+version = "2.1.4"
 build = "1"
 
 [docker]
