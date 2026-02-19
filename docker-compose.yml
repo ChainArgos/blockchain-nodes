@@ -485,7 +485,7 @@ services:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   polygon-bor:
-    image: chainargos/bor:2.5.9-1@sha256:3adccd66d20fd534e7a245110b830af5a9d1188b9db77075e275d25684ae220b
+    image: chainargos/bor:2.6.0-1@sha256:850d243b7532b9f1b09ce9ae5d72dd4fe95d4785dde10834420fe58d63a67dd1
     container_name: polygon-bor
     restart: unless-stopped
     stop_grace_period: 15m
