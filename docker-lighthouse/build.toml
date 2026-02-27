@@ -1,6 +1,6 @@
 [package]
 name = "lighthouse"
-version = "8.1.0"
+version = "8.1.1"
 build = "1"
 
 [docker]
