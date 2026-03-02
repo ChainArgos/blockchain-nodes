@@ -86,16 +86,14 @@ fn main() -> Result<()> {
             println!("  {} Container started", "✓".bold().green());
 
             // Follow logs if requested
+            println!();
+            println!("{}", "━".repeat(60).bright_black());
             if follow {
-                println!();
-                println!("{}", "━".repeat(60).bright_black());
                 println!("{} {}", "Following logs for:".bold().cyan(), name.yellow());
                 println!("{}", "━".repeat(60).bright_black());
                 println!();
                 run_command(&["docker", "logs", "-f", &name], &current_dir)?;
             } else {
-                println!();
-                println!("{}", "━".repeat(60).bright_black());
                 println!("{}", "✓ Restart completed successfully!".bold().green());
                 println!("{}", "━".repeat(60).bright_black());
                 println!();
@@ -140,7 +138,7 @@ fn run_command(command: &[&str], directory: &std::path::Path) -> Result<i32> {
 
     let status = cmd
         .status()
-        .with_context(|| format!("Failed to execute command: {}", command_string))?;
+        .with_context(|| format!("Failed to execute command: {command_string}"))?;
 
     let exit_code = status.code().unwrap_or(-1);
 
@@ -160,7 +158,7 @@ fn run_command_exit_on_error(command: &[&str], directory: &std::path::Path) -> R
     let exit_code = run_command(command, directory)?;
 
     if exit_code != 0 {
-        anyhow::bail!("Command failed with exit code {}", exit_code);
+        anyhow::bail!("Command failed with exit code {exit_code}");
     }
 
     Ok(())

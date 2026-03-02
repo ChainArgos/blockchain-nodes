@@ -44,14 +44,12 @@ struct PackageConfig {
 impl PackageConfig {
     /// Get the full version string (version-build)
     fn full_version(&self) -> String {
-        if let Some(build) = &self.build {
-            format!("{}-{}", self.version, build)
-        } else {
-            self.version.clone()
-        }
+        self.build
+            .as_ref()
+            .map_or_else(|| self.version.clone(), |build| format!("{}-{build}", self.version))
     }
 
-    /// Get the build argument name from package name (e.g., "wbt-geth" -> "WBT_GETH_VERSION")
+    /// Get the build argument name from package name (e.g., "wbt-geth" -> "`WBT_GETH_VERSION`")
     fn build_arg_name(&self) -> String {
         self.name.to_uppercase().replace('-', "_") + "_VERSION"
     }
@@ -73,6 +71,7 @@ struct Args {
 
     /// Extra arguments to pass to docker buildx build
     #[arg(short = 'e', long, default_value = "--progress plain")]
+    #[allow(clippy::struct_field_names)]
     extra_args: String,
 
     /// Dry run - show what would be executed without running
@@ -87,7 +86,7 @@ fn main() -> Result<()> {
     let build_dir = if let Some(package) = args.package {
         // Get the directory of the script
         let script_dir = env::current_dir().context("Failed to get current directory")?;
-        script_dir.join(format!("docker-{}", package))
+        script_dir.join(format!("docker-{package}"))
     } else {
         env::current_dir().context("Failed to get current directory")?
     };
@@ -127,7 +126,7 @@ fn main() -> Result<()> {
             config
                 .vars
                 .keys()
-                .map(|k| k.as_str())
+                .map(String::as_str)
                 .collect::<Vec<_>>()
                 .join(", ")
                 .cyan()
@@ -178,7 +177,7 @@ fn build_platform(
         platform
     );
 
-    let dockerfile_path = format!("Dockerfile.{}", platform);
+    let dockerfile_path = format!("Dockerfile.{platform}");
 
     println!();
     println!(
@@ -206,7 +205,7 @@ fn build_platform(
         .arg("--push")
         .arg("--provenance=false")
         .arg("--platform")
-        .arg(format!("linux/{}", platform))
+        .arg(format!("linux/{platform}"))
         .arg("-t")
         .arg(&platform_tag)
         .arg("-f")
@@ -215,7 +214,7 @@ fn build_platform(
     // Add GITHUB_TOKEN as build arg if available
     if let Some(token) = github_token {
         cmd.arg("--build-arg")
-            .arg(format!("GITHUB_TOKEN={}", token));
+            .arg(format!("GITHUB_TOKEN={token}"));
     }
 
     // Add version as build arg (e.g., WBT_GETH_VERSION=1.2.0)
@@ -227,7 +226,7 @@ fn build_platform(
     for (key, value) in &config.vars {
         let build_arg_name = key.to_uppercase();
         cmd.arg("--build-arg")
-            .arg(format!("{}={}", build_arg_name, value));
+            .arg(format!("{build_arg_name}={value}"));
     }
 
     cmd.arg(".");
@@ -236,15 +235,15 @@ fn build_platform(
         println!(
             "  {} {}",
             "[DRY RUN]".bold().yellow(),
-            format!("{:?}", cmd).dimmed()
+            format!("{cmd:?}").dimmed()
         );
     } else {
         let spinner = format!("  {} Building...", "⠿".cyan());
-        println!("{}", spinner);
+        println!("{spinner}");
 
         let status = cmd
             .status()
-            .with_context(|| format!("Failed to execute docker build for {}", platform))?;
+            .with_context(|| format!("Failed to execute docker build for {platform}"))?;
 
         if !status.success() {
             eprintln!(
@@ -252,7 +251,7 @@ fn build_platform(
                 "✗".bold().red(),
                 platform.yellow()
             );
-            anyhow::bail!("Docker build failed for platform {}", platform);
+            anyhow::bail!("Docker build failed for platform {platform}");
         }
 
         println!(
@@ -311,7 +310,7 @@ fn create_manifest(config: &BuildConfig, dry_run: bool) -> Result<()> {
         println!(
             "  {} {}",
             "[DRY RUN]".bold().yellow(),
-            format!("{:?}", create_cmd).dimmed()
+            format!("{create_cmd:?}").dimmed()
         );
     } else {
         println!("  {} Creating manifest...", "⠿".cyan());
@@ -336,7 +335,7 @@ fn create_manifest(config: &BuildConfig, dry_run: bool) -> Result<()> {
         println!(
             "  {} {}",
             "[DRY RUN]".bold().yellow(),
-            format!("{:?}", push_cmd).dimmed()
+            format!("{push_cmd:?}").dimmed()
         );
     } else {
         println!("  {} Pushing manifest...", "⠿".cyan());
