@@ -1,6 +1,6 @@
 [package]
 name = "arbitrum"
-version = "3.9.5"
+version = "3.9.6"
 build = "1"
 
 [docker]
@@ -8,4 +8,4 @@ repository = "chainargos/arbitrum"
 platforms = ["amd64", "arm64"]
 
 [vars]
-git_commit = "66e42c4"
+git_commit = "91bf578"
