@@ -1,6 +1,6 @@
 [package]
 name = "gnosis-geth"
-version = "1.17.1-gc"
+version = "1.17.1-gc.1"
 build = "1"
 
 [docker]
