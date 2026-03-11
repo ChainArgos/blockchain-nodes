@@ -1,6 +1,6 @@
 [package]
 name = "bor"
-version = "2.6.0"
+version = "2.6.3"
 build = "1"
 
 [docker]
