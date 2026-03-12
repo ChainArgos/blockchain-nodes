@@ -555,7 +555,7 @@ services:
       - ${SCROLL_ROOT_DIR:-~}/scroll:/data
 
   sonic-geth:
-    image: chainargos/sonic-geth:2.1.5-1@sha256:928afa4a55a702ce5e223cc7024ebefe4b75d85de698596f99335774e5c3a45e
+    image: chainargos/sonic-geth:2.1.6-1@sha256:bdfe388e884772b1ba15ebb3138b32f49554299e12512d18359e17a2bf407cfd
     container_name: sonic-geth
     restart: unless-stopped
     stop_grace_period: 15m
