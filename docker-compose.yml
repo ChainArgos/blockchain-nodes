@@ -117,9 +117,9 @@ services:
     volumes:
       - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
-  bnbchain:
-    image: chainargos/bnbchain:0.10.24-1
-    container_name: bnbchain
+  bnb-beacon-chain:
+    image: chainargos/bnb-beacon-chain:0.10.24-1
+    container_name: bnb-beacon-chain
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
@@ -127,7 +127,7 @@ services:
       - "27147:27147"
       - "27146:27146"
     volumes:
-      - ${BNBCHAIN_ROOT_DIR:-~}/bnbchain:/data
+      - ${BNB_BEACON_CHAIN_ROOT_DIR:-~}/bnb-beacon-chain:/data
 
   bsc-geth:
     image: chainargos/bsc-geth:1.6.7-1@sha256:c6ccc6f0359a780004156b854fdaf800146c71b51638f1999a1fd7e086c70e2f

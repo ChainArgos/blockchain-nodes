@@ -1,8 +1,8 @@
 [package]
-name = "bnbchain"
+name = "bnb-beacon-chain"
 version = "0.10.24"
 build = "1"
 
 [docker]
-repository = "chainargos/bnbchain"
+repository = "chainargos/bnb-beacon-chain"
 platforms = ["amd64"]
