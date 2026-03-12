@@ -64,7 +64,7 @@ services:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
   berachain-beacon-kit:
-    image: chainargos/beacon-kit:1.3.6-1@sha256:1dc0f2c0b9bdfbe2267db2cfca872810392841227ede2ae46ce20c8388233b90
+    image: chainargos/beacon-kit:1.3.7-1@sha256:8110f15228c3efdd5217dbf4b59e8352bc8e5b8a28bf6c9c38cfbd6a73b46d9f
     container_name: berachain-beacon-kit
     restart: unless-stopped
     stop_grace_period: 15m
