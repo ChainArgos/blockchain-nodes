@@ -118,7 +118,7 @@ services:
       - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
   bnb-beacon-chain:
-    image: chainargos/bnb-beacon-chain:0.10.24-1
+    image: chainargos/bnb-beacon-chain:0.10.24-1@sha256:bb54a76f8bea3eda8477d1979bcc5f5c23e97b2eb35fdfde5871121421787fa3
     container_name: bnb-beacon-chain
     restart: unless-stopped
     stop_grace_period: 15m
