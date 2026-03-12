@@ -117,6 +117,18 @@ services:
     volumes:
       - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
+  bnbchain:
+    image: chainargos/bnbchain:0.10.24-1
+    container_name: bnbchain
+    restart: unless-stopped
+    stop_grace_period: 15m
+    env_file: "containers.env"
+    ports:
+      - "27147:27147"
+      - "27146:27146"
+    volumes:
+      - ${BNBCHAIN_ROOT_DIR:-~}/bnbchain:/data
+
   bsc-geth:
     image: chainargos/bsc-geth:1.6.7-1@sha256:c6ccc6f0359a780004156b854fdaf800146c71b51638f1999a1fd7e086c70e2f
     container_name: bsc-geth

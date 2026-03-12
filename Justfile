@@ -38,6 +38,7 @@ build-all:
     just build-debian-blockchain-build
     just build-arbitrum
     just build-avalanchego
+    just build-bnbchain
     just build-bitcoin-core
     just build-bor
     just build-bsc-geth
@@ -75,6 +76,10 @@ build-beacon-kit:
 # Build Bera Reth Docker image
 build-bera-reth:
     ./docker-build.rs bera-reth
+
+# Build BNB Beacon Chain Docker image
+build-bnbchain:
+    ./docker-build.rs bnbchain
 
 # Build Bitcoin Cash Docker image
 build-bitcoin-cash:
@@ -231,6 +236,10 @@ restart-bitcoin-cash:
 # Restart Bitcoin Core node
 restart-bitcoin-core:
     ./containerctl.rs restart bitcoin-core -f
+
+# Restart BNB Beacon Chain node
+restart-bnbchain:
+    ./containerctl.rs restart bnbchain -f
 
 # Restart BSC Geth node
 restart-bsc-geth:

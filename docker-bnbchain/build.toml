@@ -1,0 +1,8 @@
+[package]
+name = "bnbchain"
+version = "0.10.24"
+build = "1"
+
+[docker]
+repository = "chainargos/bnbchain"
+platforms = ["amd64"]
