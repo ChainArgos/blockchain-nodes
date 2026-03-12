@@ -51,6 +51,13 @@ jobs:
     with:
       package: bera-reth
 
+  docker-bnbchain:
+    needs: docker-debian-blockchain-build
+    uses: ./.github/workflows/build-image.yml
+    secrets: inherit
+    with:
+      package: bnbchain
+
   docker-bitcoin-cash:
     needs: docker-debian-blockchain-build
     uses: ./.github/workflows/build-image.yml
