@@ -8,6 +8,6 @@ repository = "chainargos/geth"
 platforms = ["amd64", "arm64"]
 
 [vars]
-git_commit = "0cf3d3ba"
+git_commit = "16783c16"
 legacy_version = "1.13.15"
 legacy_git_commit = "c5ba367e"
