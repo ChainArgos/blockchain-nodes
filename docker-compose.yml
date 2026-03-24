@@ -218,7 +218,7 @@ services:
       - ${DOGECOIN_ROOT_DIR:-~}/dogecoin:/data
 
   fetchai-fetchd:
-    image: chainargos/fetchd:0.14.1-1
+    image: chainargos/fetchd:0.14.1-1@sha256:3d5163fc2c6f060a69f259cc2a52c14fa7b79a49468f2495cd14d124e101ba64
     container_name: fetchai-fetchd
     restart: unless-stopped
     stop_grace_period: 15m
