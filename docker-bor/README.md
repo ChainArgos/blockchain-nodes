@@ -6,10 +6,8 @@ docker run -it 0xpolygon/bor:2.2.10 dumpconfig
 
 # Latest mainnet config
 
+> **Note:** When updating the version in `build.toml`, verify the config is still up to date and run `sync-config.rs` to pull the latest config.
+
 ```bash
-export CONFIG_BASE_URL=https://raw.githubusercontent.com/maticnetwork/bor/refs/heads/master/packaging/templates/mainnet-v1/sentry/sentry/bor
-
-mkdir -p config
-
-curl -L "${CONFIG_BASE_URL}/pbss_config.toml" -o config/config.toml
+rust-script sync-config.rs
 ```

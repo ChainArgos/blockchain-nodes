@@ -1,5 +1,7 @@
 ## tron mainnet config
 
+> **Note:** When updating the version in `build.toml`, verify the config is still up to date and run `sync-config.rs` to pull the latest config.
+
 ```bash
-mkdir -p config && curl -L https://raw.githubusercontent.com/tronprotocol/java-tron/refs/heads/master/framework/src/main/resources/config.conf -o config/main_net_config.conf
+rust-script sync-config.rs
 ```

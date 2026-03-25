@@ -1,7 +1,7 @@
 ## linea mainnet config
 
-```bash
-mkdir -p config/linea
+> **Note:** When updating the version in `build.toml`, verify the config is still up to date and run `sync-config.rs` to pull the latest config.
 
-curl -L https://docs.linea.build/files/geth/mainnet/genesis.json -o config/linea/genesis.json
+```bash
+rust-script sync-config.rs
 ```

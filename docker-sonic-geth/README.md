@@ -1,7 +1,7 @@
 ## sonic mainnet config
 
-```bash
-mkdir -p config
+> **Note:** When updating the version in `build.toml`, verify the config is still up to date and run `sync-config.rs` to pull the latest config.
 
-curl -L https://genesis.soniclabs.com/sonic-mainnet/genesis/sonic.g -o config/sonic.g
+```bash
+rust-script sync-config.rs
 ```

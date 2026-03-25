@@ -1,9 +1,7 @@
 ## celo mainnet config
 
+> **Note:** When updating the version in `build.toml`, verify the config is still up to date and run `sync-config.rs` to pull the latest config.
+
 ```bash
-export CONFIG_BASE_URL=https://raw.githubusercontent.com/celo-org/celo-l2-node-docker-compose/refs/heads/main/envs/mainnet/config
-
-mkdir -p config
-
-curl -L "${CONFIG_BASE_URL}/rollup.json" -o config/rollup.json
+rust-script sync-config.rs
 ```

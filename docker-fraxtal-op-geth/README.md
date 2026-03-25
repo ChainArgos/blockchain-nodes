@@ -1,9 +1,7 @@
 ## fraxtal mainnet config
 
+> **Note:** When updating the version in `build.toml`, verify the config is still up to date and run `sync-config.rs` to pull the latest config.
+
 ```bash
-export CONFIG_BASE_URL=https://raw.githubusercontent.com/FraxFinance/fraxtal-node/refs/heads/master/mainnet
-
-mkdir -p config
-
-curl -L "${CONFIG_BASE_URL}/genesis.json" -o config/genesis.json
+rust-script sync-config.rs
 ```

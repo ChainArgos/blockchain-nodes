@@ -7,13 +7,8 @@ Binary and config sourced from [v0.10.24](https://github.com/bnb-chain/node/rele
 
 > **Note:** Only amd64 is supported — the project does not publish arm64 binaries.
 
-```bash
-mkdir -p config
+> **Note:** When updating the version in `build.toml`, verify the config is still up to date and run `sync-config.rs` to pull the latest config.
 
-curl -L https://github.com/bnb-chain/node/releases/download/v0.10.24/mainnet_config.zip -o mainnet_config.zip
-unzip mainnet_config.zip
-mv asset/mainnet/config.toml config/
-mv asset/mainnet/app.toml config/
-mv asset/mainnet/genesis.json config/
-rm -rf mainnet_config.zip asset
+```bash
+rust-script sync-config.rs
 ```
