@@ -130,7 +130,7 @@ services:
       - ${BNB_BEACON_CHAIN_ROOT_DIR:-~}/bnb-beacon-chain:/data
 
   bsc-geth:
-    image: chainargos/bsc-geth:1.6.8-1@sha256:03fca96cccb18d65812887dc258ae46d62ebaa37355f458f57292d3a251bb391
+    image: chainargos/bsc-geth:1.7.2-1@sha256:c3b22131ac6efb6b2b630a2523f24f652e8432d02a2cf616e3d22750ba27a21c
     container_name: bsc-geth
     restart: unless-stopped
     stop_grace_period: 15m
