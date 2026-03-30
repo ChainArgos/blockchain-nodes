@@ -79,7 +79,7 @@ services:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
   berachain-reth:
-    image: chainargos/bera-reth:1.3.1-1@sha256:998a09b61494c4f3d0468ee8d533702c4551daa7d365a0a1e0dbd555eb0cb176
+    image: chainargos/bera-reth:1.3.2-1@sha256:9ba2d9461bc4c8a4b3710b3549a139c1f420d3064c7beea9720d0e337fd8c4b1
     container_name: berachain-reth
     restart: unless-stopped
     stop_grace_period: 15m
