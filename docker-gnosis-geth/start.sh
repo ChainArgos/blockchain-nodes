@@ -34,6 +34,7 @@ exec geth \
   --datadir=/data/geth \
   --db.engine=pebble \
   --history.transactions=0 \
+  --history.logs=0 \
   --state.scheme=path \
   --syncmode=snap \
   --gnosis \
