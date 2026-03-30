@@ -57,6 +57,7 @@ exec geth \
   --http.vhosts=* \
   --http.port=8650 \
   --http.api=eth,net,web3,debug,scroll \
+  --cache=4096 \
   --cache.noprefetch \
   --cache.snapshot=0 \
   --l1.endpoint="${CA_ETHEREUM_RPC_URL}" \

@@ -39,6 +39,7 @@ exec geth \
   --http.corsdomain=* \
   --http.vhosts=* \
   --http.port=8649 \
+  --cache=4096 \
   --txlookuplimit=0 \
   --v5disc \
   --nat=extip:"$PUBLIC_IP" \

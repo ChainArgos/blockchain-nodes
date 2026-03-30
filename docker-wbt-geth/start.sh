@@ -15,5 +15,6 @@ exec geth \
   --authrpc.addr=0.0.0.0 \
   --authrpc.vhosts=* \
   --authrpc.port=8551 \
+  --cache=4096 \
   --txlookuplimit=0 \
   --txpool.nolocals=true
