@@ -174,7 +174,7 @@ services:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
   celo-op-geth:
-    image: chainargos/celo-op-geth:2.2.1-1@sha256:d4c1fe8581b23cd1f68d006fd7927f982163fa5517aab8e5d48d4a935056c781
+    image: chainargos/celo-op-geth:2.2.2-1@sha256:1e48cbccf9d912d59af29529c76dc256b908ef2cba8b5e2fe7d132d3763f905a
     container_name: celo-op-geth
     restart: unless-stopped
     stop_grace_period: 15m
