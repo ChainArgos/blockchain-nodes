@@ -34,23 +34,23 @@ export EL_BOOTNODES=$(grep '^enode://' "/config/berachain/el-bootnodes.txt"| tr 
 export EL_PEERS=$(grep '^enode://' "/config/berachain/el-peers.txt"| tr '\n' ',' | sed 's/,$//')
 
 exec bera-reth node \
-    --identity=chainargos \
+    --authrpc.addr=0.0.0.0 \
     --authrpc.jwtsecret=/data/jwtsecret.hex \
+    --authrpc.port=8551 \
+    --bootnodes=$EL_BOOTNODES \
     --chain=/config/berachain/genesis.json \
     --datadir=/data/reth \
-    --port=30308 \
     --discovery.port=30308 \
+    --enable-discv5-discovery \
+    --engine.memory-block-buffer-target=0 \
+    --engine.persistence-threshold=0 \
     --full \
     --http \
     --http.addr=0.0.0.0 \
-    --http.port=8654 \
     --http.corsdomain="*" \
-    --bootnodes=$EL_BOOTNODES \
-    --trusted-peers=$EL_PEERS \
-    --authrpc.addr=0.0.0.0 \
-    --authrpc.port=8551 \
-    --engine.persistence-threshold=0 \
-    --engine.memory-block-buffer-target=0 \
-    --enable-discv5-discovery \
+    --http.port=8654 \
+    --identity=chainargos \
     --nat=extip:"$PUBLIC_IP" \
+    --port=30308 \
+    --trusted-peers=$EL_PEERS \
     --txpool.nolocals

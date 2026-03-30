@@ -31,11 +31,11 @@ else
 fi
 
 exec avalanchego \
+  --chain-config-dir=/config/chains \
   --data-dir=/data/avalanchego \
   --db-type=pebbledb \
-  --chain-config-dir=/config/chains \
-  --index-enabled=true \
   --http-allowed-hosts=* \
   --http-host=0.0.0.0 \
   --http-port=9650 \
+  --index-enabled=true \
   --public-ip="$PUBLIC_IP"

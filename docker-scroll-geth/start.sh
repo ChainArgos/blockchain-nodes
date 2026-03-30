@@ -46,28 +46,28 @@ if [[ -z "${CA_ETHEREUM_BEACON_URL}" ]]; then
 fi
 
 exec geth \
-  --datadir=/data/geth \
-  --scroll \
-  --scroll-mpt \
-  --syncmode=full \
-  --gcmode=full \
-  --http \
-  --http.addr=0.0.0.0 \
-  --http.corsdomain=* \
-  --http.vhosts=* \
-  --http.port=8650 \
-  --http.api=eth,net,web3,debug,scroll \
-  --cache=4096 \
   --cache.noprefetch \
   --cache.snapshot=0 \
-  --l1.endpoint="${CA_ETHEREUM_RPC_URL}" \
-  --da.blob.beaconnode="${CA_ETHEREUM_BEACON_URL}" \
+  --cache=4096 \
   --da.blob.awss3=https://scroll-mainnet-blob-data.s3.us-west-2.amazonaws.com \
-  --rollup.verify \
-  --txlookuplimit=0 \
-  --v5disc \
-  --nat=extip:"$PUBLIC_IP" \
-  --txpool.nolocals \
-  --snapshot=false \
+  --da.blob.beaconnode="${CA_ETHEREUM_BEACON_URL}" \
+  --datadir=/data/geth \
+  --gcmode=full \
+  --gossip.sequencerhttp=https://mainnet-sequencer-proxy.scroll.io \
   --gpo.maxprice=500000000 \
-  --gossip.sequencerhttp=https://mainnet-sequencer-proxy.scroll.io
+  --http \
+  --http.addr=0.0.0.0 \
+  --http.api=eth,net,web3,debug,scroll \
+  --http.corsdomain=* \
+  --http.port=8650 \
+  --http.vhosts=* \
+  --l1.endpoint="${CA_ETHEREUM_RPC_URL}" \
+  --nat=extip:"$PUBLIC_IP" \
+  --rollup.verify \
+  --scroll \
+  --scroll-mpt \
+  --snapshot=false \
+  --syncmode=full \
+  --txlookuplimit=0 \
+  --txpool.nolocals \
+  --v5disc

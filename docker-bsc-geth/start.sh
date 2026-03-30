@@ -31,24 +31,24 @@ else
 fi
 
 exec geth \
+  --cache=8000 \
+  --config=/config/config.toml \
   --datadir=/data/geth \
   --db.engine=pebble \
-  --history.transactions=0 \
-  --history.logs=0 \
-  --state.scheme=path \
-  --syncmode=snap \
-  --mainnet \
-  --config=/config/config.toml \
-  --http \
-  --http.addr=0.0.0.0 \
-  --http.corsdomain=* \
-  --http.vhosts=* \
-  --http.port=8645 \
-  --maxpeers=200 \
-  --cache=8000 \
-  --port=30310 \
   --discovery.port=30310 \
   --discv4=true \
   --discv5=true \
+  --history.logs=0 \
+  --history.transactions=0 \
+  --http \
+  --http.addr=0.0.0.0 \
+  --http.corsdomain=* \
+  --http.port=8645 \
+  --http.vhosts=* \
+  --mainnet \
+  --maxpeers=200 \
   --nat=extip:"$PUBLIC_IP" \
+  --port=30310 \
+  --state.scheme=path \
+  --syncmode=snap \
   --txpool.nolocals=true

@@ -2,19 +2,19 @@
 set -eou pipefail
 
 exec geth \
+  --authrpc.addr=0.0.0.0 \
+  --authrpc.jwtsecret=/data/jwtsecret.hex \
+  --authrpc.port=8551 \
+  --authrpc.vhosts=* \
+  --cache=4096 \
   --datadir=/data/geth \
-  --syncmode=full \
   --db.engine=pebble \
-  --wbt-mainnet \
   --http \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
-  --http.vhosts=* \
   --http.port=8653 \
-  --authrpc.jwtsecret=/data/jwtsecret.hex \
-  --authrpc.addr=0.0.0.0 \
-  --authrpc.vhosts=* \
-  --authrpc.port=8551 \
-  --cache=4096 \
+  --http.vhosts=* \
+  --syncmode=full \
   --txlookuplimit=0 \
-  --txpool.nolocals=true
+  --txpool.nolocals=true \
+  --wbt-mainnet

@@ -31,16 +31,16 @@ else
 fi
 
 exec geth \
+  --cache=4096 \
   --datadir=/data/geth \
-  --syncmode=full \
-  --mainnet \
   --http \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
-  --http.vhosts=* \
   --http.port=8649 \
-  --cache=4096 \
-  --txlookuplimit=0 \
-  --v5disc \
+  --http.vhosts=* \
+  --mainnet \
   --nat=extip:"$PUBLIC_IP" \
-  --txpool.nolocals
+  --syncmode=full \
+  --txlookuplimit=0 \
+  --txpool.nolocals \
+  --v5disc

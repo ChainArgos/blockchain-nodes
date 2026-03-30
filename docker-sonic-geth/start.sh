@@ -31,14 +31,14 @@ else
 fi
 
 exec sonicd \
+  --cache=12000 \
   --datadir=/data/geth \
+  --discovery.v4 \
+  --discovery.v5 \
   --http \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
-  --http.vhosts=* \
   --http.port=8658 \
-  --cache=12000 \
-  --discovery.v4 \
-  --discovery.v5 \
+  --http.vhosts=* \
   --nat=extip:"$PUBLIC_IP" \
   --txpool.nolocals

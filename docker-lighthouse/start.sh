@@ -32,32 +32,32 @@ case $CA_NETWORK in
   ethereum)
     exec lighthouse \
       beacon_node \
-      --datadir=/data/lighthouse \
-      --checkpoint-sync-url=https://mainnet.checkpoint.sigp.io \
       --checkpoint-sync-url-timeout=300 \
+      --checkpoint-sync-url=https://mainnet.checkpoint.sigp.io \
+      --datadir=/data/lighthouse \
       --execution-endpoint=http://"${ca_op_geth_hostname}":8551 \
       --execution-jwt=/data/jwtsecret.hex \
-      --network=mainnet \
       --genesis-backfill \
-      --reconstruct-historic-states \
-      --supernode \
       --http \
-      --http-address=0.0.0.0
+      --http-address=0.0.0.0 \
+      --network=mainnet \
+      --reconstruct-historic-states \
+      --supernode
   ;;
 
   gnosis)
     exec lighthouse \
       beacon_node \
-      --datadir=/data/lighthouse \
-      --checkpoint-sync-url=https://checkpoint.gnosischain.com \
       --checkpoint-sync-url-timeout=300 \
+      --checkpoint-sync-url=https://checkpoint.gnosischain.com \
+      --datadir=/data/lighthouse \
       --execution-endpoint=http://"${ca_op_geth_hostname}":8551 \
       --execution-jwt=/data/jwtsecret.hex \
-      --network=gnosis \
-      --port=9000 \
       --http \
       --http-address=0.0.0.0 \
-      --http-port=4000
+      --http-port=4000 \
+      --network=gnosis \
+      --port=9000
       ;;
 
     *)

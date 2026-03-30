@@ -31,26 +31,26 @@ else
 fi
 
 exec geth \
+  --authrpc.addr=0.0.0.0 \
+  --authrpc.jwtsecret=/data/jwtsecret.hex \
+  --authrpc.port=8551 \
+  --authrpc.vhosts=* \
+  --cache=4096 \
   --datadir=/data/geth \
   --db.engine=pebble \
-  --history.transactions=0 \
-  --history.logs=0 \
-  --state.scheme=path \
-  --syncmode=snap \
-  --gnosis \
-  --http \
-  --http.addr=0.0.0.0 \
-  --http.corsdomain=* \
-  --http.vhosts=* \
-  --http.port=8660 \
-  --authrpc.jwtsecret=/data/jwtsecret.hex \
-  --authrpc.addr=0.0.0.0 \
-  --authrpc.vhosts=* \
-  --authrpc.port=8551 \
-  --cache=4096 \
-  --port=30315 \
   --discovery.port=30315 \
   --discv4=true \
   --discv5=true \
+  --gnosis \
+  --history.logs=0 \
+  --history.transactions=0 \
+  --http \
+  --http.addr=0.0.0.0 \
+  --http.corsdomain=* \
+  --http.port=8660 \
+  --http.vhosts=* \
   --nat=extip:"$PUBLIC_IP" \
+  --port=30315 \
+  --state.scheme=path \
+  --syncmode=snap \
   --txpool.nolocals=true

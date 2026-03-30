@@ -58,19 +58,19 @@ until [ "$(curl -s -w '%{http_code}' -o /dev/null "http://${ca_op_geth_hostname}
 done
 
 exec op-node \
-  --l1="${CA_ETHEREUM_RPC_URL}" \
-  --l1.trustrpc \
-  --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
+  --altda.da-server=https://da-rpc.mainnet.frax.com \
   --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
-  --l2=http://"${ca_op_geth_hostname}":8551 \
-  --l2.jwt-secret=/data/jwtsecret.hex \
+  --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
+  --l1.trustrpc \
+  --l1="${CA_ETHEREUM_RPC_URL}" \
   --l2.enginekind=geth \
+  --l2.jwt-secret=/data/jwtsecret.hex \
+  --l2=http://"${ca_op_geth_hostname}":8551 \
   --p2p.advertise.ip="$PUBLIC_IP" \
+  --p2p.bootnodes=enr:-J24QPGxmNmQ6Gsofjwnaaqt-RvC-2te44hHSU_wFGvCBpdnGnAuW0hKBCwzarXEmLN0TfwilwX3xS8xjEd9sQRqKXqGAY1ok0P3gmlkgnY0gmlwhDa-pcmHb3BzdGFja4P8AQCJc2VjcDI1NmsxoQJA0echCE64KVt7m1lHfRF9_QgYxqIOSoPZ1UHcEArDu4N0Y3CCJAaDdWRwgiQG,enr:-J24QHPYu7uUXH4LCJ_pjHMD3fYhluZEgFRlewqOFFcja7ACaTDp4zG4GZBJdTPmLjsqskhTQa5ldKiVu4ypZYMzR_uGAY1ok_ABgmlkgnY0gmlwhCLvv1KHb3BzdGFja4P8AQCJc2VjcDI1NmsxoQOEemNzZL5buGmwlN2naXLtz4nauCqBFeFxdmi4RL4rDIN0Y3CCJAaDdWRwgiQG,enr:-J24QBujtfGNIiE6GJrCgXEKJMs1F11wd4Y8Uvx7ZFn3Z1tyR0erNcpiW5EYIQEKQX0kL9PLJUDHWZFiaHWOTBvFg5aGAY1ok5p8gmlkgnY0gmlwhDbD-tqHb3BzdGFja4P8AQCJc2VjcDI1NmsxoQLunzKLYJLvy6cWWkLgSSdLlILgSohrV8RT3tlKGwHBi4N0Y3CCJAaDdWRwgiQG \
   --p2p.listen.ip=0.0.0.0 \
   --p2p.listen.tcp=9228 \
   --p2p.scoring=none \
-  --p2p.bootnodes=enr:-J24QPGxmNmQ6Gsofjwnaaqt-RvC-2te44hHSU_wFGvCBpdnGnAuW0hKBCwzarXEmLN0TfwilwX3xS8xjEd9sQRqKXqGAY1ok0P3gmlkgnY0gmlwhDa-pcmHb3BzdGFja4P8AQCJc2VjcDI1NmsxoQJA0echCE64KVt7m1lHfRF9_QgYxqIOSoPZ1UHcEArDu4N0Y3CCJAaDdWRwgiQG,enr:-J24QHPYu7uUXH4LCJ_pjHMD3fYhluZEgFRlewqOFFcja7ACaTDp4zG4GZBJdTPmLjsqskhTQa5ldKiVu4ypZYMzR_uGAY1ok_ABgmlkgnY0gmlwhCLvv1KHb3BzdGFja4P8AQCJc2VjcDI1NmsxoQOEemNzZL5buGmwlN2naXLtz4nauCqBFeFxdmi4RL4rDIN0Y3CCJAaDdWRwgiQG,enr:-J24QBujtfGNIiE6GJrCgXEKJMs1F11wd4Y8Uvx7ZFn3Z1tyR0erNcpiW5EYIQEKQX0kL9PLJUDHWZFiaHWOTBvFg5aGAY1ok5p8gmlkgnY0gmlwhDbD-tqHb3BzdGFja4P8AQCJc2VjcDI1NmsxoQLunzKLYJLvy6cWWkLgSSdLlILgSohrV8RT3tlKGwHBi4N0Y3CCJAaDdWRwgiQG \
   --rollup.config=/config/rollup.json \
-  --syncmode=execution-layer \
   --rpc.addr=0.0.0.0 \
-  --altda.da-server=https://da-rpc.mainnet.frax.com \
+  --syncmode=execution-layer

@@ -31,26 +31,26 @@ else
 fi
 
 exec ronin \
+  --cache=8000 \
   --datadir=/data/geth \
   --db.engine=pebble \
-  --history.transactions=0 \
-  --history.logs=0 \
-  --state.scheme=path \
-  --syncmode=snap \
-  --networkid=2020 \
   --discovery.dns=enrtree://AIGOFYDZH6BGVVALVJLRPHSOYJ434MPFVVQFXJDXHW5ZYORPTGKUI@nodes.roninchain.com \
+  --history.logs=0 \
+  --history.transactions=0 \
   --http \
   --http.addr=0.0.0.0 \
-  --http.corsdomain=* \
-  --http.vhosts=* \
-  --http.port=8745 \
   --http.api=eth,net,web3,ronin,consortium \
+  --http.corsdomain=* \
+  --http.port=8745 \
+  --http.vhosts=* \
   --maxpeers=200 \
-  --cache=8000 \
-  --port=30311 \
-  --v5disc \
-  --nat=extip:"$PUBLIC_IP" \
   --miner.gaslimit=30000000 \
   --miner.gasreserve=10000000 \
+  --nat=extip:"$PUBLIC_IP" \
+  --networkid=2020 \
+  --port=30311 \
+  --state.scheme=path \
+  --syncmode=snap \
   --txpool.nolocals=true \
-  --txpool.pricelimit=20000000000
+  --txpool.pricelimit=20000000000 \
+  --v5disc

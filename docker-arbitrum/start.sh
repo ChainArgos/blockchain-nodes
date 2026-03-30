@@ -12,17 +12,17 @@ if [[ -z "${CA_ETHEREUM_BEACON_URL}" ]]; then
 fi
 
 exec nitro \
-  --parent-chain.connection.url="${CA_ETHEREUM_RPC_URL}" \
-  --parent-chain.blob-client.beacon-url="${CA_ETHEREUM_BEACON_URL}" \
-  --parent-chain.blob-client.secondary-beacon-url="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
-  --chain.name=arb1 \
-  --init.latest=pruned \
   --blocks-reexecutor.mode=full \
-  --persistent.global-config=/data \
+  --chain.name=arb1 \
+  --execution.rpc.log-history=0 \
+  --execution.tx-indexer.tx-lookup-limit=0 \
   --http.addr=0.0.0.0 \
   --http.corsdomain=* \
   --http.vhosts=* \
-  --execution.tx-indexer.tx-lookup-limit=0 \
-  --execution.rpc.log-history=0 \
+  --init.latest=pruned \
   --node.staker.enable=false \
+  --parent-chain.blob-client.beacon-url="${CA_ETHEREUM_BEACON_URL}" \
+  --parent-chain.blob-client.secondary-beacon-url="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
+  --parent-chain.connection.url="${CA_ETHEREUM_RPC_URL}" \
+  --persistent.global-config=/data \
   --validation.wasm.allowed-wasm-module-roots=/workspace/nitro-legacy/machines,/workspace/target/machines

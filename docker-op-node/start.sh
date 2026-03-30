@@ -104,19 +104,19 @@ until [ "$(curl -s -w '%{http_code}' -o /dev/null "http://${ca_op_geth_hostname}
 done
 
 exec op-node \
-  --l1="${CA_ETHEREUM_RPC_URL}" \
-  --l1.trustrpc \
-  --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
   --l1.beacon-archiver="${CA_ETHEREUM_BEACON_ARCHIVER_URL}" \
-  --l2=http://"${ca_op_geth_hostname}":8551 \
-  --l2.jwt-secret=/data/jwtsecret.hex \
+  --l1.beacon="${CA_ETHEREUM_BEACON_URL}" \
+  --l1.trustrpc \
+  --l1="${CA_ETHEREUM_RPC_URL}" \
   --l2.enginekind=geth \
+  --l2.jwt-secret=/data/jwtsecret.hex \
+  --l2=http://"${ca_op_geth_hostname}":8551 \
+  --network="$network" \
   --p2p.advertise.ip="$PUBLIC_IP" \
   --p2p.listen.ip=0.0.0.0 \
   --p2p.listen.tcp="$p2p_listen_tcp" \
   --p2p.scoring=none \
-  --verifier.l1-confs=4 \
   --rollup.load-protocol-versions=true \
-  --network="$network" \
+  --rpc.addr=0.0.0.0 \
   --syncmode=execution-layer \
-  --rpc.addr=0.0.0.0
+  --verifier.l1-confs=4

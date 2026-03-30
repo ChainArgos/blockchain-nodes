@@ -91,35 +91,35 @@ case $CA_NETWORK in
 esac
 
 exec geth \
+  --authrpc.addr=0.0.0.0 \
+  --authrpc.jwtsecret=/data/jwtsecret.hex \
+  --authrpc.port=8551 \
+  --authrpc.vhosts=* \
+  --cache=8000 \
   --datadir=/data/op-geth \
   --db.engine=pebble \
-  --history.transactions=0 \
-  --history.logs=0 \
-  --state.scheme=path \
-  --syncmode=snap \
-  --http \
-  --http.addr=0.0.0.0 \
-  --http.corsdomain=* \
-  --http.vhosts=* \
-  --http.api=web3,debug,eth,txpool,net,rpc \
-  --http.port="$http_port" \
-  --ws \
-  --ws.addr=0.0.0.0 \
-  --ws.origins=* \
-  --ws.api=web3,debug,eth,txpool,net,rpc \
-  --authrpc.jwtsecret=/data/jwtsecret.hex \
-  --authrpc.addr=0.0.0.0 \
-  --authrpc.vhosts=* \
-  --authrpc.port=8551 \
-  --maxpeers=200 \
-  --cache=8000 \
-  --rollup.sequencerhttp="$sequencer_http" \
-  --rollup.halt=major \
-  --rollup.disabletxpoolgossip=true \
-  --op-network="$op_network" \
-  --port="$p2p_port" \
   --discovery.port="$discovery_port" \
   --discv4=true \
   --discv5=true \
+  --history.logs=0 \
+  --history.transactions=0 \
+  --http \
+  --http.addr=0.0.0.0 \
+  --http.api=web3,debug,eth,txpool,net,rpc \
+  --http.corsdomain=* \
+  --http.port="$http_port" \
+  --http.vhosts=* \
+  --maxpeers=200 \
   --nat=extip:"$PUBLIC_IP" \
-  --txpool.nolocals=true
+  --op-network="$op_network" \
+  --port="$p2p_port" \
+  --rollup.disabletxpoolgossip=true \
+  --rollup.halt=major \
+  --rollup.sequencerhttp="$sequencer_http" \
+  --state.scheme=path \
+  --syncmode=snap \
+  --txpool.nolocals=true \
+  --ws \
+  --ws.addr=0.0.0.0 \
+  --ws.api=web3,debug,eth,txpool,net,rpc \
+  --ws.origins=*
