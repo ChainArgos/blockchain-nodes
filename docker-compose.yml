@@ -16,7 +16,7 @@ services:
       - ${ARBITRUM_ROOT_DIR:-~}/arbitrum:/data
 
   avax-avalanchego:
-    image: chainargos/avalanchego:1.14.1-1@sha256:c00fbeaa915b76b2419ed4fd3481e2a97cf6332e1c4736d1595299a45e47f28b
+    image: chainargos/avalanchego:1.14.2-1@sha256:edbd51f5a8d20f6a8e31a9742540f006561d0bd07a0c8f6d87cc103517e7f72b
     container_name: avax-avalanchego
     restart: unless-stopped
     stop_grace_period: 15m
