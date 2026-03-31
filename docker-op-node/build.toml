@@ -1,8 +1,8 @@
 [package]
 name = "op-node"
-version = "1.16.9"
+version = "1.16.10"
 build = "1"
 
 [docker]
 repository = "chainargos/op-node"
-platforms = ["amd64"]
+platforms = ["amd64", "arm64"]
