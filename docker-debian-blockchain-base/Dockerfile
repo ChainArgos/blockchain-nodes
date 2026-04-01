@@ -6,6 +6,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV XH_VERSION=0.25.0
 ENV GOMPLATE_VERSION=4.3.3
 
+ARG TARGETARCH
+
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
@@ -22,8 +24,13 @@ RUN apt-get update \
               /var/cache/apt/* \
               /tmp/*
 
-RUN cd /tmp \
-    && curl -L https://github.com/ducaale/xh/releases/download/v${XH_VERSION}/xh-v${XH_VERSION}-x86_64-unknown-linux-musl.tar.gz -o xh.tar.gz \
+RUN case "$TARGETARCH" in \
+      amd64) xh_arch='x86_64-unknown-linux-musl' ;; \
+      arm64) xh_arch='aarch64-unknown-linux-musl' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://github.com/ducaale/xh/releases/download/v${XH_VERSION}/xh-v${XH_VERSION}-${xh_arch}.tar.gz -o xh.tar.gz \
     && tar -xvf xh.tar.gz \
     && rm xh.tar.gz \
     && mv xh-*/xh /usr/local/bin/xh \
@@ -31,8 +38,13 @@ RUN cd /tmp \
     && rm -r xh-* \
     && rm -rf /tmp/*
 
-RUN cd /tmp \
-    && curl -L https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-amd64 -o gomplate \
+RUN case "$TARGETARCH" in \
+      amd64) gomplate_arch='amd64' ;; \
+      arm64) gomplate_arch='arm64' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-${gomplate_arch} -o gomplate \
     && mv gomplate /usr/local/bin/gomplate \
     && chmod a+x /usr/local/bin/gomplate \
     && rm -rf /tmp/*
