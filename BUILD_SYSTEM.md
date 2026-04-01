@@ -43,7 +43,7 @@ legacy_git_commit = "c5ba367e"
 
 - `package.name`: The package name (e.g., "geth")
 - `package.version`: The upstream software version (e.g., "1.16.7")
-- `package.build`: The build number for this version (e.g., "1") - optional, if omitted the Docker tag will only include the version
+- `package.build`: The build number for this version (e.g., "1") - optional; blockchain node images use it for packaging revisions, while shared base/build images can omit it and bump `package.version` directly
 - `docker.repository`: The Docker repository (e.g., "chainargos/geth")
 - `docker.platforms`: List of platforms to build for (e.g., ["amd64", "arm64"])
 
@@ -64,7 +64,7 @@ The build system uses separate `version` and `build` fields:
 
 Examples:
 - `version = "1.16.7"` + `build = "1"` → Docker tag: `chainargos/geth:1.16.7-1`
-- `version = "1.0.0"` + `build = "1"` → Docker tag: `chainargos/debian-blockchain-base:1.0.0-1`
+- `version = "1.1.0"` (no `build` field) → Docker tag: `chainargos/debian-blockchain-base:1.1.0`
 - Build argument passed to Dockerfile: `GETH_VERSION=1.16.7` (always just the version, never includes build number)
 
 ## Directory Structure
@@ -148,10 +148,10 @@ The build script performs the following steps:
 3. For each platform in `platforms`:
    - Builds the Docker image using `Dockerfile`
    - Passes version as build argument (e.g., `--build-arg GETH_VERSION=1.16.7`)
-   - Tags it as `<repository>:<version>-<build>-<platform>` (e.g., `chainargos/geth:1.16.7-1-amd64`)
+   - Tags it as `<repository>:<full-version>-<platform>` (e.g., `chainargos/geth:1.16.7-1-amd64` or `chainargos/debian-blockchain-base:1.1.0-amd64`)
    - Pushes it to the registry
 4. If multiple platforms are configured:
-   - Creates a multi-platform manifest tagged as `<repository>:<version>-<build>`
+   - Creates a multi-platform manifest tagged as `<repository>:<full-version>`
    - Pushes the manifest to the registry
 
 ## Build Argument Naming Convention
@@ -237,7 +237,7 @@ Make sure your Cargo.toml doesn't have a binary named `build` - use `docker-buil
 
 ### Version not being passed to Dockerfile
 
-Check that your `build.toml` has both `version` and `build` fields set. The version field should not include the build number.
+Check that your `build.toml` has the correct `version` and, when needed, `build` fields set. The version field should not include the build number.
 
 ### Build argument not recognized in Dockerfile
 

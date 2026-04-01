@@ -1,4 +1,4 @@
-FROM chainargos/debian-blockchain-build:1.0.0-1@sha256:12b8d0509e772abd9bccde40c49092fc028cbf10071a6b5cee2702240a163fb8 AS build
+FROM chainargos/debian-blockchain-build:1.1.0@sha256:12b8d0509e772abd9bccde40c49092fc028cbf10071a6b5cee2702240a163fb8 AS build
 
 ARG GITHUB_TOKEN
 
@@ -15,7 +15,7 @@ RUN mise install
 RUN make op-node
 # end build
 
-FROM chainargos/debian-blockchain-base:1.0.0-1@sha256:20016fb614286d576b13da7673fa9c256b25f04afe791a5856511160b2ad47b7
+FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa9c256b25f04afe791a5856511160b2ad47b7
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 

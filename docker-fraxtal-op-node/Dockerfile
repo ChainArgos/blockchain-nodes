@@ -5,7 +5,7 @@ FROM ghcr.io/fraxfinance/fraxtal-op-node:v${FRAXTAL_OP_NODE_VERSION} AS build
 RUN ls
 # end build
 
-FROM chainargos/debian-blockchain-base:1.0.0-1@sha256:20016fb614286d576b13da7673fa9c256b25f04afe791a5856511160b2ad47b7
+FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa9c256b25f04afe791a5856511160b2ad47b7
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 

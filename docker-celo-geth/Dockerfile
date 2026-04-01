@@ -1,4 +1,4 @@
-FROM chainargos/debian-blockchain-build:1.0.0-1@sha256:12b8d0509e772abd9bccde40c49092fc028cbf10071a6b5cee2702240a163fb8 AS build
+FROM chainargos/debian-blockchain-build:1.1.0@sha256:12b8d0509e772abd9bccde40c49092fc028cbf10071a6b5cee2702240a163fb8 AS build
 
 RUN mise use -g --pin go@1.22.12
 
@@ -17,7 +17,7 @@ RUN case "$TARGETARCH" in \
     && make ${make_target}
 # end build
 
-FROM chainargos/debian-blockchain-base:1.0.0-1@sha256:20016fb614286d576b13da7673fa9c256b25f04afe791a5856511160b2ad47b7
+FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa9c256b25f04afe791a5856511160b2ad47b7
 
 COPY --from=build /celo-blockchain/build/bin/geth /usr/local/bin/
 
