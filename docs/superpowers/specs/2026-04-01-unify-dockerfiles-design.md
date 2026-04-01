@@ -13,6 +13,7 @@ The unified Dockerfiles will use Docker BuildKit's `TARGETARCH` argument to hand
 - Preserve current image behavior for `amd64` and `arm64` builds.
 - Keep the implementation local to each Dockerfile where practical.
 - Update the build tool and documentation to match the new single-file structure.
+- Publish the refactor as a new image revision for every affected container.
 
 ## Non-Goals
 
@@ -143,6 +144,14 @@ Some upstream projects expose architecture-specific URLs that do not differ by a
 
 ## File-Level Changes
 
+### Versioning
+
+Because this refactor changes how every affected image is built and packaged, the implementation will also increase the container release revision for every affected package.
+
+- Keep the upstream software `version` field unchanged.
+- Increment the package `build` field in each affected `docker-*/build.toml` so the refactored images publish as a new container revision.
+- Apply the version bump consistently across all affected packages in the same rollout.
+
 ### Build Tool
 
 Update `docker-build.rs` to:
@@ -227,8 +236,9 @@ Representative dry runs and careful pair-by-pair merging are the primary mitigat
 2. Unify paired package Dockerfiles into one file each.
 3. Normalize single-platform package directories to `Dockerfile` where appropriate.
 4. Delete obsolete `Dockerfile.amd64` and `Dockerfile.arm64` files.
-5. Update repository documentation.
-6. Run dry-run verification on representative packages.
+5. Increment the `build` value in each affected `docker-*/build.toml`.
+6. Update repository documentation.
+7. Run dry-run verification on representative packages.
 
 ## Open Decisions Resolved
 
