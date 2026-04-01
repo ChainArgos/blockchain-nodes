@@ -10,7 +10,7 @@ WORKDIR /optimism
 
 RUN mise trust
 RUN sed -i '/^asterisc = /d; /^kontrol = /d; /^binary_signer = /d' mise.toml
-RUN mise install
+RUN MISE_PYTHON_GITHUB_ATTESTATIONS=false mise install
 
 RUN make op-node
 # end build

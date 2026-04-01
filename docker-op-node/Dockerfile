@@ -9,7 +9,7 @@ RUN git clone --branch op-node/v${OP_NODE_VERSION} --single-branch --depth=1 htt
 WORKDIR /optimism
 
 RUN mise trust
-RUN mise install
+RUN MISE_PYTHON_GITHUB_ATTESTATIONS=false mise install
 
 RUN make op-node
 # end build
