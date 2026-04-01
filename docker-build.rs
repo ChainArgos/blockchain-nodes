@@ -366,7 +366,11 @@ fn create_manifest(config: &BuildConfig, dry_run: bool) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::HashSet;
     use std::fs;
+    use std::sync::{Arc, Barrier};
+    use std::sync::atomic::{AtomicU64, Ordering};
+    use std::thread;
     use std::path::PathBuf;
     use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -395,9 +399,39 @@ mod tests {
         );
     }
 
+    #[test]
+    fn test_dir_new_creates_unique_paths_under_parallel_calls() {
+        let rounds = 200;
+        let workers = 16;
+
+        for _ in 0..rounds {
+            let barrier = Arc::new(Barrier::new(workers));
+            let handles: Vec<_> = (0..workers)
+                .map(|_| {
+                    let barrier = Arc::clone(&barrier);
+                    thread::spawn(move || {
+                        barrier.wait();
+                        TestDir::new().path().to_path_buf()
+                    })
+                })
+                .collect();
+
+            let paths: Vec<_> = handles
+                .into_iter()
+                .map(|handle| handle.join().unwrap())
+                .collect();
+
+            let unique_paths: HashSet<_> = paths.iter().collect();
+
+            assert_eq!(unique_paths.len(), paths.len());
+        }
+    }
+
     struct TestDir {
         path: PathBuf,
     }
+
+    static TEST_DIR_COUNTER: AtomicU64 = AtomicU64::new(0);
 
     impl TestDir {
         fn new() -> Self {
@@ -405,8 +439,10 @@ mod tests {
                 .duration_since(UNIX_EPOCH)
                 .unwrap()
                 .as_nanos();
-            let path = env::temp_dir().join(format!("docker-build-test-{unique}"));
-            fs::create_dir_all(&path).unwrap();
+            let counter = TEST_DIR_COUNTER.fetch_add(1, Ordering::Relaxed);
+            let path = env::temp_dir()
+                .join(format!("docker-build-test-{unique}-{}-{counter}", std::process::id()));
+            fs::create_dir(&path).unwrap();
             Self { path }
         }
 
