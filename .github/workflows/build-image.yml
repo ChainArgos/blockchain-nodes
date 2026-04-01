@@ -36,20 +36,8 @@ jobs:
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
         with:
-          cache-directories: |
-            ~/.cache/rust-script
           shared-key: "rust-build-cache"
           cache-on-failure: true
-
-      - name: Cache rust-script
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
-        with:
-          path: ~/.cache/rust-script
-          key: >
-            rust-script-${{ runner.os }}-toolchain-${{ steps.rust-toolchain.outputs.name || 'stable' }}-${{ hashFiles('**/Cargo.lock', '**/*.rs') }}
-          restore-keys: |
-            rust-script-${{ runner.os }}-toolchain-${{ steps.rust-toolchain.outputs.name || 'stable' }}-
-            rust-script-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
