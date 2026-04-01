@@ -2,10 +2,16 @@ FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
+ARG TARGETARCH
 ARG BERA_RETH_VERSION
 
-RUN cd /tmp \
-    && curl -L https://github.com/berachain/bera-reth/releases/download/v${BERA_RETH_VERSION}/bera-reth-v${BERA_RETH_VERSION}-x86_64-unknown-linux-gnu.tar.gz -o reth.tar.gz \
+RUN case "$TARGETARCH" in \
+      amd64) reth_target='x86_64-unknown-linux-gnu' ;; \
+      arm64) reth_target='aarch64-unknown-linux-gnu' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://github.com/berachain/bera-reth/releases/download/v${BERA_RETH_VERSION}/bera-reth-v${BERA_RETH_VERSION}-${reth_target}.tar.gz -o reth.tar.gz \
     && tar -xvf reth.tar.gz \
     && rm reth.tar.gz \
     && mv bera-reth /usr/local/bin/ \

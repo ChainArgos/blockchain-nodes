@@ -1,11 +1,17 @@
-FROM --platform=arm64 chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
+FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
+ARG TARGETARCH
 ARG CARDANO_NODE_VERSION
 
-RUN cd /tmp \
-    && curl -L https://github.com/IntersectMBO/cardano-node/releases/download/${CARDANO_NODE_VERSION}/cardano-node-${CARDANO_NODE_VERSION}-linux-arm64.tar.gz -o cardano-node.tar.gz \
+RUN case "$TARGETARCH" in \
+      amd64) cardano_node_arch='amd64' ;; \
+      arm64) cardano_node_arch='arm64' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://github.com/IntersectMBO/cardano-node/releases/download/${CARDANO_NODE_VERSION}/cardano-node-${CARDANO_NODE_VERSION}-linux-${cardano_node_arch}.tar.gz -o cardano-node.tar.gz \
     && tar -xvf cardano-node.tar.gz \
     && rm cardano-node.tar.gz \
     && mv share/mainnet /etc/cardano-node \

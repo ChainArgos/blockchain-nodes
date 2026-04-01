@@ -1,11 +1,17 @@
-FROM --platform=arm64 chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
+FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
+ARG TARGETARCH
 ARG OMNICORE_VERSION
 
-RUN cd /tmp \
-    && curl -L https://github.com/OmniLayer/omnicore/releases/download/v${OMNICORE_VERSION}/omnicore-${OMNICORE_VERSION}-aarch64-linux-gnu.tar.gz -o omnicore.tar.gz \
+RUN case "$TARGETARCH" in \
+      amd64) omnicore_target='x86_64-linux-gnu' ;; \
+      arm64) omnicore_target='aarch64-linux-gnu' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://github.com/OmniLayer/omnicore/releases/download/v${OMNICORE_VERSION}/omnicore-${OMNICORE_VERSION}-${omnicore_target}.tar.gz -o omnicore.tar.gz \
     && tar -xvf omnicore.tar.gz \
     && rm omnicore.tar.gz \
     && mv omnicore-*/bin/* /usr/local/bin/ \

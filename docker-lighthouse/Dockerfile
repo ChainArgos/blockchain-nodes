@@ -2,10 +2,16 @@ FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
+ARG TARGETARCH
 ARG LIGHTHOUSE_VERSION
 
-RUN cd /tmp \
-    && curl -L https://github.com/sigp/lighthouse/releases/download/v${LIGHTHOUSE_VERSION}/lighthouse-v${LIGHTHOUSE_VERSION}-x86_64-unknown-linux-gnu.tar.gz -o lighthouse.tar.gz \
+RUN case "$TARGETARCH" in \
+      amd64) lighthouse_target='x86_64-unknown-linux-gnu' ;; \
+      arm64) lighthouse_target='aarch64-unknown-linux-gnu' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://github.com/sigp/lighthouse/releases/download/v${LIGHTHOUSE_VERSION}/lighthouse-v${LIGHTHOUSE_VERSION}-${lighthouse_target}.tar.gz -o lighthouse.tar.gz \
     && tar -xvf lighthouse.tar.gz \
     && rm lighthouse.tar.gz \
     && mv lighthouse /usr/local/bin/ \

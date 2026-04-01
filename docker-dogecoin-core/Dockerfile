@@ -1,11 +1,17 @@
-FROM --platform=arm64 chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
+FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
+ARG TARGETARCH
 ARG DOGECOIN_CORE_VERSION
 
-RUN cd /tmp \
-    && curl -L https://github.com/dogecoin/dogecoin/releases/download/v${DOGECOIN_CORE_VERSION}/dogecoin-${DOGECOIN_CORE_VERSION}-aarch64-linux-gnu.tar.gz -o dogecoin.tar.gz \
+RUN case "$TARGETARCH" in \
+      amd64) dogecoin_target='x86_64-linux-gnu' ;; \
+      arm64) dogecoin_target='aarch64-linux-gnu' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://github.com/dogecoin/dogecoin/releases/download/v${DOGECOIN_CORE_VERSION}/dogecoin-${DOGECOIN_CORE_VERSION}-${dogecoin_target}.tar.gz -o dogecoin.tar.gz \
     && tar -xvf dogecoin.tar.gz \
     && rm dogecoin.tar.gz \
     && mv dogecoin-*/bin/* /usr/local/bin/ \

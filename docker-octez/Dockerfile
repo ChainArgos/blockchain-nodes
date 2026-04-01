@@ -2,8 +2,15 @@ FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-RUN cd /tmp \
-    && curl -L https://gitlab.com/tezos/tezos/-/package_files/166077302/download -o octez.tar.gz \
+ARG TARGETARCH
+
+RUN case "$TARGETARCH" in \
+      amd64) package_file_id='166077302' ;; \
+      arm64) package_file_id='166078371' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://gitlab.com/tezos/tezos/-/package_files/${package_file_id}/download -o octez.tar.gz \
     && tar -xvf octez.tar.gz \
     && rm octez.tar.gz \
     && mv octez-*/octez-node /usr/local/bin/ \

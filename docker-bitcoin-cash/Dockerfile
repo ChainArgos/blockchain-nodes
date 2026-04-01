@@ -1,11 +1,17 @@
-FROM --platform=arm64 chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
+FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
+ARG TARGETARCH
 ARG BITCOIN_CASH_VERSION
 
-RUN cd /tmp \
-    && curl -L https://github.com/bitcoin-cash-node/bitcoin-cash-node/releases/download/v${BITCOIN_CASH_VERSION}/bitcoin-cash-node-${BITCOIN_CASH_VERSION}-aarch64-linux-gnu.tar.gz -o bitcoin-cash.tar.gz \
+RUN case "$TARGETARCH" in \
+      amd64) bitcoin_cash_target='x86_64-linux-gnu' ;; \
+      arm64) bitcoin_cash_target='aarch64-linux-gnu' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://github.com/bitcoin-cash-node/bitcoin-cash-node/releases/download/v${BITCOIN_CASH_VERSION}/bitcoin-cash-node-${BITCOIN_CASH_VERSION}-${bitcoin_cash_target}.tar.gz -o bitcoin-cash.tar.gz \
     && tar -xvf bitcoin-cash.tar.gz \
     && rm bitcoin-cash.tar.gz \
     && mv bitcoin-cash-*/bin/* /usr/local/bin/ \

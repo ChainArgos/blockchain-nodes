@@ -2,10 +2,16 @@ FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
+ARG TARGETARCH
 ARG BITCOIN_CORE_VERSION
 
-RUN cd /tmp \
-    && curl -L https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_CORE_VERSION}/bitcoin-${BITCOIN_CORE_VERSION}-x86_64-linux-gnu.tar.gz -o bitcoin.tar.gz \
+RUN case "$TARGETARCH" in \
+      amd64) bitcoin_core_target='x86_64-linux-gnu' ;; \
+      arm64) bitcoin_core_target='aarch64-linux-gnu' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_CORE_VERSION}/bitcoin-${BITCOIN_CORE_VERSION}-${bitcoin_core_target}.tar.gz -o bitcoin.tar.gz \
     && tar -xvf bitcoin.tar.gz \
     && rm bitcoin.tar.gz \
     && mv bitcoin-*/bin/* /usr/local/bin/ \

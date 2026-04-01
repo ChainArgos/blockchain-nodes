@@ -2,10 +2,16 @@ FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
+ARG TARGETARCH
 ARG LITECOIN_CORE_VERSION
 
-RUN cd /tmp \
-    && curl -L https://github.com/litecoin-project/litecoin/releases/download/v${LITECOIN_CORE_VERSION}/litecoin-${LITECOIN_CORE_VERSION}-x86_64-linux-gnu.tar.gz -o litecoin.tar.gz \
+RUN case "$TARGETARCH" in \
+      amd64) litecoin_target='x86_64-linux-gnu' ;; \
+      arm64) litecoin_target='aarch64-linux-gnu' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://github.com/litecoin-project/litecoin/releases/download/v${LITECOIN_CORE_VERSION}/litecoin-${LITECOIN_CORE_VERSION}-${litecoin_target}.tar.gz -o litecoin.tar.gz \
     && tar -xvf litecoin.tar.gz \
     && rm litecoin.tar.gz \
     && mv litecoin-*/bin/* /usr/local/bin/ \
