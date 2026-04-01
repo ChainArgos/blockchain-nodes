@@ -9,6 +9,7 @@ debug
 target
 
 # custom
+.worktrees/
 .env
 containers.env
 containers-*.env
