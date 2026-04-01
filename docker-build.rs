@@ -162,6 +162,24 @@ fn main() -> Result<()> {
     Ok(())
 }
 
+fn resolve_dockerfile_path(build_dir: &Path, platform: &str) -> Result<String> {
+    let plain = build_dir.join("Dockerfile");
+    if plain.exists() {
+        return Ok(String::from("Dockerfile"));
+    }
+
+    let legacy_name = format!("Dockerfile.{platform}");
+    let legacy = build_dir.join(&legacy_name);
+    if legacy.exists() {
+        return Ok(legacy_name);
+    }
+
+    anyhow::bail!(
+        "No Dockerfile found in {} (checked Dockerfile and Dockerfile.{platform})",
+        build_dir.display()
+    );
+}
+
 fn build_platform(
     build_dir: &Path,
     config: &BuildConfig,
@@ -177,7 +195,7 @@ fn build_platform(
         platform
     );
 
-    let dockerfile_path = format!("Dockerfile.{platform}");
+    let dockerfile_path = resolve_dockerfile_path(build_dir, platform)?;
 
     println!();
     println!(
@@ -349,4 +367,74 @@ fn create_manifest(config: &BuildConfig, dry_run: bool) -> Result<()> {
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::fs;
+    use std::path::PathBuf;
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    #[test]
+    fn resolve_dockerfile_path_prefers_plain_dockerfile() {
+        let test_dir = TestDir::new();
+        fs::write(test_dir.path().join("Dockerfile"), "FROM scratch\n").unwrap();
+        fs::write(test_dir.path().join("Dockerfile.amd64"), "FROM scratch\n").unwrap();
+
+        let dockerfile_path = resolve_dockerfile_path(test_dir.path(), "amd64").unwrap();
+
+        assert_eq!(dockerfile_path, "Dockerfile");
+    }
+
+    #[test]
+    fn resolve_dockerfile_path_falls_back_to_legacy_platform_file() {
+        let test_dir = TestDir::new();
+        fs::write(test_dir.path().join("Dockerfile.arm64"), "FROM scratch\n").unwrap();
+
+        let dockerfile_path = resolve_dockerfile_path(test_dir.path(), "arm64").unwrap();
+
+        assert_eq!(dockerfile_path, "Dockerfile.arm64");
+    }
+
+    #[test]
+    fn resolve_dockerfile_path_errors_when_no_supported_dockerfile_exists() {
+        let test_dir = TestDir::new();
+
+        let error = resolve_dockerfile_path(test_dir.path(), "amd64").unwrap_err();
+
+        assert_eq!(
+            error.to_string(),
+            format!(
+                "No Dockerfile found in {} (checked Dockerfile and Dockerfile.amd64)",
+                test_dir.path().display()
+            )
+        );
+    }
+
+    struct TestDir {
+        path: PathBuf,
+    }
+
+    impl TestDir {
+        fn new() -> Self {
+            let unique = SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos();
+            let path = env::temp_dir().join(format!("docker-build-test-{unique}"));
+            fs::create_dir_all(&path).unwrap();
+            Self { path }
+        }
+
+        fn path(&self) -> &Path {
+            &self.path
+        }
+    }
+
+    impl Drop for TestDir {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.path);
+        }
+    }
 }
