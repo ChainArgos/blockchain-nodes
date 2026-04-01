@@ -122,8 +122,7 @@ blockchain-nodes/
 │
 ├── docker-*/           # Package directories
 │   ├── build.toml      # Build configuration
-│   ├── Dockerfile.amd64 # AMD64 Dockerfile
-│   └── Dockerfile.arm64 # ARM64 Dockerfile
+│   └── Dockerfile      # Dockerfile used for every configured platform
 │
 └── docs/
     ├── BUILD_SYSTEM.md  # Build system documentation

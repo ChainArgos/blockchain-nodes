@@ -64,7 +64,7 @@ The build system uses separate `version` and `build` fields:
 
 Examples:
 - `version = "1.16.7"` + `build = "1"` → Docker tag: `chainargos/geth:1.16.7-1`
-- `version = "1.0.0"` (no build field) → Docker tag: `chainargos/debian-blockchain-base:1.0.0`
+- `version = "1.0.0"` + `build = "1"` → Docker tag: `chainargos/debian-blockchain-base:1.0.0-1`
 - Build argument passed to Dockerfile: `GETH_VERSION=1.16.7` (always just the version, never includes build number)
 
 ## Directory Structure
@@ -74,11 +74,10 @@ Each package should have the following structure:
 ```
 docker-<package>/
 ├── build.toml
-├── Dockerfile.amd64
-└── Dockerfile.arm64
+└── Dockerfile
 ```
 
-For single-platform builds, only include the relevant Dockerfile (e.g., only `Dockerfile.amd64`).
+For single-platform builds, keep a single `Dockerfile`; the `platforms` list in `build.toml` controls which architectures are built.
 
 ## Usage
 
@@ -147,7 +146,7 @@ The build script performs the following steps:
 1. Reads the `build.toml` configuration file
 2. Generates the build argument name from package name (e.g., "geth" → "GETH_VERSION")
 3. For each platform in `platforms`:
-   - Builds the Docker image using `Dockerfile.<platform>`
+   - Builds the Docker image using `Dockerfile`
    - Passes version as build argument (e.g., `--build-arg GETH_VERSION=1.16.7`)
    - Tags it as `<repository>:<version>-<build>-<platform>` (e.g., `chainargos/geth:1.16.7-1-amd64`)
    - Pushes it to the registry

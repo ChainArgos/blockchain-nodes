@@ -162,20 +162,14 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn resolve_dockerfile_path(build_dir: &Path, platform: &str) -> Result<String> {
+fn resolve_dockerfile_path(build_dir: &Path) -> Result<String> {
     let plain = build_dir.join("Dockerfile");
     if plain.exists() {
         return Ok(String::from("Dockerfile"));
     }
 
-    let legacy_name = format!("Dockerfile.{platform}");
-    let legacy = build_dir.join(&legacy_name);
-    if legacy.exists() {
-        return Ok(legacy_name);
-    }
-
     anyhow::bail!(
-        "No Dockerfile found in {} (checked Dockerfile and Dockerfile.{platform})",
+        "No Dockerfile found in {} (expected Dockerfile)",
         build_dir.display()
     );
 }
@@ -195,7 +189,7 @@ fn build_platform(
         platform
     );
 
-    let dockerfile_path = resolve_dockerfile_path(build_dir, platform)?;
+    let dockerfile_path = resolve_dockerfile_path(build_dir)?;
 
     println!();
     println!(
@@ -377,36 +371,25 @@ mod tests {
     use std::time::{SystemTime, UNIX_EPOCH};
 
     #[test]
-    fn resolve_dockerfile_path_prefers_plain_dockerfile() {
+    fn resolve_dockerfile_path_returns_plain_dockerfile() {
         let test_dir = TestDir::new();
         fs::write(test_dir.path().join("Dockerfile"), "FROM scratch\n").unwrap();
-        fs::write(test_dir.path().join("Dockerfile.amd64"), "FROM scratch\n").unwrap();
 
-        let dockerfile_path = resolve_dockerfile_path(test_dir.path(), "amd64").unwrap();
+        let dockerfile_path = resolve_dockerfile_path(test_dir.path()).unwrap();
 
         assert_eq!(dockerfile_path, "Dockerfile");
     }
 
     #[test]
-    fn resolve_dockerfile_path_falls_back_to_legacy_platform_file() {
-        let test_dir = TestDir::new();
-        fs::write(test_dir.path().join("Dockerfile.arm64"), "FROM scratch\n").unwrap();
-
-        let dockerfile_path = resolve_dockerfile_path(test_dir.path(), "arm64").unwrap();
-
-        assert_eq!(dockerfile_path, "Dockerfile.arm64");
-    }
-
-    #[test]
-    fn resolve_dockerfile_path_errors_when_no_supported_dockerfile_exists() {
+    fn resolve_dockerfile_path_errors_when_dockerfile_is_missing() {
         let test_dir = TestDir::new();
 
-        let error = resolve_dockerfile_path(test_dir.path(), "amd64").unwrap_err();
+        let error = resolve_dockerfile_path(test_dir.path()).unwrap_err();
 
         assert_eq!(
             error.to_string(),
             format!(
-                "No Dockerfile found in {} (checked Dockerfile and Dockerfile.amd64)",
+                "No Dockerfile found in {} (expected Dockerfile)",
                 test_dir.path().display()
             )
         );

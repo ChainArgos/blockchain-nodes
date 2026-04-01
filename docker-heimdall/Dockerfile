@@ -1,15 +1,21 @@
-FROM --platform=arm64 chainargos/debian-blockchain-build:1.0.0@sha256:b4989a6d9564295dcf4ffd085fbcb717c176864b38054489bdb2b642a1e2b3a7 AS build
+FROM chainargos/debian-blockchain-build:1.0.0@sha256:b4989a6d9564295dcf4ffd085fbcb717c176864b38054489bdb2b642a1e2b3a7 AS build
 
+ARG TARGETARCH
 ARG HEIMDALL_VERSION
 
 RUN git clone --branch v${HEIMDALL_VERSION} --single-branch --depth=1 https://github.com/0xPolygon/heimdall-v2.git
 
 WORKDIR /heimdall-v2
 
-RUN make build-arm
+RUN case "$TARGETARCH" in \
+      amd64) make_target='build' ;; \
+      arm64) make_target='build-arm' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && make ${make_target}
 # end build
 
-FROM --platform=arm64 chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
+FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 

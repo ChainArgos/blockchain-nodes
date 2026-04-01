@@ -1,17 +1,23 @@
-FROM --platform=arm64 chainargos/debian-blockchain-build:1.0.0@sha256:b4989a6d9564295dcf4ffd085fbcb717c176864b38054489bdb2b642a1e2b3a7 AS build
+FROM chainargos/debian-blockchain-build:1.0.0@sha256:b4989a6d9564295dcf4ffd085fbcb717c176864b38054489bdb2b642a1e2b3a7 AS build
 
 RUN mise use -g --pin go@1.22.12
 
+ARG TARGETARCH
 ARG CELO_GETH_VERSION
 
 RUN git clone --branch v${CELO_GETH_VERSION} --single-branch --depth=1 https://github.com/celo-org/celo-blockchain.git
 
 WORKDIR /celo-blockchain
 
-RUN make geth-musl
+RUN case "$TARGETARCH" in \
+      amd64) make_target='geth' ;; \
+      arm64) make_target='geth-musl' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && make ${make_target}
 # end build
 
-FROM --platform=arm64 chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
+FROM chainargos/debian-blockchain-base:1.0.0@sha256:060d1ab619195aa9003050a65124d38ae3f2f1ea1af5b62a983adc0713fd69a8
 
 COPY --from=build /celo-blockchain/build/bin/geth /usr/local/bin/
 
