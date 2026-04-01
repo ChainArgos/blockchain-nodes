@@ -1,0 +1,38 @@
+FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa9c256b25f04afe791a5856511160b2ad47b7
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+ARG TARGETARCH
+ARG BITCOIN_CASH_VERSION
+
+RUN case "$TARGETARCH" in \
+      amd64) bitcoin_cash_target='x86_64-linux-gnu' ;; \
+      arm64) bitcoin_cash_target='aarch64-linux-gnu' ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+    && cd /tmp \
+    && curl -L https://github.com/bitcoin-cash-node/bitcoin-cash-node/releases/download/v${BITCOIN_CASH_VERSION}/bitcoin-cash-node-${BITCOIN_CASH_VERSION}-${bitcoin_cash_target}.tar.gz -o bitcoin-cash.tar.gz \
+    && tar -xvf bitcoin-cash.tar.gz \
+    && rm bitcoin-cash.tar.gz \
+    && mv bitcoin-cash-*/bin/* /usr/local/bin/ \
+    && mv bitcoin-cash-*/include/* /usr/local/include/ \
+    && mv bitcoin-cash-*/lib/* /usr/local/lib/ \
+    && mv bitcoin-cash-*/share/* /usr/local/share/ \
+    && rm -r bitcoin-cash-* \
+    && rm -rf /tmp/*
+
+ADD config /config/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]

@@ -1,7 +1,7 @@
 [package]
 name = "eigenda-proxy"
 version = "1.8.2"
-build = "1"
+build = "2"
 
 [docker]
 repository = "chainargos/eigenda-proxy"

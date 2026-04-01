@@ -1,0 +1,32 @@
+ARG ARBITRUM_VERSION
+ARG GIT_COMMIT
+
+FROM offchainlabs/nitro-node:v${ARBITRUM_VERSION}-${GIT_COMMIT} AS build
+
+RUN ls
+# end build
+
+FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa9c256b25f04afe791a5856511160b2ad47b7
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY --from=build /usr/local/bin/ /usr/local/bin/
+COPY --from=build /home/user/target/machines /workspace/target/machines
+COPY --from=build /home/user/nitro-legacy/machines /workspace/nitro-legacy/machines
+
+RUN chown -R root:root /workspace/target/machines
+RUN chown -R root:root /workspace/nitro-legacy/machines
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]

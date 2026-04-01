@@ -1,0 +1,43 @@
+FROM chainargos/debian-blockchain-build:1.1.0@sha256:12b8d0509e772abd9bccde40c49092fc028cbf10071a6b5cee2702240a163fb8 AS build
+
+ARG FETCHD_VERSION
+
+RUN mise use -g --pin go@1.18.10
+
+RUN git clone --branch v${FETCHD_VERSION} --single-branch --depth=1 https://github.com/fetchai/fetchd.git
+
+WORKDIR /fetchd
+
+RUN make install
+RUN make build
+
+RUN ARCH=`uname -m` && GOMODCACHE=$(go env GOMODCACHE) && cp ${GOMODCACHE}/github.com/\!cosm\!wasm/wasmvm@v1.0.1/api/libwasmvm.${ARCH}.so /usr/lib/libwasmvm.${ARCH}.so
+# end build
+
+FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa9c256b25f04afe791a5856511160b2ad47b7
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends aria2 \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/* /var/cache/apt/* /tmp/*
+
+COPY --from=build /usr/lib/libwasmvm.*.so /usr/lib/
+COPY --from=build /fetchd/build/fetchd /usr/local/bin/
+
+ADD config /config/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]

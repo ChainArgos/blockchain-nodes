@@ -1,0 +1,28 @@
+ARG FRAXTAL_OP_GETH_VERSION
+
+FROM ghcr.io/fraxfinance/fraxtal-op-geth:v${FRAXTAL_OP_GETH_VERSION} AS build
+
+RUN ls
+# end build
+
+FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa9c256b25f04afe791a5856511160b2ad47b7
+
+LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
+
+COPY --from=build /usr/local/bin/geth /usr/local/bin/
+
+ADD config /config/
+
+COPY start.sh /
+RUN chmod a+x /start.sh
+
+RUN mkdir -pv /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/start.sh"]
