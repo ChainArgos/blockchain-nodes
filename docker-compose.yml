@@ -143,7 +143,7 @@ services:
       - ${BSC_ROOT_DIR:-~}/bsc:/data
 
   cardano-node:
-    image: chainargos/cardano-node:10.6.3-1@sha256:244b10263d29a4e2ae3342622e8d8d711d1b39bb918d649ffc1f73e6da1c13bd
+    image: chainargos/cardano-node:10.7.1-1@sha256:43ddd983d08aac7306b64f5ff8d26df0036c4f18f6bf6fe3a34afb44728d83f2
     container_name: cardano-node
     restart: unless-stopped
     stop_grace_period: 15m
