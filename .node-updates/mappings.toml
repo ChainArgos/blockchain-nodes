@@ -85,3 +85,9 @@ repo = "celo-org/op-geth"
 tag_prefix = "celo-"
 docker_dir = "docker-celo-op-geth"
 package = "celo-op-geth"
+
+[[mapping]]
+repo = "bitcoin/bitcoin"
+tag_prefix = ""
+docker_dir = "docker-bitcoin-core"
+package = "bitcoin-core"
