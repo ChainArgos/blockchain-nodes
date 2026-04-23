@@ -1,0 +1,87 @@
+# Mapping from GitHub source repos to docker-* build dirs in this repo.
+# The update-node-version skill reads this file to resolve release URLs.
+#
+# Lookup rule: match on `repo`; among entries with that repo, pick the one
+# whose `tag_prefix` is the longest prefix of the release tag. An empty
+# `tag_prefix` matches any tag with no other prefix entry for the same repo.
+#
+# Each `package` MUST match the [package].name in docker-<dir>/build.toml.
+# Add new entries as you encounter chains not yet listed.
+
+[[mapping]]
+repo = "bnb-chain/bsc"
+tag_prefix = ""
+docker_dir = "docker-bsc-geth"
+package = "bsc-geth"
+
+[[mapping]]
+repo = "0xPolygon/bor"
+tag_prefix = ""
+docker_dir = "docker-bor"
+package = "bor"
+
+[[mapping]]
+repo = "ethereum/go-ethereum"
+tag_prefix = ""
+docker_dir = "docker-geth"
+package = "geth"
+
+[[mapping]]
+repo = "gnosischain/go-ethereum"
+tag_prefix = ""
+docker_dir = "docker-gnosis-geth"
+package = "gnosis-geth"
+
+[[mapping]]
+repo = "ethereum-optimism/optimism"
+tag_prefix = "op-node/"
+docker_dir = "docker-op-node"
+package = "op-node"
+
+[[mapping]]
+repo = "ethereum-optimism/op-geth"
+tag_prefix = ""
+docker_dir = "docker-op-geth"
+package = "op-geth"
+
+[[mapping]]
+repo = "berachain/bera-reth"
+tag_prefix = ""
+docker_dir = "docker-bera-reth"
+package = "bera-reth"
+
+[[mapping]]
+repo = "berachain/beacon-kit"
+tag_prefix = ""
+docker_dir = "docker-beacon-kit"
+package = "beacon-kit"
+
+[[mapping]]
+repo = "IntersectMBO/cardano-node"
+tag_prefix = ""
+docker_dir = "docker-cardano-node"
+package = "cardano-node"
+
+[[mapping]]
+repo = "ava-labs/avalanchego"
+tag_prefix = ""
+docker_dir = "docker-avalanchego"
+package = "avalanchego"
+
+[[mapping]]
+repo = "sigp/lighthouse"
+tag_prefix = ""
+docker_dir = "docker-lighthouse"
+package = "lighthouse"
+
+[[mapping]]
+repo = "OffchainLabs/nitro"
+tag_prefix = ""
+docker_dir = "docker-arbitrum"
+package = "arbitrum"
+
+[[mapping]]
+repo = "celo-org/op-geth"
+tag_prefix = "celo-"
+docker_dir = "docker-celo-op-geth"
+package = "celo-op-geth"
