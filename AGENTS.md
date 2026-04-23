@@ -7,6 +7,7 @@ This repository uses `main` as its primary branch. This file is the canonical ho
 **Agents must never merge a pull request without explicit per-PR confirmation from the human operator.**
 
 - Open the PR, share the URL, and stop. The default response after creating a PR is "PR URL — ready for your review" — not a merge command in the same turn.
+- When the operator approves merging a PR, use a **squash merge**. If squash merge is unavailable for that PR or repository state, stop and ask instead of switching to rebase or merge-commit strategy on your own.
 - Prior "just do it" / "don't wait for me" / "proceed autonomously" authorizations apply only to the specific workstream the operator was discussing when they issued them. They do not carry forward to later PRs in the same session or to new sessions. Treat each PR as a fresh approval gate.
 - `--admin` / branch-protection bypass is a privilege, not a default. Use it only when the operator explicitly authorizes merging *this specific PR*.
 - Phrasing that does NOT authorize merge (ask anyway): "proceed", "don't wait for me", "looks good". Phrasing that does: "merge it", "merge this one", "you can merge now", "ship it".
