@@ -12,15 +12,16 @@ Claude picks up this skill via its frontmatter description and jumps to `NODE_UP
 
 ## Config correctness
 
-For packages that ship a `sync-config.rs`, treat the checked-in repo config as the source of truth for any option that already exists. The sync script is there to surface upstream drift, not to blindly replace local operator-curated values.
+For packages that ship a `sync-config.rs`, use `.node-updates/approved-config-overrides/<package>.toml` as the source of truth for already-reviewed local differences. The sync script is there to surface upstream drift, not to blindly replace local operator-curated values.
 
 When the sync output differs from the repo:
 
-- Do not overwrite existing values automatically.
+- If a diff matches an approved override record exactly, restore the approved local value without flagging it as new.
 - If upstream adds new options, sections, or files, stop and ask the user how they want to handle them.
-- If upstream changes or removes existing values, restore the repo version first and then ask whether any of those upstream changes should be adopted manually.
+- If upstream changes a key that already has an approved override but the upstream side no longer matches the recorded reviewed value, stop and ask what to do.
+- If no approved override exists for a changed key, stop and ask the user to review it case by case.
 
-Typical locally curated values include monikers, listen and advertise addresses, telemetry and Prometheus toggles, execution-engine URLs, JWT paths, and other environment-specific paths.
+After the user confirms a local override, record it in `.node-updates/approved-config-overrides/<package>.toml` so later updates only flag genuinely new drift.
 
 ## Adding a new mapping
 

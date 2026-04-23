@@ -70,18 +70,22 @@ If `sync-config.rs` does not exist: skip silently.
 
 Compare the tracked files under `<docker_dir>` before and after running `sync-config.rs`.
 
+If `.node-updates/approved-config-overrides/<package>.toml` exists, use it as the reviewed baseline for already-approved local overrides.
+
 Rules:
-- Treat the repo's checked-in values as canonical for any option that already existed before the sync. These files often contain local operator-curated settings that must win over upstream defaults.
-- Settings such as monikers, listen/advertise addresses, telemetry toggles, Prometheus toggles, engine URLs, JWT paths, and data paths are examples of values that are usually local and should stay unchanged unless the user explicitly approves a change.
+- Each approved-override record stores the reviewed upstream value and the approved local value for a specific file/key pair.
+- If a diff matches an existing approved override exactly, restore the approved local value and do not flag it as new work.
 - If the sync introduces **new options, new sections, or new files**, STOP and ask the user what to do next. Do not commit those additions automatically.
-- If the sync **changes or removes existing values**, restore the pre-sync version of those files before continuing. Summarize the candidate upstream changes for the user, but do not keep them without approval.
-- Only keep config-file edits that the user explicitly asked for or approved after seeing the diff.
+- If the sync changes a key that already has an approved override but the new upstream value no longer matches the recorded reviewed upstream value, STOP and ask the user whether the override record should change.
+- If the sync changes or removes an existing value that is **not** covered by an approved override, STOP and ask the user what should be kept. Do not guess.
+- After the user approves a new local override or approves adopting a new upstream value over an old override, update `.node-updates/approved-config-overrides/<package>.toml` in the same change so future updates know that decision.
+- Typical override candidates include monikers, listen/advertise addresses, telemetry toggles, Prometheus toggles, execution-engine URLs, JWT paths, and other environment-specific paths.
 
 ### 8. Show the diff
 
 Run `git status` and `git diff` and display the output to the user. Summarize what changed in one line (e.g., "Updated bsc-geth from v1.7.2 to v1.7.3; refreshed config/config.toml and config/genesis.json.").
 
-If you restored config files after inspecting sync output, say so explicitly and describe the upstream-only changes separately from the remaining diff.
+If you restored config files after matching approved overrides, say so explicitly. If there were new or changed upstream values outside the approved override record, list them separately and wait for guidance.
 
 ### 9. HUMAN GATE — wait for confirmation
 
@@ -138,7 +142,7 @@ Print the PR URL. STOP. Do not merge — per [AGENTS.md](AGENTS.md), agents neve
 - Only reset `[package].build` to `"1"` if that field already existed in the file.
 - Do not edit `[vars]` for any repo other than `ethereum/go-ethereum`.
 - Do not invent URLs. Only fetch the exact URLs specified: the user-provided release URL and `https://geth.ethereum.org/downloads` for the Ethereum special case.
-- For nodes with `sync-config.rs`, never treat upstream defaults as authoritative for existing checked-in config values. Local tracked config wins unless the user approves a change.
+- For nodes with `sync-config.rs`, consult `.node-updates/approved-config-overrides/<package>.toml` before deciding whether a config diff is already approved or needs human review.
 - Branch name is `release/<package>-<version>` where `<version>` has no leading `v`.
 - Commit subject includes the `v` prefix: `chore(<package>): bump to v<version>`.
 - Use the agent trailer matching **your own** agent tool, not someone else's.

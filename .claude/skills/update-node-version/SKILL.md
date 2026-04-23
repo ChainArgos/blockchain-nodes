@@ -9,7 +9,7 @@ This skill is a thin wrapper. The full workflow lives in the repo root at [`NODE
 
 **Read `NODE_UPDATES.md` and follow its workflow exactly.** The mapping table is at `.node-updates/mappings.toml`.
 
-Important: for packages with `sync-config.rs`, existing checked-in config values are canonical. Never overwrite them automatically; use sync output only to detect upstream changes that need user review.
+Important: for packages with `sync-config.rs`, consult `.node-updates/approved-config-overrides/<package>.toml` before deciding whether a config diff is already approved or needs user review. Do not treat unchecked local values as automatically approved.
 
 Use the commit trailer that matches the current agent, as documented in [`COMMITS.md`](../../../COMMITS.md) and [`AGENTS.md`](../../../AGENTS.md):
 
