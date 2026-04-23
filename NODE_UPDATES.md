@@ -2,7 +2,7 @@
 
 This file documents the workflow for bumping the upstream version of a blockchain node packaged in this repo. It applies to every AI agent (Claude, Codex, Amp) and to humans.
 
-Given a GitHub release URL like `https://github.com/bnb-chain/bsc/releases/tag/v1.7.3`, bump the matching `docker-<pkg>/build.toml`, sync any chain config, and open a PR. **Never merge** — stop at the PR URL (see [AGENTS.md](AGENTS.md) for the merge gate).
+Given a GitHub release URL like `https://github.com/bnb-chain/bsc/releases/tag/v1.7.3`, bump the matching `docker-<pkg>/build.toml`, inspect any chain-config drift, and open a PR. **Never merge** — stop at the PR URL (see [AGENTS.md](AGENTS.md) for the merge gate).
 
 ## When to run this workflow
 
@@ -62,15 +62,28 @@ Do not touch any other fields in `build.toml`.
 
 ### 6. Run sync-config.rs (if present)
 
-If `<docker_dir>/sync-config.rs` exists: run `./sync-config.rs` with the working directory set to `<docker_dir>`. If the script exits non-zero, STOP — print its output and tell the user the working tree is in a partial state; do not commit.
+If `<docker_dir>/sync-config.rs` exists: run `./sync-config.rs` with the working directory set to `<docker_dir>`. Treat the script output as **upstream reference material**, not as automatically correct repo content. If the script exits non-zero, STOP — print its output and tell the user the working tree is in a partial state; do not commit.
 
 If `sync-config.rs` does not exist: skip silently.
 
-### 7. Show the diff
+### 7. Reconcile config drift
+
+Compare the tracked files under `<docker_dir>` before and after running `sync-config.rs`.
+
+Rules:
+- Treat the repo's checked-in values as canonical for any option that already existed before the sync. These files often contain local operator-curated settings that must win over upstream defaults.
+- Settings such as monikers, listen/advertise addresses, telemetry toggles, Prometheus toggles, engine URLs, JWT paths, and data paths are examples of values that are usually local and should stay unchanged unless the user explicitly approves a change.
+- If the sync introduces **new options, new sections, or new files**, STOP and ask the user what to do next. Do not commit those additions automatically.
+- If the sync **changes or removes existing values**, restore the pre-sync version of those files before continuing. Summarize the candidate upstream changes for the user, but do not keep them without approval.
+- Only keep config-file edits that the user explicitly asked for or approved after seeing the diff.
+
+### 8. Show the diff
 
 Run `git status` and `git diff` and display the output to the user. Summarize what changed in one line (e.g., "Updated bsc-geth from v1.7.2 to v1.7.3; refreshed config/config.toml and config/genesis.json.").
 
-### 8. HUMAN GATE — wait for confirmation
+If you restored config files after inspecting sync output, say so explicitly and describe the upstream-only changes separately from the remaining diff.
+
+### 9. HUMAN GATE — wait for confirmation
 
 STOP and wait for the user to explicitly confirm. Acceptable confirmations: "yes", "proceed", "ship it", "looks good, commit it", "go ahead".
 
@@ -78,7 +91,7 @@ If the user declines or asks for changes, do not commit. Leave the edits on disk
 
 Do not commit just because the user says "looks good" without "commit" / "proceed" / "ship" — if it's ambiguous, ask.
 
-### 9. Create branch and commit
+### 10. Create branch and commit
 
 Use the agent-attribution trailer for **whichever agent you are**, per [COMMITS.md](COMMITS.md):
 
@@ -105,7 +118,7 @@ EOF
 
 If `git switch -c` fails because the branch already exists, STOP and ask the user how to proceed.
 
-### 10. Push and open the PR
+### 11. Push and open the PR
 
 Run:
 
@@ -125,6 +138,7 @@ Print the PR URL. STOP. Do not merge — per [AGENTS.md](AGENTS.md), agents neve
 - Only reset `[package].build` to `"1"` if that field already existed in the file.
 - Do not edit `[vars]` for any repo other than `ethereum/go-ethereum`.
 - Do not invent URLs. Only fetch the exact URLs specified: the user-provided release URL and `https://geth.ethereum.org/downloads` for the Ethereum special case.
+- For nodes with `sync-config.rs`, never treat upstream defaults as authoritative for existing checked-in config values. Local tracked config wins unless the user approves a change.
 - Branch name is `release/<package>-<version>` where `<version>` has no leading `v`.
 - Commit subject includes the `v` prefix: `chore(<package>): bump to v<version>`.
 - Use the agent trailer matching **your own** agent tool, not someone else's.
