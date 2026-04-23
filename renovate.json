@@ -8,6 +8,7 @@
   "platformAutomerge": true,
   "prHourlyLimit": 0,
   "prConcurrentLimit": 20,
+  "semanticCommits": "enabled",
   "packageRules": [
     {
       "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest"],
