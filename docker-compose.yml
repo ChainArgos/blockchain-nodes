@@ -107,7 +107,7 @@ services:
       - ${BITCOIN_ROOT_DIR:-~}/bitcoin:/data
 
   bitcoin-core:
-    image: chainargos/bitcoin-core:30.2-1@sha256:bcb1bc76314298067b0855106ddcd70fa8e059285ab9f056065857276fb4de3c
+    image: chainargos/bitcoin-core:31.0-1@sha256:5faad95d9f90184001a657a92978701c358b5d5f7cd609dc11297fb4b04111ce
     container_name: bitcoin-core
     restart: unless-stopped
     stop_grace_period: 15m
