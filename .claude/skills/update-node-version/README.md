@@ -10,6 +10,18 @@ Paste a GitHub release URL in chat, e.g.:
 
 Claude picks up this skill via its frontmatter description and jumps to `NODE_UPDATES.md`. Codex and Amp users should read `NODE_UPDATES.md` directly (it is linked from `AGENTS.md`).
 
+## Config correctness
+
+For packages that ship a `sync-config.rs`, treat the checked-in repo config as the source of truth for any option that already exists. The sync script is there to surface upstream drift, not to blindly replace local operator-curated values.
+
+When the sync output differs from the repo:
+
+- Do not overwrite existing values automatically.
+- If upstream adds new options, sections, or files, stop and ask the user how they want to handle them.
+- If upstream changes or removes existing values, restore the repo version first and then ask whether any of those upstream changes should be adopted manually.
+
+Typical locally curated values include monikers, listen and advertise addresses, telemetry and Prometheus toggles, execution-engine URLs, JWT paths, and other environment-specific paths.
+
 ## Adding a new mapping
 
 When the workflow errors with "No mapping for `<org>/<repo>`", append an entry to `.node-updates/mappings.toml` at the repo root:
