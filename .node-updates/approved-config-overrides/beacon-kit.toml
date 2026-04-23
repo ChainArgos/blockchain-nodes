@@ -1,0 +1,73 @@
+# Approved local overrides for sync-config output in docker-beacon-kit.
+#
+# Each entry captures a reviewed upstream value and the approved local value
+# that should be restored after running docker-beacon-kit/sync-config.rs.
+# If a future sync produces a different upstream value for one of these keys,
+# that change should be shown to the user for review.
+
+package = "beacon-kit"
+docker_dir = "docker-beacon-kit"
+reviewed_on = "2026-04-24"
+
+[[override]]
+file = "config/app.toml"
+key = "telemetry.enabled"
+reviewed_upstream_value = true
+approved_value = false
+reason = "Keep application telemetry disabled in the repo config."
+
+[[override]]
+file = "config/app.toml"
+key = "beacon-kit.engine.rpc-dial-url"
+reviewed_upstream_value = "http://localhost:8551"
+approved_value = "http://berachain-reth:8551"
+reason = "Use the container-network execution client endpoint."
+
+[[override]]
+file = "config/app.toml"
+key = "beacon-kit.engine.jwt-secret-path"
+reviewed_upstream_value = "~/.beacond/config/jwt.hex"
+approved_value = "/data/jwtsecret.hex"
+reason = "Use the repo's container data path for the JWT secret."
+
+[[override]]
+file = "config/app.toml"
+key = "beacon-kit.kzg.trusted-setup-path"
+reviewed_upstream_value = "~/.beacond/config/kzg-trusted-setup.json"
+approved_value = "/data/beacon-kit/config/kzg-trusted-setup.json"
+reason = "Use the repo's container data path for the KZG setup file."
+
+[[override]]
+file = "config/app.toml"
+key = "beacon-kit.payload-builder.enabled"
+reviewed_upstream_value = true
+approved_value = false
+reason = "Keep the local payload builder disabled in the repo config."
+
+[[override]]
+file = "config/config.toml"
+key = "moniker"
+reviewed_upstream_value = "oogabooga"
+approved_value = "chainargos"
+reason = "Use the repo's approved node moniker."
+
+[[override]]
+file = "config/config.toml"
+key = "p2p.laddr"
+reviewed_upstream_value = "tcp://0.0.0.0:26656"
+approved_value = "tcp://0.0.0.0:26756"
+reason = "Use the repo's approved P2P listen port."
+
+[[override]]
+file = "config/config.toml"
+key = "p2p.external_address"
+reviewed_upstream_value = ""
+approved_value = "{{ .Env.PUBLIC_IP }}:26756"
+reason = "Advertise the repo's templated public address and port."
+
+[[override]]
+file = "config/config.toml"
+key = "instrumentation.prometheus"
+reviewed_upstream_value = true
+approved_value = false
+reason = "Keep Prometheus disabled in the repo config."
