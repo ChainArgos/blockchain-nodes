@@ -20,6 +20,7 @@
 
 ## Pull requests
 
+- Approved PRs are merged with a squash merge.
 - PR titles use [Conventional Commits](COMMITS.md) — the title becomes the squash commit subject.
 - PRs need at least one reviewer (or explicit operator approval for self-merge).
 - Agents do not merge PRs without explicit per-PR confirmation from the operator (see [AGENTS.md](AGENTS.md)).

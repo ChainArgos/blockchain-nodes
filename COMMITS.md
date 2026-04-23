@@ -28,7 +28,7 @@ Scope is optional but encouraged when it clarifies the change area, e.g., `chore
 
 Breaking changes use `!` after the type/scope (`feat!:` or `feat(api)!:`) and include a `BREAKING CHANGE:` footer in the body.
 
-PR squash-merge: the PR title becomes the commit subject, so PR titles must also follow this convention.
+PRs are squash-merged, so the PR title becomes the commit subject and must also follow this convention.
 
 ## Agent Attribution
 
