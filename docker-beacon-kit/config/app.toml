@@ -78,7 +78,7 @@ service-name = "beacond_node"
 # Enabled enables the application telemetry functionality. When enabled,
 # an in-memory sink is also enabled by default. Operators may also enabled
 # other sinks such as Prometheus.
-enabled = false
+enabled = true
 
 # Enable prefixing gauge values with hostname.
 enable-hostname = true
@@ -127,7 +127,7 @@ shutdown-timeout = "5m0s"
 
 [beacon-kit.engine]
 # HTTP url of the execution client JSON-RPC endpoint.
-rpc-dial-url = "http://berachain-reth:8551"
+rpc-dial-url = "http://localhost:8551"
 
 # RPC timeout for execution client requests.
 rpc-timeout = "2s"
@@ -145,7 +145,7 @@ rpc-startup-check-interval = "3s"
 rpc-jwt-refresh-interval = "30s"
 
 # Path to the execution client JWT-secret
-jwt-secret-path = "/data/jwtsecret.hex"
+jwt-secret-path = "~/.beacond/config/jwt.hex"
 
 [beacon-kit.logger]
 # TimeFormat is a string that defines the format of the time in the logger.
@@ -160,7 +160,7 @@ style = "pretty"
 
 [beacon-kit.kzg]
 # Path to the trusted setup path.
-trusted-setup-path = "/data/beacon-kit/config/kzg-trusted-setup.json"
+trusted-setup-path = "~/.beacond/config/kzg-trusted-setup.json"
 
 # KZG implementation to use.
 # Options are "crate-crypto/go-kzg-4844".
@@ -170,7 +170,7 @@ implementation = "crate-crypto/go-kzg-4844"
 # Enabled determines if the local payload builder is enabled.
 # It should be enabled for validators, but it can be disabled
 # for full nodes.
-enabled = false
+enabled = true
 
 # Post bellatrix, this address will receive the transaction fees produced by any blocks
 # from this node.
