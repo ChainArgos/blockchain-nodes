@@ -16,15 +16,35 @@ If you are uncertain whether authorization applies to the PR in front of you, as
 
 ## Commit Attribution (agent-only)
 
-Every commit created by an AI agent in this repository must include **exactly one** `Co-authored-by` trailer identifying the agent that made the commit. The trailer identifies the **agent tool**, not the underlying model — never stack multiple agent trailers on one commit.
+Every commit created by an AI agent in this repository must include **exactly one** `Co-authored-by` trailer identifying the agent that made the commit. The trailer identifies the **agent tool**, not the underlying model — **never stack multiple agent trailers on one commit** (for example, an Amp-generated commit must not also carry `Co-authored-by: Claude` or `Co-authored-by: Codex` just because Amp used one of those vendors' models under the hood).
 
-For Claude Code:
+Until the listed agents emit their trailers automatically, the trailer must be added by hand when creating or amending the commit.
 
-```text
-Co-authored-by: Claude <noreply@anthropic.com>
-```
+**Trailers by agent:**
 
-See [COMMITS.md](COMMITS.md) for the trailer rules and the repo's commit-message format.
+- **Claude** (Claude Code CLI, or any Claude-API coding agent used directly):
+
+  ```text
+  Co-authored-by: Claude <noreply@anthropic.com>
+  ```
+
+- **Codex** (OpenAI Codex CLI):
+
+  ```text
+  Co-authored-by: Codex <codex@openai.com>
+  ```
+
+- **Amp** (Sourcegraph Amp, regardless of underlying model):
+
+  ```text
+  Co-authored-by: Amp <amp@ampcode.com>
+  ```
+
+Amp may additionally emit an `Amp-Thread-ID:` metadata trailer; that is acceptable alongside the single `Co-authored-by: Amp` trailer because the thread ID identifies the conversation, not a second agent.
+
+If you are uncertain which agent is creating the commit, ask — the trailer is how the operator tracks which agent produced which change, and wrong attribution is worse than no attribution.
+
+See [COMMITS.md](COMMITS.md) for the repo's commit-message format.
 
 ## CLI option ordering (shared)
 

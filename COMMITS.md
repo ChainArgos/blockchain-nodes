@@ -34,13 +34,29 @@ PR squash-merge: the PR title becomes the commit subject, so PR titles must also
 
 Every commit created by an AI agent MUST include exactly one `Co-authored-by` trailer identifying the agent. The trailer identifies the **agent tool**, not the underlying model. Never stack multiple agent trailers on one commit.
 
-For Claude Code (or any Claude-API-driven coding agent used directly):
+Trailers per agent:
 
-```text
-Co-authored-by: Claude <noreply@anthropic.com>
-```
+- **Claude** (Claude Code CLI, or any Claude-API coding agent used directly):
 
-If you are uncertain which agent is creating the commit, ask — wrong attribution is worse than no attribution.
+  ```text
+  Co-authored-by: Claude <noreply@anthropic.com>
+  ```
+
+- **Codex** (OpenAI Codex CLI):
+
+  ```text
+  Co-authored-by: Codex <codex@openai.com>
+  ```
+
+- **Amp** (Sourcegraph Amp, regardless of underlying model):
+
+  ```text
+  Co-authored-by: Amp <amp@ampcode.com>
+  ```
+
+Amp may additionally emit an `Amp-Thread-ID:` metadata trailer; that is acceptable alongside the single `Co-authored-by: Amp` trailer because the thread ID identifies the conversation, not a second agent.
+
+See [AGENTS.md](AGENTS.md) for the agent-attribution rule and its rationale. If you are uncertain which agent is creating the commit, ask — wrong attribution is worse than no attribution.
 
 ## What this repo does NOT require
 
