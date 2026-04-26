@@ -33,7 +33,7 @@ case $CA_NETWORK in
     exec lighthouse \
       beacon_node \
       --checkpoint-sync-url-timeout=300 \
-      --checkpoint-sync-url=https://mainnet.checkpoint.sigp.io \
+      --checkpoint-sync-url=https://beaconstate.ethstaking.io \
       --datadir=/data/lighthouse \
       --execution-endpoint=http://"${ca_op_geth_hostname}":8551 \
       --execution-jwt=/data/jwtsecret.hex \
