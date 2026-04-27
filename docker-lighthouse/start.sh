@@ -9,10 +9,12 @@ fi
 case $CA_NETWORK in
   ethereum)
     export ca_op_geth_hostname="ethereum-geth"
+    : "${CA_LIGHTHOUSE_CHECKPOINT_SYNC_URL:=https://beaconstate.ethstaker.cc}"
     ;;
 
   gnosis)
     export ca_op_geth_hostname="gnosis-geth"
+    : "${CA_LIGHTHOUSE_CHECKPOINT_SYNC_URL:=https://checkpoint.gnosischain.com}"
     ;;
 
   *)
@@ -33,7 +35,7 @@ case $CA_NETWORK in
     exec lighthouse \
       beacon_node \
       --checkpoint-sync-url-timeout=300 \
-      --checkpoint-sync-url=https://mainnet.checkpoint.sigp.io \
+      --checkpoint-sync-url="${CA_LIGHTHOUSE_CHECKPOINT_SYNC_URL}" \
       --datadir=/data/lighthouse \
       --execution-endpoint=http://"${ca_op_geth_hostname}":8551 \
       --execution-jwt=/data/jwtsecret.hex \
@@ -49,7 +51,7 @@ case $CA_NETWORK in
     exec lighthouse \
       beacon_node \
       --checkpoint-sync-url-timeout=300 \
-      --checkpoint-sync-url=https://checkpoint.gnosischain.com \
+      --checkpoint-sync-url="${CA_LIGHTHOUSE_CHECKPOINT_SYNC_URL}" \
       --datadir=/data/lighthouse \
       --execution-endpoint=http://"${ca_op_geth_hostname}":8551 \
       --execution-jwt=/data/jwtsecret.hex \
