@@ -248,7 +248,7 @@ services:
       - ${ETHEREUM_ROOT_DIR:-~}/ethereum:/data
 
   ethereum-lighthouse:
-    image: chainargos/lighthouse:8.1.3-1@sha256:a5bff2fee23ba432f9f19a45d7badba0dcc2fc83a15ebba245808363c663b7ba
+    image: chainargos/lighthouse:8.1.3-3@sha256:bb7a1f4627419c8e9ef6501bd6d116eb142e973f83d8204cc4e5f8e502cc4e21
     container_name: ethereum-lighthouse
     restart: unless-stopped
     stop_grace_period: 15m
@@ -315,7 +315,7 @@ services:
       - ${GNOSIS_ROOT_DIR:-~}/gnosis:/data
 
   gnosis-lighthouse:
-    image: chainargos/lighthouse:8.1.3-1@sha256:a5bff2fee23ba432f9f19a45d7badba0dcc2fc83a15ebba245808363c663b7ba
+    image: chainargos/lighthouse:8.1.3-3@sha256:bb7a1f4627419c8e9ef6501bd6d116eb142e973f83d8204cc4e5f8e502cc4e21
     container_name: gnosis-lighthouse
     restart: unless-stopped
     stop_grace_period: 15m
