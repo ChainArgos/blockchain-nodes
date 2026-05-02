@@ -1,0 +1,38 @@
+# Approved local overrides for sync-config output in docker-heimdall.
+#
+# Each entry captures a reviewed upstream value and the approved local value
+# that should be restored after running docker-heimdall/sync-config.rs.
+# If a future sync produces a different upstream value for one of these keys,
+# that change should be shown to the user for review.
+
+package = "heimdall"
+docker_dir = "docker-heimdall"
+reviewed_on = "2026-05-02"
+
+[[override]]
+file = "config/app.toml"
+key = "eth_rpc_url"
+reviewed_upstream_value = "http://localhost:9545"
+approved_value = "http://ethereum-geth:8545"
+reason = "Point at the container-network Ethereum execution client endpoint."
+
+[[override]]
+file = "config/app.toml"
+key = "bor_rpc_url"
+reviewed_upstream_value = "http://localhost:8545"
+approved_value = "http://polygon-bor:8945"
+reason = "Point at the container-network Bor RPC endpoint."
+
+[[override]]
+file = "config/config.toml"
+key = "p2p.seeds"
+reviewed_upstream_value = ""
+approved_value = "7f3049e88ac7f820fd86d9120506aaec0dc54b27@34.89.75.187:26656,2d5484feef4257e56ece025633a6ea132d8cadca@35.246.99.203:26656,72a83490309f9f63fdca3a0bef16c290e5cbb09c@35.246.95.65:26656,00677b1b2c6282fb060b7bb6e9cc7d2d05cdd599@34.105.180.11:26656,721dd4cebfc4b78760c7ee5d7b1b44d29a0aa854@34.147.169.102:26656,4760b3fc04648522a0bcb2d96a10aadee141ee89@34.89.55.74:26656"
+reason = "Polygon mainnet heimdall-v2 seed nodes."
+
+[[override]]
+file = "config/config.toml"
+key = "p2p.persistent_peers"
+reviewed_upstream_value = ""
+approved_value = "7f3049e88ac7f820fd86d9120506aaec0dc54b27@34.89.75.187:26656,2d5484feef4257e56ece025633a6ea132d8cadca@35.246.99.203:26656,72a83490309f9f63fdca3a0bef16c290e5cbb09c@35.246.95.65:26656,00677b1b2c6282fb060b7bb6e9cc7d2d05cdd599@34.105.180.11:26656,721dd4cebfc4b78760c7ee5d7b1b44d29a0aa854@34.147.169.102:26656,4760b3fc04648522a0bcb2d96a10aadee141ee89@34.89.55.74:26656"
+reason = "Polygon mainnet heimdall-v2 persistent peers."

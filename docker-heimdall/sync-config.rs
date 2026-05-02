@@ -108,7 +108,7 @@ fn main() -> Result<()> {
             "docker", "run",
             "-v", &format!("{heimdall_home}:/heimdall-home:rw"),
             "--entrypoint", "/usr/bin/heimdalld",
-            "-it", &docker_image,
+            &docker_image,
             "init", "chainargos",
             "--home=/heimdall-home",
             "--chain-id", "heimdallv2-137",
