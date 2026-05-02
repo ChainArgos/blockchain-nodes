@@ -514,7 +514,7 @@ services:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
   polygon-heimdall:
-    image: chainargos/heimdall:0.6.0-1@sha256:dac41aa66bed314a61f327bee5b3d4b9cc78d8a8c8257613c5d4d3e660b726d1
+    image: chainargos/heimdall:0.7.1-1@sha256:caa758fb15d58c3a7c36f10bd826c42323cbc23389866c6aac88db9eb3869979
     container_name: polygon-heimdall
     restart: unless-stopped
     stop_grace_period: 15m
