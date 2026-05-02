@@ -91,3 +91,9 @@ repo = "bitcoin/bitcoin"
 tag_prefix = ""
 docker_dir = "docker-bitcoin-core"
 package = "bitcoin-core"
+
+[[mapping]]
+repo = "0xPolygon/heimdall-v2"
+tag_prefix = ""
+docker_dir = "docker-heimdall"
+package = "heimdall"
