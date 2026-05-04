@@ -2,7 +2,7 @@ FROM chainargos/debian-blockchain-build:1.1.0@sha256:12b8d0509e772abd9bccde40c49
 
 ARG RONIN_GETH_VERSION
 
-RUN git clone --branch v${RONIN_GETH_VERSION} --single-branch --depth=1 https://github.com/ronin-chain/ronin.git
+RUN git clone --branch ${RONIN_GETH_VERSION} --single-branch --depth=1 https://github.com/ronin-chain/ronin.git
 
 WORKDIR /ronin
 
