@@ -1,0 +1,45 @@
+# Approved local overrides for sync-config output in docker-bsc-geth.
+#
+# Each entry captures a reviewed upstream value and the approved local value
+# that should be restored after running docker-bsc-geth/sync-config.rs.
+# If a future sync produces a different upstream value for one of these keys,
+# that change should be shown to the user for review.
+
+package = "bsc-geth"
+docker_dir = "docker-bsc-geth"
+reviewed_on = "2026-05-04"
+
+[[override]]
+file = "config/config.toml"
+key = "Node.HTTPHost"
+reviewed_upstream_value = "localhost"
+approved_value = "0.0.0.0"
+reason = "Bind HTTP RPC on all interfaces so the container exposes it to the docker network."
+
+[[override]]
+file = "config/config.toml"
+key = "Node.HTTPPort"
+reviewed_upstream_value = 8545
+approved_value = 8645
+reason = "Avoid colliding with the Ethereum geth container's default 8545."
+
+[[override]]
+file = "config/config.toml"
+key = "Node.HTTPVirtualHosts"
+reviewed_upstream_value = ["localhost"]
+approved_value = ["0.0.0.0"]
+reason = "Match the 0.0.0.0 HTTPHost binding so cross-container HTTP requests are accepted."
+
+[[override]]
+file = "config/config.toml"
+key = "Node.WSPort"
+reviewed_upstream_value = 8546
+approved_value = 18546
+reason = "Avoid colliding with the Ethereum geth container's default 8546."
+
+[[override]]
+file = "config/config.toml"
+key = "Node.LogConfig"
+reviewed_upstream_value = { FilePath = "bsc.log", MaxBytesSize = 10485760, Level = "info", FileRoot = "" }
+approved_value = "<removed>"
+reason = "File-based logging is not used; geth logs go to container stdout/stderr where the platform collects them."
