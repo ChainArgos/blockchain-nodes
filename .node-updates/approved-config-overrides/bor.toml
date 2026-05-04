@@ -1,0 +1,101 @@
+# Approved local overrides for sync-config output in docker-bor.
+#
+# Each entry captures a reviewed upstream value and the approved local value
+# that should be restored after running docker-bor/sync-config.rs.
+# If a future sync produces a different upstream value for one of these keys,
+# that change should be shown to the user for review.
+
+package = "bor"
+docker_dir = "docker-bor"
+reviewed_on = "2026-05-04"
+
+[[override]]
+file = "config/config.toml"
+key = "datadir"
+reviewed_upstream_value = "/var/lib/bor/data"
+approved_value = "/data/bor"
+reason = "Container data lives under /data, mounted as the docker volume."
+
+[[override]]
+file = "config/config.toml"
+key = "p2p.port"
+reviewed_upstream_value = 30303
+approved_value = 30305
+reason = "Avoid colliding with the Ethereum geth container's default 30303."
+
+[[override]]
+file = "config/config.toml"
+key = "p2p.maxpendpeers"
+reviewed_upstream_value = "<commented>"
+approved_value = 50
+reason = "Explicitly cap pending peers."
+
+[[override]]
+file = "config/config.toml"
+key = "p2p.bind"
+reviewed_upstream_value = "<commented>"
+approved_value = "0.0.0.0"
+reason = "Bind P2P on all interfaces inside the container."
+
+[[override]]
+file = "config/config.toml"
+key = "p2p.discovery.v4disc"
+reviewed_upstream_value = "<commented>"
+approved_value = true
+reason = "Explicitly enable discv4."
+
+[[override]]
+file = "config/config.toml"
+key = "p2p.discovery.v5disc"
+reviewed_upstream_value = "<commented>"
+approved_value = true
+reason = "Explicitly enable discv5."
+
+[[override]]
+file = "config/config.toml"
+key = "heimdall.url"
+reviewed_upstream_value = "http://localhost:1317"
+approved_value = "http://polygon-heimdall:1317"
+reason = "Point at the container-network Heimdall REST endpoint."
+
+[[override]]
+file = "config/config.toml"
+key = "heimdall.ws-address"
+reviewed_upstream_value = "<absent>"
+approved_value = "ws://polygon-heimdall:26657/websocket"
+reason = "Point at the container-network Heimdall websocket endpoint; not present in upstream template."
+
+[[override]]
+file = "config/config.toml"
+key = "jsonrpc.ipcpath"
+reviewed_upstream_value = "/var/lib/bor/bor.ipc"
+approved_value = "/data/bor/bor.ipc"
+reason = "Match the local datadir override."
+
+[[override]]
+file = "config/config.toml"
+key = "jsonrpc.http.port"
+reviewed_upstream_value = 8545
+approved_value = 8945
+reason = "Avoid colliding with the Ethereum geth container's default 8545."
+
+[[override]]
+file = "config/config.toml"
+key = "jsonrpc.http.host"
+reviewed_upstream_value = "127.0.0.1"
+approved_value = "0.0.0.0"
+reason = "Bind HTTP RPC on all interfaces so the container exposes it to the docker network."
+
+[[override]]
+file = "config/config.toml"
+key = "telemetry.metrics"
+reviewed_upstream_value = true
+approved_value = false
+reason = "We do not export bor metrics; keep telemetry disabled."
+
+[[override]]
+file = "config/config.toml"
+key = "cache.txlookuplimit"
+reviewed_upstream_value = "<commented>"
+approved_value = 0
+reason = "Retain full transaction lookup history (archive-style retention)."
