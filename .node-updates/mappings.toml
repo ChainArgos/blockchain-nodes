@@ -115,3 +115,9 @@ repo = "kcc-community/kcc"
 tag_prefix = ""
 docker_dir = "docker-kcc-geth"
 package = "kcc-geth"
+
+[[mapping]]
+repo = "dogecoin/dogecoin"
+tag_prefix = ""
+docker_dir = "docker-dogecoin-core"
+package = "dogecoin-core"
