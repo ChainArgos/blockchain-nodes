@@ -531,7 +531,7 @@ services:
       - ${POLYGON_ROOT_DIR:-~}/polygon:/data
 
   ronin-geth:
-    image: chainargos/ronin-geth:1.1.2-1@sha256:b408a3e90e1f8be6d3210bcfec80a37af2b77a511cb93fb77fec9fc1c81010a1
+    image: chainargos/ronin-geth:1.2.2-1@sha256:48fc3514f55a7ff9ea4a8a1c8acc4e290dc8d79b9ea9f14d8327b42a1fc11111
     container_name: ronin-geth
     restart: unless-stopped
     stop_grace_period: 15m
