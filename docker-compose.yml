@@ -96,7 +96,7 @@ services:
       - ${BERACHAIN_ROOT_DIR:-~}/berachain:/data
 
   bitcoin-cash:
-    image: chainargos/bitcoin-cash:28.0.1-1@sha256:9b86f5d5797a208b243096fc36825b7a696f77c4e7e40c200264843521971397
+    image: chainargos/bitcoin-cash:29.0.0-1@sha256:e82f7fd1fa631bc68564ffb39d5a9037111695c521355d735b2563f64ec6de40
     container_name: bitcoin-cash
     restart: unless-stopped
     stop_grace_period: 15m
