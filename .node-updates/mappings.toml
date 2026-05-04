@@ -121,3 +121,9 @@ repo = "dogecoin/dogecoin"
 tag_prefix = ""
 docker_dir = "docker-dogecoin-core"
 package = "dogecoin-core"
+
+[[mapping]]
+repo = "bitcoin-cash-node/bitcoin-cash-node"
+tag_prefix = ""
+docker_dir = "docker-bitcoin-cash"
+package = "bitcoin-cash"
