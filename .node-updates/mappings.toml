@@ -109,3 +109,9 @@ repo = "litecoin-project/litecoin"
 tag_prefix = ""
 docker_dir = "docker-litecoin-core"
 package = "litecoin-core"
+
+[[mapping]]
+repo = "kcc-community/kcc"
+tag_prefix = ""
+docker_dir = "docker-kcc-geth"
+package = "kcc-geth"
