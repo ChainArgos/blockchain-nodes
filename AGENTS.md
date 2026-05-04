@@ -47,6 +47,16 @@ If you are uncertain which agent is creating the commit, ask — the trailer is 
 
 See [COMMITS.md](COMMITS.md) for the repo's commit-message format.
 
+## Release code names in node-update PRs (agent-only)
+
+Some upstream releases carry a human-readable code name (e.g., Ronin 1.2.2 is **"Shoal Star"**). When opening a node-update PR, include the code name in the PR body if the upstream release has one.
+
+- Check the GitHub release page for a title or prominent heading that is a code name (a proper noun or phrase distinct from the version number).
+- If a code name is present, append it to the PR body on its own line, e.g.: `Code name: Shoal Star`
+- If no code name is visible on the release page, omit the line — do not invent one.
+
+This applies to every node-update PR regardless of which upstream project the release comes from.
+
 ## CLI option ordering (shared)
 
 Keep CLI arguments, flags, and similar option lists sorted consistently whenever order does not affect behavior. This applies to node launcher scripts and comparable config sections so differences between nodes stay easy to scan and compare. Do not reorder positional arguments, subcommands, or any options whose order is semantically significant.
