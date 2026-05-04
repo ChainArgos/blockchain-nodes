@@ -103,3 +103,9 @@ repo = "ronin-chain/ronin"
 tag_prefix = ""
 docker_dir = "docker-ronin-geth"
 package = "ronin-geth"
+
+[[mapping]]
+repo = "litecoin-project/litecoin"
+tag_prefix = ""
+docker_dir = "docker-litecoin-core"
+package = "litecoin-core"
