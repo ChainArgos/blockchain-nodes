@@ -97,3 +97,9 @@ repo = "0xPolygon/heimdall-v2"
 tag_prefix = ""
 docker_dir = "docker-heimdall"
 package = "heimdall"
+
+[[mapping]]
+repo = "ronin-chain/ronin"
+tag_prefix = ""
+docker_dir = "docker-ronin-geth"
+package = "ronin-geth"
