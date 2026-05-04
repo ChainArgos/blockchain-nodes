@@ -419,7 +419,7 @@ services:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
   kcc-geth:
-    image: chainargos/kcc-geth:1.4.4-1@sha256:b36bb09e6eae838b7b0396b621d024b683c02f1f50faf9ede15104d45b649b32
+    image: chainargos/kcc-geth:1.4.8-1@sha256:70220a4115df3c985c6ea2de8b34b6b8fd447ae6aa00daf7f22fd54c9686c4b3
     container_name: kcc-geth
     restart: unless-stopped
     stop_grace_period: 15m
