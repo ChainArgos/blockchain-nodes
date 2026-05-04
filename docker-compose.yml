@@ -207,7 +207,7 @@ services:
       - ${CELO_ROOT_DIR:-~}/celo:/data
 
   dogecoin-core:
-    image: chainargos/dogecoin-core:1.14.8-1@sha256:fd8cead0989b98796b005c008c8ed119e1d6747ec863a3776f1631acb18adc2a
+    image: chainargos/dogecoin-core:1.14.9-1@sha256:6405cd5dfb8200eb2180e95e38bb906bb3f2ad70d1711b01942d030750fae1c0
     container_name: dogecoin-core
     restart: unless-stopped
     stop_grace_period: 15m
