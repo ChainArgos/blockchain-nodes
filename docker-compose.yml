@@ -46,7 +46,7 @@ services:
       - ${BASE_ROOT_DIR:-~}/base:/data
 
   base-op-node:
-    image: chainargos/op-node:1.18.1-1@sha256:4e23d3b7ef74200b344017fe692276396abb06b5a53339f9c1568bf5044a11e1
+    image: chainargos/op-node:1.18.2-1@sha256:dc7b05d867a49f40c3df54c13d3f85a170558a1a5f9f2ac57978e1c1702e668f
     container_name: base-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -353,7 +353,7 @@ services:
       - ${HASHKEYCHAIN_ROOT_DIR:-~}/hashkeychain:/data
 
   hashkeychain-op-node:
-    image: chainargos/op-node:1.18.1-1@sha256:4e23d3b7ef74200b344017fe692276396abb06b5a53339f9c1568bf5044a11e1
+    image: chainargos/op-node:1.18.2-1@sha256:dc7b05d867a49f40c3df54c13d3f85a170558a1a5f9f2ac57978e1c1702e668f
     container_name: hashkeychain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -401,7 +401,7 @@ services:
       - ${INK_ROOT_DIR:-~}/ink:/data
 
   ink-op-node:
-    image: chainargos/op-node:1.18.1-1@sha256:4e23d3b7ef74200b344017fe692276396abb06b5a53339f9c1568bf5044a11e1
+    image: chainargos/op-node:1.18.2-1@sha256:dc7b05d867a49f40c3df54c13d3f85a170558a1a5f9f2ac57978e1c1702e668f
     container_name: ink-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -479,7 +479,7 @@ services:
       - ${OPTIMISM_ROOT_DIR:-~}/optimism:/data
 
   optimism-op-node:
-    image: chainargos/op-node:1.18.1-1@sha256:4e23d3b7ef74200b344017fe692276396abb06b5a53339f9c1568bf5044a11e1
+    image: chainargos/op-node:1.18.2-1@sha256:dc7b05d867a49f40c3df54c13d3f85a170558a1a5f9f2ac57978e1c1702e668f
     container_name: optimism-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -619,7 +619,7 @@ services:
       - ${UNICHAIN_ROOT_DIR:-~}/unichain:/data
 
   unichain-op-node:
-    image: chainargos/op-node:1.18.1-1@sha256:4e23d3b7ef74200b344017fe692276396abb06b5a53339f9c1568bf5044a11e1
+    image: chainargos/op-node:1.18.2-1@sha256:dc7b05d867a49f40c3df54c13d3f85a170558a1a5f9f2ac57978e1c1702e668f
     container_name: unichain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
@@ -667,7 +667,7 @@ services:
       - ${WORLDCHAIN_ROOT_DIR:-~}/worldchain:/data
 
   worldchain-op-node:
-    image: chainargos/op-node:1.18.1-1@sha256:4e23d3b7ef74200b344017fe692276396abb06b5a53339f9c1568bf5044a11e1
+    image: chainargos/op-node:1.18.2-1@sha256:dc7b05d867a49f40c3df54c13d3f85a170558a1a5f9f2ac57978e1c1702e668f
     container_name: worldchain-op-node
     restart: unless-stopped
     stop_grace_period: 15m
