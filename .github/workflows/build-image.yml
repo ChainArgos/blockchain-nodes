@@ -12,10 +12,31 @@ on:
         type: boolean
         default: false
         description: "Enable Git LFS for checkout"
+      lane:
+        required: false
+        type: string
+        default: velnor
+        description: "Runner lane: velnor (default), github, or hetzner."
+  # Allow building a single package on demand (handy for verifying a lane).
+  workflow_dispatch:
+    inputs:
+      package:
+        required: true
+        type: string
+        description: "Package name to build"
+      enable-lfs:
+        type: boolean
+        default: false
+      lane:
+        type: choice
+        default: velnor
+        options: [velnor, github, hetzner]
 
 jobs:
   build:
-    runs-on: hetzner-sentry
+    # velnor (self-hosted Velnor) by default; github = GitHub-hosted; hetzner =
+    # the legacy hetzner-sentry self-hosted runner.
+    runs-on: ${{ inputs.lane == 'github' && 'ubuntu-latest' || (inputs.lane == 'hetzner' && 'hetzner-sentry' || fromJSON('["self-hosted","velnor-target-mvp"]')) }}
     concurrency:
       group: build-${{ inputs.package }}
       cancel-in-progress: false

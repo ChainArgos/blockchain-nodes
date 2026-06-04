@@ -5,6 +5,12 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      lane:
+        description: "Runner lane for all builds: velnor (default), github, or hetzner."
+        type: choice
+        default: velnor
+        options: [velnor, github, hetzner]
 
 permissions:
   contents: read
@@ -14,6 +20,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: debian-blockchain-base
 
   docker-debian-blockchain-build:
@@ -21,6 +28,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: debian-blockchain-build
 
   docker-arbitrum:
@@ -28,6 +36,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: arbitrum
 
   docker-avalanchego:
@@ -35,6 +44,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: avalanchego
 
   docker-beacon-kit:
@@ -42,6 +52,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: beacon-kit
 
   docker-bera-reth:
@@ -49,6 +60,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: bera-reth
 
   docker-bnb-beacon-chain:
@@ -56,6 +68,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: bnb-beacon-chain
 
   docker-bitcoin-cash:
@@ -63,6 +76,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: bitcoin-cash
 
   docker-bitcoin-core:
@@ -70,6 +84,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: bitcoin-core
 
   docker-bor:
@@ -77,6 +92,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: bor
 
   docker-bsc-geth:
@@ -84,6 +100,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: bsc-geth
 
   docker-cardano-node:
@@ -91,6 +108,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: cardano-node
 
   docker-celo-geth:
@@ -98,6 +116,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: celo-geth
 
   docker-dogecoin-core:
@@ -105,6 +124,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: dogecoin-core
 
   docker-eigenda-proxy:
@@ -112,6 +132,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: eigenda-proxy
 
   docker-fetchd:
@@ -119,6 +140,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: fetchd
 
   docker-fraxtal-op-geth:
@@ -126,6 +148,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: fraxtal-op-geth
 
   docker-fraxtal-op-node:
@@ -133,6 +156,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: fraxtal-op-node
 
   docker-geth:
@@ -140,6 +164,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: geth
 
   docker-gnosis-geth:
@@ -147,6 +172,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: gnosis-geth
 
   docker-heco-geth:
@@ -154,6 +180,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: heco-geth
 
   docker-heimdall:
@@ -161,6 +188,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: heimdall
       enable-lfs: true
 
@@ -169,6 +197,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: kcc-geth
 
   docker-lighthouse:
@@ -176,6 +205,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: lighthouse
 
   docker-litecoin-core:
@@ -183,6 +213,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: litecoin-core
 
   docker-octez:
@@ -190,6 +221,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: octez
 
   docker-omnicore:
@@ -197,6 +229,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: omnicore
 
   docker-celo-op-geth:
@@ -204,6 +237,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: celo-op-geth
 
   docker-celo-op-node:
@@ -211,6 +245,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: celo-op-node
 
   docker-op-geth:
@@ -218,6 +253,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: op-geth
 
   docker-op-node:
@@ -225,6 +261,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: op-node
 
   docker-ronin-geth:
@@ -232,6 +269,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: ronin-geth
 
   docker-scroll-geth:
@@ -239,6 +277,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: scroll-geth
 
   docker-sonic-geth:
@@ -246,6 +285,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: sonic-geth
 
   docker-tron-java:
@@ -253,6 +293,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: tron-java
 
   docker-wbt-geth:
@@ -260,4 +301,5 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
+      lane: ${{ inputs.lane || 'velnor' }}
       package: wbt-geth
