@@ -12,10 +12,15 @@ on:
         type: boolean
         default: false
         description: "Enable Git LFS for checkout"
+      runner:
+        required: false
+        type: string
+        default: '["self-hosted","velnor-target-mvp"]'
+        description: "runs-on value as JSON (default Velnor self-hosted)"
 
 jobs:
   build:
-    runs-on: hetzner-sentry
+    runs-on: ${{ fromJSON(inputs.runner) }}
     concurrency:
       group: build-${{ inputs.package }}
       cancel-in-progress: false

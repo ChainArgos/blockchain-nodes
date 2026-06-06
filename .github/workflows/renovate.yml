@@ -8,10 +8,22 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      lane:
+        description: |
+          Which runner to run on. Renovate mutates state (opens PRs), so it runs
+          on a single runner — never both. velnor (default) or github.
+        type: choice
+        default: velnor
+        options: [velnor, github]
+
+concurrency:
+  group: renovate
+  cancel-in-progress: true
 
 jobs:
   renovate:
-    runs-on: hetzner-sentry
+    runs-on: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && fromJSON('"ubuntu-latest"') || fromJSON('["self-hosted","velnor-target-mvp"]') }}
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
