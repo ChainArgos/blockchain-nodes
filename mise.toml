@@ -1,0 +1,2 @@
+[tools]
+"cargo:rust-script" = "latest"
