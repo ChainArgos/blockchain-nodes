@@ -3,37 +3,30 @@
 
 [tasks.build]
 description = "Build a Docker image"
-usage = "run <package>"
 run = "./docker-build.rs $1"
 
 [tasks."build-dry"]
 description = "Build a Docker image (dry run)"
-usage = "run <package>"
 run = "./docker-build.rs $1 --dry-run"
 
 [tasks.exists]
 description = "Check if Docker image exists on Docker Hub"
-usage = "run <package>"
 run = "./docker-exists.rs $1"
 
 [tasks."exists-verbose"]
 description = "Check if Docker image exists (verbose)"
-usage = "run <package>"
 run = "./docker-exists.rs $1 --verbose"
 
 [tasks."exists-platform"]
 description = "Check if platform-specific Docker image exists"
-usage = "run <package> <platform>"
 run = "./docker-exists.rs $1 --platform $2"
 
 [tasks.restart]
 description = "Restart a container with log following"
-usage = "run <container>"
 run = "./containerctl.rs restart $1 -f"
 
 [tasks.stop]
 description = "Stop a container"
-usage = "run <container>"
 run = "./containerctl.rs stop $1"
 
 [tasks."build-all"]
