@@ -35,3 +35,4 @@ jobs:
           RENOVATE_REPOSITORIES: ${{ github.repository }}
           RENOVATE_ONBOARDING: false
           LOG_LEVEL: debug
+          RENOVATE_HOST_RULES: '[{"matchHost":"index.docker.io","username":"${{ secrets.DOCKERHUB_USERNAME }}","password":"${{ secrets.DOCKERHUB_TOKEN }}"}]'
