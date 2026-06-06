@@ -64,6 +64,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        uses: docker/setup-qemu-action@06116385d9baf250c9f4dcb4858b16962ea869c3 # v4.1.0
+
       - name: Initialize Docker Buildx
         if: steps.check-image.outputs.exists == 'false'
         run: docker buildx create --driver docker-container --use
