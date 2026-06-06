@@ -4,11 +4,11 @@ A modern CLI utility for managing Docker Compose containers with a focus on simp
 
 ## Prerequisites
 
-- [Just](https://just.systems/) - Command runner (recommended)
+- [mise](https://mise.jdx.dev/) - Task runner and toolchain manager (recommended)
   ```bash
-  brew install just  # macOS
+  brew install mise  # macOS
   # or
-  cargo install just
+  curl https://mise.run | sh
   ```
 - Rust toolchain (for development)
   ```bash
@@ -18,20 +18,17 @@ A modern CLI utility for managing Docker Compose containers with a focus on simp
 
 ## Usage
 
-### Recommended: Using Just
+### Recommended: Using mise
 
-The easiest way to manage containers is with `just` commands:
+The easiest way to manage containers is with `mise run` commands:
 
 ```bash
 # Restart a container with log following
-just restart-ethereum-geth
-just restart-bitcoin-core
-
-# Restart with generic command
-just restart ethereum-geth
+mise run restart ethereum-geth
+mise run restart bitcoin-core
 
 # Stop a container
-just stop ethereum-geth
+mise run stop ethereum-geth
 ```
 
 ### Alternative: Direct Script Execution
@@ -71,16 +68,16 @@ Stops a running container:
 
 ## Examples
 
-### Using Just (Recommended)
+### Using mise (Recommended)
 
 ```bash
 # Restart containers
-just restart-ethereum-geth
-just restart-bitcoin-core
-just restart-polygon-bor
+mise run restart ethereum-geth
+mise run restart bitcoin-core
+mise run restart polygon-bor
 
 # Stop containers
-just stop ethereum-geth
+mise run stop ethereum-geth
 ```
 
 ### Using Direct Script
@@ -96,31 +93,31 @@ just stop ethereum-geth
 ./containerctl.rs stop geth
 ```
 
-## Available Named Commands
+## Available Commands
 
-Run `just --list` to see all available container management commands. Here are some examples:
+Run `mise tasks` to see all available container management commands. Here are some examples:
 
 ### Restart Commands
-- `just restart-arbitrum-one`
-- `just restart-avax-avalanchego`
-- `just restart-base-op-geth`
-- `just restart-base-op-node`
-- `just restart-berachain-beacon-kit`
-- `just restart-berachain-geth`
-- `just restart-bitcoin-core`
-- `just restart-bsc-geth`
-- `just restart-cardano-node`
-- `just restart-celo-geth`
-- `just restart-dogecoin-core`
-- `just restart-ethereum-geth`
-- `just restart-ethereum-lighthouse`
-- `just restart-polygon-bor`
-- `just restart-polygon-heimdall`
+- `mise run restart arbitrum-one`
+- `mise run restart avax-avalanchego`
+- `mise run restart base-op-geth`
+- `mise run restart base-op-node`
+- `mise run restart berachain-beacon-kit`
+- `mise run restart berachain-geth`
+- `mise run restart bitcoin-core`
+- `mise run restart bsc-geth`
+- `mise run restart cardano-node`
+- `mise run restart celo-geth`
+- `mise run restart dogecoin-core`
+- `mise run restart ethereum-geth`
+- `mise run restart ethereum-lighthouse`
+- `mise run restart polygon-bor`
+- `mise run restart polygon-heimdall`
 - And many more...
 
 ### Generic Commands
-- `just restart <container-name>` - Restart any container
-- `just stop <container-name>` - Stop any container
+- `mise run restart <container-name>` - Restart any container
+- `mise run stop <container-name>` - Stop any container
 
 ## Features
 
@@ -128,11 +125,11 @@ Run `just --list` to see all available container management commands. Here are s
 - **Progress indicators**: Shows what's happening at each step (⠿, ✓, ✗, →)
 - **Error handling**: Exits immediately on errors with clear messages
 - **Log following**: Optional `-f` flag to follow container logs after restart
-- **Named commands**: Predefined commands for all containers via Justfile
+- **Named commands**: Predefined commands for all containers via mise tasks
 
 ## Using with Cargo
 
-For development or when Just is not available:
+For development or when mise is not available:
 
 ```bash
 # Run with cargo
@@ -185,19 +182,19 @@ Stopping container: ethereum-geth
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## Why Use Just?
+## Why Use mise?
 
-The Justfile provides several benefits:
+mise tasks provide several benefits:
 
-1. **Simple commands**: `just restart-ethereum-geth` vs `./containerctl.rs restart ethereum-geth -f`
-2. **Discoverability**: Run `just --list` to see all available commands
+1. **Simple commands**: `mise run restart ethereum-geth` vs `./containerctl.rs restart ethereum-geth -f`
+2. **Discoverability**: Run `mise tasks` to see all available commands
 3. **Consistency**: All commands follow the same naming convention
-4. **Integration**: Works seamlessly with build commands (`just build-geth`)
-5. **Documentation**: Each command has a description visible in `just --list`
+4. **Integration**: Works seamlessly with build commands (`mise run build geth`)
+5. **Documentation**: Each command has a description visible in `mise tasks`
 
 ## Supported Containers
 
-The following containers have named restart commands in the Justfile:
+The following containers have named restart commands via mise tasks:
 
 - Arbitrum (arbitrum-one)
 - Avalanche (avax-avalanchego)

@@ -1,2 +1,61 @@
 [tools]
 "cargo:rust-script" = "latest"
+
+[tasks.build]
+description = "Build a Docker image"
+run = "./docker-build.rs {{arg(name='package')}}"
+
+[tasks."build-dry"]
+description = "Build a Docker image (dry run)"
+run = "./docker-build.rs {{arg(name='package')}} --dry-run"
+
+[tasks.exists]
+description = "Check if Docker image exists on Docker Hub"
+run = "./docker-exists.rs {{arg(name='package')}}"
+
+[tasks."exists-verbose"]
+description = "Check if Docker image exists (verbose)"
+run = "./docker-exists.rs {{arg(name='package')}} --verbose"
+
+[tasks."exists-platform"]
+description = "Check if platform-specific Docker image exists"
+run = "./docker-exists.rs {{arg(name='package')}} --platform {{arg(name='platform')}}"
+
+[tasks.restart]
+description = "Restart a container with log following"
+run = "./containerctl.rs restart {{arg(name='container')}} -f"
+
+[tasks.stop]
+description = "Stop a container"
+run = "./containerctl.rs stop {{arg(name='container')}}"
+
+[tasks."build-all"]
+description = "Build all Docker images in sequence"
+run = """
+./docker-build.rs debian-blockchain-base
+./docker-build.rs debian-blockchain-build
+./docker-build.rs arbitrum
+./docker-build.rs avalanchego
+./docker-build.rs bnb-beacon-chain
+./docker-build.rs bitcoin-core
+./docker-build.rs bor
+./docker-build.rs bsc-geth
+./docker-build.rs cardano-node
+./docker-build.rs celo-geth
+./docker-build.rs dogecoin-core
+./docker-build.rs geth
+./docker-build.rs gnosis-geth
+./docker-build.rs heco-geth
+./docker-build.rs heimdall
+./docker-build.rs kcc-geth
+./docker-build.rs lighthouse
+./docker-build.rs litecoin-core
+./docker-build.rs octez
+./docker-build.rs omnicore
+./docker-build.rs op-geth
+./docker-build.rs op-node
+./docker-build.rs ronin-geth
+./docker-build.rs scroll-geth
+./docker-build.rs tron-java
+./docker-build.rs wbt-geth
+"""

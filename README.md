@@ -7,10 +7,8 @@ Modern Rust-based tooling for managing blockchain node Docker images and contain
 ### Prerequisites
 
 ```bash
-# Install Just command runner
-brew install just  # macOS
-# or
-cargo install just
+# Install mise (manages Rust toolchain + task runner)
+curl https://mise.run | sh
 
 # Install Rust (if not already installed)
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -20,19 +18,19 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ```bash
 # List all available commands
-just
+mise tasks
 
 # Build a Docker image
-just build geth
+mise run build geth
 
 # Build all images
-just build-all
+mise run build-all
 
 # Restart a container
-just restart-ethereum-geth
+mise run restart ethereum-geth
 
 # Stop a container
-just stop ethereum-geth
+mise run stop ethereum-geth
 ```
 
 ## Tools
@@ -50,9 +48,9 @@ Builds multi-platform Docker images for blockchain nodes.
 # Dry run to see what would be executed
 ./docker-build.rs geth --dry-run
 
-# Or use Just (recommended)
-just build geth
-just build-dry geth
+# Or use mise (recommended)
+mise run build geth
+mise run build-dry geth
 ```
 
 **Features:**
@@ -75,9 +73,9 @@ Manages Docker Compose containers with restart and stop operations.
 # Stop a container
 ./containerctl.rs stop ethereum-geth
 
-# Or use Just (recommended)
-just restart-ethereum-geth
-just stop ethereum-geth
+# Or use mise (recommended)
+mise run restart ethereum-geth
+mise run stop ethereum-geth
 ```
 
 **Features:**
@@ -88,28 +86,28 @@ just stop ethereum-geth
 
 📖 [Full Documentation](CONTAINERCTL.md)
 
-### 3. Justfile - Command Runner
+### 3. mise Tasks - Command Runner
 
 Simplifies common tasks with memorable commands.
 
 ```bash
 # See all available commands
-just
+mise tasks
 
-# Use named commands
-just restart-ethereum-geth
-just restart-bitcoin-core
-just build-geth
-just build-all
+# Use commands
+mise run restart ethereum-geth
+mise run restart bitcoin-core
+mise run build geth
+mise run build-all
 ```
 
 **Benefits:**
 - Simple, memorable commands
-- Self-documenting (just --list)
+- Self-documenting (`mise tasks`)
 - Tab completion support
 - All commands in one place
 
-📖 [Full Documentation](JUSTFILE.md)
+📖 [Full Documentation](TASKS.md)
 
 ## Project Structure
 
@@ -117,7 +115,7 @@ just build-all
 blockchain-nodes/
 ├── docker-build.rs      # Docker image builder
 ├── containerctl.rs      # Container management tool
-├── Justfile            # Just command runner recipes
+├── TASKS.md            # mise task runner documentation
 ├── Cargo.toml          # Rust project configuration
 │
 ├── docker-*/           # Package directories
@@ -127,7 +125,7 @@ blockchain-nodes/
 └── docs/
     ├── BUILD_SYSTEM.md  # Build system documentation
     ├── CONTAINERCTL.md  # Container management docs
-    └── JUSTFILE.md      # Just command runner docs
+    └── TASKS.md         # mise task runner docs
 ```
 
 ## Configuration
@@ -157,32 +155,26 @@ platforms = ["amd64", "arm64"]
 ### Building Images
 
 ```bash
-# Build with named commands
-just build-geth
-just build-bitcoin-core
-just build-arbitrum
-
 # Build with generic command
-just build geth
+mise run build geth
+mise run build bitcoin-core
+mise run build arbitrum
 
 # Build all images
-just build-all
+mise run build-all
 
 # Dry run to preview commands
-just build-dry geth
+mise run build-dry geth
 ```
 
 ### Managing Containers
 
 ```bash
 # Restart and follow logs
-just restart-ethereum-geth
-
-# Generic restart command
-just restart ethereum-geth
+mise run restart ethereum-geth
 
 # Stop a container
-just stop ethereum-geth
+mise run stop ethereum-geth
 ```
 
 ## Development

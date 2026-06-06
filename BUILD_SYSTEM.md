@@ -4,11 +4,11 @@ This project uses a Rust-based build system to build Docker images for blockchai
 
 ## Prerequisites
 
-- [Just](https://just.systems/) - Command runner (recommended)
+- [mise](https://mise.jdx.dev/) - Task runner and toolchain manager (recommended)
   ```bash
-  brew install just  # macOS
+  brew install mise  # macOS
   # or
-  cargo install just
+  curl https://mise.run | sh
   ```
 - Rust toolchain (for development)
   ```bash
@@ -81,24 +81,19 @@ For single-platform builds, keep a single `Dockerfile`; the `platforms` list in 
 
 ## Usage
 
-### Recommended: Using Just
+### Recommended: Using mise
 
-The easiest way to build images is with `just` commands:
+The easiest way to build images is with `mise run` commands:
 
 ```bash
 # Build a specific package
-just build geth
+mise run build geth
 
 # Build with dry-run
-just build-dry geth
+mise run build-dry geth
 
 # Build all packages
-just build-all
-
-# Build using named commands
-just build-geth
-just build-bitcoin-core
-just build-arbitrum
+mise run build-all
 ```
 
 ### Alternative: Direct Script Execution
@@ -123,20 +118,20 @@ You can also run the build script directly:
 ### Examples
 
 ```bash
-# Build packages (recommended - using just)
-just build geth
-just build bitcoin-core
-just build-all
+# Build packages (recommended - using mise)
+mise run build geth
+mise run build bitcoin-core
+mise run build-all
 
 # Build with custom progress output (direct script)
 ./docker-build.rs geth --extra-args "--progress auto"
 
 # Dry run to see commands (both methods work)
-just build-dry geth
+mise run build-dry geth
 ./docker-build.rs geth --dry-run
 
 # Build with GITHUB_TOKEN (for packages that need it)
-GITHUB_TOKEN=your_token just build op-node
+GITHUB_TOKEN=your_token mise run build op-node
 ```
 
 ## Build Process
@@ -190,7 +185,7 @@ ARG LEGACY_VERSION
 
 ## Using with Cargo
 
-For development or when Just is not available:
+For development or when mise is not available:
 
 ```bash
 # Run with cargo
@@ -209,7 +204,7 @@ cargo build --release --bin docker-build
 
 ## Available Packages
 
-Run `just --list` to see all available build commands, or build any of these packages:
+Run `mise tasks` to see all available build commands, or build any of these packages:
 
 - arbitrum, avalanchego, beacon-kit, bera-reth
 - bitcoin-cash, bitcoin-core, bor, bsc-geth
