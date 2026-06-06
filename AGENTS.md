@@ -68,5 +68,5 @@ Rules in the files below apply to everyone working in the repo — human and age
 - [RULES.md](RULES.md) — documentation-location convention (no project rules in tool-specific files).
 - [BRANCHING.md](BRANCHING.md) — branch naming, feature-branch policy, what never to commit to `main`.
 - [COMMITS.md](COMMITS.md) — Conventional Commits format and agent-attribution trailer.
-- [BUILD_SYSTEM.md](BUILD_SYSTEM.md) — Rust-based Docker build system: `build.toml` schema, `just build <pkg>`, tag formats.
+- [BUILD_SYSTEM.md](BUILD_SYSTEM.md) — Rust-based Docker build system: `build.toml` schema, `mise run build <pkg>`, tag formats.
 - [NODE_UPDATES.md](NODE_UPDATES.md) — workflow for bumping a blockchain node from a GitHub release URL; mapping table at `.node-updates/mappings.toml`.

@@ -2,7 +2,7 @@
 
 ## Summary
 
-Refactor the repository from per-architecture Dockerfile pairs such as `Dockerfile.amd64` and `Dockerfile.arm64` to a single `Dockerfile` per `docker-*` package. The standard build path remains `just build` and `./docker-build.rs`, which already invokes `docker buildx build --platform linux/<arch>` and is the only supported build contract for this refactor.
+Refactor the repository from per-architecture Dockerfile pairs such as `Dockerfile.amd64` and `Dockerfile.arm64` to a single `Dockerfile` per `docker-*` package. The standard build path remains `mise run build` and `./docker-build.rs`, which already invokes `docker buildx build --platform linux/<arch>` and is the only supported build contract for this refactor.
 
 The unified Dockerfiles will use Docker BuildKit's `TARGETARCH` argument to handle architecture-specific behavior such as upstream download artifact names, Debian package names, and arch-specific build commands.
 
@@ -48,7 +48,7 @@ The current differences between `amd64` and `arm64` Dockerfiles fall into these 
 
 The refactor will rely on the existing repository build path:
 
-- `just build <package>`
+- `mise run build <package>`
 - `./docker-build.rs <package>`
 
 `docker-build.rs` will continue to:
