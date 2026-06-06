@@ -3,31 +3,38 @@
 
 [tasks.build]
 description = "Build a Docker image"
-run = "./docker-build.rs {{arg(name='package')}}"
+usage = "build <package>"
+run = "./docker-build.rs $1"
 
 [tasks."build-dry"]
 description = "Build a Docker image (dry run)"
-run = "./docker-build.rs {{arg(name='package')}} --dry-run"
+usage = "build-dry <package>"
+run = "./docker-build.rs $1 --dry-run"
 
 [tasks.exists]
 description = "Check if Docker image exists on Docker Hub"
-run = "./docker-exists.rs {{arg(name='package')}}"
+usage = "exists <package>"
+run = "./docker-exists.rs $1"
 
 [tasks."exists-verbose"]
 description = "Check if Docker image exists (verbose)"
-run = "./docker-exists.rs {{arg(name='package')}} --verbose"
+usage = "exists-verbose <package>"
+run = "./docker-exists.rs $1 --verbose"
 
 [tasks."exists-platform"]
 description = "Check if platform-specific Docker image exists"
-run = "./docker-exists.rs {{arg(name='package')}} --platform {{arg(name='platform')}}"
+usage = "exists-platform <package> <platform>"
+run = "./docker-exists.rs $1 --platform $2"
 
 [tasks.restart]
 description = "Restart a container with log following"
-run = "./containerctl.rs restart {{arg(name='container')}} -f"
+usage = "restart <container>"
+run = "./containerctl.rs restart $1 -f"
 
 [tasks.stop]
 description = "Stop a container"
-run = "./containerctl.rs stop {{arg(name='container')}}"
+usage = "stop <container>"
+run = "./containerctl.rs stop $1"
 
 [tasks."build-all"]
 description = "Build all Docker images in sequence"
