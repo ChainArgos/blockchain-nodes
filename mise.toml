@@ -3,31 +3,41 @@
 
 [tasks.build]
 description = "Build a Docker image"
-run = "./docker-build.rs $1"
+usage = 'arg "<package>" help="Package name to build"'
+run = "./docker-build.rs ${usage_package:?}"
 
 [tasks."build-dry"]
 description = "Build a Docker image (dry run)"
-run = "./docker-build.rs $1 --dry-run"
+usage = 'arg "<package>" help="Package name to build"'
+run = "./docker-build.rs ${usage_package:?} --dry-run"
 
 [tasks.exists]
 description = "Check if Docker image exists on Docker Hub"
-run = "./docker-exists.rs $1"
+usage = 'arg "<package>" help="Package name"'
+run = "./docker-exists.rs ${usage_package:?}"
 
 [tasks."exists-verbose"]
 description = "Check if Docker image exists (verbose)"
-run = "./docker-exists.rs $1 --verbose"
+usage = 'arg "<package>" help="Package name"'
+run = "./docker-exists.rs ${usage_package:?} --verbose"
 
 [tasks."exists-platform"]
 description = "Check if platform-specific Docker image exists"
-run = "./docker-exists.rs $1 --platform $2"
+usage = '''
+arg "<package>" help="Package name"
+arg "<platform>" help="Platform (e.g. amd64, arm64)"
+'''
+run = "./docker-exists.rs ${usage_package:?} --platform ${usage_platform:?}"
 
 [tasks.restart]
 description = "Restart a container with log following"
-run = "./containerctl.rs restart $1 -f"
+usage = 'arg "<container>" help="Container name"'
+run = "./containerctl.rs restart ${usage_container:?} -f"
 
 [tasks.stop]
 description = "Stop a container"
-run = "./containerctl.rs stop $1"
+usage = 'arg "<container>" help="Container name"'
+run = "./containerctl.rs stop ${usage_container:?}"
 
 [tasks."build-all"]
 description = "Build all Docker images in sequence"
