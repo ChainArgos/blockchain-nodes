@@ -1,6 +1,6 @@
 services:
   arbitrum-one:
-    image: chainargos/arbitrum:3.9.9-1@sha256:864e19a1b1c30b98d5b1f2d322e8a834a1b54a472dab2b28f1f2b0a2f41c942d
+    image: chainargos/arbitrum:3.10.2-1@sha256:7d60c23a5c85c570175e7cb793bb744669b26fd92eeaa9caa1d9b9e69857670b
     container_name: arbitrum-one
     restart: unless-stopped
     stop_grace_period: 15m
