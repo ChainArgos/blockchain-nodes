@@ -10,7 +10,7 @@ on:
         description: |
           Which runner(s) to build on. Use both for parity: GitHub-hosted and Velnor jobs run in the same workflow run.
         type: choice
-        default: both
+        default: velnor
         options: [velnor, github, both]
 
 permissions:
@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-debian-blockchain-base
@@ -78,7 +78,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-debian-blockchain-build
@@ -134,7 +134,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-arbitrum
@@ -190,7 +190,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-avalanchego
@@ -246,7 +246,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-beacon-kit
@@ -302,7 +302,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-bera-reth
@@ -358,7 +358,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-bnb-beacon-chain
@@ -414,7 +414,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-bitcoin-cash
@@ -470,7 +470,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-bitcoin-core
@@ -526,7 +526,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-bor
@@ -582,7 +582,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-bsc-geth
@@ -638,7 +638,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-cardano-node
@@ -694,7 +694,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-celo-geth
@@ -750,7 +750,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-dogecoin-core
@@ -806,7 +806,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-eigenda-proxy
@@ -862,7 +862,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-fetchd
@@ -918,7 +918,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-fraxtal-op-geth
@@ -974,7 +974,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-fraxtal-op-node
@@ -1030,7 +1030,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-geth
@@ -1086,7 +1086,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-gnosis-geth
@@ -1142,7 +1142,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-heco-geth
@@ -1198,7 +1198,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-heimdall
@@ -1256,7 +1256,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-kcc-geth
@@ -1312,7 +1312,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-lighthouse
@@ -1368,7 +1368,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-litecoin-core
@@ -1424,7 +1424,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-octez
@@ -1480,7 +1480,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-omnicore
@@ -1536,7 +1536,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-celo-op-geth
@@ -1592,7 +1592,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-celo-op-node
@@ -1648,7 +1648,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-op-geth
@@ -1704,7 +1704,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-op-node
@@ -1760,7 +1760,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-ronin-geth
@@ -1816,7 +1816,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-scroll-geth
@@ -1872,7 +1872,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-sonic-geth
@@ -1928,7 +1928,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-tron-java
@@ -1984,7 +1984,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     runs-on: ${{ fromJSON(matrix.config.runner) }}
     concurrency:
       group: build-${{ matrix.config.lane }}-wbt-geth
