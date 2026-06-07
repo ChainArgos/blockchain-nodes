@@ -13,6 +13,7 @@ use clap::builder::styling::{AnsiColor, Effects, Styles};
 use clap::Parser;
 use serde::Deserialize;
 use std::env;
+use std::time::Duration;
 
 const HELP_STYLES: Styles = Styles::styled()
     .header(AnsiColor::Blue.on_default().effects(Effects::BOLD))
@@ -146,6 +147,7 @@ fn check_image_exists(repository: &str, tag: &str, verbose: bool) -> Result<bool
 
     let client = reqwest::blocking::Client::builder()
         .user_agent("docker-exists/1.0")
+        .timeout(Duration::from_secs(20))
         .build()
         .context("Failed to create HTTP client")?;
 
