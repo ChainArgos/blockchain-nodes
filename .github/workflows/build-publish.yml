@@ -39,9 +39,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -95,9 +95,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -151,9 +151,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -207,9 +207,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -263,9 +263,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -319,9 +319,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -375,9 +375,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -431,9 +431,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -487,9 +487,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -543,9 +543,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -599,9 +599,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -655,9 +655,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -711,9 +711,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -767,9 +767,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -823,9 +823,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -879,9 +879,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -935,9 +935,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -991,9 +991,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1047,9 +1047,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1103,9 +1103,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1159,9 +1159,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1217,9 +1217,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1273,9 +1273,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1329,9 +1329,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1385,9 +1385,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1441,9 +1441,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1497,9 +1497,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1553,9 +1553,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1609,9 +1609,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1665,9 +1665,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1721,9 +1721,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1777,9 +1777,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1833,9 +1833,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1889,9 +1889,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -1945,9 +1945,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
@@ -2001,9 +2001,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ matrix.config.lane == 'GitHub' && '~/.cache/rust-script' || '/root/.cache/rust-script' }}
-          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
           restore-keys: |
-            rust-script-${{ runner.os }}-
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
       - name: Check if image exists
         id: check-image
