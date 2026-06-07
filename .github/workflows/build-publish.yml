@@ -8,300 +8,443 @@ on:
     inputs:
       lane:
         description: |
-          Which runner to build on. These jobs push images (mutating), so they
-          run on a single runner — never both. velnor (default) or github.
+          Which runner(s) to build on. Use both for parity: GitHub-hosted and Velnor jobs run in the same workflow run.
         type: choice
         default: velnor
-        options: [velnor, github]
+        options: [velnor, github, both]
 
 permissions:
   contents: read
 
 jobs:
   docker-debian-blockchain-base:
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: debian-blockchain-base
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-debian-blockchain-build:
     needs: docker-debian-blockchain-base
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: debian-blockchain-build
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-arbitrum:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: arbitrum
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-avalanchego:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: avalanchego
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-beacon-kit:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: beacon-kit
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-bera-reth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: bera-reth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-bnb-beacon-chain:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: bnb-beacon-chain
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-bitcoin-cash:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: bitcoin-cash
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-bitcoin-core:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: bitcoin-core
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-bor:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: bor
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-bsc-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: bsc-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-cardano-node:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: cardano-node
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-celo-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: celo-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-dogecoin-core:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: dogecoin-core
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-eigenda-proxy:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: eigenda-proxy
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-fetchd:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: fetchd
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-fraxtal-op-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: fraxtal-op-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-fraxtal-op-node:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: fraxtal-op-node
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-gnosis-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: gnosis-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-heco-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: heco-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-heimdall:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: heimdall
       enable-lfs: true
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-kcc-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: kcc-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-lighthouse:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: lighthouse
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-litecoin-core:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: litecoin-core
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-octez:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: octez
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-omnicore:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: omnicore
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-celo-op-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: celo-op-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-celo-op-node:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: celo-op-node
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-op-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: op-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-op-node:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: op-node
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-ronin-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: ronin-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-scroll-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: scroll-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-sonic-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: sonic-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-tron-java:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: tron-java
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
 
   docker-wbt-geth:
     needs: docker-debian-blockchain-build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
       package: wbt-geth
-      runner: ${{ (github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+      runner: ${{ matrix.config.runner }}
