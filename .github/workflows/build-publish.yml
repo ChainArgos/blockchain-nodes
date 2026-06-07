@@ -18,433 +18,2018 @@ permissions:
 
 jobs:
   docker-debian-blockchain-base:
+    name: docker-debian-blockchain-base (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: debian-blockchain-base
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-debian-blockchain-base
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists debian-blockchain-base)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image debian-blockchain-base already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image debian-blockchain-base does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build debian-blockchain-base
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-debian-blockchain-build:
     needs: docker-debian-blockchain-base
+    name: docker-debian-blockchain-build (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: debian-blockchain-build
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-debian-blockchain-build
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists debian-blockchain-build)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image debian-blockchain-build already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image debian-blockchain-build does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build debian-blockchain-build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-arbitrum:
     needs: docker-debian-blockchain-build
+    name: docker-arbitrum (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: arbitrum
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-arbitrum
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists arbitrum)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image arbitrum already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image arbitrum does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build arbitrum
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-avalanchego:
     needs: docker-debian-blockchain-build
+    name: docker-avalanchego (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: avalanchego
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-avalanchego
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists avalanchego)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image avalanchego already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image avalanchego does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build avalanchego
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-beacon-kit:
     needs: docker-debian-blockchain-build
+    name: docker-beacon-kit (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: beacon-kit
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-beacon-kit
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists beacon-kit)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image beacon-kit already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image beacon-kit does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build beacon-kit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-bera-reth:
     needs: docker-debian-blockchain-build
+    name: docker-bera-reth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: bera-reth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-bera-reth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists bera-reth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image bera-reth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image bera-reth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build bera-reth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-bnb-beacon-chain:
     needs: docker-debian-blockchain-build
+    name: docker-bnb-beacon-chain (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: bnb-beacon-chain
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-bnb-beacon-chain
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists bnb-beacon-chain)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image bnb-beacon-chain already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image bnb-beacon-chain does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build bnb-beacon-chain
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-bitcoin-cash:
     needs: docker-debian-blockchain-build
+    name: docker-bitcoin-cash (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: bitcoin-cash
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-bitcoin-cash
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists bitcoin-cash)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image bitcoin-cash already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image bitcoin-cash does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build bitcoin-cash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-bitcoin-core:
     needs: docker-debian-blockchain-build
+    name: docker-bitcoin-core (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: bitcoin-core
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-bitcoin-core
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists bitcoin-core)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image bitcoin-core already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image bitcoin-core does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build bitcoin-core
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-bor:
     needs: docker-debian-blockchain-build
+    name: docker-bor (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: bor
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-bor
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists bor)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image bor already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image bor does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build bor
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-bsc-geth:
     needs: docker-debian-blockchain-build
+    name: docker-bsc-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: bsc-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-bsc-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists bsc-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image bsc-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image bsc-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build bsc-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-cardano-node:
     needs: docker-debian-blockchain-build
+    name: docker-cardano-node (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: cardano-node
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-cardano-node
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists cardano-node)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image cardano-node already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image cardano-node does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build cardano-node
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-celo-geth:
     needs: docker-debian-blockchain-build
+    name: docker-celo-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: celo-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-celo-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists celo-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image celo-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image celo-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build celo-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-dogecoin-core:
     needs: docker-debian-blockchain-build
+    name: docker-dogecoin-core (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: dogecoin-core
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-dogecoin-core
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists dogecoin-core)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image dogecoin-core already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image dogecoin-core does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build dogecoin-core
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-eigenda-proxy:
     needs: docker-debian-blockchain-build
+    name: docker-eigenda-proxy (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: eigenda-proxy
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-eigenda-proxy
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists eigenda-proxy)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image eigenda-proxy already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image eigenda-proxy does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build eigenda-proxy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-fetchd:
     needs: docker-debian-blockchain-build
+    name: docker-fetchd (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: fetchd
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-fetchd
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists fetchd)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image fetchd already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image fetchd does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build fetchd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-fraxtal-op-geth:
     needs: docker-debian-blockchain-build
+    name: docker-fraxtal-op-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: fraxtal-op-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-fraxtal-op-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists fraxtal-op-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image fraxtal-op-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image fraxtal-op-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build fraxtal-op-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-fraxtal-op-node:
     needs: docker-debian-blockchain-build
+    name: docker-fraxtal-op-node (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: fraxtal-op-node
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-fraxtal-op-node
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists fraxtal-op-node)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image fraxtal-op-node already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image fraxtal-op-node does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build fraxtal-op-node
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-geth:
     needs: docker-debian-blockchain-build
+    name: docker-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-gnosis-geth:
     needs: docker-debian-blockchain-build
+    name: docker-gnosis-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: gnosis-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-gnosis-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists gnosis-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image gnosis-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image gnosis-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build gnosis-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-heco-geth:
     needs: docker-debian-blockchain-build
+    name: docker-heco-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: heco-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-heco-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists heco-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image heco-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image heco-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build heco-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-heimdall:
     needs: docker-debian-blockchain-build
+    name: docker-heimdall (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: heimdall
-      enable-lfs: true
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-heimdall
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          lfs: true
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists heimdall)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image heimdall already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image heimdall does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build heimdall
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-kcc-geth:
     needs: docker-debian-blockchain-build
+    name: docker-kcc-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: kcc-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-kcc-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists kcc-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image kcc-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image kcc-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build kcc-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-lighthouse:
     needs: docker-debian-blockchain-build
+    name: docker-lighthouse (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: lighthouse
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-lighthouse
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists lighthouse)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image lighthouse already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image lighthouse does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build lighthouse
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-litecoin-core:
     needs: docker-debian-blockchain-build
+    name: docker-litecoin-core (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: litecoin-core
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-litecoin-core
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists litecoin-core)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image litecoin-core already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image litecoin-core does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build litecoin-core
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-octez:
     needs: docker-debian-blockchain-build
+    name: docker-octez (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: octez
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-octez
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists octez)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image octez already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image octez does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build octez
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-omnicore:
     needs: docker-debian-blockchain-build
+    name: docker-omnicore (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: omnicore
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-omnicore
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists omnicore)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image omnicore already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image omnicore does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build omnicore
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-celo-op-geth:
     needs: docker-debian-blockchain-build
+    name: docker-celo-op-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: celo-op-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-celo-op-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists celo-op-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image celo-op-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image celo-op-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build celo-op-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-celo-op-node:
     needs: docker-debian-blockchain-build
+    name: docker-celo-op-node (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: celo-op-node
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-celo-op-node
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists celo-op-node)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image celo-op-node already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image celo-op-node does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build celo-op-node
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-op-geth:
     needs: docker-debian-blockchain-build
+    name: docker-op-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: op-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-op-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists op-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image op-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image op-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build op-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-op-node:
     needs: docker-debian-blockchain-build
+    name: docker-op-node (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: op-node
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-op-node
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists op-node)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image op-node already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image op-node does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build op-node
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-ronin-geth:
     needs: docker-debian-blockchain-build
+    name: docker-ronin-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: ronin-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-ronin-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists ronin-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image ronin-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image ronin-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build ronin-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-scroll-geth:
     needs: docker-debian-blockchain-build
+    name: docker-scroll-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: scroll-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-scroll-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists scroll-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image scroll-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image scroll-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build scroll-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-sonic-geth:
     needs: docker-debian-blockchain-build
+    name: docker-sonic-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: sonic-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-sonic-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists sonic-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image sonic-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image sonic-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build sonic-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-tron-java:
     needs: docker-debian-blockchain-build
+    name: docker-tron-java (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: tron-java
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-tron-java
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists tron-java)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image tron-java already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image tron-java does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build tron-java
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker-wbt-geth:
     needs: docker-debian-blockchain-build
+    name: docker-wbt-geth (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        lane: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '["GitHub","Velnor"]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '["GitHub"]' || '["Velnor"]')) }}
-    uses: ./.github/workflows/build-image.yml
-    secrets: inherit
-    with:
-      package: wbt-geth
-      runner: ${{ matrix.lane == 'GitHub' && '"ubuntu-latest"' || '["self-hosted","velnor-target-mvp"]' }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""},{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"GitHub","runner":"\"ubuntu-latest\""}]' || '[{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+    runs-on: ${{ fromJSON(matrix.config.runner) }}
+    concurrency:
+      group: build-${{ matrix.config.lane }}-wbt-geth
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          install_args: "cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ runner.os }}-${{ hashFiles('**/*.rs', '**/build.toml') }}
+          restore-keys: |
+            rust-script-${{ runner.os }}-
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if [ "$(mise run exists wbt-geth)" = "true" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Image wbt-geth already exists, skipping build"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Image wbt-geth does not exist, will build"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.exists == 'false'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker buildx create --driver docker-container --use
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.exists == 'false'
+        run: mise run build wbt-geth
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
