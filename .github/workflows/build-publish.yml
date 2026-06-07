@@ -10,7 +10,7 @@ on:
         description: |
           Which runner(s) to build on. Use both for parity: GitHub-hosted and Velnor jobs run in the same workflow run.
         type: choice
-        default: velnor
+        default: both
         options: [velnor, github, both]
 
 permissions:
@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -57,7 +57,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -69,7 +69,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -81,7 +81,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -93,7 +93,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -105,7 +105,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -117,7 +117,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -129,7 +129,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -141,7 +141,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -153,7 +153,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -165,7 +165,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -177,7 +177,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -189,7 +189,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -201,7 +201,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -213,7 +213,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -225,7 +225,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -237,7 +237,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -249,7 +249,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -261,7 +261,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -273,7 +273,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -286,7 +286,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -298,7 +298,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -310,7 +310,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -322,7 +322,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -334,7 +334,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -346,7 +346,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -358,7 +358,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -370,7 +370,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -382,7 +382,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -394,7 +394,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -406,7 +406,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -418,7 +418,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -430,7 +430,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
@@ -442,7 +442,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
+        config: ${{ fromJSON((github.event_name != 'workflow_dispatch' || inputs.lane == 'both') && '[{"lane":"github","runner":"\"ubuntu-latest\""},{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]' || ((github.event_name == 'workflow_dispatch' && inputs.lane == 'github') && '[{"lane":"github","runner":"\"ubuntu-latest\""}]' || '[{"lane":"velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}]')) }}
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     with:
