@@ -11,15 +11,15 @@ run = "./docker-build.rs $1 --dry-run"
 
 [tasks.exists]
 description = "Check if Docker image exists on Docker Hub"
-run = "./docker-exists.rs $1"
+run = 'rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs $1'
 
 [tasks."exists-verbose"]
 description = "Check if Docker image exists (verbose)"
-run = "./docker-exists.rs $1 --verbose"
+run = 'rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs $1 --verbose'
 
 [tasks."exists-platform"]
 description = "Check if platform-specific Docker image exists"
-run = "./docker-exists.rs $1 --platform $2"
+run = 'rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs $1 --platform $2'
 
 [tasks.restart]
 description = "Restart a container with log following"
