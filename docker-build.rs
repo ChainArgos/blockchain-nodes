@@ -223,6 +223,17 @@ fn build_platform(
         .arg("-f")
         .arg(&dockerfile_path);
 
+    // Registry layer cache, opt-in via BUILDX_CACHE=registry (set by CI).
+    // Per-package + per-platform cache ref so repeat builds reuse layers
+    // instead of rebuilding from scratch; local runs are unaffected.
+    if env::var("BUILDX_CACHE").as_deref() == Ok("registry") {
+        let cache_ref = format!("{}:buildcache-{platform}", config.docker.repository);
+        cmd.arg("--cache-from")
+            .arg(format!("type=registry,ref={cache_ref}"))
+            .arg("--cache-to")
+            .arg(format!("type=registry,ref={cache_ref},mode=max"));
+    }
+
     // Add GITHUB_TOKEN as build arg if available
     if let Some(token) = github_token {
         cmd.arg("--build-arg")
