@@ -15,38 +15,6 @@ This repository uses `main` as its primary branch. This file is the canonical ho
 
 If you are uncertain whether authorization applies to the PR in front of you, ask. The cost of pausing is ~30 seconds; the cost of merging something the operator wasn't ready for is much higher.
 
-## Commit Attribution (agent-only)
-
-Every commit created by an AI agent in this repository must include **exactly one** `Co-authored-by` trailer identifying the agent that made the commit. The trailer identifies the **agent tool**, not the underlying model — **never stack multiple agent trailers on one commit** (for example, an Amp-generated commit must not also carry `Co-authored-by: Claude` or `Co-authored-by: Codex` just because Amp used one of those vendors' models under the hood).
-
-Until the listed agents emit their trailers automatically, the trailer must be added by hand when creating or amending the commit.
-
-**Trailers by agent:**
-
-- **Claude** (Claude Code CLI, or any Claude-API coding agent used directly):
-
-  ```text
-  Co-authored-by: Claude <noreply@anthropic.com>
-  ```
-
-- **Codex** (OpenAI Codex CLI):
-
-  ```text
-  Co-authored-by: Codex <codex@openai.com>
-  ```
-
-- **Amp** (Sourcegraph Amp, regardless of underlying model):
-
-  ```text
-  Co-authored-by: Amp <amp@ampcode.com>
-  ```
-
-Amp may additionally emit an `Amp-Thread-ID:` metadata trailer; that is acceptable alongside the single `Co-authored-by: Amp` trailer because the thread ID identifies the conversation, not a second agent.
-
-If you are uncertain which agent is creating the commit, ask — the trailer is how the operator tracks which agent produced which change, and wrong attribution is worse than no attribution.
-
-See [COMMITS.md](COMMITS.md) for the repo's commit-message format.
-
 ## Release code names in node-update PRs (agent-only)
 
 Some upstream releases carry a human-readable code name (e.g., Ronin 1.2.2 is **"Shoal Star"**). When opening a node-update PR, include the code name in the PR body if the upstream release has one.
@@ -67,6 +35,7 @@ Rules in the files below apply to everyone working in the repo — human and age
 
 - [RULES.md](RULES.md) — documentation-location convention (no project rules in tool-specific files).
 - [BRANCHING.md](BRANCHING.md) — branch naming, feature-branch policy, what never to commit to `main`.
-- [COMMITS.md](COMMITS.md) — Conventional Commits format and agent-attribution trailer.
+- [COMMITS.md](COMMITS.md) — Conventional Commits format.
 - [BUILD_SYSTEM.md](BUILD_SYSTEM.md) — Rust-based Docker build system: `build.toml` schema, `mise run build <pkg>`, tag formats.
 - [NODE_UPDATES.md](NODE_UPDATES.md) — workflow for bumping a blockchain node from a GitHub release URL; mapping table at `.node-updates/mappings.toml`.
+- [SKILLS.md](SKILLS.md) — agent-neutral skill authoring/placement: real skill in `.claude/skills/`, symlink at `.agents/skills/` for Codex; single source of truth.

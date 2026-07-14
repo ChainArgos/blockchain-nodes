@@ -97,14 +97,6 @@ Do not commit just because the user says "looks good" without "commit" / "procee
 
 ### 10. Create branch and commit
 
-Use the agent-attribution trailer for **whichever agent you are**, per [COMMITS.md](COMMITS.md):
-
-- Claude → `Co-authored-by: Claude <noreply@anthropic.com>`
-- Codex → `Co-authored-by: Codex <codex@openai.com>`
-- Amp → `Co-authored-by: Amp <amp@ampcode.com>` (plus the optional `Amp-Thread-ID:` metadata trailer if your tool emits it)
-
-Exactly one agent trailer per commit — never stack multiple.
-
 Run:
 
 ```bash
@@ -114,8 +106,6 @@ git commit -m "$(cat <<'EOF'
 chore(<package>): bump to v<version>
 
 <release-url>
-
-Co-authored-by: <your-agent-trailer>
 EOF
 )"
 ```
@@ -145,4 +135,3 @@ Print the PR URL. STOP. Do not merge — per [AGENTS.md](AGENTS.md), agents neve
 - For nodes with `sync-config.rs`, consult `.node-updates/approved-config-overrides/<package>.toml` before deciding whether a config diff is already approved or needs human review.
 - Branch name is `release/<package>-<version>` where `<version>` has no leading `v`.
 - Commit subject includes the `v` prefix: `chore(<package>): bump to v<version>`.
-- Use the agent trailer matching **your own** agent tool, not someone else's.
