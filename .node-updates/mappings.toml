@@ -139,3 +139,9 @@ repo = "FraxFinance/fraxtal"
 tag_prefix = ""
 docker_dir = "docker-fraxtal-op-node"
 package = "fraxtal-op-node"
+
+[[mapping]]
+repo = "FraxFinance/fraxtal-op-geth"
+tag_prefix = ""
+docker_dir = "docker-fraxtal-op-geth"
+package = "fraxtal-op-geth"
