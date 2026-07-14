@@ -133,3 +133,9 @@ repo = "0xsoniclabs/sonic"
 tag_prefix = ""
 docker_dir = "docker-sonic-geth"
 package = "sonic-geth"
+
+[[mapping]]
+repo = "FraxFinance/fraxtal"
+tag_prefix = ""
+docker_dir = "docker-fraxtal-op-node"
+package = "fraxtal-op-node"
