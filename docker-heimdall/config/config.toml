@@ -8,7 +8,7 @@
 
 # The version of the CometBFT binary that created or
 # last modified the config file. Do not modify this.
-version = "0.38.19"
+version = "0.38.22"
 
 #######################################################################
 ###                   Main Base Config Options                      ###
@@ -391,6 +391,9 @@ chunk_request_timeout = "10s"
 # The number of concurrent chunk fetchers to run (default: 1).
 chunk_fetchers = "4"
 
+# Maximum number of chunks allowed in a snapshot (default: 100000).
+max_snapshot_chunks = 100000
+
 #######################################################
 ###       Block Sync Configuration Options          ###
 #######################################################
@@ -444,6 +447,20 @@ create_empty_blocks_interval = "0s"
 # Reactor sleep duration parameters
 peer_gossip_sleep_duration = "25ms"
 peer_query_maj23_sleep_duration = "200ms"
+
+# Maximum allowed difference between proposed block time and wall-clock time.
+block_time_tolerance = "1m0s"
+
+# After initial block-sync completes, report catching_up=true when a majority of the
+# connected peers (at least two) are more than this many blocks ahead of us (i.e. this
+# node has stopped keeping up). Set to 0 to disable peer-height lag detection only;
+# must be >=2 when enabled to absorb normal round skew. A node with no peers that is
+# not the sole validator still reports catching_up regardless of this setting.
+catchup_lag_threshold = 5
+
+# How long the peer-lag condition must hold before catching_up flips to true
+# (flap damping). The transition back to false is immediate.
+catchup_debounce_duration = "10s"
 
 #######################################################
 ###         Storage Configuration Options           ###
@@ -518,7 +535,7 @@ initial_block_results_retain_height = 0
 # 		- When "kv" is chosen "tx.height" and "tx.hash" will always be indexed.
 #   3) "psql" - the indexer services backed by PostgreSQL.
 # When "kv" or "psql" is chosen "tx.height" and "tx.hash" will always be indexed.
-indexer = "kv"
+indexer = "null"
 
 # The PostgreSQL connection configuration, the connection format:
 #   postgresql://<user>:<password>@<host>:<port>/<db>?<opts>

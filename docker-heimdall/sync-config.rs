@@ -49,6 +49,11 @@ struct Args {
     /// Dry run - show what would be executed without running
     #[arg(short = 'n', long)]
     dry_run: bool,
+
+    /// Download and compress the genesis file (~1 GB).
+    /// Skipped by default — only enable when the genesis actually changed.
+    #[arg(long)]
+    with_genesis: bool,
 }
 
 fn main() -> Result<()> {
@@ -157,28 +162,37 @@ fn main() -> Result<()> {
         }
     }
 
-    // Step 4: Download genesis file
-    println!();
-    println!(
-        "{} {}",
-        "→".bold().cyan(),
-        "Downloading genesis file...".bold()
-    );
-    let genesis_path = config_dir.join("genesis.json");
-    download_file(GENESIS_URL, &genesis_path, args.dry_run)?;
+    // Step 4: Download genesis file (opt-in)
+    if args.with_genesis {
+        println!();
+        println!(
+            "{} {}",
+            "→".bold().cyan(),
+            "Downloading genesis file...".bold()
+        );
+        let genesis_path = config_dir.join("genesis.json");
+        download_file(GENESIS_URL, &genesis_path, args.dry_run)?;
 
-    // Step 5: Compress genesis file
-    println!();
-    println!(
-        "{} {}",
-        "→".bold().cyan(),
-        "Compressing genesis file...".bold()
-    );
-    run_command_exit_on_error(
-        &["xz", "-9", &genesis_path.to_string_lossy()],
-        &current_dir,
-        args.dry_run,
-    )?;
+        // Step 5: Compress genesis file
+        println!();
+        println!(
+            "{} {}",
+            "→".bold().cyan(),
+            "Compressing genesis file...".bold()
+        );
+        run_command_exit_on_error(
+            &["xz", "-9", "-f", &genesis_path.to_string_lossy()],
+            &current_dir,
+            args.dry_run,
+        )?;
+    } else {
+        println!();
+        println!(
+            "  {} Genesis download/compression skipped (use {} to enable).",
+            "~".cyan(),
+            "--with-genesis".yellow()
+        );
+    }
 
     println!();
     println!("{}", "━".repeat(60).bright_black());
