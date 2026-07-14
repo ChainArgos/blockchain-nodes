@@ -49,11 +49,16 @@ fn main() -> Result<()> {
     );
     println!("{}", "━".repeat(60).bright_black());
 
-    download_file(
+    if let Err(e) = download_file(
         &format!("{CONFIG_BASE_URL}/genesis.json"),
         &script_dir.join("config/genesis.json").to_string_lossy(),
         args.dry_run,
-    )?;
+    ) {
+        println!(
+            "  {} Genesis download failed (URL may have moved). Keeping existing genesis.json. Error: {e}",
+            "~".yellow()
+        );
+    }
 
     println!();
     println!("{}", "━".repeat(60).bright_black());
