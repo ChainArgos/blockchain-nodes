@@ -1,6 +1,6 @@
 [package]
 name = "bsc-geth"
-version = "1.7.3"
+version = "1.7.6"
 build = "1"
 
 [docker]
