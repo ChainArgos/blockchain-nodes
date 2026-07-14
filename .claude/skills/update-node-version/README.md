@@ -1,6 +1,8 @@
 # update-node-version
 
-A Claude Code discovery entry point for the node-version-update workflow. The workflow itself lives at [`NODE_UPDATES.md`](../../../NODE_UPDATES.md) in the repo root so Codex, Amp, and any other agent that reads `AGENTS.md` can follow the same procedure without duplicating instructions.
+A Claude Code discovery entry point for the node-version-update workflow. The workflow itself lives at [`NODE_UPDATES.md`](../../../NODE_UPDATES.md) in the repo root so any agent that reads `AGENTS.md` (Codex, Amp, Grok, etc.) can follow the same procedure without duplicating instructions.
+
+OpenCode discovers this skill natively because it reads `.claude/skills/*/SKILL.md` as a Claude-compatible path, so no separate shim is required for it.
 
 ## Usage
 
@@ -8,7 +10,7 @@ Paste a GitHub release URL in chat, e.g.:
 
 > update bsc to https://github.com/bnb-chain/bsc/releases/tag/v1.7.3
 
-Claude picks up this skill via its frontmatter description and jumps to `NODE_UPDATES.md`. Codex and Amp users should read `NODE_UPDATES.md` directly (it is linked from `AGENTS.md`).
+Claude and OpenCode pick up this skill via its frontmatter description (OpenCode reads the `.claude/skills/` path directly) and jump to `NODE_UPDATES.md`. Codex, Amp, and Grok users should read `NODE_UPDATES.md` directly (it is linked from `AGENTS.md`).
 
 ## Config correctness
 
@@ -39,7 +41,7 @@ Then re-run the workflow. Commit the `mappings.toml` change as a normal `chore` 
 
 ## Files
 
-- `SKILL.md` — Claude Code discovery shim that points at `NODE_UPDATES.md`.
+- `SKILL.md` — discovery shim that points at `NODE_UPDATES.md`.
 - `README.md` — this file.
 
-The workflow and mapping data live outside this directory so they are agent-neutral.
+The real skill directory is `.claude/skills/update-node-version/`. It is symlinked at `.agents/skills/update-node-version` so Codex (which ignores `.claude/skills/`) discovers the same single file — see [`SKILLS.md`](../../../SKILLS.md). The workflow and mapping data live outside this directory so they are agent-neutral.
