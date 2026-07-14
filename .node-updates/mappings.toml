@@ -127,3 +127,9 @@ repo = "bitcoin-cash-node/bitcoin-cash-node"
 tag_prefix = ""
 docker_dir = "docker-bitcoin-cash"
 package = "bitcoin-cash"
+
+[[mapping]]
+repo = "0xsoniclabs/sonic"
+tag_prefix = ""
+docker_dir = "docker-sonic-geth"
+package = "sonic-geth"
