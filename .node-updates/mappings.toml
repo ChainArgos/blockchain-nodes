@@ -145,3 +145,9 @@ repo = "FraxFinance/fraxtal-op-geth"
 tag_prefix = ""
 docker_dir = "docker-fraxtal-op-geth"
 package = "fraxtal-op-geth"
+
+[[mapping]]
+repo = "tronprotocol/java-tron"
+tag_prefix = "GreatVoyage-v"
+docker_dir = "docker-tron-java"
+package = "tron-java"

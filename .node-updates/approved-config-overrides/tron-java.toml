@@ -1,0 +1,66 @@
+# Approved local overrides for sync-config output in docker-tron-java.
+#
+# Each entry captures a reviewed upstream value and the approved local value
+# that should be restored after running docker-tron-java/sync-config.rs.
+# If a future sync produces a different upstream value for one of these keys,
+# that change should be shown to the user for review.
+
+package = "tron-java"
+docker_dir = "docker-tron-java"
+reviewed_on = "2026-07-14"
+
+[[override]]
+file = "config/main_net_config.conf"
+key = "net.db.engine"
+reviewed_upstream_value = "LEVELDB"
+approved_value = "ROCKSDB"
+reason = "Use RocksDB as the database engine for production performance."
+
+[[override]]
+file = "config/main_net_config.conf"
+key = "node.port.fullNodePort"
+reviewed_upstream_value = 8090
+approved_value = 28090
+reason = "Avoid colliding with the Ethereum geth container's default ports."
+
+[[override]]
+file = "config/main_net_config.conf"
+key = "node.port.solidityPort"
+reviewed_upstream_value = 8091
+approved_value = 28091
+reason = "Avoid colliding with the Ethereum geth container's default ports."
+
+[[override]]
+file = "config/main_net_config.conf"
+key = "node.httpFullNode.httpFullNodeEnable"
+reviewed_upstream_value = "<commented>"
+approved_value = true
+reason = "Enable the HTTP Full Node API so the container exposes it to the docker network."
+
+[[override]]
+file = "config/main_net_config.conf"
+key = "node.httpFullNode.httpFullNodePort"
+reviewed_upstream_value = "<commented>"
+approved_value = 28545
+reason = "Avoid colliding with the Ethereum geth container's default 8545."
+
+[[override]]
+file = "config/main_net_config.conf"
+key = "node.httpFullNode.httpSolidityEnable"
+reviewed_upstream_value = "<commented>"
+approved_value = true
+reason = "Enable the HTTP Solidity API so the container exposes it to the docker network."
+
+[[override]]
+file = "config/main_net_config.conf"
+key = "node.httpFullNode.httpSolidityPort"
+reviewed_upstream_value = "<commented>"
+approved_value = 28555
+reason = "Avoid colliding with other containers' default ports."
+
+[[override]]
+file = "config/main_net_config.conf"
+key = "seed.node.ip.ipv6"
+reviewed_upstream_value = "<commented>"
+approved_value = "<uncommented>"
+reason = "Enable IPv6 seed node addresses for broader peer connectivity."
