@@ -15,7 +15,7 @@ If the URL does not match `https://github.com/<org>/<repo>/releases/tag/<tag>`, 
 
 ## Workflow
 
-Follow these steps in order. Do not skip the human gate.
+Follow these steps in order.
 
 ### 1. Parse the URL
 
@@ -87,15 +87,7 @@ Run `git status` and `git diff` and display the output to the user. Summarize wh
 
 If you restored config files after matching approved overrides, say so explicitly. If there were new or changed upstream values outside the approved override record, list them separately and wait for guidance.
 
-### 9. HUMAN GATE — wait for confirmation
-
-STOP and wait for the user to explicitly confirm. Acceptable confirmations: "yes", "proceed", "ship it", "looks good, commit it", "go ahead".
-
-If the user declines or asks for changes, do not commit. Leave the edits on disk so they can adjust.
-
-Do not commit just because the user says "looks good" without "commit" / "proceed" / "ship" — if it's ambiguous, ask.
-
-### 10. Create branch and commit
+### 9. Create branch and commit
 
 Run:
 
@@ -112,7 +104,7 @@ EOF
 
 If `git switch -c` fails because the branch already exists, STOP and ask the user how to proceed.
 
-### 11. Push and open the PR
+### 10. Push and open the PR
 
 Run:
 
