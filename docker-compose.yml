@@ -298,7 +298,7 @@ services:
       - ${FRAXTAL_ROOT_DIR:-~}/fraxtal:/data
 
   gnosis-geth:
-    image: chainargos/gnosis-geth:1.17.3-gc-1@sha256:4d4bff2623aa3ebddd9bafe9ee4237dac07f6c48f963d23cb65a927be7d341a1
+    image: chainargos/gnosis-geth:1.17.4-gc-1@sha256:da296af93e50df0e0eb61ca07dbd8157bed9915a708c3d99b6bd1857fe0848fa
     container_name: gnosis-geth
     restart: unless-stopped
     stop_grace_period: 15m
