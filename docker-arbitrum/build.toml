@@ -8,4 +8,4 @@ repository = "chainargos/arbitrum"
 platforms = ["amd64", "arm64"]
 
 [vars]
-git_commit = "db30ef0"
+git_commit = "3599aca"

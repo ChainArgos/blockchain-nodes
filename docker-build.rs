@@ -44,9 +44,10 @@ struct PackageConfig {
 impl PackageConfig {
     /// Get the full version string (version-build)
     fn full_version(&self) -> String {
-        self.build
-            .as_ref()
-            .map_or_else(|| self.version.clone(), |build| format!("{}-{build}", self.version))
+        self.build.as_ref().map_or_else(
+            || self.version.clone(),
+            |build| format!("{}-{build}", self.version),
+        )
     }
 
     /// Get the build argument name from package name (e.g., "wbt-geth" -> "`WBT_GETH_VERSION`")
@@ -165,6 +166,7 @@ fn main() -> Result<()> {
 fn resolve_dockerfile_path(build_dir: &Path) -> Result<String> {
     let plain = build_dir.join("Dockerfile");
     if plain.exists() {
+        validate_dockerfile(&plain)?;
         return Ok(String::from("Dockerfile"));
     }
 
@@ -172,6 +174,20 @@ fn resolve_dockerfile_path(build_dir: &Path) -> Result<String> {
         "No Dockerfile found in {} (expected Dockerfile)",
         build_dir.display()
     );
+}
+
+fn validate_dockerfile(path: &Path) -> Result<()> {
+    let source = std::fs::read_to_string(path)
+        .with_context(|| format!("Failed to read {}", path.display()))?;
+
+    if source.lines().any(|line| line.trim() == "RUN ls") {
+        anyhow::bail!(
+            "{} uses `RUN ls` as an external-image probe; inspect or copy the required artifact instead",
+            path.display()
+        );
+    }
+
+    Ok(())
 }
 
 fn build_platform(
@@ -236,8 +252,7 @@ fn build_platform(
 
     // Add GITHUB_TOKEN as build arg if available
     if let Some(token) = github_token {
-        cmd.arg("--build-arg")
-            .arg(format!("GITHUB_TOKEN={token}"));
+        cmd.arg("--build-arg").arg(format!("GITHUB_TOKEN={token}"));
     }
 
     // Add version as build arg (e.g., WBT_GETH_VERSION=1.2.0)
@@ -379,10 +394,10 @@ mod tests {
     use super::*;
     use std::collections::HashSet;
     use std::fs;
-    use std::sync::{Arc, Barrier};
-    use std::sync::atomic::{AtomicU64, Ordering};
-    use std::thread;
     use std::path::PathBuf;
+    use std::sync::atomic::{AtomicU64, Ordering};
+    use std::sync::{Arc, Barrier};
+    use std::thread;
     use std::time::{SystemTime, UNIX_EPOCH};
 
     #[test]
@@ -408,6 +423,22 @@ mod tests {
                 test_dir.path().display()
             )
         );
+    }
+
+    #[test]
+    fn resolve_dockerfile_path_rejects_shell_dependent_probe() {
+        let test_dir = TestDir::new();
+        fs::write(
+            test_dir.path().join("Dockerfile"),
+            "FROM example.invalid/shellless\nRUN ls\n",
+        )
+        .unwrap();
+
+        let error = resolve_dockerfile_path(test_dir.path()).unwrap_err();
+
+        assert!(error
+            .to_string()
+            .contains("uses `RUN ls` as an external-image probe"));
     }
 
     #[test]
@@ -451,8 +482,10 @@ mod tests {
                 .unwrap()
                 .as_nanos();
             let counter = TEST_DIR_COUNTER.fetch_add(1, Ordering::Relaxed);
-            let path = env::temp_dir()
-                .join(format!("docker-build-test-{unique}-{}-{counter}", std::process::id()));
+            let path = env::temp_dir().join(format!(
+                "docker-build-test-{unique}-{}-{counter}",
+                std::process::id()
+            ));
             fs::create_dir(&path).unwrap();
             Self { path }
         }
