@@ -9,8 +9,8 @@
 //! ```
 
 use anyhow::{Context, Result};
-use clap::builder::styling::{AnsiColor, Effects, Styles};
 use clap::Parser;
+use clap::builder::styling::{AnsiColor, Effects, Styles};
 use owo_colors::OwoColorize;
 use serde::Deserialize;
 use std::env;
@@ -436,9 +436,11 @@ mod tests {
 
         let error = resolve_dockerfile_path(test_dir.path()).unwrap_err();
 
-        assert!(error
-            .to_string()
-            .contains("uses `RUN ls` as an external-image probe"));
+        assert!(
+            error
+                .to_string()
+                .contains("uses `RUN ls` as an external-image probe")
+        );
     }
 
     #[test]
