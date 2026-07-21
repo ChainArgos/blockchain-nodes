@@ -18,7 +18,7 @@ on:
         options: [velnor, github, both]
 
 concurrency:
-  group: renovate
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
