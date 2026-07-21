@@ -1,10 +1,9 @@
-name: Build And Publish All
+name: CI
 
 # Builds every docker-* image whose version tag is missing from Docker Hub.
 #
 # Structure:
-#   matrix-setup  – picks the runner lane(s) and sweeps Docker Hub once to
-#                   compute the set of leaf packages that actually need a
+#   sweep         – computes the set of leaf packages that actually need a
 #                   build (a no-op push costs one short job instead of 36).
 #   base          – debian-blockchain-base (root of the image chain)
 #   build         – debian-blockchain-build (depends on base)
@@ -18,9 +17,12 @@ on:
   push:
     branches:
       - main
+  pull_request:
+  schedule:
+    - cron: "0 4 * * 0"
   workflow_dispatch:
     inputs:
-      lane:
+      lanes:
         description: |
           Which runner(s) to build on. Use both for parity: GitHub-hosted and Velnor jobs run in the same workflow run.
         type: choice
@@ -34,36 +36,28 @@ permissions:
 # superseded run stays queued (GitHub cancels intermediate pending runs in
 # the same group).
 concurrency:
-  group: build-publish-${{ github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: false
 
 env:
   BUILDX_CACHE: registry
 
 jobs:
-  matrix-setup:
-    name: Select runner lane and missing packages
-    runs-on: ubuntu-latest
+  sweep:
+    name: Sweep Docker Hub for missing packages (${{ matrix.config.lane }})
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'both')) && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+    runs-on: ${{ matrix.config.runner }}
     timeout-minutes: 15
     outputs:
-      configs: ${{ steps.set.outputs.configs }}
       packages: ${{ steps.sweep.outputs.packages }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-
-      - id: set
-        env:
-          LANE: ${{ github.event_name == 'workflow_dispatch' && inputs.lane || 'velnor' }}
-        run: |
-          github='{"lane":"GitHub","runner":"\"ubuntu-latest\""}'
-          velnor='{"lane":"Velnor","runner":"[\"self-hosted\",\"velnor-target-mvp\"]"}'
-          case "$LANE" in
-            github) configs="[$github]" ;;
-            both)   configs="[$github,$velnor]" ;;
-            *)      configs="[$velnor]" ;;
-          esac
-          echo "configs=$configs" >> "$GITHUB_OUTPUT"
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
         with:
@@ -73,7 +67,7 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/rust-script
-          key: rust-script-sweep-${{ runner.os }}-${{ hashFiles('**/*.rs') }}
+          key: rust-script-sweep-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
           restore-keys: |
             rust-script-sweep-${{ runner.os }}-
 
@@ -101,20 +95,22 @@ jobs:
           echo "packages=$packages" >> "$GITHUB_OUTPUT"
 
   base:
-    needs: matrix-setup
+    needs: sweep
     name: docker-debian-blockchain-base (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON(needs.matrix-setup.outputs.configs) }}
-    runs-on: ${{ fromJSON(matrix.config.runner) }}
-    timeout-minutes: 180
+        config: ${{ fromJSON((github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'both')) && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+    runs-on: ${{ matrix.config.runner }}
+    timeout-minutes: 45
     concurrency:
       group: build-${{ matrix.config.lane }}-debian-blockchain-base
       cancel-in-progress: false
     steps:
       - name: Checkout code
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
         with:
@@ -124,7 +120,7 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/rust-script
-          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
           restore-keys: |
             rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
@@ -140,38 +136,44 @@ jobs:
           fi
 
       - name: Login to Docker Hub
-        if: steps.check-image.outputs.exists == 'false'
+        if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Set up QEMU
-        if: steps.check-image.outputs.exists == 'false'
+        if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
         run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
 
       - name: Initialize Docker Buildx
-        if: steps.check-image.outputs.exists == 'false'
-        run: docker buildx create --name bcn-ci --driver docker-container --use 2>/dev/null || docker buildx use bcn-ci
+        if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
+        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
+        with:
+          name: bcn-ci
+          driver: docker-container
+          install: "true"
 
       - name: Build Docker image
         if: steps.check-image.outputs.exists == 'false'
-        run: mise run build debian-blockchain-base
+        run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} debian-blockchain-base
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
-    needs: [matrix-setup, base]
+    needs: [sweep, base]
     name: docker-debian-blockchain-build (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON(needs.matrix-setup.outputs.configs) }}
-    runs-on: ${{ fromJSON(matrix.config.runner) }}
-    timeout-minutes: 180
+        config: ${{ fromJSON((github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'both')) && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+    runs-on: ${{ matrix.config.runner }}
+    timeout-minutes: 45
     concurrency:
       group: build-${{ matrix.config.lane }}-debian-blockchain-build
       cancel-in-progress: false
     steps:
       - name: Checkout code
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
         with:
@@ -181,7 +183,7 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/rust-script
-          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
           restore-keys: |
             rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
@@ -197,41 +199,46 @@ jobs:
           fi
 
       - name: Login to Docker Hub
-        if: steps.check-image.outputs.exists == 'false'
+        if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Set up QEMU
-        if: steps.check-image.outputs.exists == 'false'
+        if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
         run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
 
       - name: Initialize Docker Buildx
-        if: steps.check-image.outputs.exists == 'false'
-        run: docker buildx create --name bcn-ci --driver docker-container --use 2>/dev/null || docker buildx use bcn-ci
+        if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
+        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
+        with:
+          name: bcn-ci
+          driver: docker-container
+          install: "true"
 
       - name: Build Docker image
         if: steps.check-image.outputs.exists == 'false'
-        run: mise run build debian-blockchain-build
+        run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} debian-blockchain-build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   packages:
-    needs: [matrix-setup, build]
-    if: needs.matrix-setup.outputs.packages != '[]'
+    needs: [sweep, build]
+    if: needs.sweep.outputs.packages != '[]'
     name: docker-${{ matrix.package }} (${{ matrix.config.lane }})
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON(needs.matrix-setup.outputs.configs) }}
-        package: ${{ fromJSON(needs.matrix-setup.outputs.packages) }}
-    runs-on: ${{ fromJSON(matrix.config.runner) }}
-    timeout-minutes: 180
+        config: ${{ fromJSON((github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'both')) && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+        package: ${{ fromJSON(needs.sweep.outputs.packages) }}
+    runs-on: ${{ matrix.config.runner }}
+    timeout-minutes: 60
     concurrency:
       group: build-${{ matrix.config.lane }}-${{ matrix.package }}
       cancel-in-progress: false
     steps:
       - name: Checkout code
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           # docker-heimdall ships a 235 MB genesis file through Git LFS.
           lfs: ${{ matrix.package == 'heimdall' }}
 
@@ -243,7 +250,7 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/rust-script
-          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-${{ hashFiles('**/*.rs') }}
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
           restore-keys: |
             rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
 
@@ -261,20 +268,42 @@ jobs:
           PACKAGE: ${{ matrix.package }}
 
       - name: Login to Docker Hub
-        if: steps.check-image.outputs.exists == 'false'
+        if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Set up QEMU
-        if: steps.check-image.outputs.exists == 'false'
+        if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
         run: docker run --rm --privileged tonistiigi/binfmt:latest --install all
 
       - name: Initialize Docker Buildx
-        if: steps.check-image.outputs.exists == 'false'
-        run: docker buildx create --name bcn-ci --driver docker-container --use 2>/dev/null || docker buildx use bcn-ci
+        if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
+        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
+        with:
+          name: bcn-ci
+          driver: docker-container
+          install: "true"
 
       - name: Build Docker image
         if: steps.check-image.outputs.exists == 'false'
-        run: mise run build "$PACKAGE"
+        run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} "$PACKAGE"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PACKAGE: ${{ matrix.package }}
+
+  ci-required:
+    needs: [sweep, base, build, packages]
+    if: always()
+    name: CI required (${{ matrix.config.lane }})
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'both')) && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+    runs-on: ${{ matrix.config.runner }}
+    steps:
+      - name: Fail on any failed or cancelled need
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          echo "$NEEDS_JSON" | jq -e 'to_entries | map(.value.result) | any(. == "failure" or . == "cancelled") | not' >/dev/null \
+            || { echo "A required job failed or was cancelled." >&2; exit 1; }
