@@ -7,7 +7,9 @@ RUN git clone --branch op-node/v${OP_NODE_VERSION} --single-branch --depth=1 htt
 WORKDIR /optimism
 
 RUN mise trust
-RUN MISE_PYTHON_GITHUB_ATTESTATIONS=false mise install
+RUN --mount=type=secret,id=github_token,required=false \
+    GITHUB_TOKEN="$(cat /run/secrets/github_token 2>/dev/null || true)" \
+    MISE_PYTHON_GITHUB_ATTESTATIONS=false mise install
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \

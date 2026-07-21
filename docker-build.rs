@@ -135,9 +135,8 @@ fn main() -> Result<()> {
     }
     println!("{}", "━".repeat(60).bright_black());
 
-    // Get GITHUB_TOKEN from environment if available
-    let github_token = env::var("GITHUB_TOKEN").ok();
-    if github_token.is_some() {
+    let has_github_token = env::var_os("GITHUB_TOKEN").is_some_and(|token| !token.is_empty());
+    if has_github_token {
         println!("{:>12} {}", "Auth:".bold().blue(), "GITHUB_TOKEN".green());
     }
 
@@ -148,7 +147,7 @@ fn main() -> Result<()> {
             &config,
             platform,
             &args.extra_args,
-            github_token.as_deref(),
+            has_github_token,
             args.dry_run,
         )?;
     }
@@ -195,7 +194,7 @@ fn build_platform(
     config: &BuildConfig,
     platform: &str,
     extra_args: &str,
-    github_token: Option<&str>,
+    has_github_token: bool,
     dry_run: bool,
 ) -> Result<()> {
     let platform_tag = format!(
@@ -250,10 +249,7 @@ fn build_platform(
             .arg(format!("type=registry,ref={cache_ref},mode=max"));
     }
 
-    // Add GITHUB_TOKEN as build arg if available
-    if let Some(token) = github_token {
-        cmd.arg("--build-arg").arg(format!("GITHUB_TOKEN={token}"));
-    }
+    add_github_token_secret(&mut cmd, has_github_token);
 
     // Add version as build arg (e.g., WBT_GETH_VERSION=1.2.0)
     let version_arg_name = config.package.build_arg_name();
@@ -300,6 +296,14 @@ fn build_platform(
     }
 
     Ok(())
+}
+
+fn add_github_token_secret(command: &mut Command, enabled: bool) {
+    if enabled {
+        command
+            .arg("--secret")
+            .arg("id=github_token,env=GITHUB_TOKEN");
+    }
 }
 
 fn create_manifest(config: &BuildConfig, dry_run: bool) -> Result<()> {
@@ -440,6 +444,21 @@ mod tests {
             error
                 .to_string()
                 .contains("uses `RUN ls` as an external-image probe")
+        );
+    }
+
+    #[test]
+    fn github_token_uses_buildkit_secret_without_value_in_arguments() {
+        let mut command = Command::new("docker");
+
+        add_github_token_secret(&mut command, true);
+
+        assert_eq!(
+            command
+                .get_args()
+                .map(|argument| argument.to_string_lossy().into_owned())
+                .collect::<Vec<_>>(),
+            ["--secret", "id=github_token,env=GITHUB_TOKEN"]
         );
     }
 
