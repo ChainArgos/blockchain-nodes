@@ -143,6 +143,8 @@ The build script performs the following steps:
 3. For each platform in `platforms`:
    - Builds the Docker image using `Dockerfile`
    - Passes version as build argument (e.g., `--build-arg GETH_VERSION=1.16.7`)
+   - Mounts `GITHUB_TOKEN` as an ephemeral BuildKit secret when present; it is
+     never stored in image layers or build arguments
    - Tags it as `<repository>:<full-version>-<platform>` (e.g., `chainargos/geth:1.16.7-1-amd64` or `chainargos/debian-blockchain-base:1.1.0-amd64`)
    - Pushes it to the registry
 4. If multiple platforms are configured:
@@ -200,7 +202,8 @@ cargo build --release --bin docker-build
 
 ## Environment Variables
 
-- `GITHUB_TOKEN`: Automatically passed as a build argument if set (used by some packages like op-node)
+- `GITHUB_TOKEN`: Automatically mounted as BuildKit secret `github_token` if
+  set (used by packages such as op-node for authenticated mise downloads)
 
 ## Available Packages
 

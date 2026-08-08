@@ -9,8 +9,8 @@
 //! ```
 
 use anyhow::{Context, Result};
-use clap::builder::styling::{AnsiColor, Effects, Styles};
 use clap::Parser;
+use clap::builder::styling::{AnsiColor, Effects, Styles};
 use owo_colors::OwoColorize;
 use serde::Deserialize;
 use std::env;
@@ -44,9 +44,10 @@ struct PackageConfig {
 impl PackageConfig {
     /// Get the full version string (version-build)
     fn full_version(&self) -> String {
-        self.build
-            .as_ref()
-            .map_or_else(|| self.version.clone(), |build| format!("{}-{build}", self.version))
+        self.build.as_ref().map_or_else(
+            || self.version.clone(),
+            |build| format!("{}-{build}", self.version),
+        )
     }
 
     /// Get the build argument name from package name (e.g., "wbt-geth" -> "`WBT_GETH_VERSION`")
@@ -134,9 +135,8 @@ fn main() -> Result<()> {
     }
     println!("{}", "━".repeat(60).bright_black());
 
-    // Get GITHUB_TOKEN from environment if available
-    let github_token = env::var("GITHUB_TOKEN").ok();
-    if github_token.is_some() {
+    let has_github_token = env::var_os("GITHUB_TOKEN").is_some_and(|token| !token.is_empty());
+    if has_github_token {
         println!("{:>12} {}", "Auth:".bold().blue(), "GITHUB_TOKEN".green());
     }
 
@@ -147,7 +147,7 @@ fn main() -> Result<()> {
             &config,
             platform,
             &args.extra_args,
-            github_token.as_deref(),
+            has_github_token,
             args.dry_run,
         )?;
     }
@@ -165,6 +165,7 @@ fn main() -> Result<()> {
 fn resolve_dockerfile_path(build_dir: &Path) -> Result<String> {
     let plain = build_dir.join("Dockerfile");
     if plain.exists() {
+        validate_dockerfile(&plain)?;
         return Ok(String::from("Dockerfile"));
     }
 
@@ -174,12 +175,26 @@ fn resolve_dockerfile_path(build_dir: &Path) -> Result<String> {
     );
 }
 
+fn validate_dockerfile(path: &Path) -> Result<()> {
+    let source = std::fs::read_to_string(path)
+        .with_context(|| format!("Failed to read {}", path.display()))?;
+
+    if source.lines().any(|line| line.trim() == "RUN ls") {
+        anyhow::bail!(
+            "{} uses `RUN ls` as an external-image probe; inspect or copy the required artifact instead",
+            path.display()
+        );
+    }
+
+    Ok(())
+}
+
 fn build_platform(
     build_dir: &Path,
     config: &BuildConfig,
     platform: &str,
     extra_args: &str,
-    github_token: Option<&str>,
+    has_github_token: bool,
     dry_run: bool,
 ) -> Result<()> {
     let platform_tag = format!(
@@ -234,11 +249,7 @@ fn build_platform(
             .arg(format!("type=registry,ref={cache_ref},mode=max"));
     }
 
-    // Add GITHUB_TOKEN as build arg if available
-    if let Some(token) = github_token {
-        cmd.arg("--build-arg")
-            .arg(format!("GITHUB_TOKEN={token}"));
-    }
+    add_github_token_secret(&mut cmd, has_github_token);
 
     // Add version as build arg (e.g., WBT_GETH_VERSION=1.2.0)
     let version_arg_name = config.package.build_arg_name();
@@ -285,6 +296,14 @@ fn build_platform(
     }
 
     Ok(())
+}
+
+fn add_github_token_secret(command: &mut Command, enabled: bool) {
+    if enabled {
+        command
+            .arg("--secret")
+            .arg("id=github_token,env=GITHUB_TOKEN");
+    }
 }
 
 fn create_manifest(config: &BuildConfig, dry_run: bool) -> Result<()> {
@@ -379,10 +398,10 @@ mod tests {
     use super::*;
     use std::collections::HashSet;
     use std::fs;
-    use std::sync::{Arc, Barrier};
-    use std::sync::atomic::{AtomicU64, Ordering};
-    use std::thread;
     use std::path::PathBuf;
+    use std::sync::atomic::{AtomicU64, Ordering};
+    use std::sync::{Arc, Barrier};
+    use std::thread;
     use std::time::{SystemTime, UNIX_EPOCH};
 
     #[test]
@@ -407,6 +426,39 @@ mod tests {
                 "No Dockerfile found in {} (expected Dockerfile)",
                 test_dir.path().display()
             )
+        );
+    }
+
+    #[test]
+    fn resolve_dockerfile_path_rejects_shell_dependent_probe() {
+        let test_dir = TestDir::new();
+        fs::write(
+            test_dir.path().join("Dockerfile"),
+            "FROM example.invalid/shellless\nRUN ls\n",
+        )
+        .unwrap();
+
+        let error = resolve_dockerfile_path(test_dir.path()).unwrap_err();
+
+        assert!(
+            error
+                .to_string()
+                .contains("uses `RUN ls` as an external-image probe")
+        );
+    }
+
+    #[test]
+    fn github_token_uses_buildkit_secret_without_value_in_arguments() {
+        let mut command = Command::new("docker");
+
+        add_github_token_secret(&mut command, true);
+
+        assert_eq!(
+            command
+                .get_args()
+                .map(|argument| argument.to_string_lossy().into_owned())
+                .collect::<Vec<_>>(),
+            ["--secret", "id=github_token,env=GITHUB_TOKEN"]
         );
     }
 
@@ -451,8 +503,10 @@ mod tests {
                 .unwrap()
                 .as_nanos();
             let counter = TEST_DIR_COUNTER.fetch_add(1, Ordering::Relaxed);
-            let path = env::temp_dir()
-                .join(format!("docker-build-test-{unique}-{}-{counter}", std::process::id()));
+            let path = env::temp_dir().join(format!(
+                "docker-build-test-{unique}-{}-{counter}",
+                std::process::id()
+            ));
             fs::create_dir(&path).unwrap();
             Self { path }
         }

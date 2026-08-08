@@ -196,7 +196,7 @@ cargo run --bin containerctl -- restart ethereum-geth -f
 cargo build --release
 
 # Run tests
-cargo test
+cargo nextest run --locked
 
 # Build specific binary
 cargo build --bin docker-build --release
