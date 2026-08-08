@@ -1,6 +1,9 @@
 [tools]
 "cargo:rust-script" = "0.36.0"
 
+[settings]
+lockfile = true
+
 [tasks.build]
 description = "Build a Docker image"
 run = "./docker-build.rs $1"
