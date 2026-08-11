@@ -1,4 +1,4 @@
-name: CI
+name: CI (public unmerged)
 
 # Builds every docker-* image whose version tag is missing from Docker Hub.
 #
@@ -14,19 +14,7 @@ name: CI
 # is set, so repeat builds reuse layers instead of starting cold.
 
 on:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: "0 4 * * 0"
-  workflow_dispatch:
-    inputs:
-      lanes:
-        description: |
-          Which runner(s) to build on. Use both for parity: GitHub-hosted and Velnor jobs run in the same workflow run.
-        type: choice
-        default: velnor
-        options: [velnor, github, both]
+  pull_request:
 
 permissions:
   contents: read
@@ -47,7 +35,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'both')) && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+        config: ${{ fromJSON('[{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]') }}
     runs-on: ${{ matrix.config.runner }}
     timeout-minutes: 15
     outputs:
@@ -63,7 +51,7 @@ jobs:
           install_args: "cargo:rust-script"
 
       - name: Cache rust-script
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/rust-script
           key: rust-script-sweep-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
@@ -99,7 +87,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'both')) && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+        config: ${{ fromJSON('[{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]') }}
     runs-on: ${{ matrix.config.runner }}
     timeout-minutes: 45
     concurrency:
@@ -116,7 +104,7 @@ jobs:
           install_args: "cargo:rust-script"
 
       - name: Cache rust-script
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/rust-script
           key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
@@ -136,7 +124,7 @@ jobs:
 
       - name: Login to Docker Hub
         if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+        run: echo "${{ github.token }}" | docker login -u "${{ github.actor }}" --password-stdin
 
       - name: Set up QEMU
         if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
@@ -154,7 +142,7 @@ jobs:
         if: steps.check-image.outputs.exists == 'false'
         run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} debian-blockchain-base
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
 
   build:
     needs: [sweep, base]
@@ -162,7 +150,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'both')) && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+        config: ${{ fromJSON('[{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]') }}
     runs-on: ${{ matrix.config.runner }}
     timeout-minutes: 45
     concurrency:
@@ -179,7 +167,7 @@ jobs:
           install_args: "cargo:rust-script"
 
       - name: Cache rust-script
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/rust-script
           key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
@@ -199,7 +187,7 @@ jobs:
 
       - name: Login to Docker Hub
         if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+        run: echo "${{ github.token }}" | docker login -u "${{ github.actor }}" --password-stdin
 
       - name: Set up QEMU
         if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
@@ -217,7 +205,7 @@ jobs:
         if: steps.check-image.outputs.exists == 'false'
         run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} debian-blockchain-build
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
 
   packages:
     needs: [sweep, build]
@@ -226,7 +214,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'both')) && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+        config: ${{ fromJSON('[{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]') }}
         package: ${{ fromJSON(needs.sweep.outputs.packages) }}
     runs-on: ${{ matrix.config.runner }}
     timeout-minutes: 60
@@ -246,7 +234,7 @@ jobs:
           install_args: "cargo:rust-script"
 
       - name: Cache rust-script
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/rust-script
           key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
@@ -268,7 +256,7 @@ jobs:
 
       - name: Login to Docker Hub
         if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+        run: echo "${{ github.token }}" | docker login -u "${{ github.actor }}" --password-stdin
 
       - name: Set up QEMU
         if: steps.check-image.outputs.exists == 'false' && matrix.config.writer
@@ -286,7 +274,7 @@ jobs:
         if: steps.check-image.outputs.exists == 'false'
         run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} "$PACKAGE"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           PACKAGE: ${{ matrix.package }}
 
   ci-required:
@@ -297,7 +285,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'both')) && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+        config: ${{ fromJSON('[{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]') }}
     runs-on: ${{ matrix.config.runner }}
     steps:
       - name: Fail on any failed or cancelled need
