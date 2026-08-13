@@ -32,6 +32,22 @@ run = "./containerctl.rs restart $1 -f"
 description = "Stop a container"
 run = "./containerctl.rs stop $1"
 
+[tasks.ci]
+description = "Check the Rust automation workspace"
+run = "cargo check --workspace --all-targets --locked"
+
+[tasks.test]
+description = "Test the Rust automation workspace"
+run = "cargo test --workspace --all-targets --locked"
+
+[tasks.lint]
+description = "Lint the Rust automation workspace"
+run = "cargo clippy --workspace --all-targets --locked -- -D warnings"
+
+[tasks.fmt]
+description = "Check Rust formatting"
+run = "cargo fmt --all -- --check"
+
 [tasks."build-all"]
 description = "Build all Docker images in sequence"
 run = """
