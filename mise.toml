@@ -1,5 +1,7 @@
 [tools]
+rust = { version = "1.97.1", profile = "minimal", components = ["rustfmt", "clippy"] }
 "cargo:rust-script" = "0.36.0"
+"aqua:nextest-rs/nextest/cargo-nextest" = "0.9.140"
 
 [settings]
 lockfile = true
@@ -38,7 +40,7 @@ run = "cargo check --workspace --all-targets --locked"
 
 [tasks.test]
 description = "Test the Rust automation workspace"
-run = "cargo test --workspace --all-targets --locked"
+run = "cargo nextest run --workspace --all-targets --locked"
 
 [tasks.lint]
 description = "Lint the Rust automation workspace"
