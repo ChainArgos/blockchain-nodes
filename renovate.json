@@ -9,6 +9,7 @@
   "prHourlyLimit": 0,
   "prConcurrentLimit": 20,
   "semanticCommits": "enabled",
+  "commitBody": "Signed-off-by: Don Beave <donbeave@users.noreply.github.com>",
   "packageRules": [
     {
       "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest"],
