@@ -28,17 +28,25 @@ jobs:
         config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lanes == 'both') && '[{"lane":"Velnor","velnor_default_runner":["self-hosted","velnor-target-mvp"],"writer":true,"dry_run":"false"},{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04","writer":false,"dry_run":"full"}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04","writer":true,"dry_run":"false"}]' || (github.event_name == 'push') && '[{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04","writer":true,"dry_run":"false"}]' || '[{"lane":"Velnor","velnor_default_runner":["self-hosted","velnor-target-mvp"],"writer":true,"dry_run":"false"}]') }}
     runs-on: ${{ matrix.config.velnor_default_runner }}
     env:
-      # Job-level env: the Velnor runner does not evaluate secret-bearing
-      # step-env expressions (they arrive as literal ${{ }} strings), while
-      # job-level env is evaluated before dispatch. Keep every value the
-      # Renovate container needs at job level so both fleets behave the same.
+      # Plain (non-secret) Renovate settings. Secret-bearing strings embedded
+      # in env values are not evaluated by the Velnor runner, and the fleet
+      # capability manifest forbids the action's configurationFile/env-regex
+      # inputs, so Docker Hub credentials travel as pure RENOVATE_* secret
+      # references (matched by the action's default env passthrough) and are
+      # assembled into hostRules by /tmp/renovate-config.js inside the
+      # container.
       RENOVATE_DRY_RUN: ${{ matrix.config.dry_run }}
       RENOVATE_REPOSITORIES: ${{ github.repository }}
       RENOVATE_ONBOARDING: false
+      RENOVATE_CONFIG_FILE: /tmp/renovate-config.js
       LOG_LEVEL: debug
-      RENOVATE_HOST_RULES: '[{"matchHost":"index.docker.io","username":"${{ secrets.DOCKERHUB_USERNAME }}","password":"${{ secrets.DOCKERHUB_TOKEN }}"}]'
+      RENOVATE_DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      RENOVATE_DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Stage Renovate global config on the shared /tmp mount
+        run: install -m 0644 .github/renovate-config.js /tmp/renovate-config.js
 
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@e09d604f8f803bb527bd8321ed5be06c460b8682 # v46.2.2
