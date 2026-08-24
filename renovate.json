@@ -12,8 +12,24 @@
   "commitBody": "Signed-off-by: Don Beave <donbeave@users.noreply.github.com>",
   "packageRules": [
     {
-      "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
       "automerge": true
+    },
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "renovatebot/github-action"
+      ],
+      "automerge": false,
+      "description": "Fleet capability manifest admits action digests with a lag; manual merge only after the Velnor manifest admits the new digest"
     }
   ]
 }
