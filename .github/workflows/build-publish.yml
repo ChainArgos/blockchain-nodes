@@ -1,0 +1,479 @@
+name: Docker Build and Publish
+
+# Builds each affected docker-* package in its own matrix job. Docker Hub
+# publication happens from the writer lane; the read-only lane in a `both`
+# run validates the same build plan without pushing.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      lanes:
+        description: Which runner lane(s) should execute the build
+        type: choice
+        default: velnor
+        options: [velnor, github, both]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-build-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  BUILDX_CACHE: registry
+
+jobs:
+  select:
+    name: Select affected Docker packages
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    outputs:
+      packages: ${{ steps.select.outputs.packages }}
+      work_required: ${{ steps.select.outputs.work_required }}
+      force_base: ${{ steps.select.outputs.force_base }}
+      force_build: ${{ steps.select.outputs.force_build }}
+      manual_dispatch: ${{ steps.select.outputs.manual_dispatch }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Select affected packages
+        id: select
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          manual_dispatch=false
+          if [ "${EVENT_NAME}" = "workflow_dispatch" ]; then
+            manual_dispatch=true
+            changed=$(git ls-files)
+          elif [ "${BEFORE_SHA}" = "0000000000000000000000000000000000000000" ]; then
+            changed=$(git ls-files)
+          else
+            changed=$(git diff --name-only "${BEFORE_SHA}" "${CURRENT_SHA}")
+          fi
+
+          declare -A affected=()
+          all=false
+          force_base=false
+          force_build=false
+
+          while IFS= read -r path; do
+            [ -z "${path}" ] && continue
+            case "${path}" in
+              docker-build.rs|docker-exists.rs|mise.toml|Cargo.toml|Cargo.lock)
+                all=true
+                ;;
+              README.md|README.*|**/*.md|RULES.md|BRANCHING.md|COMMITS.md|BUILD_SYSTEM.md|NODE_UPDATES.md|SKILLS.md|docker-compose.yml|.node-updates/*|.node-updates/**|.github/AGENTS.md|.github/workflows/ci.yml|.github/workflows/dco.yml|.github/workflows/renovate.yml|.github/workflows/build-publish.yml|.github/renovate-config.js|containerctl.rs|LICENSE|renovate.json)
+                ;;
+              docker-debian-blockchain-base/*)
+                affected[debian-blockchain-base]=1
+                force_base=true
+                force_build=true
+                for build_toml in docker-*/build.toml; do
+                  package="${build_toml#docker-}"
+                  package="${package%/build.toml}"
+                  affected["${package}"]=1
+                done
+                ;;
+              docker-debian-blockchain-build/*)
+                affected[debian-blockchain-build]=1
+                force_build=true
+                for dockerfile in docker-*/Dockerfile; do
+                  package="${dockerfile#docker-}"
+                  package="${package%/Dockerfile}"
+                  if rg -q '^FROM chainargos/debian-blockchain-build:' "${dockerfile}"; then
+                    affected["${package}"]=1
+                  fi
+                done
+                ;;
+              docker-*)
+                package="${path#docker-}"
+                package="${package%%/*}"
+                if [ -f "docker-${package}/build.toml" ]; then
+                  affected["${package}"]=1
+                  case "${package}" in
+                    debian-blockchain-base)
+                      force_base=true
+                      force_build=true
+                      ;;
+                    debian-blockchain-build)
+                      force_build=true
+                      ;;
+                  esac
+                else
+                  all=true
+                fi
+                ;;
+              *)
+                all=true
+                ;;
+            esac
+          done <<< "${changed}"
+
+          if [ "${all}" = true ]; then
+            for build_toml in docker-*/build.toml; do
+              package="${build_toml#docker-}"
+              package="${package%/build.toml}"
+              affected["${package}"]=1
+            done
+            force_base=true
+            force_build=true
+          fi
+
+          leaf_packages=()
+          for package in "${!affected[@]}"; do
+            case "${package}" in
+              debian-blockchain-base|debian-blockchain-build) ;;
+              *) leaf_packages+=("${package}") ;;
+            esac
+          done
+
+          if [ "${#leaf_packages[@]}" -eq 0 ] && [ "${force_base}" = false ] && [ "${force_build}" = false ]; then
+            work_required=false
+            packages='[]'
+          else
+            work_required=true
+            packages=$(printf '%s\n' "${leaf_packages[@]}" | sort | jq -Rsc 'split("\n") | map(select(length > 0))')
+          fi
+
+          echo "packages=${packages}" >> "${GITHUB_OUTPUT}"
+          echo "work_required=${work_required}" >> "${GITHUB_OUTPUT}"
+          echo "force_base=${force_base}" >> "${GITHUB_OUTPUT}"
+          echo "force_build=${force_build}" >> "${GITHUB_OUTPUT}"
+          echo "manual_dispatch=${manual_dispatch}" >> "${GITHUB_OUTPUT}"
+          echo "packages=${packages}"
+          echo "work_required=${work_required}"
+          echo "force_base=${force_base}"
+          echo "force_build=${force_build}"
+
+  base:
+    needs: select
+    if: needs.select.outputs.work_required == 'true'
+    name: docker-debian-blockchain-base (${{ matrix.config.lane }})
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lanes == 'both') && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+    runs-on: ${{ matrix.config.runner }}
+    timeout-minutes: 45
+    concurrency:
+      group: docker-build-${{ matrix.config.lane }}-debian-blockchain-base
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
+        with:
+          install_args: "rust cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
+          restore-keys: |
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
+
+      - name: Check base image
+        id: check-image
+        env:
+          PACKAGE: debian-blockchain-base
+          FORCE_BUILD: ${{ needs.select.outputs.force_base }}
+          MANUAL_DISPATCH: ${{ needs.select.outputs.manual_dispatch }}
+        run: |
+          set -euo pipefail
+          platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${PACKAGE}/build.toml" | tr -d '"' | tr ',' ' ')
+          exists_cmd=(rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs)
+          if ! manifest_exists="$("${exists_cmd[@]}" "${PACKAGE}")"; then
+            echo "Failed to check ${PACKAGE} on Docker Hub; refusing to guess" >&2
+            exit 1
+          fi
+          platform_count=0
+          platforms_found=0
+          for platform in ${platforms}; do
+            platform_count=$((platform_count + 1))
+            if ! platform_exists="$("${exists_cmd[@]}" --platform "${platform}" "${PACKAGE}")"; then
+              echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2
+              exit 1
+            fi
+            case "${platform_exists}" in
+              true) platforms_found=$((platforms_found + 1)) ;;
+              false) ;;
+              *) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
+            esac
+          done
+          if [ "${platform_count}" -eq 0 ]; then
+            echo "No platforms configured for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" != "true" ] && [ "${manifest_exists}" != "false" ]; then
+            echo "Invalid Docker Hub response for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
+            echo "${PACKAGE} manifest exists but platform tags are incomplete; refusing to overwrite it" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
+            echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ] && [ "${FORCE_BUILD}" = "true" ] && [ "${MANUAL_DISPATCH}" != "true" ]; then
+            echo "${PACKAGE} is affected but its tag already exists; bump package.version or package.build" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ]; then
+            echo "${PACKAGE} already exists and is unaffected; skipping build"
+            echo "needs-build=false" >> "${GITHUB_OUTPUT}"
+          else
+            echo "needs-build=true" >> "${GITHUB_OUTPUT}"
+            echo "${PACKAGE} will be built"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
+        uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
+        with:
+          image: docker.io/tonistiigi/binfmt@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
+          platforms: all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+        with:
+          driver: docker-container
+          name: bcn-ci-${{ github.run_id }}-base
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.needs-build == 'true'
+        run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} debian-blockchain-base
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    needs: [select, base]
+    if: needs.select.outputs.work_required == 'true'
+    name: docker-debian-blockchain-build (${{ matrix.config.lane }})
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lanes == 'both') && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+    runs-on: ${{ matrix.config.runner }}
+    timeout-minutes: 45
+    concurrency:
+      group: docker-build-${{ matrix.config.lane }}-debian-blockchain-build
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
+        with:
+          install_args: "rust cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
+          restore-keys: |
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
+
+      - name: Check build image
+        id: check-image
+        env:
+          PACKAGE: debian-blockchain-build
+          FORCE_BUILD: ${{ needs.select.outputs.force_build }}
+          MANUAL_DISPATCH: ${{ needs.select.outputs.manual_dispatch }}
+        run: |
+          set -euo pipefail
+          platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${PACKAGE}/build.toml" | tr -d '"' | tr ',' ' ')
+          exists_cmd=(rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs)
+          if ! manifest_exists="$("${exists_cmd[@]}" "${PACKAGE}")"; then
+            echo "Failed to check ${PACKAGE} on Docker Hub; refusing to guess" >&2
+            exit 1
+          fi
+          platform_count=0
+          platforms_found=0
+          for platform in ${platforms}; do
+            platform_count=$((platform_count + 1))
+            if ! platform_exists="$("${exists_cmd[@]}" --platform "${platform}" "${PACKAGE}")"; then
+              echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2
+              exit 1
+            fi
+            case "${platform_exists}" in
+              true) platforms_found=$((platforms_found + 1)) ;;
+              false) ;;
+              *) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
+            esac
+          done
+          if [ "${platform_count}" -eq 0 ]; then
+            echo "No platforms configured for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" != "true" ] && [ "${manifest_exists}" != "false" ]; then
+            echo "Invalid Docker Hub response for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
+            echo "${PACKAGE} manifest exists but platform tags are incomplete; refusing to overwrite it" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
+            echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ] && [ "${FORCE_BUILD}" = "true" ] && [ "${MANUAL_DISPATCH}" != "true" ]; then
+            echo "${PACKAGE} is affected but its tag already exists; bump package.version or package.build" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ]; then
+            echo "${PACKAGE} already exists and is unaffected; skipping build"
+            echo "needs-build=false" >> "${GITHUB_OUTPUT}"
+          else
+            echo "needs-build=true" >> "${GITHUB_OUTPUT}"
+            echo "${PACKAGE} will be built"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
+        uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
+        with:
+          image: docker.io/tonistiigi/binfmt@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
+          platforms: all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+        with:
+          driver: docker-container
+          name: bcn-ci-${{ github.run_id }}-build
+
+      - name: Build Docker image
+        if: steps.check-image.outputs.needs-build == 'true'
+        run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} debian-blockchain-build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  packages:
+    needs: [select, build]
+    if: needs.select.outputs.packages != '[]'
+    name: docker-${{ matrix.package }} (${{ matrix.config.lane }})
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lanes == 'both') && '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true},{"lane":"GitHub","runner":"ubuntu-26.04","writer":false}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","runner":"ubuntu-26.04","writer":true}]' || '[{"lane":"Velnor","runner":["self-hosted","velnor-target-mvp"],"writer":true}]') }}
+        package: ${{ fromJSON(needs.select.outputs.packages) }}
+    runs-on: ${{ matrix.config.runner }}
+    timeout-minutes: 180
+    concurrency:
+      group: docker-build-${{ matrix.config.lane }}-${{ matrix.package }}
+      cancel-in-progress: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # docker-heimdall ships a 235 MB genesis file through Git LFS.
+          lfs: ${{ matrix.package == 'heimdall' }}
+
+      - uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
+        with:
+          install_args: "rust cargo:rust-script"
+
+      - name: Cache rust-script
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-${{ matrix.config.lane }}-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
+          restore-keys: |
+            rust-script-${{ matrix.config.lane }}-${{ runner.os }}-
+
+      - name: Check target image
+        id: check-image
+        env:
+          PACKAGE: ${{ matrix.package }}
+          MANUAL_DISPATCH: ${{ needs.select.outputs.manual_dispatch }}
+        run: |
+          set -euo pipefail
+          platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${PACKAGE}/build.toml" | tr -d '"' | tr ',' ' ')
+          exists_cmd=(rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs)
+          if ! manifest_exists="$("${exists_cmd[@]}" "${PACKAGE}")"; then
+            echo "Failed to check ${PACKAGE} on Docker Hub; refusing to guess" >&2
+            exit 1
+          fi
+          platform_count=0
+          platforms_found=0
+          for platform in ${platforms}; do
+            platform_count=$((platform_count + 1))
+            if ! platform_exists="$("${exists_cmd[@]}" --platform "${platform}" "${PACKAGE}")"; then
+              echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2
+              exit 1
+            fi
+            case "${platform_exists}" in
+              true) platforms_found=$((platforms_found + 1)) ;;
+              false) ;;
+              *) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
+            esac
+          done
+          if [ "${platform_count}" -eq 0 ]; then
+            echo "No platforms configured for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" != "true" ] && [ "${manifest_exists}" != "false" ]; then
+            echo "Invalid Docker Hub response for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
+            echo "${PACKAGE} manifest exists but platform tags are incomplete; refusing to overwrite it" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
+            echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ] && [ "${MANUAL_DISPATCH}" = "true" ]; then
+            echo "needs-build=false" >> "${GITHUB_OUTPUT}"
+            echo "${PACKAGE} already exists; skipping manual rebuild"
+          elif [ "${manifest_exists}" = "true" ]; then
+            echo "${PACKAGE} is affected but its tag already exists; bump package.version or package.build" >&2
+            exit 1
+          else
+            echo "needs-build=true" >> "${GITHUB_OUTPUT}"
+            echo "${PACKAGE} is affected and will be built"
+          fi
+
+      - name: Login to Docker Hub
+        if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up QEMU
+        if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
+        uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
+        with:
+          image: docker.io/tonistiigi/binfmt@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
+          platforms: all
+
+      - name: Initialize Docker Buildx
+        if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+        with:
+          driver: docker-container
+          name: bcn-ci-${{ github.run_id }}-${{ matrix.package }}
+
+      - name: Build and publish Docker image
+        if: steps.check-image.outputs.needs-build == 'true'
+        run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} "${PACKAGE}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGE: ${{ matrix.package }}
