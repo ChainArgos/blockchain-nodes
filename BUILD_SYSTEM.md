@@ -157,8 +157,10 @@ The build script performs the following steps:
 supports manual dispatch. It selects changed
 `docker-<package>/` directories, then starts one matrix job per affected
 package. Changes to shared Docker build tooling trigger all packages. The
-Debian base and build images run first when needed. Complete existing manifest
-tags are never overwritten; partial publications fail for manual recovery.
+Debian base and build images run first when needed. An affected image whose
+current tag already exists fails closed and requires a `package.version` or
+`package.build` bump; complete existing tags are never overwritten. Partial
+publications also fail for manual recovery.
 
 Writer jobs log in to Docker Hub with `DOCKERHUB_USERNAME` and
 `DOCKERHUB_TOKEN`, then run `mise run build <package>`. The builder publishes
