@@ -151,6 +151,21 @@ The build script performs the following steps:
    - Creates a multi-platform manifest tagged as `<repository>:<full-version>`
    - Pushes the manifest to the registry
 
+## CI/CD
+
+`.github/workflows/build-publish.yml` publishes on pushes to `main` and
+supports manual dispatch. It selects changed
+`docker-<package>/` directories, then starts one matrix job per affected
+package. Changes to shared Docker build tooling trigger all packages. The
+Debian base and build images run first when needed. Complete existing manifest
+tags are never overwritten; partial publications fail for manual recovery.
+
+Writer jobs log in to Docker Hub with `DOCKERHUB_USERNAME` and
+`DOCKERHUB_TOKEN`, then run `mise run build <package>`. The builder publishes
+platform tags (`<full-version>-<platform>`) and the final manifest tag
+(`<full-version>`). A read-only GitHub lane is available for parity runs and
+uses `build-dry`, so it never publishes.
+
 ## Build Argument Naming Convention
 
 ### Automatic Version Arguments
