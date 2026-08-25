@@ -35,6 +35,7 @@ jobs:
       work_required: ${{ steps.select.outputs.work_required }}
       force_base: ${{ steps.select.outputs.force_base }}
       force_build: ${{ steps.select.outputs.force_build }}
+      manual_dispatch: ${{ steps.select.outputs.manual_dispatch }}
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -52,7 +53,9 @@ jobs:
         run: |
           set -euo pipefail
 
+          manual_dispatch=false
           if [ "${EVENT_NAME}" = "workflow_dispatch" ]; then
+            manual_dispatch=true
             changed=$(git ls-files)
           elif [ "${BEFORE_SHA}" = "0000000000000000000000000000000000000000" ]; then
             changed=$(git ls-files)
@@ -148,6 +151,7 @@ jobs:
           echo "work_required=${work_required}" >> "${GITHUB_OUTPUT}"
           echo "force_base=${force_base}" >> "${GITHUB_OUTPUT}"
           echo "force_build=${force_build}" >> "${GITHUB_OUTPUT}"
+          echo "manual_dispatch=${manual_dispatch}" >> "${GITHUB_OUTPUT}"
           echo "packages=${packages}"
           echo "work_required=${work_required}"
           echo "force_base=${force_base}"
@@ -189,6 +193,7 @@ jobs:
         env:
           PACKAGE: debian-blockchain-base
           FORCE_BUILD: ${{ needs.select.outputs.force_base }}
+          MANUAL_DISPATCH: ${{ needs.select.outputs.manual_dispatch }}
         run: |
           set -euo pipefail
           platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${PACKAGE}/build.toml" | tr -d '"' | tr ',' ' ')
@@ -210,7 +215,7 @@ jobs:
           if [ "${partial}" = "true" ] && [ "${manifest_exists}" != "true" ]; then
             echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
             exit 1
-          elif [ "${manifest_exists}" = "true" ] && [ "${FORCE_BUILD}" = "true" ]; then
+          elif [ "${manifest_exists}" = "true" ] && [ "${FORCE_BUILD}" = "true" ] && [ "${MANUAL_DISPATCH}" != "true" ]; then
             echo "${PACKAGE} is affected but its tag already exists; bump package.version or package.build" >&2
             exit 1
           elif [ "${manifest_exists}" = "true" ]; then
@@ -227,15 +232,11 @@ jobs:
 
       - name: Set up QEMU
         if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
-        uses: docker/setup-qemu-action@06116385d9baf250c9f4dcb4858b16962ea869c3 # v4.1.0
+        run: docker run --rm --privileged tonistiigi/binfmt@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0 --install all
 
       - name: Initialize Docker Buildx
         if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
-        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
-        with:
-          name: bcn-ci
-          driver: docker-container
-          install: "true"
+        run: docker buildx create --name bcn-ci --driver docker-container --use 2>/dev/null || docker buildx use bcn-ci
 
       - name: Build Docker image
         if: steps.check-image.outputs.needs-build == 'true'
@@ -279,6 +280,7 @@ jobs:
         env:
           PACKAGE: debian-blockchain-build
           FORCE_BUILD: ${{ needs.select.outputs.force_build }}
+          MANUAL_DISPATCH: ${{ needs.select.outputs.manual_dispatch }}
         run: |
           set -euo pipefail
           platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${PACKAGE}/build.toml" | tr -d '"' | tr ',' ' ')
@@ -300,7 +302,7 @@ jobs:
           if [ "${partial}" = "true" ] && [ "${manifest_exists}" != "true" ]; then
             echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
             exit 1
-          elif [ "${manifest_exists}" = "true" ] && [ "${FORCE_BUILD}" = "true" ]; then
+          elif [ "${manifest_exists}" = "true" ] && [ "${FORCE_BUILD}" = "true" ] && [ "${MANUAL_DISPATCH}" != "true" ]; then
             echo "${PACKAGE} is affected but its tag already exists; bump package.version or package.build" >&2
             exit 1
           elif [ "${manifest_exists}" = "true" ]; then
@@ -317,15 +319,11 @@ jobs:
 
       - name: Set up QEMU
         if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
-        uses: docker/setup-qemu-action@06116385d9baf250c9f4dcb4858b16962ea869c3 # v4.1.0
+        run: docker run --rm --privileged tonistiigi/binfmt@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0 --install all
 
       - name: Initialize Docker Buildx
         if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
-        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
-        with:
-          name: bcn-ci
-          driver: docker-container
-          install: "true"
+        run: docker buildx create --name bcn-ci --driver docker-container --use 2>/dev/null || docker buildx use bcn-ci
 
       - name: Build Docker image
         if: steps.check-image.outputs.needs-build == 'true'
@@ -371,6 +369,7 @@ jobs:
         id: check-image
         env:
           PACKAGE: ${{ matrix.package }}
+          MANUAL_DISPATCH: ${{ needs.select.outputs.manual_dispatch }}
         run: |
           set -euo pipefail
           platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${PACKAGE}/build.toml" | tr -d '"' | tr ',' ' ')
@@ -385,6 +384,9 @@ jobs:
           if [ "${partial}" = "true" ] && [ "${manifest_exists}" != "true" ]; then
             echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
             exit 1
+          elif [ "${manifest_exists}" = "true" ] && [ "${MANUAL_DISPATCH}" = "true" ]; then
+            echo "needs-build=false" >> "${GITHUB_OUTPUT}"
+            echo "${PACKAGE} already exists; skipping manual rebuild"
           elif [ "${manifest_exists}" = "true" ]; then
             echo "${PACKAGE} is affected but its tag already exists; bump package.version or package.build" >&2
             exit 1
@@ -399,15 +401,11 @@ jobs:
 
       - name: Set up QEMU
         if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
-        uses: docker/setup-qemu-action@06116385d9baf250c9f4dcb4858b16962ea869c3 # v4.1.0
+        run: docker run --rm --privileged tonistiigi/binfmt@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0 --install all
 
       - name: Initialize Docker Buildx
         if: steps.check-image.outputs.needs-build == 'true' && matrix.config.writer
-        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
-        with:
-          name: bcn-ci
-          driver: docker-container
-          install: "true"
+        run: docker buildx create --name bcn-ci --driver docker-container --use 2>/dev/null || docker buildx use bcn-ci
 
       - name: Build and publish Docker image
         if: steps.check-image.outputs.needs-build == 'true'
