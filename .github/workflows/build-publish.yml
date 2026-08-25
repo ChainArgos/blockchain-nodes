@@ -202,17 +202,30 @@ jobs:
             echo "Failed to check ${PACKAGE} on Docker Hub; refusing to guess" >&2
             exit 1
           fi
-          partial=false
+          platform_count=0
+          platforms_found=0
           for platform in ${platforms}; do
+            platform_count=$((platform_count + 1))
             if ! platform_exists="$("${exists_cmd[@]}" --platform "${platform}" "${PACKAGE}")"; then
               echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2
               exit 1
             fi
-            if [ "${platform_exists}" = "true" ]; then
-              partial=true
-            fi
+            case "${platform_exists}" in
+              true) platforms_found=$((platforms_found + 1)) ;;
+              false) ;;
+              *) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
+            esac
           done
-          if [ "${partial}" = "true" ] && [ "${manifest_exists}" != "true" ]; then
+          if [ "${platform_count}" -eq 0 ]; then
+            echo "No platforms configured for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" != "true" ] && [ "${manifest_exists}" != "false" ]; then
+            echo "Invalid Docker Hub response for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
+            echo "${PACKAGE} manifest exists but platform tags are incomplete; refusing to overwrite it" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
             echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
             exit 1
           elif [ "${manifest_exists}" = "true" ] && [ "${FORCE_BUILD}" = "true" ] && [ "${MANUAL_DISPATCH}" != "true" ]; then
@@ -295,17 +308,30 @@ jobs:
             echo "Failed to check ${PACKAGE} on Docker Hub; refusing to guess" >&2
             exit 1
           fi
-          partial=false
+          platform_count=0
+          platforms_found=0
           for platform in ${platforms}; do
+            platform_count=$((platform_count + 1))
             if ! platform_exists="$("${exists_cmd[@]}" --platform "${platform}" "${PACKAGE}")"; then
               echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2
               exit 1
             fi
-            if [ "${platform_exists}" = "true" ]; then
-              partial=true
-            fi
+            case "${platform_exists}" in
+              true) platforms_found=$((platforms_found + 1)) ;;
+              false) ;;
+              *) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
+            esac
           done
-          if [ "${partial}" = "true" ] && [ "${manifest_exists}" != "true" ]; then
+          if [ "${platform_count}" -eq 0 ]; then
+            echo "No platforms configured for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" != "true" ] && [ "${manifest_exists}" != "false" ]; then
+            echo "Invalid Docker Hub response for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
+            echo "${PACKAGE} manifest exists but platform tags are incomplete; refusing to overwrite it" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
             echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
             exit 1
           elif [ "${manifest_exists}" = "true" ] && [ "${FORCE_BUILD}" = "true" ] && [ "${MANUAL_DISPATCH}" != "true" ]; then
@@ -386,14 +412,34 @@ jobs:
           set -euo pipefail
           platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${PACKAGE}/build.toml" | tr -d '"' | tr ',' ' ')
           exists_cmd=(rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs)
-          manifest_exists="$("${exists_cmd[@]}" "${PACKAGE}")"
-          partial=false
+          if ! manifest_exists="$("${exists_cmd[@]}" "${PACKAGE}")"; then
+            echo "Failed to check ${PACKAGE} on Docker Hub; refusing to guess" >&2
+            exit 1
+          fi
+          platform_count=0
+          platforms_found=0
           for platform in ${platforms}; do
-            if [ "$("${exists_cmd[@]}" --platform "${platform}" "${PACKAGE}")" = "true" ]; then
-              partial=true
+            platform_count=$((platform_count + 1))
+            if ! platform_exists="$("${exists_cmd[@]}" --platform "${platform}" "${PACKAGE}")"; then
+              echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2
+              exit 1
             fi
+            case "${platform_exists}" in
+              true) platforms_found=$((platforms_found + 1)) ;;
+              false) ;;
+              *) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
+            esac
           done
-          if [ "${partial}" = "true" ] && [ "${manifest_exists}" != "true" ]; then
+          if [ "${platform_count}" -eq 0 ]; then
+            echo "No platforms configured for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" != "true" ] && [ "${manifest_exists}" != "false" ]; then
+            echo "Invalid Docker Hub response for ${PACKAGE}; refusing to guess" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
+            echo "${PACKAGE} manifest exists but platform tags are incomplete; refusing to overwrite it" >&2
+            exit 1
+          elif [ "${manifest_exists}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
             echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
             exit 1
           elif [ "${manifest_exists}" = "true" ] && [ "${MANUAL_DISPATCH}" = "true" ]; then
