@@ -588,7 +588,7 @@ services:
       - ${OMNI_ROOT_DIR:-~}/omni:/data
 
   tron-java:
-    image: chainargos/tron-java:4.8.1-1@sha256:7c48e82a4edbf74dc12ce5e020f56dd631c851f914a303408567640d14736381
+    image: chainargos/tron-java:4.8.2.1-1@sha256:841e5eb3de927fb5408e587665cf4cd649427e3afebb5b784a71123e2640930f
     container_name: tron-java
     restart: unless-stopped
     stop_grace_period: 15m
