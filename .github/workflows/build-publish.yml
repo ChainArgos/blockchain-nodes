@@ -68,7 +68,7 @@ jobs:
           while IFS= read -r path; do
             [ -z "${path}" ] && continue
             case "${path}" in
-              docker-build.rs|docker-exists.rs|mise.toml|Cargo.toml|Cargo.lock|.github/workflows/build-publish.yml)
+              docker-build.rs|docker-exists.rs|mise.toml|Cargo.toml|Cargo.lock)
                 all=true
                 ;;
               docker-debian-blockchain-base/*)
@@ -92,7 +92,7 @@ jobs:
                   fi
                 done
                 ;;
-              README.md|README.*|**/*.md|RULES.md|BRANCHING.md|COMMITS.md|BUILD_SYSTEM.md|NODE_UPDATES.md|SKILLS.md|docker-compose.yml|.node-updates/*|.node-updates/**|.github/AGENTS.md|.github/workflows/ci.yml|.github/workflows/dco.yml|.github/workflows/renovate.yml|.github/renovate-config.js)
+              README.md|README.*|**/*.md|RULES.md|BRANCHING.md|COMMITS.md|BUILD_SYSTEM.md|NODE_UPDATES.md|SKILLS.md|docker-compose.yml|.node-updates/*|.node-updates/**|.github/AGENTS.md|.github/workflows/ci.yml|.github/workflows/dco.yml|.github/workflows/renovate.yml|.github/workflows/build-publish.yml|.github/renovate-config.js)
                 ;;
               docker-*)
                 package="${path#docker-}"
