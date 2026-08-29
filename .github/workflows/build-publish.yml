@@ -157,8 +157,99 @@ jobs:
           echo "force_base=${force_base}"
           echo "force_build=${force_build}"
 
-  base:
+  # Single Docker Hub existence probe for every package this run may build.
+  # The base, build, and packages jobs previously each ran their own copy of
+  # the probe script against the same registry state; the results are lane
+  # independent, so they are probed once here and consumed via `results`.
+  # Per-package probe failures are recorded, not raised, so sibling package
+  # jobs keep their current fail isolation: a package whose probe failed still
+  # fails its own job ("refusing to guess") without blocking the others.
+  probe:
+    name: Probe Docker Hub image state
     needs: select
+    if: needs.select.outputs.work_required == 'true'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 15
+    outputs:
+      results: ${{ steps.probe.outputs.results }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+        with:
+          install_args: "rust cargo:rust-script"
+
+      # Same key lineage as the GitHub-lane jobs (this job also runs on
+      # ubuntu-26.04), so the compiled docker-exists helper is shared instead
+      # of maintaining a second cache entry.
+      - name: Cache rust-script
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.cache/rust-script
+          key: rust-script-GitHub-${{ runner.os }}-v1-${{ hashFiles('docker-*.rs', 'containerctl.rs', 'docker-*/**/*.rs', 'mise.toml') }}
+          restore-keys: |
+            rust-script-GitHub-${{ runner.os }}-
+
+      - name: Probe image existence on Docker Hub
+        id: probe
+        env:
+          PACKAGES: ${{ needs.select.outputs.packages }}
+        run: |
+          set -euo pipefail
+          exists_cmd=(rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs)
+
+          probe_package() {
+            local package="$1" platforms manifest manifest_result platform
+            local platform_count platforms_json platform_status platform_result entry
+            platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${package}/build.toml" | tr -d '"' | tr ',' ' ')
+
+            manifest_status=fail
+            manifest=""
+            if manifest_result="$("${exists_cmd[@]}" "${package}")"; then
+              manifest="${manifest_result}"
+              manifest_status=ok
+            fi
+
+            platform_count=0
+            platforms_json='[]'
+            if [ "${manifest_status}" = "ok" ]; then
+              for platform in ${platforms}; do
+                platform_count=$((platform_count + 1))
+                platform_status=fail
+                if platform_result="$("${exists_cmd[@]}" --platform "${platform}" "${package}")"; then
+                  case "${platform_result}" in
+                    true|false) platform_status="${platform_result}" ;;
+                    *) platform_status=invalid ;;
+                  esac
+                fi
+                platforms_json=$(jq -c --arg name "${platform}" --arg status "${platform_status}" \
+                  '. + [{name: $name, status: $status}]' <<<"${platforms_json}")
+              done
+            fi
+
+            entry="$(jq -cn \
+              --arg manifest "${manifest}" \
+              --arg manifest_status "${manifest_status}" \
+              --argjson platform_count "${platform_count}" \
+              --argjson platforms "${platforms_json}" \
+              '{manifest: $manifest, manifest_status: $manifest_status, platform_count: $platform_count, platforms: $platforms}')"
+            printf '%s' "${entry}"
+          }
+
+          results='{}'
+          package_list="debian-blockchain-base debian-blockchain-build $(jq -r '.[]' <<<"${PACKAGES}")"
+          for package in ${package_list}; do
+            echo "Probing ${package}..."
+            entry="$(probe_package "${package}")"
+            results="$(jq -c --arg package "${package}" --argjson entry "${entry}" '.[$package] = $entry' <<<"${results}")"
+          done
+          echo "results=${results}" >> "${GITHUB_OUTPUT}"
+
+  base:
+    needs: [select, probe]
     if: needs.select.outputs.work_required == 'true'
     name: docker-debian-blockchain-base (${{ matrix.config.lane }})
     strategy:
@@ -194,44 +285,39 @@ jobs:
           PACKAGE: debian-blockchain-base
           FORCE_BUILD: ${{ needs.select.outputs.force_base }}
           MANUAL_DISPATCH: ${{ needs.select.outputs.manual_dispatch }}
+          PROBE_RESULTS: ${{ needs.probe.outputs.results }}
         run: |
           set -euo pipefail
-          platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${PACKAGE}/build.toml" | tr -d '"' | tr ',' ' ')
-          exists_cmd=(rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs)
-          if ! manifest_exists="$("${exists_cmd[@]}" "${PACKAGE}")"; then
+          entry="$(jq -c --arg package "${PACKAGE}" '.[$package]' <<<"${PROBE_RESULTS}")"
+          manifest="$(jq -r '.manifest' <<<"${entry}")"
+          manifest_status="$(jq -r '.manifest_status' <<<"${entry}")"
+          platform_count="$(jq -r '.platform_count' <<<"${entry}")"
+          platforms_found="$(jq -r '[.platforms[] | select(.status == "true")] | length' <<<"${entry}")"
+          while IFS=' ' read -r platform status; do
+            case "${status}" in
+              fail) echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2; exit 1 ;;
+              invalid) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
+            esac
+          done < <(jq -r '.platforms[] | "\(.name) \(.status)"' <<<"${entry}")
+          if [ "${manifest_status}" != "ok" ]; then
             echo "Failed to check ${PACKAGE} on Docker Hub; refusing to guess" >&2
             exit 1
-          fi
-          platform_count=0
-          platforms_found=0
-          for platform in ${platforms}; do
-            platform_count=$((platform_count + 1))
-            if ! platform_exists="$("${exists_cmd[@]}" --platform "${platform}" "${PACKAGE}")"; then
-              echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2
-              exit 1
-            fi
-            case "${platform_exists}" in
-              true) platforms_found=$((platforms_found + 1)) ;;
-              false) ;;
-              *) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
-            esac
-          done
-          if [ "${platform_count}" -eq 0 ]; then
+          elif [ "${platform_count}" -eq 0 ]; then
             echo "No platforms configured for ${PACKAGE}; refusing to guess" >&2
             exit 1
-          elif [ "${manifest_exists}" != "true" ] && [ "${manifest_exists}" != "false" ]; then
+          elif [ "${manifest}" != "true" ] && [ "${manifest}" != "false" ]; then
             echo "Invalid Docker Hub response for ${PACKAGE}; refusing to guess" >&2
             exit 1
-          elif [ "${manifest_exists}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
+          elif [ "${manifest}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
             echo "${PACKAGE} manifest exists but platform tags are incomplete; refusing to overwrite it" >&2
             exit 1
-          elif [ "${manifest_exists}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
+          elif [ "${manifest}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
             echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
             exit 1
-          elif [ "${manifest_exists}" = "true" ] && [ "${FORCE_BUILD}" = "true" ] && [ "${MANUAL_DISPATCH}" != "true" ]; then
+          elif [ "${manifest}" = "true" ] && [ "${FORCE_BUILD}" = "true" ] && [ "${MANUAL_DISPATCH}" != "true" ]; then
             echo "${PACKAGE} is affected but its tag already exists; bump package.version or package.build" >&2
             exit 1
-          elif [ "${manifest_exists}" = "true" ]; then
+          elif [ "${manifest}" = "true" ]; then
             echo "${PACKAGE} already exists and is unaffected; skipping build"
             echo "needs-build=false" >> "${GITHUB_OUTPUT}"
           else
@@ -264,7 +350,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
-    needs: [select, base]
+    needs: [select, base, probe]
     if: needs.select.outputs.work_required == 'true'
     name: docker-debian-blockchain-build (${{ matrix.config.lane }})
     strategy:
@@ -300,44 +386,39 @@ jobs:
           PACKAGE: debian-blockchain-build
           FORCE_BUILD: ${{ needs.select.outputs.force_build }}
           MANUAL_DISPATCH: ${{ needs.select.outputs.manual_dispatch }}
+          PROBE_RESULTS: ${{ needs.probe.outputs.results }}
         run: |
           set -euo pipefail
-          platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${PACKAGE}/build.toml" | tr -d '"' | tr ',' ' ')
-          exists_cmd=(rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs)
-          if ! manifest_exists="$("${exists_cmd[@]}" "${PACKAGE}")"; then
+          entry="$(jq -c --arg package "${PACKAGE}" '.[$package]' <<<"${PROBE_RESULTS}")"
+          manifest="$(jq -r '.manifest' <<<"${entry}")"
+          manifest_status="$(jq -r '.manifest_status' <<<"${entry}")"
+          platform_count="$(jq -r '.platform_count' <<<"${entry}")"
+          platforms_found="$(jq -r '[.platforms[] | select(.status == "true")] | length' <<<"${entry}")"
+          while IFS=' ' read -r platform status; do
+            case "${status}" in
+              fail) echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2; exit 1 ;;
+              invalid) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
+            esac
+          done < <(jq -r '.platforms[] | "\(.name) \(.status)"' <<<"${entry}")
+          if [ "${manifest_status}" != "ok" ]; then
             echo "Failed to check ${PACKAGE} on Docker Hub; refusing to guess" >&2
             exit 1
-          fi
-          platform_count=0
-          platforms_found=0
-          for platform in ${platforms}; do
-            platform_count=$((platform_count + 1))
-            if ! platform_exists="$("${exists_cmd[@]}" --platform "${platform}" "${PACKAGE}")"; then
-              echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2
-              exit 1
-            fi
-            case "${platform_exists}" in
-              true) platforms_found=$((platforms_found + 1)) ;;
-              false) ;;
-              *) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
-            esac
-          done
-          if [ "${platform_count}" -eq 0 ]; then
+          elif [ "${platform_count}" -eq 0 ]; then
             echo "No platforms configured for ${PACKAGE}; refusing to guess" >&2
             exit 1
-          elif [ "${manifest_exists}" != "true" ] && [ "${manifest_exists}" != "false" ]; then
+          elif [ "${manifest}" != "true" ] && [ "${manifest}" != "false" ]; then
             echo "Invalid Docker Hub response for ${PACKAGE}; refusing to guess" >&2
             exit 1
-          elif [ "${manifest_exists}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
+          elif [ "${manifest}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
             echo "${PACKAGE} manifest exists but platform tags are incomplete; refusing to overwrite it" >&2
             exit 1
-          elif [ "${manifest_exists}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
+          elif [ "${manifest}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
             echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
             exit 1
-          elif [ "${manifest_exists}" = "true" ] && [ "${FORCE_BUILD}" = "true" ] && [ "${MANUAL_DISPATCH}" != "true" ]; then
+          elif [ "${manifest}" = "true" ] && [ "${FORCE_BUILD}" = "true" ] && [ "${MANUAL_DISPATCH}" != "true" ]; then
             echo "${PACKAGE} is affected but its tag already exists; bump package.version or package.build" >&2
             exit 1
-          elif [ "${manifest_exists}" = "true" ]; then
+          elif [ "${manifest}" = "true" ]; then
             echo "${PACKAGE} already exists and is unaffected; skipping build"
             echo "needs-build=false" >> "${GITHUB_OUTPUT}"
           else
@@ -370,7 +451,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   packages:
-    needs: [select, build]
+    needs: [select, build, probe]
     if: needs.select.outputs.packages != '[]'
     name: docker-${{ matrix.package }} (${{ matrix.config.lane }})
     strategy:
@@ -408,44 +489,39 @@ jobs:
         env:
           PACKAGE: ${{ matrix.package }}
           MANUAL_DISPATCH: ${{ needs.select.outputs.manual_dispatch }}
+          PROBE_RESULTS: ${{ needs.probe.outputs.results }}
         run: |
           set -euo pipefail
-          platforms=$(sed -n 's/^platforms = \[\(.*\)\]/\1/p' "docker-${PACKAGE}/build.toml" | tr -d '"' | tr ',' ' ')
-          exists_cmd=(rust-script --pkg-path "${RUST_SCRIPT_DOCKER_EXISTS_PKG_PATH:-$HOME/.cache/rust-script/docker-exists}" ./docker-exists.rs)
-          if ! manifest_exists="$("${exists_cmd[@]}" "${PACKAGE}")"; then
+          entry="$(jq -c --arg package "${PACKAGE}" '.[$package]' <<<"${PROBE_RESULTS}")"
+          manifest="$(jq -r '.manifest' <<<"${entry}")"
+          manifest_status="$(jq -r '.manifest_status' <<<"${entry}")"
+          platform_count="$(jq -r '.platform_count' <<<"${entry}")"
+          platforms_found="$(jq -r '[.platforms[] | select(.status == "true")] | length' <<<"${entry}")"
+          while IFS=' ' read -r platform status; do
+            case "${status}" in
+              fail) echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2; exit 1 ;;
+              invalid) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
+            esac
+          done < <(jq -r '.platforms[] | "\(.name) \(.status)"' <<<"${entry}")
+          if [ "${manifest_status}" != "ok" ]; then
             echo "Failed to check ${PACKAGE} on Docker Hub; refusing to guess" >&2
             exit 1
-          fi
-          platform_count=0
-          platforms_found=0
-          for platform in ${platforms}; do
-            platform_count=$((platform_count + 1))
-            if ! platform_exists="$("${exists_cmd[@]}" --platform "${platform}" "${PACKAGE}")"; then
-              echo "Failed to check ${PACKAGE}:${platform} on Docker Hub; refusing to guess" >&2
-              exit 1
-            fi
-            case "${platform_exists}" in
-              true) platforms_found=$((platforms_found + 1)) ;;
-              false) ;;
-              *) echo "Invalid Docker Hub response for ${PACKAGE}:${platform}; refusing to guess" >&2; exit 1 ;;
-            esac
-          done
-          if [ "${platform_count}" -eq 0 ]; then
+          elif [ "${platform_count}" -eq 0 ]; then
             echo "No platforms configured for ${PACKAGE}; refusing to guess" >&2
             exit 1
-          elif [ "${manifest_exists}" != "true" ] && [ "${manifest_exists}" != "false" ]; then
+          elif [ "${manifest}" != "true" ] && [ "${manifest}" != "false" ]; then
             echo "Invalid Docker Hub response for ${PACKAGE}; refusing to guess" >&2
             exit 1
-          elif [ "${manifest_exists}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
+          elif [ "${manifest}" = "true" ] && [ "${platforms_found}" -ne "${platform_count}" ]; then
             echo "${PACKAGE} manifest exists but platform tags are incomplete; refusing to overwrite it" >&2
             exit 1
-          elif [ "${manifest_exists}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
+          elif [ "${manifest}" = "false" ] && [ "${platforms_found}" -ne 0 ]; then
             echo "A partial ${PACKAGE} publication exists; refusing to overwrite it" >&2
             exit 1
-          elif [ "${manifest_exists}" = "true" ] && [ "${MANUAL_DISPATCH}" = "true" ]; then
+          elif [ "${manifest}" = "true" ] && [ "${MANUAL_DISPATCH}" = "true" ]; then
             echo "needs-build=false" >> "${GITHUB_OUTPUT}"
             echo "${PACKAGE} already exists; skipping manual rebuild"
-          elif [ "${manifest_exists}" = "true" ]; then
+          elif [ "${manifest}" = "true" ]; then
             echo "${PACKAGE} is affected but its tag already exists; bump package.version or package.build" >&2
             exit 1
           else
