@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       lanes:
-        description: velnor (default) | github | both
+        description: github (default) | velnor | both
         type: choice
-        default: velnor
+        default: github
         options: [velnor, github, both]
 
 concurrency:
@@ -25,7 +25,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lanes == 'both') && '[{"lane":"Velnor","velnor_default_runner":["self-hosted","velnor-target-mvp"],"writer":true,"dry_run":"false"},{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04","writer":false,"dry_run":"full"}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04","writer":true,"dry_run":"false"}]' || (github.event_name == 'push') && '[{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04","writer":true,"dry_run":"false"}]' || '[{"lane":"Velnor","velnor_default_runner":["self-hosted","velnor-target-mvp"],"writer":true,"dry_run":"false"}]') }}
+        # The Velnor self-hosted lane is opt-in only (workflow_dispatch with
+        # lanes=velnor/both). Scheduled and push runs always use the
+        # GitHub-hosted lane: when the Velnor runner is offline the scheduled
+        # job queues with no runner available, and each hourly run cancels
+        # the previous one after ~1h, leaving CI permanently red.
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lanes == 'both') && '[{"lane":"Velnor","velnor_default_runner":["self-hosted","velnor-target-mvp"],"writer":true,"dry_run":"false"},{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04","writer":false,"dry_run":"full"}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'velnor') && '[{"lane":"Velnor","velnor_default_runner":["self-hosted","velnor-target-mvp"],"writer":true,"dry_run":"false"}]' || '[{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04","writer":true,"dry_run":"false"}]') }}
     runs-on: ${{ matrix.config.velnor_default_runner }}
     env:
       # Plain (non-secret) Renovate settings. Secret-bearing strings embedded
