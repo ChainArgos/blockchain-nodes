@@ -21,10 +21,10 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 mise tasks
 
 # Build a Docker image
-mise run build geth
+mise run docker-build geth
 
 # Build all images
-mise run build-all
+mise run docker-build-all
 
 # Restart a container
 mise run restart ethereum-geth
@@ -49,8 +49,8 @@ Builds multi-platform Docker images for blockchain nodes.
 ./docker-build.rs geth --dry-run
 
 # Or use mise (recommended)
-mise run build geth
-mise run build-dry geth
+mise run docker-build geth
+mise run docker-build-dry geth
 ```
 
 **Features:**
@@ -97,8 +97,8 @@ mise tasks
 # Use commands
 mise run restart ethereum-geth
 mise run restart bitcoin-core
-mise run build geth
-mise run build-all
+mise run docker-build geth
+mise run docker-build-all
 ```
 
 **Benefits:**
@@ -156,15 +156,15 @@ platforms = ["amd64", "arm64"]
 
 ```bash
 # Build with generic command
-mise run build geth
-mise run build bitcoin-core
-mise run build arbitrum
+mise run docker-build geth
+mise run docker-build bitcoin-core
+mise run docker-build arbitrum
 
 # Build all images
-mise run build-all
+mise run docker-build-all
 
 # Dry run to preview commands
-mise run build-dry geth
+mise run docker-build-dry geth
 ```
 
 ### Managing Containers

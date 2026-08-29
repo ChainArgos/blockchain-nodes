@@ -345,7 +345,7 @@ jobs:
 
       - name: Build Docker image
         if: steps.check-image.outputs.needs-build == 'true'
-        run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} debian-blockchain-base
+        run: mise run ${{ matrix.config.writer && 'docker-build' || 'docker-build-dry' }} debian-blockchain-base
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -446,7 +446,7 @@ jobs:
 
       - name: Build Docker image
         if: steps.check-image.outputs.needs-build == 'true'
-        run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} debian-blockchain-build
+        run: mise run ${{ matrix.config.writer && 'docker-build' || 'docker-build-dry' }} debian-blockchain-build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -549,7 +549,7 @@ jobs:
 
       - name: Build and publish Docker image
         if: steps.check-image.outputs.needs-build == 'true'
-        run: mise run ${{ matrix.config.writer && 'build' || 'build-dry' }} "${PACKAGE}"
+        run: mise run ${{ matrix.config.writer && 'docker-build' || 'docker-build-dry' }} "${PACKAGE}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PACKAGE: ${{ matrix.package }}

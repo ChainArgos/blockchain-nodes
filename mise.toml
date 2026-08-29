@@ -6,12 +6,12 @@ rust = { version = "1.98.0", profile = "minimal", components = ["rustfmt", "clip
 [settings]
 lockfile = true
 
-[tasks.build]
+[tasks."docker-build"]
 description = "Build a Docker image"
 usage = 'arg "<package>" help="Package name to build"'
 run = "./docker-build.rs ${usage_package:?}"
 
-[tasks."build-dry"]
+[tasks."docker-build-dry"]
 description = "Build a Docker image (dry run)"
 usage = 'arg "<package>" help="Package name to build"'
 run = "./docker-build.rs ${usage_package:?} --dry-run"
@@ -44,9 +44,17 @@ description = "Stop a container"
 usage = 'arg "<container>" help="Container name"'
 run = "./containerctl.rs stop ${usage_container:?}"
 
+[tasks.install]
+description = "Provision every pinned tool from mise.lock"
+run = "mise install --locked"
+
+[tasks.build]
+description = "Build the Rust automation workspace with a real codegen build"
+run = "cargo build --workspace --all-targets --locked"
+
 [tasks.ci]
-description = "Check the Rust automation workspace"
-run = "cargo check --workspace --all-targets --locked"
+description = "Aggregate every CI gate: install, build, test, lint, fmt"
+depends = ["install", "build", "test", "lint", "fmt"]
 
 [tasks.test]
 description = "Test the Rust automation workspace"
@@ -60,7 +68,7 @@ run = "cargo clippy --workspace --all-targets --locked -- -D warnings"
 description = "Check Rust formatting"
 run = "cargo fmt --all -- --check"
 
-[tasks."build-all"]
+[tasks."docker-build-all"]
 description = "Build all Docker images in sequence"
 run = """
 ./docker-build.rs debian-blockchain-base

@@ -189,7 +189,7 @@ mise tasks provide several benefits:
 1. **Simple commands**: `mise run restart ethereum-geth` vs `./containerctl.rs restart ethereum-geth -f`
 2. **Discoverability**: Run `mise tasks` to see all available commands
 3. **Consistency**: All commands follow the same naming convention
-4. **Integration**: Works seamlessly with build commands (`mise run build geth`)
+4. **Integration**: Works seamlessly with build commands (`mise run docker-build geth`)
 5. **Documentation**: Each command has a description visible in `mise tasks`
 
 ## Supported Containers

@@ -87,13 +87,13 @@ The easiest way to build images is with `mise run` commands:
 
 ```bash
 # Build a specific package
-mise run build geth
+mise run docker-build geth
 
 # Build with dry-run
-mise run build-dry geth
+mise run docker-build-dry geth
 
 # Build all packages
-mise run build-all
+mise run docker-build-all
 ```
 
 ### Alternative: Direct Script Execution
@@ -119,19 +119,19 @@ You can also run the build script directly:
 
 ```bash
 # Build packages (recommended - using mise)
-mise run build geth
-mise run build bitcoin-core
-mise run build-all
+mise run docker-build geth
+mise run docker-build bitcoin-core
+mise run docker-build-all
 
 # Build with custom progress output (direct script)
 ./docker-build.rs geth --extra-args "--progress auto"
 
 # Dry run to see commands (both methods work)
-mise run build-dry geth
+mise run docker-build-dry geth
 ./docker-build.rs geth --dry-run
 
 # Build with GITHUB_TOKEN (for packages that need it)
-GITHUB_TOKEN=your_token mise run build op-node
+GITHUB_TOKEN=your_token mise run docker-build op-node
 ```
 
 ## Build Process
@@ -165,7 +165,7 @@ whose current tag already exists fails closed and requires a
 overwritten. Partial publications also fail for manual recovery.
 
 Writer jobs log in to Docker Hub with `DOCKERHUB_USERNAME` and
-`DOCKERHUB_TOKEN`, then run `mise run build <package>`. The builder publishes
+`DOCKERHUB_TOKEN`, then run `mise run docker-build <package>`. The builder publishes
 platform tags (`<full-version>-<platform>`) and the final manifest tag
 (`<full-version>`). A read-only GitHub lane is available for parity runs and
 uses `build-dry`, so it never publishes.
