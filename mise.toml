@@ -1,5 +1,5 @@
 [tools]
-rust = { version = "1.98.0", profile = "minimal", components = ["rustfmt", "clippy"] }
+rust = { version = "1.98.1", profile = "minimal", components = ["rustfmt", "clippy"] }
 "cargo:rust-script" = "0.36.0"
 "aqua:nextest-rs/nextest/cargo-nextest" = "0.9.140"
 
