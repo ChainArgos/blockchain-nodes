@@ -8,8 +8,11 @@ WORKDIR /optimism
 
 RUN mise trust
 RUN sed -i '/^asterisc = /d; /^kontrol = /d; /^binary_signer = /d' mise.toml
+# The secret is absent in plain `docker build` verification: leave
+# GITHUB_TOKEN unset then, since an exported-but-empty token turns
+# anonymous api.github.com requests into 401s instead of rate-limited 200s.
 RUN --mount=type=secret,id=github_token,required=false \
-    GITHUB_TOKEN="$(cat /run/secrets/github_token 2>/dev/null || true)" \
+    if [ -s /run/secrets/github_token ]; then export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; fi; \
     MISE_PYTHON_GITHUB_ATTESTATIONS=false mise install
 
 RUN make op-node
