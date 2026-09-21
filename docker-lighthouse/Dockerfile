@@ -3,7 +3,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ARG TARGETARCH
-ARG LIGHTHOUSE_VERSION
+ARG LIGHTHOUSE_VERSION=8.2.0
 
 RUN case "$TARGETARCH" in \
       amd64) lighthouse_target='x86_64-unknown-linux-gnu' ;; \

@@ -3,7 +3,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ARG TARGETARCH
-ARG BITCOIN_CORE_VERSION
+ARG BITCOIN_CORE_VERSION=31.1
 
 RUN case "$TARGETARCH" in \
       amd64) bitcoin_core_target='x86_64-linux-gnu' ;; \

@@ -2,7 +2,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG BEACON_KIT_VERSION
+ARG BEACON_KIT_VERSION=1.4.1
 
 RUN cd /tmp \
     && curl -L https://github.com/berachain/beacon-kit/releases/download/v${BEACON_KIT_VERSION}/beacond-v${BEACON_KIT_VERSION}-linux-amd64.tar.gz -o beacond.tar.gz \

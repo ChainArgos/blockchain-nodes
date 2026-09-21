@@ -2,7 +2,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG BNB_BEACON_CHAIN_VERSION
+ARG BNB_BEACON_CHAIN_VERSION=0.10.24
 
 RUN curl -L https://github.com/bnb-chain/node/releases/download/v${BNB_BEACON_CHAIN_VERSION}/linux_binary.zip -o /tmp/linux_binary.zip \
     && unzip /tmp/linux_binary.zip -d /tmp \

@@ -1,6 +1,6 @@
 FROM chainargos/debian-blockchain-build:1.1.0@sha256:94254766acc9b144f5679f100594aa34e8b90f72883aa927110ccb4a642dfe28 AS build
 
-ARG BOR_VERSION
+ARG BOR_VERSION=2.9.0
 
 RUN git clone --branch v${BOR_VERSION} --single-branch --depth=1 https://github.com/maticnetwork/bor.git
 

@@ -3,7 +3,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ARG TARGETARCH
-ARG OMNICORE_VERSION
+ARG OMNICORE_VERSION=0.12.0.1
 
 RUN case "$TARGETARCH" in \
       amd64) omnicore_target='x86_64-linux-gnu' ;; \
