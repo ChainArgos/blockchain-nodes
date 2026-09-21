@@ -12,7 +12,7 @@ RUN mise trust
 # anonymous api.github.com requests into 401s instead of rate-limited 200s.
 RUN --mount=type=secret,id=github_token,required=false \
     if [ -s /run/secrets/github_token ]; then export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; fi; \
-    MISE_PYTHON_GITHUB_ATTESTATIONS=false mise install
+    MISE_PYTHON_GITHUB_ATTESTATIONS=false MISE_GITHUB_ATTESTATIONS=0 mise install
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \

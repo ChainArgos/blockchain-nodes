@@ -13,7 +13,7 @@ RUN sed -i '/^asterisc = /d; /^kontrol = /d; /^binary_signer = /d' mise.toml
 # anonymous api.github.com requests into 401s instead of rate-limited 200s.
 RUN --mount=type=secret,id=github_token,required=false \
     if [ -s /run/secrets/github_token ]; then export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; fi; \
-    MISE_PYTHON_GITHUB_ATTESTATIONS=false mise install
+    MISE_PYTHON_GITHUB_ATTESTATIONS=false MISE_GITHUB_ATTESTATIONS=0 mise install
 
 RUN make op-node
 # end build
