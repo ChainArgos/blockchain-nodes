@@ -1,0 +1,58 @@
+name: DCO
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      lanes:
+        description: github (default) | velnor | both
+        type: choice
+        default: github
+        options: [velnor, github, both]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dco:
+    name: DCO (${{ matrix.config.lane }})
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.lanes == 'both') && '[{"lane":"Velnor","velnor_default_runner":["self-hosted","velnor-target-mvp"]},{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04"}]' || (github.event_name == 'workflow_dispatch' && inputs.lanes == 'github') && '[{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04"}]' || '[{"lane":"GitHub","velnor_default_runner":"ubuntu-26.04"}]') }}
+    runs-on: ${{ matrix.config.velnor_default_runner }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # DCO consumes the complete PR commit range below.
+          persist-credentials: false
+      - name: Require Signed-off-by on every PR commit
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          # Pull requests check the full base..head commit range. Manual
+          # dispatches have no PR range, so they check the head commit only;
+          # the step, toolchain, and lane matrix are identical either way.
+          if [[ -n "${BASE_SHA}" && -n "${HEAD_SHA}" ]]; then
+            range="${BASE_SHA}..${HEAD_SHA}"
+          else
+            range="HEAD~1..HEAD"
+            if ! git rev-parse --verify --quiet HEAD~1 >/dev/null; then
+              range="HEAD"
+            fi
+          fi
+          failures=0
+          while IFS= read -r commit; do
+            if ! git show -s --format=%B "${commit}" | grep -Eiq '^Signed-off-by: .+ <[^>]+>$'; then
+              echo "::error::${commit} is missing a Signed-off-by trailer"
+              failures=1
+            fi
+          done < <(git rev-list --reverse "${range}")
+          exit "${failures}"

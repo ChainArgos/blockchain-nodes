@@ -1,0 +1,688 @@
+schema = 2
+
+[generator]
+repository = "ChainArgos/blockchain-nodes"
+revision = "4dec6b9ec28b0d51cb370fd8f5d5401c6186adf0"
+
+[workflow]
+providers = ["github-hosted"]
+automatic_providers = ["github-hosted"]
+default_branch = "main"
+files = ["ci-pr.yml", "ci-policy.yml", "ci-main.yml", "nightly.yml", "maintenance.yml", "release.yml"]
+
+[workflow.selectors.github-hosted]
+runs_on = ["ubuntu-24.04"]
+
+[policy]
+ruleset_required_status_checks = ["ci-required", "Policy"]
+# DCO (GitHub) is produced by the hand-owned dco.yml static passthrough (R7:
+# cncf/dco2 app install unavailable via API; org-admin web flow required),
+# not by ci-pr/ci-policy, so it rides the external list until the app lands.
+ruleset_external_status_checks = ["DCO (GitHub)"]
+
+# [renovate] ON HOLD for wave pin 3 (W4 precedent): the pin-2 validator
+# demands a velnor provider for [renovate], which the public-repo
+# visibility policy forbids, so the table is unsatisfiable at this pin.
+# Until /tmp/report-wavepin3.md lands with the G12 validation-only fix,
+# dependency updates keep flowing through the hand-owned renovate.yml +
+# renovate-config.js static passthrough below. At pin 3: uncomment,
+# re-render, re-verify, merge.
+# [renovate]
+# enabled = true
+# schedule = "0 * * * *"
+# token = "RENOVATE_TOKEN"
+# host_rules_secret = "RENOVATE_HOST_RULES_JSON"
+[release]
+enabled = true
+reason = "tag-gated multi-arch publication of all 36 node images to Docker Hub (chainargos/*); one VERSION per tag (R3), base->build->leaves tiers, heimdall LFS (R4); per-image build-args deferred (R5: no typed surface)"
+kind = "docker"
+registry = "docker.io"
+registry_username_secret = "DOCKERHUB_USERNAME"
+registry_password_secret = "DOCKERHUB_TOKEN"
+tag_pattern = "v*"
+
+[[release.image]]
+name = "arbitrum"
+image = "chainargos/arbitrum"
+dockerfile = "docker-arbitrum/Dockerfile"
+context = "docker-arbitrum"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "avalanchego"
+image = "chainargos/avalanchego"
+dockerfile = "docker-avalanchego/Dockerfile"
+context = "docker-avalanchego"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "beacon-kit"
+image = "chainargos/beacon-kit"
+dockerfile = "docker-beacon-kit/Dockerfile"
+context = "docker-beacon-kit"
+platforms = ["linux/amd64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "bera-reth"
+image = "chainargos/bera-reth"
+dockerfile = "docker-bera-reth/Dockerfile"
+context = "docker-bera-reth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "bitcoin-cash"
+image = "chainargos/bitcoin-cash"
+dockerfile = "docker-bitcoin-cash/Dockerfile"
+context = "docker-bitcoin-cash"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "bitcoin-core"
+image = "chainargos/bitcoin-core"
+dockerfile = "docker-bitcoin-core/Dockerfile"
+context = "docker-bitcoin-core"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "bnb-beacon-chain"
+image = "chainargos/bnb-beacon-chain"
+dockerfile = "docker-bnb-beacon-chain/Dockerfile"
+context = "docker-bnb-beacon-chain"
+platforms = ["linux/amd64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "bor"
+image = "chainargos/bor"
+dockerfile = "docker-bor/Dockerfile"
+context = "docker-bor"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "bsc-geth"
+image = "chainargos/bsc-geth"
+dockerfile = "docker-bsc-geth/Dockerfile"
+context = "docker-bsc-geth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "cardano-node"
+image = "chainargos/cardano-node"
+dockerfile = "docker-cardano-node/Dockerfile"
+context = "docker-cardano-node"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "celo-geth"
+image = "chainargos/celo-geth"
+dockerfile = "docker-celo-geth/Dockerfile"
+context = "docker-celo-geth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "celo-op-geth"
+image = "chainargos/celo-op-geth"
+dockerfile = "docker-celo-op-geth/Dockerfile"
+context = "docker-celo-op-geth"
+platforms = ["linux/amd64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "celo-op-node"
+image = "chainargos/celo-op-node"
+dockerfile = "docker-celo-op-node/Dockerfile"
+context = "docker-celo-op-node"
+platforms = ["linux/amd64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "debian-blockchain-base"
+image = "chainargos/debian-blockchain-base"
+dockerfile = "docker-debian-blockchain-base/Dockerfile"
+context = "docker-debian-blockchain-base"
+platforms = ["linux/amd64", "linux/arm64"]
+
+[[release.image]]
+name = "debian-blockchain-build"
+image = "chainargos/debian-blockchain-build"
+dockerfile = "docker-debian-blockchain-build/Dockerfile"
+context = "docker-debian-blockchain-build"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "dogecoin-core"
+image = "chainargos/dogecoin-core"
+dockerfile = "docker-dogecoin-core/Dockerfile"
+context = "docker-dogecoin-core"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "eigenda-proxy"
+image = "chainargos/eigenda-proxy"
+dockerfile = "docker-eigenda-proxy/Dockerfile"
+context = "docker-eigenda-proxy"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "fetchd"
+image = "chainargos/fetchd"
+dockerfile = "docker-fetchd/Dockerfile"
+context = "docker-fetchd"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "fraxtal-op-geth"
+image = "chainargos/fraxtal-op-geth"
+dockerfile = "docker-fraxtal-op-geth/Dockerfile"
+context = "docker-fraxtal-op-geth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "fraxtal-op-node"
+image = "chainargos/fraxtal-op-node"
+dockerfile = "docker-fraxtal-op-node/Dockerfile"
+context = "docker-fraxtal-op-node"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "geth"
+image = "chainargos/geth"
+dockerfile = "docker-geth/Dockerfile"
+context = "docker-geth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "gnosis-geth"
+image = "chainargos/gnosis-geth"
+dockerfile = "docker-gnosis-geth/Dockerfile"
+context = "docker-gnosis-geth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "heco-geth"
+image = "chainargos/heco-geth"
+dockerfile = "docker-heco-geth/Dockerfile"
+context = "docker-heco-geth"
+platforms = ["linux/amd64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "heimdall"
+image = "chainargos/heimdall"
+dockerfile = "docker-heimdall/Dockerfile"
+context = "docker-heimdall"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+lfs = true
+
+[[release.image]]
+name = "kcc-geth"
+image = "chainargos/kcc-geth"
+dockerfile = "docker-kcc-geth/Dockerfile"
+context = "docker-kcc-geth"
+platforms = ["linux/amd64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "lighthouse"
+image = "chainargos/lighthouse"
+dockerfile = "docker-lighthouse/Dockerfile"
+context = "docker-lighthouse"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "litecoin-core"
+image = "chainargos/litecoin-core"
+dockerfile = "docker-litecoin-core/Dockerfile"
+context = "docker-litecoin-core"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "octez"
+image = "chainargos/octez"
+dockerfile = "docker-octez/Dockerfile"
+context = "docker-octez"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "omnicore"
+image = "chainargos/omnicore"
+dockerfile = "docker-omnicore/Dockerfile"
+context = "docker-omnicore"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "op-geth"
+image = "chainargos/op-geth"
+dockerfile = "docker-op-geth/Dockerfile"
+context = "docker-op-geth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "op-node"
+image = "chainargos/op-node"
+dockerfile = "docker-op-node/Dockerfile"
+context = "docker-op-node"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "ronin-geth"
+image = "chainargos/ronin-geth"
+dockerfile = "docker-ronin-geth/Dockerfile"
+context = "docker-ronin-geth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "scroll-geth"
+image = "chainargos/scroll-geth"
+dockerfile = "docker-scroll-geth/Dockerfile"
+context = "docker-scroll-geth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "sonic-geth"
+image = "chainargos/sonic-geth"
+dockerfile = "docker-sonic-geth/Dockerfile"
+context = "docker-sonic-geth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[release.image]]
+name = "tron-java"
+image = "chainargos/tron-java"
+dockerfile = "docker-tron-java/Dockerfile"
+context = "docker-tron-java"
+platforms = ["linux/amd64"]
+needs = ["debian-blockchain-base"]
+
+[[release.image]]
+name = "wbt-geth"
+image = "chainargos/wbt-geth"
+dockerfile = "docker-wbt-geth/Dockerfile"
+context = "docker-wbt-geth"
+platforms = ["linux/amd64", "linux/arm64"]
+needs = ["debian-blockchain-base", "debian-blockchain-build"]
+
+[[units]]
+id = "docker-docker-arbitrum"
+watch = ["docker-arbitrum/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-avalanchego"
+watch = ["docker-avalanchego/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-beacon-kit"
+watch = ["docker-beacon-kit/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-bera-reth"
+watch = ["docker-bera-reth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-bitcoin-cash"
+watch = ["docker-bitcoin-cash/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-bitcoin-core"
+watch = ["docker-bitcoin-core/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-bnb-beacon-chain"
+watch = ["docker-bnb-beacon-chain/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-bor"
+watch = ["docker-bor/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-bsc-geth"
+watch = ["docker-bsc-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-cardano-node"
+watch = ["docker-cardano-node/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-celo-geth"
+watch = ["docker-celo-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-celo-op-geth"
+watch = ["docker-celo-op-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-celo-op-node"
+watch = ["docker-celo-op-node/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-debian-blockchain-base"
+watch = ["docker-debian-blockchain-base/**"]
+
+[[units.products]]
+name = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-debian-blockchain-build"
+watch = ["docker-debian-blockchain-build/**"]
+
+[[units.products]]
+name = "debian-blockchain-build-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-dogecoin-core"
+watch = ["docker-dogecoin-core/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-eigenda-proxy"
+watch = ["docker-eigenda-proxy/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-fetchd"
+watch = ["docker-fetchd/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-fraxtal-op-geth"
+watch = ["docker-fraxtal-op-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-fraxtal-op-node"
+watch = ["docker-fraxtal-op-node/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-geth"
+watch = ["docker-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-gnosis-geth"
+watch = ["docker-gnosis-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-heco-geth"
+watch = ["docker-heco-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-heimdall"
+watch = ["docker-heimdall/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-kcc-geth"
+watch = ["docker-kcc-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-lighthouse"
+watch = ["docker-lighthouse/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-litecoin-core"
+watch = ["docker-litecoin-core/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-octez"
+watch = ["docker-octez/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-omnicore"
+watch = ["docker-omnicore/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-op-geth"
+watch = ["docker-op-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-op-node"
+watch = ["docker-op-node/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-ronin-geth"
+watch = ["docker-ronin-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-scroll-geth"
+watch = ["docker-scroll-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-sonic-geth"
+watch = ["docker-sonic-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[units]]
+id = "docker-docker-tron-java"
+watch = ["docker-tron-java/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units]]
+id = "docker-docker-wbt-geth"
+watch = ["docker-wbt-geth/**"]
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-base"
+product = "debian-blockchain-base-image"
+
+[[units.prerequisites]]
+producer = "docker-docker-debian-blockchain-build"
+product = "debian-blockchain-build-image"
+
+[[static_files]]
+file = ".github/workflows/dco.yml"
+source = ".github-gen/static/workflows/dco.yml"
+
+[[static_files]]
+file = ".github/workflows/renovate.yml"
+source = ".github-gen/static/workflows/renovate.yml"
+
+[[static_files]]
+file = ".github/renovate-config.js"
+source = ".github-gen/static/renovate-config.js"
