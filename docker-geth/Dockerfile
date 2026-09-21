@@ -3,10 +3,10 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ARG TARGETARCH
-ARG GETH_VERSION
-ARG GIT_COMMIT
-ARG LEGACY_VERSION
-ARG LEGACY_GIT_COMMIT
+ARG GETH_VERSION=1.17.4
+ARG GIT_COMMIT=36a7dc72
+ARG LEGACY_VERSION=1.13.15
+ARG LEGACY_GIT_COMMIT=c5ba367e
 
 RUN case "$TARGETARCH" in \
       amd64) geth_arch='amd64' ;; \

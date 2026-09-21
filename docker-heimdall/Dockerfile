@@ -1,7 +1,7 @@
 FROM chainargos/debian-blockchain-build:1.1.0@sha256:94254766acc9b144f5679f100594aa34e8b90f72883aa927110ccb4a642dfe28 AS build
 
 ARG TARGETARCH
-ARG HEIMDALL_VERSION
+ARG HEIMDALL_VERSION=0.9.0
 
 RUN git clone --branch v${HEIMDALL_VERSION} --single-branch --depth=1 https://github.com/0xPolygon/heimdall-v2.git
 

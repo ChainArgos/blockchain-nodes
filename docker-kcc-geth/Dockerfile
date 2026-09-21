@@ -2,7 +2,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG KCC_GETH_VERSION
+ARG KCC_GETH_VERSION=1.4.8
 
 RUN cd /tmp \
     && curl -L https://github.com/kcc-community/kcc/releases/download/v${KCC_GETH_VERSION}-stable/geth -o geth \

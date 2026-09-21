@@ -1,6 +1,6 @@
 FROM chainargos/debian-blockchain-build:1.1.0@sha256:94254766acc9b144f5679f100594aa34e8b90f72883aa927110ccb4a642dfe28 AS build
 
-ARG CELO_OP_NODE_VERSION
+ARG CELO_OP_NODE_VERSION=2.2.1
 
 RUN git clone --branch celo-v${CELO_OP_NODE_VERSION} --single-branch --depth=1 https://github.com/celo-org/optimism.git
 
