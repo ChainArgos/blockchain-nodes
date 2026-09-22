@@ -23,7 +23,7 @@ permissions:
 jobs:
   verify:
     name: Control / Verify release
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
     outputs:
       version: ${{ steps.version.outputs.version }}
@@ -65,7 +65,7 @@ jobs:
   release-github-hosted-docker-docker-arbitrum:
     name: "github-hosted / Docker / docker-docker-arbitrum"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -108,7 +108,7 @@ jobs:
   release-github-hosted-docker-docker-avalanchego:
     name: "github-hosted / Docker / docker-docker-avalanchego"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -151,7 +151,7 @@ jobs:
   release-github-hosted-docker-docker-beacon-kit:
     name: "github-hosted / Docker / docker-docker-beacon-kit"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -194,7 +194,7 @@ jobs:
   release-github-hosted-docker-docker-bera-reth:
     name: "github-hosted / Docker / docker-docker-bera-reth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -237,7 +237,7 @@ jobs:
   release-github-hosted-docker-docker-bitcoin-cash:
     name: "github-hosted / Docker / docker-docker-bitcoin-cash"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -280,7 +280,7 @@ jobs:
   release-github-hosted-docker-docker-bitcoin-core:
     name: "github-hosted / Docker / docker-docker-bitcoin-core"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -323,7 +323,7 @@ jobs:
   release-github-hosted-docker-docker-bnb-beacon-chain:
     name: "github-hosted / Docker / docker-docker-bnb-beacon-chain"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -366,7 +366,7 @@ jobs:
   release-github-hosted-docker-docker-bor:
     name: "github-hosted / Docker / docker-docker-bor"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -409,7 +409,7 @@ jobs:
   release-github-hosted-docker-docker-bsc-geth:
     name: "github-hosted / Docker / docker-docker-bsc-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -452,7 +452,7 @@ jobs:
   release-github-hosted-docker-docker-cardano-node:
     name: "github-hosted / Docker / docker-docker-cardano-node"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -495,7 +495,7 @@ jobs:
   release-github-hosted-docker-docker-celo-geth:
     name: "github-hosted / Docker / docker-docker-celo-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -538,7 +538,7 @@ jobs:
   release-github-hosted-docker-docker-celo-op-geth:
     name: "github-hosted / Docker / docker-docker-celo-op-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -581,7 +581,7 @@ jobs:
   release-github-hosted-docker-docker-celo-op-node:
     name: "github-hosted / Docker / docker-docker-celo-op-node"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -624,7 +624,7 @@ jobs:
   release-github-hosted-docker-docker-debian-blockchain-base:
     name: "github-hosted / Docker / docker-docker-debian-blockchain-base"
     needs: [verify]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -667,7 +667,7 @@ jobs:
   release-github-hosted-docker-docker-debian-blockchain-build:
     name: "github-hosted / Docker / docker-docker-debian-blockchain-build"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -710,7 +710,7 @@ jobs:
   release-github-hosted-docker-docker-dogecoin-core:
     name: "github-hosted / Docker / docker-docker-dogecoin-core"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -753,7 +753,7 @@ jobs:
   release-github-hosted-docker-docker-eigenda-proxy:
     name: "github-hosted / Docker / docker-docker-eigenda-proxy"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -796,7 +796,7 @@ jobs:
   release-github-hosted-docker-docker-fetchd:
     name: "github-hosted / Docker / docker-docker-fetchd"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -839,7 +839,7 @@ jobs:
   release-github-hosted-docker-docker-fraxtal-op-geth:
     name: "github-hosted / Docker / docker-docker-fraxtal-op-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -882,7 +882,7 @@ jobs:
   release-github-hosted-docker-docker-fraxtal-op-node:
     name: "github-hosted / Docker / docker-docker-fraxtal-op-node"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -925,7 +925,7 @@ jobs:
   release-github-hosted-docker-docker-geth:
     name: "github-hosted / Docker / docker-docker-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -968,7 +968,7 @@ jobs:
   release-github-hosted-docker-docker-gnosis-geth:
     name: "github-hosted / Docker / docker-docker-gnosis-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1011,7 +1011,7 @@ jobs:
   release-github-hosted-docker-docker-heco-geth:
     name: "github-hosted / Docker / docker-docker-heco-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1054,7 +1054,7 @@ jobs:
   release-github-hosted-docker-docker-heimdall:
     name: "github-hosted / Docker / docker-docker-heimdall"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1097,7 +1097,7 @@ jobs:
   release-github-hosted-docker-docker-kcc-geth:
     name: "github-hosted / Docker / docker-docker-kcc-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1140,7 +1140,7 @@ jobs:
   release-github-hosted-docker-docker-lighthouse:
     name: "github-hosted / Docker / docker-docker-lighthouse"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1183,7 +1183,7 @@ jobs:
   release-github-hosted-docker-docker-litecoin-core:
     name: "github-hosted / Docker / docker-docker-litecoin-core"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1226,7 +1226,7 @@ jobs:
   release-github-hosted-docker-docker-octez:
     name: "github-hosted / Docker / docker-docker-octez"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1269,7 +1269,7 @@ jobs:
   release-github-hosted-docker-docker-omnicore:
     name: "github-hosted / Docker / docker-docker-omnicore"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1312,7 +1312,7 @@ jobs:
   release-github-hosted-docker-docker-op-geth:
     name: "github-hosted / Docker / docker-docker-op-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1355,7 +1355,7 @@ jobs:
   release-github-hosted-docker-docker-op-node:
     name: "github-hosted / Docker / docker-docker-op-node"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1398,7 +1398,7 @@ jobs:
   release-github-hosted-docker-docker-ronin-geth:
     name: "github-hosted / Docker / docker-docker-ronin-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1441,7 +1441,7 @@ jobs:
   release-github-hosted-docker-docker-scroll-geth:
     name: "github-hosted / Docker / docker-docker-scroll-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1484,7 +1484,7 @@ jobs:
   release-github-hosted-docker-docker-sonic-geth:
     name: "github-hosted / Docker / docker-docker-sonic-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1527,7 +1527,7 @@ jobs:
   release-github-hosted-docker-docker-tron-java:
     name: "github-hosted / Docker / docker-docker-tron-java"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1570,7 +1570,7 @@ jobs:
   release-github-hosted-docker-docker-wbt-geth:
     name: "github-hosted / Docker / docker-docker-wbt-geth"
     needs: [verify, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1613,7 +1613,7 @@ jobs:
   release-github-hosted-rust-blockchain-nodes-builder:
     name: "github-hosted / Rust / rust-blockchain-nodes-builder"
     needs: [verify]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -1764,7 +1764,7 @@ jobs:
     name: Aggregate release unit results
     if: ${{ always() }}
     needs: [verify, release-github-hosted-docker-docker-arbitrum, release-github-hosted-docker-docker-avalanchego, release-github-hosted-docker-docker-beacon-kit, release-github-hosted-docker-docker-bera-reth, release-github-hosted-docker-docker-bitcoin-cash, release-github-hosted-docker-docker-bitcoin-core, release-github-hosted-docker-docker-bnb-beacon-chain, release-github-hosted-docker-docker-bor, release-github-hosted-docker-docker-bsc-geth, release-github-hosted-docker-docker-cardano-node, release-github-hosted-docker-docker-celo-geth, release-github-hosted-docker-docker-celo-op-geth, release-github-hosted-docker-docker-celo-op-node, release-github-hosted-docker-docker-debian-blockchain-base, release-github-hosted-docker-docker-debian-blockchain-build, release-github-hosted-docker-docker-dogecoin-core, release-github-hosted-docker-docker-eigenda-proxy, release-github-hosted-docker-docker-fetchd, release-github-hosted-docker-docker-fraxtal-op-geth, release-github-hosted-docker-docker-fraxtal-op-node, release-github-hosted-docker-docker-geth, release-github-hosted-docker-docker-gnosis-geth, release-github-hosted-docker-docker-heco-geth, release-github-hosted-docker-docker-heimdall, release-github-hosted-docker-docker-kcc-geth, release-github-hosted-docker-docker-lighthouse, release-github-hosted-docker-docker-litecoin-core, release-github-hosted-docker-docker-octez, release-github-hosted-docker-docker-omnicore, release-github-hosted-docker-docker-op-geth, release-github-hosted-docker-docker-op-node, release-github-hosted-docker-docker-ronin-geth, release-github-hosted-docker-docker-scroll-geth, release-github-hosted-docker-docker-sonic-geth, release-github-hosted-docker-docker-tron-java, release-github-hosted-docker-docker-wbt-geth, release-github-hosted-rust-blockchain-nodes-builder]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     outputs:
       verify_result: ${{ needs.verify.result }}
@@ -1777,7 +1777,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -1923,7 +1923,7 @@ jobs:
     needs: [release-verified, image-admission-arbitrum, image-platform-arbitrum]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -2019,7 +2019,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -2165,7 +2165,7 @@ jobs:
     needs: [release-verified, image-admission-avalanchego, image-platform-avalanchego]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -2261,7 +2261,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -2404,7 +2404,7 @@ jobs:
     needs: [release-verified, image-admission-beacon-kit, image-platform-beacon-kit]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -2497,7 +2497,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -2643,7 +2643,7 @@ jobs:
     needs: [release-verified, image-admission-bera-reth, image-platform-bera-reth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -2739,7 +2739,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -2885,7 +2885,7 @@ jobs:
     needs: [release-verified, image-admission-bitcoin-cash, image-platform-bitcoin-cash]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -2981,7 +2981,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -3127,7 +3127,7 @@ jobs:
     needs: [release-verified, image-admission-bitcoin-core, image-platform-bitcoin-core]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -3223,7 +3223,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -3366,7 +3366,7 @@ jobs:
     needs: [release-verified, image-admission-bnb-beacon-chain, image-platform-bnb-beacon-chain]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -3459,7 +3459,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -3605,7 +3605,7 @@ jobs:
     needs: [release-verified, image-admission-bor, image-platform-bor]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -3701,7 +3701,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -3847,7 +3847,7 @@ jobs:
     needs: [release-verified, image-admission-bsc-geth, image-platform-bsc-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -3943,7 +3943,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -4089,7 +4089,7 @@ jobs:
     needs: [release-verified, image-admission-cardano-node, image-platform-cardano-node]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -4185,7 +4185,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -4331,7 +4331,7 @@ jobs:
     needs: [release-verified, image-admission-celo-geth, image-platform-celo-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -4427,7 +4427,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -4570,7 +4570,7 @@ jobs:
     needs: [release-verified, image-admission-celo-op-geth, image-platform-celo-op-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -4663,7 +4663,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -4806,7 +4806,7 @@ jobs:
     needs: [release-verified, image-admission-celo-op-node, image-platform-celo-op-node]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -4899,7 +4899,7 @@ jobs:
     needs: [verify]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -5045,7 +5045,7 @@ jobs:
     needs: [release-verified, image-admission-debian-blockchain-base, image-platform-debian-blockchain-base]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -5141,7 +5141,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -5287,7 +5287,7 @@ jobs:
     needs: [release-verified, image-admission-debian-blockchain-build, image-platform-debian-blockchain-build]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -5383,7 +5383,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -5529,7 +5529,7 @@ jobs:
     needs: [release-verified, image-admission-dogecoin-core, image-platform-dogecoin-core]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -5625,7 +5625,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -5771,7 +5771,7 @@ jobs:
     needs: [release-verified, image-admission-eigenda-proxy, image-platform-eigenda-proxy]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -5867,7 +5867,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -6013,7 +6013,7 @@ jobs:
     needs: [release-verified, image-admission-fetchd, image-platform-fetchd]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -6109,7 +6109,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -6255,7 +6255,7 @@ jobs:
     needs: [release-verified, image-admission-fraxtal-op-geth, image-platform-fraxtal-op-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -6351,7 +6351,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -6497,7 +6497,7 @@ jobs:
     needs: [release-verified, image-admission-fraxtal-op-node, image-platform-fraxtal-op-node]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -6593,7 +6593,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -6739,7 +6739,7 @@ jobs:
     needs: [release-verified, image-admission-geth, image-platform-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -6835,7 +6835,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -6981,7 +6981,7 @@ jobs:
     needs: [release-verified, image-admission-gnosis-geth, image-platform-gnosis-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -7077,7 +7077,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -7220,7 +7220,7 @@ jobs:
     needs: [release-verified, image-admission-heco-geth, image-platform-heco-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -7313,7 +7313,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -7460,7 +7460,7 @@ jobs:
     needs: [release-verified, image-admission-heimdall, image-platform-heimdall]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -7556,7 +7556,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -7699,7 +7699,7 @@ jobs:
     needs: [release-verified, image-admission-kcc-geth, image-platform-kcc-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -7792,7 +7792,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -7938,7 +7938,7 @@ jobs:
     needs: [release-verified, image-admission-lighthouse, image-platform-lighthouse]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -8034,7 +8034,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -8180,7 +8180,7 @@ jobs:
     needs: [release-verified, image-admission-litecoin-core, image-platform-litecoin-core]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -8276,7 +8276,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -8422,7 +8422,7 @@ jobs:
     needs: [release-verified, image-admission-octez, image-platform-octez]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -8518,7 +8518,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -8664,7 +8664,7 @@ jobs:
     needs: [release-verified, image-admission-omnicore, image-platform-omnicore]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -8760,7 +8760,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -8906,7 +8906,7 @@ jobs:
     needs: [release-verified, image-admission-op-geth, image-platform-op-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -9002,7 +9002,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -9148,7 +9148,7 @@ jobs:
     needs: [release-verified, image-admission-op-node, image-platform-op-node]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -9244,7 +9244,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -9390,7 +9390,7 @@ jobs:
     needs: [release-verified, image-admission-ronin-geth, image-platform-ronin-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -9486,7 +9486,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -9632,7 +9632,7 @@ jobs:
     needs: [release-verified, image-admission-scroll-geth, image-platform-scroll-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -9728,7 +9728,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -9874,7 +9874,7 @@ jobs:
     needs: [release-verified, image-admission-sonic-geth, image-platform-sonic-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -9970,7 +9970,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -10113,7 +10113,7 @@ jobs:
     needs: [release-verified, image-admission-tron-java, image-platform-tron-java]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -10206,7 +10206,7 @@ jobs:
     needs: [verify, image-debian-blockchain-base, image-debian-blockchain-build]
     name: Admit immutable image tag
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: read
@@ -10352,7 +10352,7 @@ jobs:
     needs: [release-verified, image-admission-wbt-geth, image-platform-wbt-geth]
     name: Assemble one multi-platform image
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
