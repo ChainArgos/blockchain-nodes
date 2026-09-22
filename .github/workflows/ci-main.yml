@@ -33,7 +33,7 @@ permissions:
 jobs:
   plan:
     name: "Control / Planning"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       scope: ${{ steps.plan.outputs.scope }}
       base_sha: ${{ steps.plan.outputs.base_sha }}
@@ -115,7 +115,7 @@ jobs:
           retention-days: 7
   policy:
     name: Policy
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     # Trust invariant: this job runs the base branch's Stage-0 validator
     # product against the audited tree under pull_request_target. It holds
@@ -953,7 +953,7 @@ jobs:
     name: ci-required
     if: ${{ always() }}
     needs: [plan, policy, github-hosted-docker-docker-arbitrum, github-hosted-docker-docker-avalanchego, github-hosted-docker-docker-beacon-kit, github-hosted-docker-docker-bera-reth, github-hosted-docker-docker-bitcoin-cash, github-hosted-docker-docker-bitcoin-core, github-hosted-docker-docker-bnb-beacon-chain, github-hosted-docker-docker-bor, github-hosted-docker-docker-bsc-geth, github-hosted-docker-docker-cardano-node, github-hosted-docker-docker-celo-geth, github-hosted-docker-docker-celo-op-geth, github-hosted-docker-docker-celo-op-node, github-hosted-docker-docker-debian-blockchain-base, github-hosted-docker-docker-debian-blockchain-build, github-hosted-docker-docker-dogecoin-core, github-hosted-docker-docker-eigenda-proxy, github-hosted-docker-docker-fetchd, github-hosted-docker-docker-fraxtal-op-geth, github-hosted-docker-docker-fraxtal-op-node, github-hosted-docker-docker-geth, github-hosted-docker-docker-gnosis-geth, github-hosted-docker-docker-heco-geth, github-hosted-docker-docker-heimdall, github-hosted-docker-docker-kcc-geth, github-hosted-docker-docker-lighthouse, github-hosted-docker-docker-litecoin-core, github-hosted-docker-docker-octez, github-hosted-docker-docker-omnicore, github-hosted-docker-docker-op-geth, github-hosted-docker-docker-op-node, github-hosted-docker-docker-ronin-geth, github-hosted-docker-docker-scroll-geth, github-hosted-docker-docker-sonic-geth, github-hosted-docker-docker-tron-java, github-hosted-docker-docker-wbt-geth, github-hosted-rust-blockchain-nodes-builder]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     steps:
       - name: Download Velnor workflow runtime
@@ -1930,7 +1930,7 @@ jobs:
     name: "Control / Required"
     if: ${{ always() }}
     needs: [ci-required]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     steps:
       - name: Mirror CI / Required

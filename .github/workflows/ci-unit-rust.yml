@@ -139,7 +139,7 @@ jobs:
   verify-github-hosted:
     name: "GitHub · hosted"
     if: ${{ inputs.provider == 'github-hosted' && contains(inputs.selected_units, format('"unit_id":"{0}"', inputs.unit)) && (true) }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 45
     steps:
       - name: Mark CI job start
