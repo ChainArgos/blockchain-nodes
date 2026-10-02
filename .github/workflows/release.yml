@@ -1645,7 +1645,7 @@ jobs:
         run: echo "MBX_GC_MAX_SIZE=12GiB" >> "$GITHUB_ENV"
       - name: Set up Mr. Boxington
         id: mbx-cache
-        uses: jdx/mr-boxington-action@867fc530102eec5b756075d70d850dc8330d2272 # v1.4.0
+        uses: jdx/mr-boxington-action@1687e54eb349cadf61fa38b5813a77875489e8e6 # v1.6.0
         with:
           backend: github
           github-cache-mode: objects
