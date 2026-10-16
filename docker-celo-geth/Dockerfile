@@ -3,7 +3,7 @@ FROM chainargos/debian-blockchain-build:1.1.0@sha256:94254766acc9b144f5679f10059
 RUN mise use -g --pin go@1.22.12
 
 ARG TARGETARCH
-ARG CELO_GETH_VERSION
+ARG CELO_GETH_VERSION=1.8.9
 
 RUN git clone --branch v${CELO_GETH_VERSION} --single-branch --depth=1 https://github.com/celo-org/celo-blockchain.git
 

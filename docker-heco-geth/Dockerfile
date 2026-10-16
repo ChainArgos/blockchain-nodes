@@ -2,7 +2,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG HECO_GETH_VERSION
+ARG HECO_GETH_VERSION=1.2.2
 
 RUN cd /tmp \
     && curl -L https://github.com/stars-labs/heco-chain/releases/download/v${HECO_GETH_VERSION}/geth-linux-amd64 -o geth \

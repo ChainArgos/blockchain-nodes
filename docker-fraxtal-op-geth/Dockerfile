@@ -1,4 +1,4 @@
-ARG FRAXTAL_OP_GETH_VERSION
+ARG FRAXTAL_OP_GETH_VERSION=1.101701.0-frax-1.3.0
 
 FROM ghcr.io/fraxfinance/fraxtal-op-geth:v${FRAXTAL_OP_GETH_VERSION} AS build
 

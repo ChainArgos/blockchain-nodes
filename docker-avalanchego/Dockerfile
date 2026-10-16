@@ -3,7 +3,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ARG TARGETARCH
-ARG AVALANCHEGO_VERSION
+ARG AVALANCHEGO_VERSION=1.14.2
 
 RUN case "$TARGETARCH" in \
       amd64) avalanchego_arch='amd64' ;; \

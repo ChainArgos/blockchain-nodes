@@ -1,6 +1,6 @@
 FROM chainargos/debian-blockchain-build:1.1.0@sha256:94254766acc9b144f5679f100594aa34e8b90f72883aa927110ccb4a642dfe28 AS build
 
-ARG GNOSIS_GETH_VERSION
+ARG GNOSIS_GETH_VERSION=1.17.4-gc
 
 RUN git clone --branch v${GNOSIS_GETH_VERSION} --single-branch --depth=1 https://github.com/gnosischain/go-ethereum.git
 

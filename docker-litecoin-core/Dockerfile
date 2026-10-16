@@ -3,7 +3,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ARG TARGETARCH
-ARG LITECOIN_CORE_VERSION
+ARG LITECOIN_CORE_VERSION=0.21.5.4
 
 RUN case "$TARGETARCH" in \
       amd64) litecoin_target='x86_64-linux-gnu' ;; \

@@ -494,6 +494,83 @@ mod tests {
         path: PathBuf,
     }
 
+    #[test]
+    fn dockerfile_arg_defaults_match_build_toml() {
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        let mut packages = 0;
+        for entry in fs::read_dir(&root).unwrap() {
+            let entry = entry.unwrap();
+            let dir = entry.path();
+            if !dir.is_dir()
+                || !dir
+                    .file_name()
+                    .is_some_and(|name| name.to_string_lossy().starts_with("docker-"))
+            {
+                continue;
+            }
+            let build_toml = dir.join("build.toml");
+            if !build_toml.is_file() {
+                continue;
+            }
+            packages += 1;
+            let config: BuildConfig =
+                toml::from_str(&fs::read_to_string(&build_toml).unwrap()).unwrap();
+            let dockerfile = fs::read_to_string(dir.join("Dockerfile")).unwrap();
+            let mut expected = std::collections::HashMap::new();
+            expected.insert(
+                config.package.build_arg_name(),
+                config.package.version.clone(),
+            );
+            for (key, value) in &config.vars {
+                expected.insert(key.to_uppercase(), value.clone());
+            }
+            for line in dockerfile.lines() {
+                let Some(rest) = line.strip_prefix("ARG ") else {
+                    continue;
+                };
+                let (name, default) = match rest.split_once('=') {
+                    Some((name, default)) => (name.trim(), Some(default)),
+                    None => (rest.trim(), None),
+                };
+                if name == "TARGETARCH" {
+                    assert!(
+                        default.is_none(),
+                        "{}: TARGETARCH is BuildKit-provided and stays bare",
+                        dir.display()
+                    );
+                    continue;
+                }
+                let Some(default) = default else {
+                    panic!(
+                        "{}: ARG {name} has no default; plain `docker build` (CI verification) needs one",
+                        dir.display()
+                    );
+                };
+                assert_eq!(
+                    expected.get(name).map(String::as_str),
+                    Some(default),
+                    "{}: ARG {name} default drifted from build.toml",
+                    dir.display()
+                );
+            }
+            if config.package.name == "octez" {
+                let amd64 = dockerfile
+                    .lines()
+                    .find_map(|line| {
+                        line.trim()
+                            .strip_prefix("amd64) package_file_id='")
+                            .and_then(|rest| rest.strip_suffix("' ;; \\"))
+                    })
+                    .unwrap();
+                assert_eq!(
+                    amd64, config.package.version,
+                    "octez amd64 package_file_id drifted from build.toml version"
+                );
+            }
+        }
+        assert_eq!(packages, 36, "expected 36 docker-* packages");
+    }
+
     static TEST_DIR_COUNTER: AtomicU64 = AtomicU64::new(0);
 
     impl TestDir {

@@ -2,7 +2,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
-ARG TRON_JAVA_VERSION
+ARG TRON_JAVA_VERSION=4.8.2.1
 
 RUN apt-get update \
         && apt-get upgrade -y \

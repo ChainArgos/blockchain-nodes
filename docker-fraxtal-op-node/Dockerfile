@@ -1,4 +1,4 @@
-ARG FRAXTAL_OP_NODE_VERSION
+ARG FRAXTAL_OP_NODE_VERSION=1.19.0-frax-1.2.1
 
 FROM ghcr.io/fraxfinance/fraxtal-op-node:v${FRAXTAL_OP_NODE_VERSION} AS build
 

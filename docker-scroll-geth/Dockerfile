@@ -2,7 +2,7 @@ FROM chainargos/debian-blockchain-build:1.1.0@sha256:94254766acc9b144f5679f10059
 
 RUN mise use -g --pin go@1.22.12
 
-ARG SCROLL_GETH_VERSION
+ARG SCROLL_GETH_VERSION=5.10.2
 
 RUN git clone --branch scroll-v${SCROLL_GETH_VERSION} --single-branch --depth=1 https://github.com/scroll-tech/go-ethereum.git
 

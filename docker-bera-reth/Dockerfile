@@ -3,7 +3,7 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ARG TARGETARCH
-ARG BERA_RETH_VERSION
+ARG BERA_RETH_VERSION=1.4.2
 
 RUN case "$TARGETARCH" in \
       amd64) reth_target='x86_64-unknown-linux-gnu' ;; \
