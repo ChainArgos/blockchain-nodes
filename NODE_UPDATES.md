@@ -51,14 +51,17 @@ Take `tag`, strip the matched `tag_prefix` from the front, then strip a single l
 
 Read `<docker_dir>/build.toml`. If `[package].version` already equals the new version, STOP with "already at v<version>" — no changes, no branch, no commit.
 
-### 5. Update `build.toml`
+### 5. Update `build.toml` and `Dockerfile` ARG defaults
 
 Edit `<docker_dir>/build.toml`:
 - Set `[package].version = "<new-version>"`.
 - If the `[package].build` field **currently exists**, set `[package].build = "1"`. If it does not exist, do not add it.
 - If `<org>/<repo> == "ethereum/go-ethereum"` AND `[vars].git_commit` exists in `build.toml`: fetch `https://geth.ethereum.org/downloads`, regex the HTML for `geth-linux-amd64-<version>-([0-9a-f]{8})\.tar\.gz` where `<version>` is the resolved version, and update `[vars].git_commit` to the captured 8-char SHA. If the page fetch fails or the filename is not found, pause and ask the user to paste the 8-char commit SHA; use their response.
+- If the `Dockerfile` consumes a `[vars]` value in a `FROM` image tag (e.g. arbitrum's `nitro-node:v${ARBITRUM_VERSION}-${GIT_COMMIT}`): resolve the suffix from the verified upstream registry tag listing (e.g. Docker Hub `.../tags?name=v<version>-`) and update `[vars]` to match. Never invent a `[vars]` value; every value must come from a verified upstream artifact.
 
 Do not touch any other fields in `build.toml`.
+
+Then sync `<docker_dir>/Dockerfile`: every `ARG <NAME>=<default>` must equal its `build.toml` source — the package-version ARG (e.g. `GETH_VERSION`) must equal the new `[package].version`, and each `[vars]` key maps to `ARG <UPPERCASED_KEY>` with the same value (e.g. `[vars].git_commit` → `ARG GIT_COMMIT`). `ARG TARGETARCH` stays bare (BuildKit-provided, no default). CI enforces this (`dockerfile_arg_defaults_match_build_toml` in `docker-build.rs`): a drifted default fails the build, so a version bump that touches only `build.toml` is incomplete.
 
 ### 6. Run sync-config.rs (if present)
 
