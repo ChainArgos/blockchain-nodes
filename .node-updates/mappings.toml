@@ -153,6 +153,18 @@ docker_dir = "docker-fraxtal-op-geth"
 package = "fraxtal-op-geth"
 
 [[mapping]]
+repo = "whitebit-exchange/wbt"
+tag_prefix = ""
+docker_dir = "docker-wbt-geth"
+package = "wbt-geth"
+
+[[mapping]]
+repo = "scroll-tech/go-ethereum"
+tag_prefix = "scroll-"
+docker_dir = "docker-scroll-geth"
+package = "scroll-geth"
+
+[[mapping]]
 repo = "tronprotocol/java-tron"
 tag_prefix = "GreatVoyage-v"
 docker_dir = "docker-tron-java"
