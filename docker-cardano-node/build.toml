@@ -1,6 +1,6 @@
 [package]
 name = "cardano-node"
-version = "11.0.1"
+version = "11.2.1"
 build = "1"
 
 [docker]
