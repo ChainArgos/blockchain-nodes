@@ -30,14 +30,17 @@ else
   exit 1
 fi
 
+# Exported inline on purpose: under set -e a grep with no match must not abort.
+# shellcheck disable=SC2155
 export EL_BOOTNODES=$(grep '^enode://' "/config/berachain/el-bootnodes.txt"| tr '\n' ',' | sed 's/,$//')
+# shellcheck disable=SC2155
 export EL_PEERS=$(grep '^enode://' "/config/berachain/el-peers.txt"| tr '\n' ',' | sed 's/,$//')
 
 exec bera-reth node \
     --authrpc.addr=0.0.0.0 \
     --authrpc.jwtsecret=/data/jwtsecret.hex \
     --authrpc.port=8551 \
-    --bootnodes=$EL_BOOTNODES \
+    --bootnodes="$EL_BOOTNODES" \
     --chain=/config/berachain/genesis.json \
     --datadir=/data/reth \
     --discovery.port=30308 \
@@ -52,5 +55,5 @@ exec bera-reth node \
     --identity=chainargos \
     --nat=extip:"$PUBLIC_IP" \
     --port=30308 \
-    --trusted-peers=$EL_PEERS \
+    --trusted-peers="$EL_PEERS" \
     --txpool.nolocals
