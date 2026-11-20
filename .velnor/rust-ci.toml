@@ -1,7 +1,7 @@
 # Generator input for velnor-gen. Run `velnor-gen --root . generate` after a change.
-runner = "ubuntu-26.04-scale-set"
-hosted = false
-# The repository is public: a pull request from a fork runs on a GitHub-hosted label.
+runner = "ubuntu-latest"
+hosted = true
+# The repository is public and stays on GitHub-hosted runners: no self-hosted runner is exposed to it.
 fork_runner = "ubuntu-latest"
 required_check = "Required"
 default_branch = "main"
