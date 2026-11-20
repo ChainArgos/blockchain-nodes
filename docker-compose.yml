@@ -588,13 +588,14 @@ services:
       - ${OMNI_ROOT_DIR:-~}/omni:/data
 
   tron-java:
-    image: chainargos/tron-java:4.8.2.1-1@sha256:841e5eb3de927fb5408e587665cf4cd649427e3afebb5b784a71123e2640930f
+    image: chainargos/tron-java:4.8.2.4-1@sha256:52f17ddfc3d2f5895c499142a3f27634ab1e4fcd474465e6fa0bf270c1f90cfd
     container_name: tron-java
     restart: unless-stopped
     stop_grace_period: 15m
     env_file: "containers.env"
     ports:
       - "28090:28090"
+      - "28091:28091"
       - "28545:28545"
     volumes:
       - ${TRON_ROOT_DIR:-~}/tron:/data

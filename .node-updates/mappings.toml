@@ -157,3 +157,9 @@ repo = "tronprotocol/java-tron"
 tag_prefix = "GreatVoyage-v"
 docker_dir = "docker-tron-java"
 package = "tron-java"
+
+[[mapping]]
+repo = "whitebit-exchange/wbt"
+tag_prefix = ""
+docker_dir = "docker-wbt-geth"
+package = "wbt-geth"
