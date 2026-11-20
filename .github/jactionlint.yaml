@@ -1,0 +1,5 @@
+# Config for jactionlint (run by the generated lint-jactionlint job).
+
+profile: correctness
+generated-files: report
+config-variables: []
