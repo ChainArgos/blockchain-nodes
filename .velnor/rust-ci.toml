@@ -1,0 +1,22 @@
+# Generator input for velnor-gen. Run `velnor-gen --root . generate` after a change.
+runner = "ubuntu-26.04-scale-set"
+hosted = false
+# The repository is public: a pull request from a fork runs on a GitHub-hosted label.
+fork_runner = "ubuntu-latest"
+required_check = "Required"
+default_branch = "main"
+
+[ci]
+skip_push_after_merge_group = true
+
+[[lint]]
+kind = "jactionlint"
+config = ".github/jactionlint.yaml"
+
+[[lint]]
+kind = "mise-task"
+id = "shellcheck"
+name = "Shellcheck"
+task = "lint-shell"
+tools = ["shellcheck"]
+timeout_minutes = 5
