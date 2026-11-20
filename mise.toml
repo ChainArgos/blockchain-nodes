@@ -1,7 +1,7 @@
 min_version = "2026.11.10"
 
 [tools]
-rust = { version = "1.100.0", profile = "minimal", components = ["rustfmt", "clippy"], targets = ["aarch64-apple-darwin", "aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu", "x86_64-unknown-linux-musl"], mr_boxington = true }
+rust = { version = "1.100.0", profile = "minimal", components = ["rustfmt", "clippy"], mr_boxington = true }
 "github:fornwall/rust-script" = "0.36.0"
 "aqua:nextest-rs/nextest/cargo-nextest" = "0.9.140"
 shellcheck = "0.11.0"
