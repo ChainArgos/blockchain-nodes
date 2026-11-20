@@ -5,6 +5,7 @@ hosted = true
 fork_runner = "ubuntu-latest"
 required_check = "Required"
 default_branch = "main"
+non_inputs = [".agents/**"]
 
 [ci]
 skip_push_after_merge_group = true
