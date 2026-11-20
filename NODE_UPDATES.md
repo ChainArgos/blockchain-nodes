@@ -2,7 +2,7 @@
 
 This file documents the workflow for bumping the upstream version of a blockchain node packaged in this repo. It applies to every AI agent (Claude, Codex, Amp) and to humans.
 
-Given a GitHub release URL like `https://github.com/bnb-chain/bsc/releases/tag/v1.7.3`, bump the matching `docker-<pkg>/build.toml`, inspect any chain-config drift, and open a PR. **Never merge** — stop at the PR URL (see [AGENTS.md](AGENTS.md) for the merge gate).
+Given a GitHub release URL like `https://github.com/bnb-chain/bsc/releases/tag/v1.7.3`, bump the matching `docker-<pkg>/build.toml`, inspect any chain-config drift, and open a PR. **Never merge** — stop at the PR URL (see [AGENTS.md](AGENTS.md) for the merge gate). (Exception: a session goal that explicitly authorizes autonomous merging constitutes the merge confirmation for its in-scope PRs.)
 
 ## When to run this workflow
 
@@ -116,7 +116,7 @@ EOF
 )"
 ```
 
-Print the PR URL. STOP. Do not merge — per [AGENTS.md](AGENTS.md), agents never merge without explicit per-PR confirmation.
+Print the PR URL. STOP. Do not merge — per [AGENTS.md](AGENTS.md), agents never merge without explicit per-PR confirmation. (Same session-goal exception applies.)
 
 ## Things to double-check
 
