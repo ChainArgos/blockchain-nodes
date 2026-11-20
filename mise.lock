@@ -39,9 +39,90 @@ checksum = "sha256:b75c287b89df1fbfe033a98df058a94cd1f5119dab6ff56e4916e5a1597c7
 url = "https://github.com/nextest-rs/nextest/releases/download/cargo-nextest-0.9.140/cargo-nextest-0.9.140-x86_64-pc-windows-msvc.tar.gz"
 url_api = "https://api.github.com/repos/nextest-rs/nextest/releases/assets/467472280"
 
-[[tools."cargo:rust-script"]]
+[[tools."github:fornwall/rust-script"]]
 version = "0.36.0"
-backend = "cargo:rust-script"
+backend = "github:fornwall/rust-script"
+
+[tools."github:fornwall/rust-script"."platforms.linux-arm64"]
+checksum = "sha256:650059eae66de119bf29853bb4a0820a01a6c278e17b1e6a53f9a0ca6ebc74db"
+checksum_source = "mise-versions"
+url = "https://github.com/fornwall/rust-script/releases/download/0.36.0/rust-script-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/fornwall/rust-script/releases/assets/283099327"
+
+[tools."github:fornwall/rust-script"."platforms.linux-arm64-musl"]
+checksum = "sha256:0043273166d64c94945cee4a3c593f6741cb186be291418b499b420ce88b66ad"
+checksum_source = "mise-versions"
+url = "https://github.com/fornwall/rust-script/releases/download/0.36.0/rust-script-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/fornwall/rust-script/releases/assets/283099512"
+
+[tools."github:fornwall/rust-script"."platforms.linux-x64"]
+checksum = "sha256:974484518ebd6dbe18f356fd5446171c43dc590d7189c53e7482b36c3af88a4b"
+checksum_source = "mise-versions"
+url = "https://github.com/fornwall/rust-script/releases/download/0.36.0/rust-script-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/fornwall/rust-script/releases/assets/283099032"
+
+[tools."github:fornwall/rust-script"."platforms.linux-x64-musl"]
+checksum = "sha256:d6d0e0617f4a9e0dffdc1d9af84f62c77c39bb0504d00457889655c50f80096c"
+checksum_source = "mise-versions"
+url = "https://github.com/fornwall/rust-script/releases/download/0.36.0/rust-script-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/fornwall/rust-script/releases/assets/283099198"
+
+[tools."github:fornwall/rust-script"."platforms.macos-arm64"]
+checksum = "sha256:bd0ae17d4a7969c18840b2bc2e5723b4a271da05205ff221aca5b31c9242876e"
+checksum_source = "mise-versions"
+url = "https://github.com/fornwall/rust-script/releases/download/0.36.0/rust-script-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/fornwall/rust-script/releases/assets/283099316"
+
+[tools."github:fornwall/rust-script"."platforms.macos-x64"]
+checksum = "sha256:9c5971131289da92c170f2393e7eaffb33f44dae81c81bfc61d68705ec8ea569"
+checksum_source = "mise-versions"
+url = "https://github.com/fornwall/rust-script/releases/download/0.36.0/rust-script-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/fornwall/rust-script/releases/assets/283098945"
+
+[tools."github:fornwall/rust-script"."platforms.windows-x64"]
+checksum = "sha256:9c724d7708929b53b68003e82a9eb0324870615aa6919bf25b7bf898b2c750c5"
+checksum_source = "mise-versions"
+url = "https://github.com/fornwall/rust-script/releases/download/0.36.0/rust-script-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/fornwall/rust-script/releases/assets/283099200"
+
+[[tools.jactionlint]]
+version = "2.4.0"
+backend = "packslip:github.com/jdx/jactionlint"
+
+[tools.jactionlint."platforms.linux-arm64"]
+checksum = "sha256:42413391c248f99ff4550d6c866ee717d5ea4ca2b966d9d54ad1503af955e22f"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_linux_arm64.tar.gz"
+signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
+
+[tools.jactionlint."platforms.linux-arm64-musl"]
+checksum = "sha256:42413391c248f99ff4550d6c866ee717d5ea4ca2b966d9d54ad1503af955e22f"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_linux_arm64.tar.gz"
+signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
+
+[tools.jactionlint."platforms.linux-x64"]
+checksum = "sha256:26ddba81db28fffc51163175c070ee1a9d1150260de4b5232f01d9b749f32d8e"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_linux_amd64.tar.gz"
+signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
+
+[tools.jactionlint."platforms.linux-x64-musl"]
+checksum = "sha256:26ddba81db28fffc51163175c070ee1a9d1150260de4b5232f01d9b749f32d8e"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_linux_amd64.tar.gz"
+signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
+
+[tools.jactionlint."platforms.macos-arm64"]
+checksum = "sha256:349a13dbffdd25376898a256d195806afda08ba97ccc6378cbf2dd11a77ef8e7"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_darwin_arm64.tar.gz"
+signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
+
+[tools.jactionlint."platforms.macos-x64"]
+checksum = "sha256:4c21fce834f8267b65a65b32a527aaa2ec1c321c8f066d44b42d7f038835aa90"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_darwin_amd64.tar.gz"
+signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
+
+[tools.jactionlint."platforms.windows-x64"]
+checksum = "sha256:4e0c7b428a4faa35bb3b86af6fa65a0ac9797edcd4c64e4f7e16ca886437e172"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_windows_amd64.zip"
+signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
 
 [[tools.rust]]
 version = "1.98.1"

@@ -1,0 +1,22 @@
+# Generator input for velnor-gen. Run `velnor-gen --root . generate` after a change.
+runner = "ubuntu-latest"
+hosted = true
+# The repository is public and stays on GitHub-hosted runners: no self-hosted runner is exposed to it.
+fork_runner = "ubuntu-latest"
+required_check = "Required"
+default_branch = "main"
+
+[ci]
+skip_push_after_merge_group = true
+
+[[lint]]
+kind = "jactionlint"
+config = ".github/jactionlint.yaml"
+
+[[lint]]
+kind = "mise-task"
+id = "shellcheck"
+name = "Shellcheck"
+task = "lint-shell"
+tools = ["shellcheck"]
+timeout_minutes = 5
