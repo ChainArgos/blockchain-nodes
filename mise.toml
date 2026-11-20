@@ -1,10 +1,19 @@
+min_version = "2026.11.10"
+
 [tools]
-rust = { version = "1.98.1", profile = "minimal", components = ["rustfmt", "clippy"] }
-"cargo:rust-script" = "0.36.0"
+rust = { version = "1.100.0", profile = "minimal", components = ["rustfmt", "clippy"], targets = ["aarch64-apple-darwin", "aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu", "x86_64-unknown-linux-musl"], mr_boxington = true }
+"github:fornwall/rust-script" = "0.36.0"
 "aqua:nextest-rs/nextest/cargo-nextest" = "0.9.140"
+shellcheck = "0.11.0"
+jactionlint = "2.4.0"
+mr-boxington = { version = "v1.30.0", workflow = "release.yml@refs/heads/main" }
 
 [settings]
 lockfile = true
+
+[wrappers.cargo]
+command = "mbx"
+env = { MBX_CARGO_SHIM_MODE = "1" }
 
 [tasks.build]
 description = "Build a Docker image"
@@ -59,6 +68,10 @@ run = "cargo clippy --workspace --all-targets --locked -- -D warnings"
 [tasks.fmt]
 description = "Check Rust formatting"
 run = "cargo fmt --all -- --check"
+
+[tasks."lint-shell"]
+description = "Run ShellCheck on every tracked shell script"
+run = "git ls-files -z '*.sh' | xargs -0 shellcheck"
 
 [tasks."build-all"]
 description = "Build all Docker images in sequence"

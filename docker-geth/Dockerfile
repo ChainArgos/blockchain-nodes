@@ -3,8 +3,8 @@ FROM chainargos/debian-blockchain-base:1.1.0@sha256:20016fb614286d576b13da7673fa
 LABEL org.opencontainers.image.authors="alexey@zhokhov.com"
 
 ARG TARGETARCH
-ARG GETH_VERSION=1.17.4
-ARG GIT_COMMIT=36a7dc72
+ARG GETH_VERSION=1.17.10
+ARG GIT_COMMIT=1df30b18
 ARG LEGACY_VERSION=1.13.15
 ARG LEGACY_GIT_COMMIT=c5ba367e
 
