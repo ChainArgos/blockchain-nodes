@@ -14,3 +14,5 @@ Bump a packaged blockchain node to a new upstream release. The full workflow —
 - The release URL must match an entry in `.node-updates/mappings.toml`. If it does not, the workflow directs you to add one — do not guess the `docker_dir` or `package`.
 - For packages with `sync-config.rs`, consult `.node-updates/approved-config-overrides/<package>.toml` before treating a config diff as already approved. Do not accept unchecked local values as automatically approved.
 - `sync-config.rs` output is upstream reference material, not repo content to be applied blindly.
+- Keep `<docker_dir>/Dockerfile` `ARG` defaults in sync with `build.toml` (version ARG = new version, `[vars]` ARGs = `[vars]` values; `TARGETARCH` stays bare) — CI fails the PR otherwise.
+- If `sync-config.rs` itself is broken (missing upstream file, unpublished image), STOP per `NODE_UPDATES.md` step 6 — do not invent a replacement source.

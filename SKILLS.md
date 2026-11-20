@@ -1,10 +1,10 @@
 # Skills
 
-Agent-neutral convention for shipping **agent skills inside this repo** (committable, team-shared — not installable plugins, not host-global) so they work across Claude Code, Codex, OpenCode, Amp, and Grok Build.
+Agent-neutral convention for shipping **agent skills inside this repo** (committable, team-shared — not installable plugins, not host-global) so they work across Claude Code, Codex, OpenCode, Amp, Grok Build, Muse Code, and Antigravity.
 
 This follows the open [Agent Skills specification](https://agentskills.io/specification) and its [client-integration guide](https://agentskills.io/client-implementation/adding-skills-support). Agent-only rules live in [AGENTS.md](AGENTS.md); the documentation-location rule lives in [RULES.md](RULES.md).
 
-## The problem: no single directory is read by all five
+## The problem: no single directory is read by all seven
 
 Project-scope discovery (verified per vendor docs):
 
@@ -16,20 +16,34 @@ Project-scope discovery (verified per vendor docs):
 | Grok Build | native (Claude-Code compatibility) | global `~/.agents/` only, not project |
 | Codex | — | native — the **only** path it reads |
 
-`.claude/skills/` covers 4/5 (misses Codex). `.agents/skills/` covers 3/5 at project scope (misses Claude and Grok-project). **No single directory reaches all five**, so a link is unavoidable if we want zero duplication.
+`.claude/skills/` misses Codex and Antigravity. `.agents/skills/` misses Claude and Grok-project. **No single directory reaches all seven**, so a link is unavoidable if we want zero duplication.
+
+Two more clients (researched Nov 2026 — see links under each row):
+
+| Agent | Project skill dirs scanned | Notes |
+|---|---|---|
+| Muse Code ([skills doc](https://meta-models.github.io/muse-code-sdk/next/guides/extend/skills/), [extending doc](https://dev.meta.ai/docs/muse-code/extending)) | `.agents/skills/` (recommended) **plus** `.codex/skills/` and `.claude/skills/` ("always scanned") | Any one of the three roots suffices. Symlink handling for project skill dirs is undocumented; only plugin packages are documented to refuse symlinks. |
+| Antigravity ([skills doc](https://antigravity.google/docs/skills/), [discovery doc](https://antigravity.google/docs/customization-discovery/)) | `.agents/skills/` (canonical; also reads `.agents/` in each parent folder up to the repo root; legacy `.agent/skills/` still works) | `.claude/skills/` is **not** scanned by default (reachable only via user-configured `skills.json` manifests / Skill Custom Paths). Community reports (not vendor docs) claim symlinked skill dirs are silently ignored — treat as unverified, but prefer a real dir here regardless. |
+
+Antigravity explicitly endorses the [open Agent Skills standard](https://agentskills.io/home); Muse aligns implicitly (its `skills validate` reports an `agent-skills-common-subset` compatibility profile; no explicit agentskills.io endorsement found).
 
 ## Solution: one real file + one symlink
 
 The spec is [silent on placement](https://agentskills.io/client-implementation/adding-skills-support) — it defines only what goes *inside* a skill dir. The integration guide names `.agents/skills/` the cross-client convention and notes `.claude/skills/` is read "for pragmatic compatibility" by most clients.
 
-We keep the **real** skill under `.claude/skills/` — broadest native coverage (4/5, and the only path Claude Code reads) — and add a **relative symlink** under `.agents/skills/` so Codex reaches the same file:
+We keep the **real** skill under `.agents/skills/` — native for Codex, Antigravity, OpenCode, and Amp; recommended for Muse Code; the convention path — and add a **relative symlink** under `.claude/skills/` so Claude Code (and Grok, via Claude compatibility) reach the same file:
 
 ```
-.claude/skills/<name>/SKILL.md                        # the only real copy
-.agents/skills/<name>  ->  ../../.claude/skills/<name>  # symlink for Codex
+.agents/skills/<name>/SKILL.md                        # the only real copy
+.claude/skills/<name>  ->  ../../.agents/skills/<name>  # symlink for Claude Code / Grok
 ```
 
-Both Claude Code ([docs](https://docs.claude.com/en/docs/claude-code/skills)) and Codex ([docs](https://developers.openai.com/codex/build-skills)) follow symlinked skill directories. The symlink matters **only for Codex**; the other four already read `.claude/skills/` natively. This direction is strictly safer than the reverse: it depends on symlink-following only for Codex (confirmed), never for Grok (undocumented).
+Claude Code [follows symlinked skill directories](https://docs.claude.com/en/docs/claude-code/skills) (confirmed). The symlink matters **only for Claude Code and Grok** (undocumented for Grok — see residual risk below); every other client reads the real dir natively. This direction is strictly safer than the reverse: it depends on symlink-following only for Claude (confirmed), never for Antigravity (community-reported to ignore symlinks) or Codex.
+
+### Residual risk (honest unknowns)
+
+- Grok reads `.claude/skills/` at project scope, which is now a symlink — Grok symlink-following is undocumented. If Grok ever fails to load the skill, the fix is client-side (a real dir) or Grok-side (follow symlinks like Claude).
+- Muse Code and Antigravity symlink handling for project skill dirs is likewise undocumented — but irrelevant here, since both read the real `.agents/skills/` dir natively.
 
 ### Why not copy — and why no include directive?
 
@@ -40,11 +54,13 @@ Both Claude Code ([docs](https://docs.claude.com/en/docs/claude-code/skills)) an
 
 | Agent | behavior |
 |---|---|
-| Claude Code | dedups by target path — loads once |
-| OpenCode | skill names must be unique; a duplicate is shadowed (identical content via the symlink, so harmless) |
-| Amp | first-wins by precedence (`user > .agents > .claude`) |
-| Grok Build | reads only `.claude/skills/` at project scope — sees it once |
-| Codex | reads only `.agents/skills/` — sees it once |
+| Claude Code | reads the `.claude/skills/` symlink (follows it — confirmed); dedups by target path — loads once |
+| OpenCode | skill names must be unique; sees the real dir natively (the `.claude` symlink resolves to the same target — harmless) |
+| Amp | first-wins by precedence (`user > .agents > .claude`) — real dir wins |
+| Grok Build | reads `.claude/skills/` at project scope — currently a symlink (see residual risk) |
+| Codex | reads only `.agents/skills/` — sees the real dir |
+| Muse Code | scans `.agents`, `.codex`, and `.claude` roots — reaches the real dir; identical content via the symlink is harmless |
+| Antigravity | reads the real `.agents/skills/` dir natively; the `.claude` symlink is irrelevant to it |
 
 ## SKILL.md frontmatter (intersection of all agents)
 
@@ -80,7 +96,9 @@ A **plugin** ([Codex](https://developers.openai.com/codex/build-plugins), [anthr
 | Codex (CLI/IDE) | `/skills`, or type `$` |
 | Amp | command palette → `skill: list` |
 | Grok Build | `grok inspect`, or `/skills` |
+| Muse Code | `muse skills validate` passes (requires `description`); skills load from the scanned roots above |
+| Antigravity | workspace `.agents/skills/` is scanned by default; extra roots via `skills.json` manifests or Settings → Skill Custom Paths |
 
 ## Current skills
 
-- [`update-node-version`](.claude/skills/update-node-version/SKILL.md) — bump a node from a GitHub release URL; delegates to [NODE_UPDATES.md](NODE_UPDATES.md). Symlinked at `.agents/skills/update-node-version` for Codex.
+- [`update-node-version`](.agents/skills/update-node-version/SKILL.md) — bump a node from a GitHub release URL; delegates to [NODE_UPDATES.md](NODE_UPDATES.md). Symlinked at `.claude/skills/update-node-version` for Claude Code (and Grok).
