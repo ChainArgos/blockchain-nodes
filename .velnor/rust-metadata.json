@@ -1,0 +1,76 @@
+{
+  "roots": {
+    "Cargo.toml": {
+      "target_dir": "target",
+      "members": [
+        {
+          "name": "blockchain-nodes-builder",
+          "version": "0.1.0",
+          "manifest": "Cargo.toml",
+          "dependencies": [
+            {
+              "name": "anyhow",
+              "kind": "normal",
+              "manifest": null
+            },
+            {
+              "name": "clap",
+              "kind": "normal",
+              "manifest": null,
+              "features": [
+                "derive"
+              ]
+            },
+            {
+              "name": "owo-colors",
+              "kind": "normal",
+              "manifest": null,
+              "features": [
+                "supports-colors"
+              ]
+            },
+            {
+              "name": "serde",
+              "kind": "normal",
+              "manifest": null,
+              "features": [
+                "derive"
+              ]
+            },
+            {
+              "name": "toml",
+              "kind": "normal",
+              "manifest": null
+            }
+          ],
+          "targets": [
+            {
+              "name": "containerctl",
+              "kinds": [
+                "bin"
+              ],
+              "tests": true,
+              "doctest": false,
+              "source": "containerctl.rs",
+              "requires_features": false
+            },
+            {
+              "name": "docker-build",
+              "kinds": [
+                "bin"
+              ],
+              "tests": true,
+              "doctest": false,
+              "source": "docker-build.rs",
+              "requires_features": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "manifests": {
+    "Cargo.toml": "810cedb7b02c1385367f922742ef8b3cf9a26b2bd8283535981f8b63d03250d0"
+  },
+  "layout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
