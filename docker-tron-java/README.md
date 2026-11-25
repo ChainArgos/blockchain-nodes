@@ -16,8 +16,8 @@ upstream defaults.
 ## gRPC
 
 The packaged configuration enables the gRPC APIs: the full node on 50051
-(`Wallet`, `Database`, `WalletExtension`), the solidity node on 50061
-(`WalletSolidity`) and PBFT on 50071. `docker-compose.yml` publishes 50051 and
+(`Wallet`, `Database`), the solidity node on 50061 (`WalletSolidity`,
+`Database`) and PBFT on 50071. `docker-compose.yml` publishes 50051 and
 50061 only.
 
 java-tron has no gRPC authentication, and the full-node service can broadcast
